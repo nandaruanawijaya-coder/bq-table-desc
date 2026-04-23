@@ -1,0 +1,1144 @@
+{
+  "table_name": "ms_merchant_profiling_ssot_opentable",
+  "project_dataset": "ledger-fcc1e.datamart_opentable",
+  "total_columns": 107,
+  "sample_rows_analyzed": 100,
+  "documentation_generated": "2026-04-23T11:28:06.222283",
+  "columns": [
+    {
+      "column_name": "active_days_users_in_this_coordinate",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 78.0,
+      "description": "Number of active days users detected at location",
+      "business_context": "Number of active days users detected at location",
+      "example_values": [
+        "Users in this coordinate for 4 days",
+        "Supreme",
+        "Users in this coordinate for 57 days"
+      ]
+    },
+    {
+      "column_name": "address",
+      "data_type": "STRING (LONG)",
+      "nullable": true,
+      "null_percentage": 34.0,
+      "description": "Physical address of merchant location",
+      "business_context": "Physical address of merchant location",
+      "example_values": [
+        "Pekandangan, Indramayu, Jawa Barat, Jawa, 45216, Indonesia",
+        "Jalan Sariasih, Sarijadi, Sukajadi, Kota Bandung, Jawa Barat, Jawa, 40515, Indonesia",
+        "Jalan Irigasi Sipon, Poris Plawad Utara, Cipondoh, Tangerang, Banten, Jawa, 15141, Indonesia"
+      ]
+    },
+    {
+      "column_name": "area",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 31.0,
+      "description": "Geographic area classification for regional grouping",
+      "business_context": "Geographic area classification for regional grouping",
+      "example_values": [
+        "JAVA 1",
+        "JAVA 1",
+        "JAVA 3"
+      ]
+    },
+    {
+      "column_name": "bankTransferApps",
+      "data_type": "ARRAY",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "Banking/transfer applications supported",
+      "business_context": "Banking/transfer applications supported",
+      "example_values": [
+        [],
+        [],
+        []
+      ]
+    },
+    {
+      "column_name": "briCardTransactions",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Indicates if merchant accepts BRI card transactions",
+      "business_context": "Indicates if merchant accepts BRI card transactions",
+      "example_values": []
+    },
+    {
+      "column_name": "businessName",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 23.0,
+      "description": "Official business or merchant name",
+      "business_context": "Official business or merchant name",
+      "example_values": [
+        "BRILink Ceria",
+        "Ud saudara kita",
+        "Warung aceng"
+      ]
+    },
+    {
+      "column_name": "businessTypes",
+      "data_type": "ARRAY",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "Array of business type classifications",
+      "business_context": "Array of business type classifications",
+      "example_values": [
+        [],
+        [],
+        []
+      ]
+    },
+    {
+      "column_name": "businessindustry",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 36.0,
+      "description": "Industry classification for merchant business",
+      "business_context": "Industry classification for merchant business",
+      "example_values": [
+        "fmcg",
+        "fmcg",
+        "fmcg"
+      ]
+    },
+    {
+      "column_name": "businesslocation",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 36.0,
+      "description": "Business location type or description",
+      "business_context": "Business location type or description",
+      "example_values": [
+        "commercial",
+        "school_uni",
+        "residential"
+      ]
+    },
+    {
+      "column_name": "cardTransactions",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Indicates if merchant accepts card transactions",
+      "business_context": "Indicates if merchant accepts card transactions",
+      "example_values": []
+    },
+    {
+      "column_name": "completedLoanDate",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Date when loan was completed/disbursed",
+      "business_context": "Date when loan was completed/disbursed",
+      "example_values": []
+    },
+    {
+      "column_name": "createdAt",
+      "data_type": "STRING",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "Timestamp when merchant record was created",
+      "business_context": "Timestamp when merchant record was created",
+      "example_values": [
+        "2024-09-27 08:48:47",
+        "2026-02-03 05:26:24",
+        "2026-02-07 09:50:37"
+      ]
+    },
+    {
+      "column_name": "createdDate",
+      "data_type": "STRING",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "Date when merchant was onboarded",
+      "business_context": "Date when merchant was onboarded",
+      "example_values": [
+        "2024-09-27",
+        "2026-02-03",
+        "2026-02-07"
+      ]
+    },
+    {
+      "column_name": "current_mse_hoa",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 76.0,
+      "description": "Current Head of Area assigned",
+      "business_context": "Current Head of Area assigned",
+      "example_values": [
+        "mirzan",
+        "eko",
+        "vacant_sum_2"
+      ]
+    },
+    {
+      "column_name": "current_mse_hor",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 76.0,
+      "description": "Current Head of Region assigned",
+      "business_context": "Current Head of Region assigned",
+      "example_values": [
+        "ziko",
+        "ziko",
+        "rolly"
+      ]
+    },
+    {
+      "column_name": "current_mse_lead",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 76.0,
+      "description": "Current Merchant Sales Executive assigned to merchant",
+      "business_context": "Current Merchant Sales Executive assigned to merchant",
+      "example_values": [
+        "no_msl_java_1",
+        "difti_juliano",
+        "tl-hasbi_darma"
+      ]
+    },
+    {
+      "column_name": "data_source_flag",
+      "data_type": "STRING",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "Source system where data originated from",
+      "business_context": "Source system where data originated from",
+      "example_values": [
+        "Prospero CRM DB to BQ",
+        "Prospero CRM DB to BQ",
+        "Prospero CRM DB to BQ"
+      ]
+    },
+    {
+      "column_name": "desiredloanlimit",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Desired or requested loan amount limit",
+      "business_context": "Desired or requested loan amount limit",
+      "example_values": []
+    },
+    {
+      "column_name": "district",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 5.0,
+      "description": "District name for merchant location",
+      "business_context": "District name for merchant location",
+      "example_values": [
+        "INDRAMAYU",
+        "SARIJADI",
+        "CIHAMPELAS"
+      ]
+    },
+    {
+      "column_name": "edcOwnership",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Type of EDC device ownership",
+      "business_context": "Type of EDC device ownership",
+      "example_values": []
+    },
+    {
+      "column_name": "estimatedCustomersPerDay",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Estimated number of customers per day",
+      "business_context": "Estimated number of customers per day",
+      "example_values": []
+    },
+    {
+      "column_name": "firstVisitBizType",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 1.0,
+      "description": "Business type captured during first visit",
+      "business_context": "Business type captured during first visit",
+      "example_values": [
+        "Others",
+        "Others",
+        "Others"
+      ]
+    },
+    {
+      "column_name": "gsheet_ssot_documentation",
+      "data_type": "STRING (LONG)",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "URL to Google Sheet SSOT documentation",
+      "business_context": "URL to Google Sheet SSOT documentation",
+      "example_values": [
+        "https://docs.google.com/spreadsheets/d/1fi6jwHsn2O5A5RfbqxCwAeAdBhiaCq2GtF2GjnUFChw/edit?usp=sharing",
+        "https://docs.google.com/spreadsheets/d/1fi6jwHsn2O5A5RfbqxCwAeAdBhiaCq2GtF2GjnUFChw/edit?usp=sharing",
+        "https://docs.google.com/spreadsheets/d/1fi6jwHsn2O5A5RfbqxCwAeAdBhiaCq2GtF2GjnUFChw/edit?usp=sharing"
+      ]
+    },
+    {
+      "column_name": "hasAndroidEDC",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Indicates if merchant has Android EDC",
+      "business_context": "Indicates if merchant has Android EDC",
+      "example_values": []
+    },
+    {
+      "column_name": "hasBNIEDC",
+      "data_type": "STRING",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "Indicates if merchant has BNI EDC",
+      "business_context": "Indicates if merchant has BNI EDC",
+      "example_values": [
+        "0",
+        "0",
+        "0"
+      ]
+    },
+    {
+      "column_name": "hasBRIEDC",
+      "data_type": "STRING",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "Indicates if merchant has BRI EDC",
+      "business_context": "Indicates if merchant has BRI EDC",
+      "example_values": [
+        "0",
+        "0",
+        "0"
+      ]
+    },
+    {
+      "column_name": "hasMandiriEDC",
+      "data_type": "STRING",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "Indicates if merchant has Mandiri EDC",
+      "business_context": "Indicates if merchant has Mandiri EDC",
+      "example_values": [
+        "0",
+        "0",
+        "0"
+      ]
+    },
+    {
+      "column_name": "hasSakuEDC",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Indicates if merchant has Saku EDC",
+      "business_context": "Indicates if merchant has Saku EDC",
+      "example_values": []
+    },
+    {
+      "column_name": "interestedinloan",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 36.0,
+      "description": "Interest in getting a loan",
+      "business_context": "Interest in getting a loan",
+      "example_values": [
+        "yes",
+        "yes",
+        "yes"
+      ]
+    },
+    {
+      "column_name": "kyc_name",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 32.0,
+      "description": "KYC name associated with merchant",
+      "business_context": "KYC name associated with merchant",
+      "example_values": [
+        "DIAN CERIAH ULFAH",
+        "AI LIA MARLIA",
+        "JEFFRY SETIAWAN HANAPI"
+      ]
+    },
+    {
+      "column_name": "lakuPandaiCertificate",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 77.0,
+      "description": "Laku Pandai certificate status",
+      "business_context": "Laku Pandai certificate status",
+      "example_values": [
+        "false",
+        "false",
+        "false"
+      ]
+    },
+    {
+      "column_name": "latestVisitDate",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 1.0,
+      "description": "Date of most recent visit or contact",
+      "business_context": "Date of most recent visit or contact",
+      "example_values": [
+        "2026-04-21",
+        "2026-04-15",
+        "2026-02-07"
+      ]
+    },
+    {
+      "column_name": "latest_latitude",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 32.0,
+      "description": "Most recent latitude coordinate of merchant",
+      "business_context": "Most recent latitude coordinate of merchant",
+      "example_values": [
+        "-6.3573184",
+        "-6.931418",
+        "-8.2108386"
+      ]
+    },
+    {
+      "column_name": "latest_longitude",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 32.0,
+      "description": "Most recent longitude coordinate of merchant",
+      "business_context": "Most recent longitude coordinate of merchant",
+      "example_values": [
+        "108.3248431",
+        "107.469228",
+        "113.8919514"
+      ]
+    },
+    {
+      "column_name": "loanName",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Name/type of loan",
+      "business_context": "Name/type of loan",
+      "example_values": []
+    },
+    {
+      "column_name": "loanOwnership",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Loan ownership indicator",
+      "business_context": "Loan ownership indicator",
+      "example_values": []
+    },
+    {
+      "column_name": "location_source",
+      "data_type": "STRING",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "Source of location data",
+      "business_context": "Source of location data",
+      "example_values": [
+        "New Prospero",
+        "New Prospero",
+        "New Prospero"
+      ]
+    },
+    {
+      "column_name": "mee_average_daily_omset_non_payment_agent",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Average daily omset for non-payment agent",
+      "business_context": "Average daily omset for non-payment agent",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_average_daily_omset_payment_agent",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Average daily omset for payment agent",
+      "business_context": "Average daily omset for payment agent",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_average_daily_profit_non_payment_agent",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Average daily profit for non-payment agent",
+      "business_context": "Average daily profit for non-payment agent",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_average_daily_profit_payment_agent",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Average daily profit for payment agent",
+      "business_context": "Average daily profit for payment agent",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_bw_loan_purpose",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Purpose of BW loan",
+      "business_context": "Purpose of BW loan",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_bw_loan_reason_not_interested",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Reason for not being interested in loan",
+      "business_context": "Reason for not being interested in loan",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_current_loan_interest",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Current loan interest rate",
+      "business_context": "Current loan interest rate",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_current_loan_type",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Type of current loan",
+      "business_context": "Type of current loan",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_current_tenor_loan",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Tenor/duration of current loan",
+      "business_context": "Tenor/duration of current loan",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_edc_ownership",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "MEE EDC device ownership",
+      "business_context": "MEE EDC device ownership",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_interested_build_other_business",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Interest in building other business",
+      "business_context": "Interest in building other business",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_interested_sell_other_bw_products",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Interest in selling other BW products",
+      "business_context": "Interest in selling other BW products",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_kur_loan_bank",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Bank providing KUR loan",
+      "business_context": "Bank providing KUR loan",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_kur_loan_due",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "KUR loan due date",
+      "business_context": "KUR loan due date",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_kur_loan_limit",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "KUR loan limit amount",
+      "business_context": "KUR loan limit amount",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_loan_ownership_mee",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Loan ownership by MEE",
+      "business_context": "Loan ownership by MEE",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_motivation_to_switch_all_edc_non_bri_to_bw",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Motivation to switch non-BRI EDC to BW",
+      "business_context": "Motivation to switch non-BRI EDC to BW",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_motivation_to_switch_bri_on_us_to_bw",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Motivation to switch BRI EDC to BW",
+      "business_context": "Motivation to switch BRI EDC to BW",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_reason_why_not_use_bw_for_bri_on_us",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Reason for not using BW for BRI",
+      "business_context": "Reason for not using BW for BRI",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_reason_why_not_use_bw_for_non_bri_card_edc_bri",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Reason for not using BW for non-BRI EDC",
+      "business_context": "Reason for not using BW for non-BRI EDC",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_reason_why_not_use_bw_full",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Reason for not using BW fully",
+      "business_context": "Reason for not using BW fully",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_total_card_transaction",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Total card transactions by MEE",
+      "business_context": "Total card transactions by MEE",
+      "example_values": []
+    },
+    {
+      "column_name": "nik",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 32.0,
+      "description": "National ID Number of merchant/owner",
+      "business_context": "National ID Number of merchant/owner",
+      "example_values": [
+        "3212154804940004",
+        "3217104101700098",
+        "3509300206920005"
+      ]
+    },
+    {
+      "column_name": "nonCardTransactions",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Non-card transaction capability",
+      "business_context": "Non-card transaction capability",
+      "example_values": []
+    },
+    {
+      "column_name": "notes",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "General notes or comments",
+      "business_context": "General notes or comments",
+      "example_values": []
+    },
+    {
+      "column_name": "numberOfBranches",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 77.0,
+      "description": "Number of branches merchant operates",
+      "business_context": "Number of branches merchant operates",
+      "example_values": [
+        "0",
+        "0",
+        "0"
+      ]
+    },
+    {
+      "column_name": "numberOfEmployees",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Number of employees",
+      "business_context": "Number of employees",
+      "example_values": []
+    },
+    {
+      "column_name": "ownedLoanLimit",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Loan limit owned by merchant",
+      "business_context": "Loan limit owned by merchant",
+      "example_values": []
+    },
+    {
+      "column_name": "ownerName",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 29.0,
+      "description": "Name of business owner",
+      "business_context": "Name of business owner",
+      "example_values": [
+        "Dian Ceria Ulfah",
+        "Saudaha kita",
+        "Warung aceng"
+      ]
+    },
+    {
+      "column_name": "phoneNumber",
+      "data_type": "STRING",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "Primary phone number for merchant",
+      "business_context": "Primary phone number for merchant",
+      "example_values": [
+        "81394853249",
+        "82278863341",
+        "87736488746"
+      ]
+    },
+    {
+      "column_name": "ppobApps",
+      "data_type": "ARRAY",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "Bill payment applications supported",
+      "business_context": "Bill payment applications supported",
+      "example_values": [
+        [],
+        [],
+        []
+      ]
+    },
+    {
+      "column_name": "ppobTransactions",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Bill payment (PPOB) transaction capability",
+      "business_context": "Bill payment (PPOB) transaction capability",
+      "example_values": []
+    },
+    {
+      "column_name": "prospero_merchant_profile_id",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Merchant profile ID from Prospero CRM",
+      "business_context": "Merchant profile ID from Prospero CRM",
+      "example_values": []
+    },
+    {
+      "column_name": "province",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 31.0,
+      "description": "Province where merchant operates",
+      "business_context": "Province where merchant operates",
+      "example_values": [
+        "JAWA BARAT",
+        "JAWA BARAT",
+        "JAWA TIMUR"
+      ]
+    },
+    {
+      "column_name": "regency",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 4.0,
+      "description": "Regency for merchant location",
+      "business_context": "Regency for merchant location",
+      "example_values": [
+        "KABUPATEN INDRAMAYU",
+        "KOTA BANDUNG",
+        "KABUPATEN BANDUNG BARAT"
+      ]
+    },
+    {
+      "column_name": "retailCommunityAffiliation",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Retail community affiliation",
+      "business_context": "Retail community affiliation",
+      "example_values": []
+    },
+    {
+      "column_name": "retailCommunityName",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Name of retail community",
+      "business_context": "Name of retail community",
+      "example_values": []
+    },
+    {
+      "column_name": "retailContactPicPoi",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Retail contact PIC for POI",
+      "business_context": "Retail contact PIC for POI",
+      "example_values": []
+    },
+    {
+      "column_name": "retailCreditCardPctTransaction",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Percentage of retail credit card transactions",
+      "business_context": "Percentage of retail credit card transactions",
+      "example_values": []
+    },
+    {
+      "column_name": "retailDailyQrisVolume",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Daily QRIS transaction volume for retail",
+      "business_context": "Daily QRIS transaction volume for retail",
+      "example_values": []
+    },
+    {
+      "column_name": "retailDebitCardPctTransaction",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Percentage of retail debit card transactions",
+      "business_context": "Percentage of retail debit card transactions",
+      "example_values": []
+    },
+    {
+      "column_name": "retailEdcOwnership",
+      "data_type": "ARRAY",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "Retail EDC device ownership status",
+      "business_context": "Retail EDC device ownership status",
+      "example_values": [
+        [],
+        [],
+        []
+      ]
+    },
+    {
+      "column_name": "retailEstablishmentType",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Type of retail establishment",
+      "business_context": "Type of retail establishment",
+      "example_values": []
+    },
+    {
+      "column_name": "retailEventPicContact",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Retail event PIC contact",
+      "business_context": "Retail event PIC contact",
+      "example_values": []
+    },
+    {
+      "column_name": "retailEventPicName",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Name of retail event PIC",
+      "business_context": "Name of retail event PIC",
+      "example_values": []
+    },
+    {
+      "column_name": "retailLocatedInEvent",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Whether retail located in event",
+      "business_context": "Whether retail located in event",
+      "example_values": []
+    },
+    {
+      "column_name": "retailLocatedInPoi",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Whether retail located in POI",
+      "business_context": "Whether retail located in POI",
+      "example_values": []
+    },
+    {
+      "column_name": "retailMerchantFlag",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Retail merchant classification flag",
+      "business_context": "Retail merchant classification flag",
+      "example_values": []
+    },
+    {
+      "column_name": "retailNamePicPoi",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Retail name/PIC at POI",
+      "business_context": "Retail name/PIC at POI",
+      "example_values": []
+    },
+    {
+      "column_name": "retailNamePoi",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Retail name at POI",
+      "business_context": "Retail name at POI",
+      "example_values": []
+    },
+    {
+      "column_name": "retailOfflineDailyTransaction",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Daily offline transaction volume",
+      "business_context": "Daily offline transaction volume",
+      "example_values": []
+    },
+    {
+      "column_name": "retailOnlineDailyTransaction",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Daily online transaction volume",
+      "business_context": "Daily online transaction volume",
+      "example_values": []
+    },
+    {
+      "column_name": "retailPosOwnership",
+      "data_type": "ARRAY",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "Retail POS system ownership",
+      "business_context": "Retail POS system ownership",
+      "example_values": [
+        [],
+        [],
+        []
+      ]
+    },
+    {
+      "column_name": "retailQrisOwnership",
+      "data_type": "ARRAY",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "QRIS (QR Code) ownership",
+      "business_context": "QRIS (QR Code) ownership",
+      "example_values": [
+        [],
+        [],
+        []
+      ]
+    },
+    {
+      "column_name": "retailQrisPctTransaction",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Percentage of retail QRIS transactions",
+      "business_context": "Percentage of retail QRIS transactions",
+      "example_values": []
+    },
+    {
+      "column_name": "retailTypePoi",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Retail type at POI",
+      "business_context": "Retail type at POI",
+      "example_values": []
+    },
+    {
+      "column_name": "roadLocationType",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Type of road where merchant is located",
+      "business_context": "Type of road where merchant is located",
+      "example_values": []
+    },
+    {
+      "column_name": "shopPIC",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Point of Contact (PIC) for shop/store",
+      "business_context": "Point of Contact (PIC) for shop/store",
+      "example_values": []
+    },
+    {
+      "column_name": "storeType",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 36.0,
+      "description": "Type of store or retail location",
+      "business_context": "Type of store or retail location",
+      "example_values": [
+        "kelontong_minimarket",
+        "kelontong_minimarket",
+        "fresh_product"
+      ]
+    },
+    {
+      "column_name": "supreme_date",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 34.0,
+      "description": "Date of supreme/verification",
+      "business_context": "Date of supreme/verification",
+      "example_values": [
+        "2024-09-27",
+        "2022-10-11",
+        "2023-03-09"
+      ]
+    },
+    {
+      "column_name": "supreme_tier",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 34.0,
+      "description": "Supreme tier classification",
+      "business_context": "Supreme tier classification",
+      "example_values": [
+        "SUPREME",
+        "SUPREME",
+        "SUPREME"
+      ]
+    },
+    {
+      "column_name": "surroundingArea",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Description of surrounding area type",
+      "business_context": "Description of surrounding area type",
+      "example_values": []
+    },
+    {
+      "column_name": "totalAndroidMachine",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Total number of Android machines",
+      "business_context": "Total number of Android machines",
+      "example_values": []
+    },
+    {
+      "column_name": "totalDailyTransactions",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 24.0,
+      "description": "Total daily transactions",
+      "business_context": "Total daily transactions",
+      "example_values": [
+        "0",
+        "0",
+        "0"
+      ]
+    },
+    {
+      "column_name": "totalSakuMachine",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Total number of Saku machines",
+      "business_context": "Total number of Saku machines",
+      "example_values": []
+    },
+    {
+      "column_name": "updatedAt",
+      "data_type": "STRING",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "Timestamp of last record update",
+      "business_context": "Timestamp of last record update",
+      "example_values": [
+        "2026-04-21 11:28:03",
+        "2026-04-15 18:24:04",
+        "2026-02-24 04:09:39"
+      ]
+    },
+    {
+      "column_name": "userId",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "User ID in system",
+      "business_context": "User ID in system",
+      "example_values": []
+    },
+    {
+      "column_name": "visited_by_mee_flag",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Flag indicating if merchant was visited by MEE",
+      "business_context": "Flag indicating if merchant was visited by MEE",
+      "example_values": []
+    },
+    {
+      "column_name": "yearFounded",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Year the business was founded",
+      "business_context": "Year the business was founded",
+      "example_values": []
+    },
+    {
+      "column_name": "yearOfBirth",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 24.0,
+      "description": "Year of birth of owner/founder",
+      "business_context": "Year of birth of owner/founder",
+      "example_values": [
+        "0",
+        "0",
+        "0"
+      ]
+    }
+  ]
+}
