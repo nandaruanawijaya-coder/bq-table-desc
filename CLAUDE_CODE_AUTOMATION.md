@@ -21,32 +21,110 @@ This document enables Claude Code and other AI assistants to:
 ## 🎯 Automated Workflow Overview
 
 ```
-INPUT: BigQuery table identifier (project.dataset.table)
+INPUT: User asks Claude Code to document tables from table_list.md
   ↓
-STEP 1: Validate table access
+STEP 0: Read table_list.md and check table_column_description/
   ↓
-STEP 2: Generate Python script to query 10,000 rows
+STEP 1: Filter tables - only process those NOT already documented
   ↓
-STEP 3: Execute script to fetch data
+STEP 2: For each missing table:
+  ├─ Validate table access in BigQuery
+  ├─ Generate Python script
+  ├─ Execute script (10,000 rows)
+  ├─ Analyze columns
+  ├─ Create JSON documentation
+  ├─ Enhance descriptions
+  ├─ Validate quality
+  └─ Commit to git
   ↓
-STEP 4: Analyze columns and generate JSON documentation
-  ↓
-STEP 5: Enhance descriptions with business context
-  ↓
-STEP 6: Validate documentation quality
-  ↓
-STEP 7: Commit to git and push
-  ↓
-OUTPUT: Complete documentation ready for PR
+OUTPUT: All missing tables documented and committed
 ```
 
 ---
 
-## 🔍 STEP 1: Input Validation
+## 📋 STEP 0: Read table_list.md and Filter
 
-When receiving a documentation request, Claude Code MUST:
+Claude Code MUST start here before processing any tables.
 
-### 1.1 Extract Table Information
+### 0.1 Read table_list.md
+
+```bash
+cat table_list.md
+```
+
+**Expected format**:
+```markdown
+# Tables to Document
+
+- ledger-fcc1e.dataset.table_name_1
+- ledger-fcc1e.dataset.table_name_2
+- ledger-fcc1e.dataset.table_name_3
+```
+
+### 0.2 Parse Table List
+
+Claude Code MUST:
+1. Extract all table IDs from file
+2. Ignore comment lines (starting with #)
+3. Ignore empty lines
+4. Create list of tables to process
+
+**Example extraction**:
+```
+Tables found:
+  - ledger-fcc1e.dataset.table_name_1
+  - ledger-fcc1e.dataset.table_name_2
+  - ledger-fcc1e.dataset.table_name_3
+```
+
+### 0.3 Check Already Documented
+
+Claude Code MUST check which tables are already documented:
+
+```bash
+# List all documented tables
+ls -1 table_column_description/*_doc.json | sed 's/.*\///' | sed 's/_doc.json//'
+```
+
+**Example**:
+```
+location_gmaps_static_opentable
+mapping_area_mse_opentable
+ms_merchant_profiling_ssot_opentable
+prod_edc_order
+```
+
+### 0.4 Filter to Missing Tables Only
+
+Claude Code MUST:
+1. Compare table_list.md with documented tables
+2. Keep only tables that DON'T have documentation yet
+3. Report which tables will be processed
+
+**Example**:
+```
+Table list: [table1, table2, table3, table4, table5]
+Already documented: [table1, table3, table5]
+Will process: [table2, table4]
+```
+
+### 0.5 Report Status
+
+Claude Code MUST report:
+- Total tables in list
+- Already documented
+- Will process
+- Estimated time (10 min per table)
+
+---
+
+## 🔍 STEP 1: Validate Each Table
+
+For each table from the filtered list (STEP 0), Claude Code MUST:
+
+### 1.1 Verify Table Format
+
+Validate the table ID format:
 ```
 Pattern: project-id.dataset.table_name
 
@@ -61,17 +139,26 @@ Invalid formats:
   ❌ project.table (missing dataset)
 ```
 
-### 1.2 Validate Access
-Before proceeding, Claude Code MUST verify:
+### 1.2 Validate BigQuery Access
+
+For each table, verify it exists:
 
 ```bash
-# Terminal: Check if table exists and get row count
+# Check if table exists and accessible
 bq query --format=csv --use_legacy_sql=false \
-  "SELECT COUNT(*) FROM \`[project].[dataset].[table]\` LIMIT 1"
+  "SELECT COUNT(*) FROM \`project.dataset.table\` LIMIT 1"
 
 # Expected: A number (row count)
-# If error: Stop and report access denied
+# If error: Skip this table, report error, continue with next
 ```
+
+### 1.3 Error Handling for Access Issues
+
+If table is not accessible:
+- ✅ Log error: "Table [name] - Access denied or not found"
+- ✅ Continue with next table
+- ✅ Report all inaccessible tables at end
+- ❌ Do NOT stop entire process
 
 ---
 
