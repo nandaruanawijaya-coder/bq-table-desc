@@ -1,0 +1,1234 @@
+{
+  "table_name": "ms_merchant_profiling_ssot",
+  "full_table_id": "ledger-fcc1e.merchant_success_analytics.ms_merchant_profiling_ssot",
+  "total_columns": 107,
+  "sample_rows_analyzed": 10000,
+  "documentation_generated": "2026-05-05T17:30:38.749371",
+  "columns": [
+    {
+      "column_name": "active_days_users_in_this_coordinate",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 95.84,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        "Users in this coordinate for 182 days",
+        "Users in this coordinate for 35 days",
+        "Users in this coordinate for 20 days"
+      ]
+    },
+    {
+      "column_name": "address",
+      "data_type": "STRING (LONG)",
+      "nullable": true,
+      "null_percentage": 28.91,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        "Jalan STM, Perumahan Artha Vista Residence, Suka Maju, Medan Johor, Kota Medan, Sumatera Utara, Sumatra, 20146, Indonesia",
+        "Kompleks IDI Pettarani, Masale, Panakkukang, Makassar, Sulawesi Selatan, Sulawesi, 92300, Indonesia",
+        "Majalaya, Kabupaten Bandung, Jawa Barat, Jawa, 40383, Indonesia"
+      ]
+    },
+    {
+      "column_name": "area",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 78.85,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        "SUMATERA 1",
+        "JAVA 1",
+        "JAVA 2"
+      ]
+    },
+    {
+      "column_name": "bankTransferApps",
+      "data_type": "ARRAY",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        [],
+        [],
+        []
+      ]
+    },
+    {
+      "column_name": "briCardTransactions",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "businessName",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 15.13,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        "Mie ayam jamur riski",
+        "Oemah Sus",
+        "Seblak Teh Kiki"
+      ]
+    },
+    {
+      "column_name": "businessTypes",
+      "data_type": "ARRAY",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        [],
+        [],
+        []
+      ]
+    },
+    {
+      "column_name": "businessindustry",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 26.18,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        "fnb",
+        "fnb",
+        "fnb"
+      ]
+    },
+    {
+      "column_name": "businesslocation",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 26.18,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        "residential",
+        "residential",
+        "residential"
+      ]
+    },
+    {
+      "column_name": "cardTransactions",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 99.81,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        51,
+        11,
+        11
+      ]
+    },
+    {
+      "column_name": "completedLoanDate",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "createdAt",
+      "data_type": "UNKNOWN",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        "2022-01-19 00:00:00+00:00",
+        "2022-04-19 00:00:00+00:00",
+        "2026-02-11 08:08:42.497000+00:00"
+      ]
+    },
+    {
+      "column_name": "createdDate",
+      "data_type": "UNKNOWN",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        "2022-01-19",
+        "2022-04-19",
+        "2026-02-11"
+      ]
+    },
+    {
+      "column_name": "current_mse_hoa",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 96.37,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        "vacant_sum_1",
+        "mirzan",
+        "endang"
+      ]
+    },
+    {
+      "column_name": "current_mse_hor",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 96.37,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        "rolly",
+        "ziko",
+        "ziko"
+      ]
+    },
+    {
+      "column_name": "current_mse_lead",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 96.37,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        "heppy",
+        "no_msl_java_1",
+        "amzar_sapunda"
+      ]
+    },
+    {
+      "column_name": "data_source_flag",
+      "data_type": "STRING",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        "Backfill BQ from Zoho",
+        "Backfill BQ from Zoho",
+        "Prospero CRM DB to BQ"
+      ]
+    },
+    {
+      "column_name": "desiredloanlimit",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "district",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 18.88,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        "TANJUNG MORAWA",
+        "WARUNG KIARA",
+        "SUKA MAJU"
+      ]
+    },
+    {
+      "column_name": "edcOwnership",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "estimatedCustomersPerDay",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "firstVisitBizType",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 7.56,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        "RETAIL",
+        "PAYMENT AGENT",
+        "Others"
+      ]
+    },
+    {
+      "column_name": "gsheet_ssot_documentation",
+      "data_type": "STRING (LONG)",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        "https://docs.google.com/spreadsheets/d/1fi6jwHsn2O5A5RfbqxCwAeAdBhiaCq2GtF2GjnUFChw/edit?usp=sharing",
+        "https://docs.google.com/spreadsheets/d/1fi6jwHsn2O5A5RfbqxCwAeAdBhiaCq2GtF2GjnUFChw/edit?usp=sharing",
+        "https://docs.google.com/spreadsheets/d/1fi6jwHsn2O5A5RfbqxCwAeAdBhiaCq2GtF2GjnUFChw/edit?usp=sharing"
+      ]
+    },
+    {
+      "column_name": "hasAndroidEDC",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "hasBNIEDC",
+      "data_type": "INTEGER",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "column_name": "hasBRIEDC",
+      "data_type": "INTEGER",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "column_name": "hasMandiriEDC",
+      "data_type": "INTEGER",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "column_name": "hasSakuEDC",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "interestedinloan",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 27.42,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        "yes",
+        "yes",
+        "yes"
+      ]
+    },
+    {
+      "column_name": "kyc_name",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 78.11,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        "BUDI ARI MUSWANDI",
+        "ANI MARYANI",
+        "SUHARJO"
+      ]
+    },
+    {
+      "column_name": "lakuPandaiCertificate",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 78.65,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "column_name": "latestVisitDate",
+      "data_type": "UNKNOWN",
+      "nullable": true,
+      "null_percentage": 7.56,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        "2024-06-07",
+        "2024-07-24",
+        "2026-03-28"
+      ]
+    },
+    {
+      "column_name": "latest_latitude",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 77.97,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        "3.547151",
+        "-6.977045",
+        "-6.9392829"
+      ]
+    },
+    {
+      "column_name": "latest_longitude",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 77.97,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        "98.835486",
+        "106.720412",
+        "109.112639"
+      ]
+    },
+    {
+      "column_name": "loanName",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "loanOwnership",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "location_source",
+      "data_type": "STRING",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        "Old Prospero",
+        "Old Prospero",
+        "New Prospero"
+      ]
+    },
+    {
+      "column_name": "mee_average_daily_omset_non_payment_agent",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_average_daily_omset_payment_agent",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_average_daily_profit_non_payment_agent",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_average_daily_profit_payment_agent",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_bw_loan_purpose",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_bw_loan_reason_not_interested",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_current_loan_interest",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_current_loan_type",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_current_tenor_loan",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_edc_ownership",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_interested_build_other_business",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_interested_sell_other_bw_products",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_kur_loan_bank",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_kur_loan_due",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_kur_loan_limit",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_loan_ownership_mee",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_motivation_to_switch_all_edc_non_bri_to_bw",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_motivation_to_switch_bri_on_us_to_bw",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_reason_why_not_use_bw_for_bri_on_us",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_reason_why_not_use_bw_for_non_bri_card_edc_bri",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_reason_why_not_use_bw_full",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "mee_total_card_transaction",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "nik",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 78.11,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        "1471021611820021",
+        "3202096006800006",
+        "3276021810730003"
+      ]
+    },
+    {
+      "column_name": "nonCardTransactions",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 99.68,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        31,
+        11,
+        11
+      ]
+    },
+    {
+      "column_name": "notes",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "numberOfBranches",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 78.65,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        "0",
+        "0",
+        "0"
+      ]
+    },
+    {
+      "column_name": "numberOfEmployees",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 93.74,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        "0",
+        "0",
+        "0"
+      ]
+    },
+    {
+      "column_name": "ownedLoanLimit",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "ownerName",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 29.8,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        "Riski",
+        "Vira",
+        "Kiki Fatmala"
+      ]
+    },
+    {
+      "column_name": "phoneNumber",
+      "data_type": "STRING",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        "85762790793",
+        "85863482345",
+        "87748551222"
+      ]
+    },
+    {
+      "column_name": "ppobApps",
+      "data_type": "ARRAY",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        [],
+        [],
+        []
+      ]
+    },
+    {
+      "column_name": "ppobTransactions",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "prospero_merchant_profile_id",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 98.52,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        "5523b1c5-99a7-4616-978a-c57981a5379d",
+        "5af4e3d1-0eb4-48a1-8029-c106854dc469",
+        "8ff91c66-5dfa-461a-ac0f-acadc4f18436"
+      ]
+    },
+    {
+      "column_name": "province",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 78.85,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        "SUMATERA UTARA",
+        "JAWA BARAT",
+        "JAWA TENGAH"
+      ]
+    },
+    {
+      "column_name": "regency",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 18.4,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        "KABUPATEN DELI SERDANG",
+        "KABUPATEN SUKABUMI",
+        "KOTA MEDAN"
+      ]
+    },
+    {
+      "column_name": "retailCommunityAffiliation",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "retailCommunityName",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "retailContactPicPoi",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "retailCreditCardPctTransaction",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "retailDailyQrisVolume",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "retailDebitCardPctTransaction",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "retailEdcOwnership",
+      "data_type": "ARRAY",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        [],
+        [],
+        []
+      ]
+    },
+    {
+      "column_name": "retailEstablishmentType",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "retailEventPicContact",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "retailEventPicName",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "retailLocatedInEvent",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "retailLocatedInPoi",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "retailMerchantFlag",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "retailNamePicPoi",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "retailNamePoi",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "retailOfflineDailyTransaction",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "retailOnlineDailyTransaction",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "retailPosOwnership",
+      "data_type": "ARRAY",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        [],
+        [],
+        []
+      ]
+    },
+    {
+      "column_name": "retailQrisOwnership",
+      "data_type": "ARRAY",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        [],
+        [],
+        []
+      ]
+    },
+    {
+      "column_name": "retailQrisPctTransaction",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "retailTypePoi",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "roadLocationType",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "shopPIC",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "storeType",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 27.42,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        "snack_beverages",
+        "snack_beverages",
+        "warteg_warsun_padang"
+      ]
+    },
+    {
+      "column_name": "supreme_date",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 79.98,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        "2022-08-29",
+        "2022-11-30",
+        "2025-11-18"
+      ]
+    },
+    {
+      "column_name": "supreme_tier",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 79.98,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        "SUPREME",
+        "SUPREME",
+        "SUPREME"
+      ]
+    },
+    {
+      "column_name": "surroundingArea",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "totalAndroidMachine",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "totalDailyTransactions",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 21.41,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "column_name": "totalSakuMachine",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "updatedAt",
+      "data_type": "UNKNOWN",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        "2024-08-18 22:39:06.108405+00:00",
+        "2024-08-18 22:39:06.108405+00:00",
+        "2026-03-28 16:11:23.393000+00:00"
+      ]
+    },
+    {
+      "column_name": "userId",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "visited_by_mee_flag",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "yearFounded",
+      "data_type": "NULL",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": []
+    },
+    {
+      "column_name": "yearOfBirth",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 21.41,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
+      "example_values": [
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "table_relationships": [
+    {
+      "related_table": "ledger-fcc1e.trb_pymnts_derived.edc_transaction_level",
+      "join_frequency": 1855,
+      "relationship_type": "frequently_joined_with",
+      "last_joined": "2026-05-05T01:32:37.133000+00:00"
+    },
+    {
+      "related_table": "ledger-fcc1e.firestore_bukuwarung.book_store",
+      "join_frequency": 1714,
+      "relationship_type": "frequently_joined_with",
+      "last_joined": "2026-05-05T01:32:37.133000+00:00"
+    },
+    {
+      "related_table": "ledger-fcc1e.big_merchant_initiatives.base_user_big_merchant",
+      "join_frequency": 1316,
+      "relationship_type": "frequently_joined_with",
+      "last_joined": "2026-05-05T01:26:40.118000+00:00"
+    },
+    {
+      "related_table": "ledger-fcc1e.db_accounting.prod_edc_order",
+      "join_frequency": 801,
+      "relationship_type": "frequently_joined_with",
+      "last_joined": "2026-05-05T07:15:59.941000+00:00"
+    },
+    {
+      "related_table": "ledger-fcc1e.merchant_success_analytics.tfcode_name",
+      "join_frequency": 727,
+      "relationship_type": "frequently_joined_with",
+      "last_joined": "2026-05-05T07:15:59.941000+00:00"
+    },
+    {
+      "related_table": "ledger-fcc1e.merchant_success_analytics.form_registrasi_big_merchant",
+      "join_frequency": 722,
+      "relationship_type": "frequently_joined_with",
+      "last_joined": "2026-05-05T07:15:59.941000+00:00"
+    },
+    {
+      "related_table": "ledger-fcc1e.merchant_success_analytics.req_agreement_from_vida_big_merchant",
+      "join_frequency": 722,
+      "relationship_type": "frequently_joined_with",
+      "last_joined": "2026-05-05T07:15:59.941000+00:00"
+    },
+    {
+      "related_table": "ledger-fcc1e.trb_pymnt_temp.edc_order_delivery_funnel",
+      "join_frequency": 688,
+      "relationship_type": "frequently_joined_with",
+      "last_joined": "2026-05-05T01:32:37.133000+00:00"
+    },
+    {
+      "related_table": "ledger-fcc1e.edc_partnership.partnership_ssot",
+      "join_frequency": 618,
+      "relationship_type": "frequently_joined_with",
+      "last_joined": "2026-05-05T04:00:56.154000+00:00"
+    },
+    {
+      "related_table": "ledger-fcc1e.trb_pymnts_derived.location_gmaps_static",
+      "join_frequency": 572,
+      "relationship_type": "frequently_joined_with",
+      "last_joined": "2026-05-05T00:15:04.669000+00:00"
+    }
+  ],
+  "query_metrics": {
+    "total_queries_30_days": 4113,
+    "select_operations": 4129,
+    "insert_operations": 568,
+    "update_operations": 40,
+    "delete_operations": 0,
+    "days_active_in_30_days": 181,
+    "peak_query_hour": 1,
+    "last_queried": "2026-05-05T07:15:59.941000+00:00"
+  },
+  "table_business_context": "Fact table, regularly queried and for analysis and reporting and frequently joined with edc_transaction_level, book_store.",
+  "documentation_enriched": "2026-05-05T17:32:24.023113"
+}

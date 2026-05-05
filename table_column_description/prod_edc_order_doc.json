@@ -1,279 +1,283 @@
 {
   "table_name": "prod_edc_order",
-  "project_dataset": "ledger-fcc1e.db_accounting",
+  "full_table_id": "ledger-fcc1e.db_accounting.prod_edc_order",
   "total_columns": 36,
-  "sample_rows_analyzed": 100,
-  "documentation_generated": "2026-04-23T11:28:06.227836",
+  "sample_rows_analyzed": 10000,
+  "documentation_generated": "2026-05-05T17:31:32.084959",
   "columns": [
     {
       "column_name": "_sdc_batched_at",
-      "data_type": "STRING",
+      "data_type": "UNKNOWN",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Timestamp when record was batched during data ingestion",
-      "business_context": "Timestamp when record was batched during data ingestion",
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
-        "2025-07-30 08:33:09",
-        "2025-09-29 04:43:08",
-        "2025-10-02 08:37:19"
+        "2025-06-19 05:36:13.494000+00:00",
+        "2025-06-19 05:36:10.206000+00:00",
+        "2025-06-25 08:32:43.873000+00:00"
       ]
     },
     {
       "column_name": "_sdc_received_at",
-      "data_type": "STRING",
+      "data_type": "UNKNOWN",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Timestamp when record was first received in warehouse",
-      "business_context": "Timestamp when record was first received in warehouse",
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
-        "2025-07-30 08:32:14",
-        "2025-09-29 04:32:33",
-        "2025-10-02 08:32:10"
+        "2025-06-19 05:31:48+00:00",
+        "2025-06-19 05:31:48+00:00",
+        "2025-06-25 08:31:57+00:00"
       ]
     },
     {
       "column_name": "_sdc_sequence",
-      "data_type": "STRING",
+      "data_type": "INTEGER",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Sequential identifier for record order in replication",
-      "business_context": "Sequential identifier for record order in replication",
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
-        "1753864304061090084",
-        "1759120319125709503",
-        "1759393897682363214"
+        1750311092433333900,
+        1750311092349098027,
+        1750840288106623193
       ]
     },
     {
       "column_name": "_sdc_table_version",
-      "data_type": "STRING",
+      "data_type": "INTEGER",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Table schema version at time of replication",
-      "business_context": "Table schema version at time of replication",
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
-        "1750311085342",
-        "1750311085342",
-        "1750311085342"
+        1750311085342,
+        1750311085342,
+        1750311085342
       ]
     },
     {
       "column_name": "address",
-      "data_type": "JSON",
+      "data_type": "NULL",
       "nullable": true,
-      "null_percentage": 21.0,
-      "description": "Physical address of merchant location",
-      "business_context": "Physical address of merchant location",
+      "null_percentage": 59.84,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
         {
-          "delivery_address": {
-            "address": "V57G+C7, Tj. Baru, Kec. Baturaja Timur, Kabupaten Ogan Komering Ulu, Sumatera Selatan 32121, Indonesia",
-            "city": "Kecamatan Baturaja Timur",
-            "district": "Tanjung Baru",
-            "postal_code": "32121",
-            "province": "Sumatera Selatan",
-            "ward": "Tanjung Baru"
-          },
-          "delivery_address_same_as_store_address": "false",
           "store_address": {
-            "address": "V57G+C7, Tj. Baru, Kec. Baturaja Timur, Kabupaten Ogan Komering Ulu, Sumatera Selatan 32121, Indonesia",
-            "city": "Kecamatan Baturaja Timur",
-            "district": "Tanjung Baru",
-            "postal_code": "32121",
-            "province": "Sumatera Selatan",
-            "ward": "Tanjung Baru"
-          }
+            "city": "Jakarta Timur",
+            "ward": " Kebon Pala",
+            "address": "Jl.permata no.1 rt3/rw5 kebon pala makasar jakarta timur",
+            "district": "Makasar",
+            "province": "DKI Jakarta",
+            "postal_code": "13570"
+          },
+          "delivery_address": {
+            "city": "Jakarta Timur",
+            "ward": " Kebon Pala",
+            "address": "Jl.permata no.1 rt3/rw5 kebon pala makasar jakarta timur",
+            "district": "Makasar",
+            "province": "DKI Jakarta",
+            "postal_code": "13570"
+          },
+          "delivery_address_same_as_store_address": true
         },
         {
-          "delivery_address": {
-            "address": "Jl m.adan rumah sebelah SDN 10 Nanga sambus, rumah sahadan",
-            "city": "Kapuas Hulu",
-            "district": "Putussibau Utara",
-            "postal_code": "78716",
-            "province": "Kalimantan Barat",
-            "ward": " Nanga Sambus"
-          },
-          "delivery_address_same_as_store_address": "false",
           "store_address": {
-            "address": "Jl m.adan rumah sebelah SDN 10 Nanga sambus, rumah sahadan",
-            "city": "Kapuas Hulu",
-            "district": "Putussibau Utara",
-            "postal_code": "78716",
-            "province": "Kalimantan Barat",
-            "ward": " Nanga Sambus"
-          }
+            "city": "BATANG",
+            "ward": null,
+            "address": "JL. RIMAT BAKTI NO 99,SIJONO,WARUNGASEM,BATANG,JAWA TENGAH,51252",
+            "district": null,
+            "province": null,
+            "postal_code": "51252"
+          },
+          "delivery_address": null,
+          "delivery_address_same_as_store_address": null
         },
         {
-          "delivery_address": {
-            "address": "Pt Pegadaian Cabang Talasalapang, Jl Talasalapang No 48 D, Gunung Sari, Rappocini, Kota Makassar, Sulawesi Selatan, Indonesia",
-            "city": "Makassar",
-            "district": "Rappocini",
-            "postal_code": "90222",
-            "province": "Sulawesi Selatan",
-            "ward": " Gunung Sari"
-          },
-          "delivery_address_same_as_store_address": "false",
           "store_address": {
-            "address": "Pt Pegadaian Cabang Talasalapang, Jl Talasalapang No 48 D, Gunung Sari, Rappocini, Kota Makassar, Sulawesi Selatan, Indonesia",
-            "city": "Makassar",
-            "district": "Rappocini",
-            "postal_code": "90222",
-            "province": "Sulawesi Selatan",
-            "ward": " Gunung Sari"
-          }
+            "city": "LOMBOK TENGAH",
+            "ward": null,
+            "address": "KELEKUH,MERTAK,PUJUT,LOMBOK TENGAH,NUSA TENGGARA BARAT,83573",
+            "district": null,
+            "province": null,
+            "postal_code": "83573"
+          },
+          "delivery_address": null,
+          "delivery_address_same_as_store_address": null
         }
       ]
     },
     {
       "column_name": "attachments",
-      "data_type": "JSON",
+      "data_type": "NULL",
       "nullable": true,
-      "null_percentage": 24.0,
-      "description": "Array of attachment references",
-      "business_context": "Array of attachment references",
+      "null_percentage": 83.69,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
         {
-          "buku_bank": "",
+          "npwp": "",
+          "store_side": "",
+          "ktp": "",
+          "store_front": "",
           "family_card": "",
           "inventory": "",
-          "ktp": "",
-          "npwp": "",
           "selfie": "",
-          "store": "",
-          "store_front": "",
-          "store_side": ""
+          "buku_bank": "",
+          "store": ""
         },
         {
-          "buku_bank": "",
+          "npwp": "",
+          "store_side": "",
+          "ktp": "",
+          "store_front": "",
           "family_card": "",
           "inventory": "",
-          "ktp": "",
-          "npwp": "",
           "selfie": "",
-          "store": "",
-          "store_front": "",
-          "store_side": ""
+          "buku_bank": "",
+          "store": ""
         },
         {
-          "buku_bank": "",
+          "npwp": "",
+          "store_side": "",
+          "ktp": "",
+          "store_front": "",
           "family_card": "",
           "inventory": "",
-          "ktp": "",
-          "npwp": "",
           "selfie": "",
-          "store": "",
-          "store_front": "",
-          "store_side": ""
+          "buku_bank": "",
+          "store": ""
         }
       ]
     },
     {
       "column_name": "bank_account",
-      "data_type": "STRING",
+      "data_type": "NULL",
       "nullable": true,
-      "null_percentage": 21.0,
-      "description": "Bank account number",
-      "business_context": "Bank account number",
+      "null_percentage": 82.13,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
-        "688701001286530",
-        "509401029219533",
-        "549711089"
+        "9996598354",
+        "9916426663",
+        "4107779251"
       ]
     },
     {
       "column_name": "bank_name",
-      "data_type": "STRING",
+      "data_type": "NULL",
       "nullable": true,
-      "null_percentage": 21.0,
-      "description": "Name of bank",
-      "business_context": "Name of bank",
+      "null_percentage": 82.13,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
-        "BRI",
-        "BRI",
-        "BNI"
+        "PERMATA",
+        "PERMATA",
+        "PERMATA"
       ]
     },
     {
       "column_name": "beneficiary_name",
-      "data_type": "STRING",
+      "data_type": "NULL",
       "nullable": true,
-      "null_percentage": 21.0,
-      "description": "Name of beneficiary for payment",
-      "business_context": "Name of beneficiary for payment",
+      "null_percentage": 82.13,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
-        "SITI MULYANI",
-        "SARIYANTI",
-        "RIRIN YULIANA"
+        "KUSUMA JAYA SAKTI SIRAIT",
+        "SARDI SURYADI",
+        "ENO WARISMAN"
       ]
     },
     {
       "column_name": "business_type",
-      "data_type": "STRING",
+      "data_type": "NULL",
       "nullable": true,
-      "null_percentage": 13.0,
-      "description": "Classification of business type",
-      "business_context": "Classification of business type",
+      "null_percentage": 81.99,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
-        "Agen Pembayaran",
+        "Lainnya",
         "Agen Pembayaran",
         "Agen Pembayaran"
       ]
     },
     {
       "column_name": "coordinates",
-      "data_type": "STRING",
+      "data_type": "NULL",
       "nullable": true,
-      "null_percentage": 23.0,
-      "description": "Geographic coordinates in array format",
-      "business_context": "Geographic coordinates in array format",
+      "null_percentage": 83.59,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
         "",
-        "",
-        ""
+        "-6.927281, 109.697963",
+        "-8.884459, 116.361186"
       ]
     },
     {
       "column_name": "created_at",
-      "data_type": "STRING",
+      "data_type": "UNKNOWN",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Timestamp when order was created",
-      "business_context": "Timestamp when order was created",
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
-        "2025-07-30 03:05:58",
-        "2025-08-19 04:05:32",
-        "2025-07-16 08:42:26"
+        "2024-07-24 11:19:31.160000+00:00",
+        "2024-05-03 05:39:26.818000+00:00",
+        "2025-06-25 07:46:00.642000+00:00"
       ]
     },
     {
       "column_name": "delivery_address",
-      "data_type": "STRING (LONG)",
+      "data_type": "NULL",
       "nullable": true,
-      "null_percentage": 20.0,
-      "description": "Delivery address for order",
-      "business_context": "Delivery address for order",
+      "null_percentage": 60.03,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
-        "V57G+C7, Tj. Baru, Kec. Baturaja Timur, Kabupaten Ogan Komering Ulu, Sumatera Selatan 32121, Indonesia",
-        "Jl m.adan rumah sebelah SDN 10 Nanga sambus, rumah sahadan",
-        "Pt Pegadaian Cabang Talasalapang, Jl Talasalapang No 48 D, Gunung Sari, Rappocini, Kota Makassar, Sulawesi Selatan, Indonesia"
+        "Jl.permata no.1 rt3/rw5 kebon pala makasar jakarta timur",
+        "KP. SUMAPAN JATI",
+        "Jl.babakan impres gadog 2 rt 01/02 desa sukajadi kecamatan Tamansari Bogor "
       ]
     },
     {
       "column_name": "delivery_metadata",
       "data_type": "NULL",
       "nullable": true,
-      "null_percentage": 99.0,
-      "description": "Metadata about delivery details",
-      "business_context": "Metadata about delivery details",
+      "null_percentage": 86.37,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
         {
-          "awb": "7c31abebd18b4b5",
-          "couriername": "SAGARA",
+          "awb": "e89e472ef302442",
+          "vendor": "MoreFun",
+          "pickupdate": "2025-02-02T17:00:00.000Z",
+          "couriername": "KARVELO",
+          "serialnumber": "63241025470829",
           "expectedshipmenttime": null,
-          "pickupdate": "2025-03-04T09:47:54.000Z",
-          "serialnumber": "63241222470508",
-          "shipperordercreatedtime": null,
-          "vendor": "MoreFun"
+          "shipperordercreatedtime": null
+        },
+        {
+          "awb": "dde91266537348b",
+          "vendor": "MoreFun",
+          "pickupdate": "2025-02-18T17:00:00.000Z",
+          "couriername": "IMT",
+          "serialnumber": "63241222471189",
+          "expectedshipmenttime": null,
+          "shipperordercreatedtime": null
+        },
+        {
+          "awb": "a85c1458aa81478",
+          "vendor": "MoreFun",
+          "pickupdate": "2025-01-13T17:00:00.000Z",
+          "couriername": "PTDUNIA",
+          "serialnumber": "63241025470515",
+          "expectedshipmenttime": null,
+          "shipperordercreatedtime": null
         }
       ]
     },
@@ -281,35 +285,35 @@
       "column_name": "delivery_status",
       "data_type": "NULL",
       "nullable": true,
-      "null_percentage": 76.0,
-      "description": "Current status of order delivery",
-      "business_context": "Current status of order delivery",
+      "null_percentage": 78.57,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
-        "DELIVERED",
         "NOT_STARTED",
-        "NOT_STARTED"
+        "NOT_STARTED",
+        "DELIVERED"
       ]
     },
     {
       "column_name": "ecom_user_id",
-      "data_type": "STRING",
+      "data_type": "NULL",
       "nullable": true,
-      "null_percentage": 24.0,
-      "description": "E-commerce user ID",
-      "business_context": "E-commerce user ID",
+      "null_percentage": 83.66,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
         "",
-        "",
+        "sardi suryadi",
         ""
       ]
     },
     {
       "column_name": "external_order_id",
-      "data_type": "STRING",
+      "data_type": "NULL",
       "nullable": true,
-      "null_percentage": 24.0,
-      "description": "Order ID from external system",
-      "business_context": "Order ID from external system",
+      "null_percentage": 83.67,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
         "",
         "",
@@ -318,26 +322,26 @@
     },
     {
       "column_name": "janus_account_id",
-      "data_type": "STRING",
+      "data_type": "NULL",
       "nullable": true,
-      "null_percentage": 8.0,
-      "description": "Account ID in Janus system",
-      "business_context": "Account ID in Janus system",
+      "null_percentage": 70.91,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
-        "9dda519a-ba92-4b20-968f-3492dbf53fb0",
-        "a58d8512-fda2-44c6-85eb-edd5f0b5f9e1",
-        "9f9993e3-257b-4237-86b3-47f38093920d"
+        "a8775cf4-28db-4073-a4e1-4a5ee72bfebb",
+        "ce2ab9e6-6fc0-4e0b-9cc3-4aed7a7415eb",
+        "b5405323-2507-4b56-8dfe-9bc046f070fa"
       ]
     },
     {
       "column_name": "kyc_tier",
-      "data_type": "STRING",
+      "data_type": "NULL",
       "nullable": true,
-      "null_percentage": 8.0,
-      "description": "KYC verification tier/level",
-      "business_context": "KYC verification tier/level",
+      "null_percentage": 70.9,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
-        "NON_KYC",
+        "ADVANCED",
         "SUPREME",
         "SUPREME"
       ]
@@ -346,180 +350,157 @@
       "column_name": "metadata",
       "data_type": "JSON",
       "nullable": true,
-      "null_percentage": 1.0,
-      "description": "Complex metadata object",
-      "business_context": "Complex metadata object",
+      "null_percentage": 0.06,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
         {
-          "attributionchannel": null,
-          "banknamesameasktpname": null,
-          "beneficiaryaccountdetails": null,
+          "tfcode": null,
+          "devicemappingdetails": null,
           "cartid": null,
-          "checks": {
-            "bankaccountadded": "false",
-            "completionexpiredate": [],
-            "kybdone": "false",
-            "kycdone": "false"
-          },
-          "clientname": "KARVELO",
-          "devicemappingdetails": {
-            "description": "EDC Android - MoreFun",
-            "referral_code": "KARVELO",
-            "serial_number": "98250616970092",
-            "type": "PARTNERSHIP",
-            "vendor": "MF919"
-          },
-          "force_updated_note": null,
-          "ktpname": null,
           "kybstatus": null,
-          "kycstatus": "REJECTED",
-          "kyctier": null,
-          "orderamountdetails": null,
-          "orderprogress": null,
-          "otsflow": "false",
-          "paidat": null,
-          "partnershipordercreatedby": null,
-          "paymentaccountid": null,
-          "paymentamount": null,
-          "paymentlinkexpiredtime": null,
-          "paymentlinkgeneratedtime": null,
-          "paymentmethod": null,
-          "progress": null,
-          "tfcode": null,
+          "banknamesameasktpname": true,
+          "clientname": null,
+          "ktpname": "KUSUMA JAYA BAKTI SIRAIT",
+          "checks": null,
+          "kycstatus": null,
+          "attributionchannel": null,
           "tfcodevalidated": null,
+          "force_updated_note": null,
           "updatecommand": null,
-          "useracknowledgement": null,
-          "version": "v2"
+          "orderprogress": null,
+          "useracknowledgement": true,
+          "kyctier": null,
+          "version": null,
+          "beneficiaryaccountdetails": null,
+          "orderamountdetails": null,
+          "otsflow": null,
+          "partnershipordercreatedby": null,
+          "progress": null,
+          "paymentlinkexpiredtime": null,
+          "paymentamount": null,
+          "paymentmethod": null,
+          "paidat": null,
+          "paymentaccountid": null,
+          "paymentlinkgeneratedtime": null
         },
         {
-          "attributionchannel": null,
-          "banknamesameasktpname": null,
-          "beneficiaryaccountdetails": null,
+          "tfcode": null,
+          "devicemappingdetails": null,
           "cartid": null,
-          "checks": {
-            "bankaccountadded": "true",
-            "completionexpiredate": [],
-            "kybdone": "true",
-            "kycdone": "true"
-          },
-          "clientname": "KARVELO",
-          "devicemappingdetails": {
-            "description": "EDC Saku - MoreFun",
-            "referral_code": "KARVELO",
-            "serial_number": "63250325602017",
-            "type": "PARTNERSHIP",
-            "vendor": "MoreFun"
-          },
-          "force_updated_note": null,
-          "ktpname": null,
           "kybstatus": "MANUALLY_VERIFIED",
-          "kycstatus": "VERIFIED",
-          "kyctier": null,
-          "orderamountdetails": null,
+          "banknamesameasktpname": null,
+          "clientname": "LAPAKBANGROY",
+          "ktpname": "ANO WARISMAN",
+          "checks": {
+            "kybdone": true,
+            "kycdone": true,
+            "bankaccountadded": true,
+            "completionexpiredate": []
+          },
+          "kycstatus": "MANUALLY_VERIFIED",
+          "attributionchannel": null,
+          "tfcodevalidated": null,
+          "force_updated_note": null,
+          "updatecommand": {
+            "vendor": "MoreFun",
+            "orderid": "59275da4-ba82-4499-8c2d-9f91be208e13",
+            "newstatus": "Completed",
+            "opsemailid": "emilia.mariss@bukuwarung.com",
+            "terminalid": "71826805",
+            "serialnumber": "63241025470320",
+            "rejectionreason": null,
+            "bukuorigin": null
+          },
           "orderprogress": {
-            "cancelled": null,
-            "completed": "2025-08-19T04:34:37.094",
             "draft": null,
-            "rejected": null,
+            "waiting_for_ops": "2025-06-25T07:46:00.639",
             "unassigned": null,
             "waiting_for_additional_doc": null,
-            "waiting_for_ops": "2025-09-29T03:44:35.241"
-          },
-          "otsflow": "false",
-          "paidat": null,
-          "partnershipordercreatedby": null,
-          "paymentaccountid": null,
-          "paymentamount": null,
-          "paymentlinkexpiredtime": null,
-          "paymentlinkgeneratedtime": null,
-          "paymentmethod": null,
-          "progress": null,
-          "tfcode": null,
-          "tfcodevalidated": null,
-          "updatecommand": {
-            "bukuorigin": null,
-            "newstatus": "Completed",
-            "opsemailid": null,
-            "orderid": "6308738d-c10e-437a-b54e-2536472ce2bd",
-            "rejectionreason": null,
-            "serialnumber": "63250325602017",
-            "terminalid": "71856129",
-            "vendor": "MoreFun"
+            "rejected": null,
+            "cancelled": null,
+            "completed": "2025-06-25T07:48:08.386"
           },
           "useracknowledgement": null,
-          "version": "v2"
+          "kyctier": "SUPREME",
+          "version": "v2",
+          "beneficiaryaccountdetails": null,
+          "orderamountdetails": null,
+          "otsflow": null,
+          "partnershipordercreatedby": "emilia.mariss@bukuwarung.com",
+          "progress": null,
+          "paymentlinkexpiredtime": null,
+          "paymentamount": null,
+          "paymentmethod": null,
+          "paidat": null,
+          "paymentaccountid": null,
+          "paymentlinkgeneratedtime": null
         },
         {
-          "attributionchannel": null,
-          "banknamesameasktpname": null,
-          "beneficiaryaccountdetails": null,
+          "tfcode": null,
+          "devicemappingdetails": null,
           "cartid": null,
-          "checks": {
-            "bankaccountadded": "true",
-            "completionexpiredate": [],
-            "kybdone": "true",
-            "kycdone": "true"
-          },
-          "clientname": "KARVELO",
-          "devicemappingdetails": {
-            "description": "EDC Saku - MoreFun",
-            "referral_code": "KARVELO",
-            "serial_number": "63250325600192",
-            "type": "PARTNERSHIP",
-            "vendor": "MoreFun"
-          },
-          "force_updated_note": null,
-          "ktpname": null,
           "kybstatus": "MANUALLY_VERIFIED",
+          "banknamesameasktpname": null,
+          "clientname": "KARVELO",
+          "ktpname": "SIMAN",
+          "checks": {
+            "kybdone": true,
+            "kycdone": true,
+            "bankaccountadded": true,
+            "completionexpiredate": []
+          },
           "kycstatus": "VERIFIED",
-          "kyctier": null,
-          "orderamountdetails": null,
+          "attributionchannel": null,
+          "tfcodevalidated": null,
+          "force_updated_note": null,
+          "updatecommand": {
+            "vendor": "MoreFun",
+            "orderid": "e89e472e-f302-4425-b2f9-2d34e56f9861",
+            "newstatus": "Completed",
+            "opsemailid": "farah.dibah@bukuwarung.com",
+            "terminalid": "71818885",
+            "serialnumber": "63241025470829",
+            "rejectionreason": null,
+            "bukuorigin": null
+          },
           "orderprogress": {
-            "cancelled": null,
-            "completed": "2025-07-16T08:57:43.124",
             "draft": null,
-            "rejected": null,
+            "waiting_for_ops": "2025-02-03T10:15:49.398",
             "unassigned": null,
             "waiting_for_additional_doc": null,
-            "waiting_for_ops": "2025-10-02T08:10:43.014"
-          },
-          "otsflow": "false",
-          "paidat": null,
-          "partnershipordercreatedby": null,
-          "paymentaccountid": null,
-          "paymentamount": null,
-          "paymentlinkexpiredtime": null,
-          "paymentlinkgeneratedtime": null,
-          "paymentmethod": null,
-          "progress": null,
-          "tfcode": null,
-          "tfcodevalidated": null,
-          "updatecommand": {
-            "bukuorigin": null,
-            "newstatus": "Completed",
-            "opsemailid": null,
-            "orderid": "d0089ce6-8b33-430f-865e-b669ef0a084c",
-            "rejectionreason": null,
-            "serialnumber": "63250325600192",
-            "terminalid": "71849870",
-            "vendor": "MoreFun"
+            "rejected": null,
+            "cancelled": null,
+            "completed": "2025-02-03T10:41:58.747"
           },
           "useracknowledgement": null,
-          "version": "v2"
+          "kyctier": "SUPREME",
+          "version": "v2",
+          "beneficiaryaccountdetails": null,
+          "orderamountdetails": null,
+          "otsflow": null,
+          "partnershipordercreatedby": "farah.dibah@bukuwarung.com",
+          "progress": null,
+          "paymentlinkexpiredtime": null,
+          "paymentamount": null,
+          "paymentmethod": null,
+          "paidat": null,
+          "paymentaccountid": null,
+          "paymentlinkgeneratedtime": null
         }
       ]
     },
     {
       "column_name": "name",
-      "data_type": "STRING",
+      "data_type": "NULL",
       "nullable": true,
-      "null_percentage": 16.0,
-      "description": "Name associated with order",
-      "business_context": "Name associated with order",
+      "null_percentage": 58.0,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
-        "SITI MULYANI",
-        "SARIYANTI",
-        "EVANA"
+        "KUSUMA JAYA BAKTI SIRAIT",
+        "SARDI SURYADI",
+        "ANO WARISMAN"
       ]
     },
     {
@@ -527,70 +508,70 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Unique order identifier",
-      "business_context": "Unique order identifier",
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
-        "094e9e58-c6f1-4643-bc20-284082317d91",
-        "6308738d-c10e-437a-b54e-2536472ce2bd",
-        "d0089ce6-8b33-430f-865e-b669ef0a084c"
+        "e1b532a1-e7f8-48a3-9e55-6459be77a5b1",
+        "9ccfda0b-3c8e-42f7-aa9c-d94c2102c643",
+        "59275da4-ba82-4499-8c2d-9f91be208e13"
       ]
     },
     {
       "column_name": "payment_metadata",
-      "data_type": "JSON",
+      "data_type": "NULL",
       "nullable": true,
-      "null_percentage": 30.0,
-      "description": "Metadata about payment",
-      "business_context": "Metadata about payment",
+      "null_percentage": 82.89,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
         {
-          "paidat": "2025-07-30T03:05:58.775",
-          "paymentaccountid": null,
-          "paymentamount": null,
-          "paymentamount__it": null,
-          "paymentlink": null,
-          "paymentlinkexpiredtime": null,
-          "paymentlinkgeneratedtime": null,
-          "paymentmethod": null,
-          "paymentrefundorderid": null,
           "progress": null,
-          "refundid": null
+          "paymentlinkexpiredtime": null,
+          "paymentamount": null,
+          "refundid": null,
+          "paymentmethod": null,
+          "paidat": "2026-02-02T13:51:01.857",
+          "paymentlink": null,
+          "paymentrefundorderid": null,
+          "paymentaccountid": null,
+          "paymentlinkgeneratedtime": null,
+          "paymentamount__it": null
         },
         {
-          "paidat": "2025-08-19T04:05:32.151",
-          "paymentaccountid": null,
-          "paymentamount": null,
-          "paymentamount__it": null,
-          "paymentlink": null,
-          "paymentlinkexpiredtime": null,
-          "paymentlinkgeneratedtime": null,
-          "paymentmethod": null,
-          "paymentrefundorderid": null,
           "progress": null,
-          "refundid": null
+          "paymentlinkexpiredtime": null,
+          "paymentamount": null,
+          "refundid": null,
+          "paymentmethod": null,
+          "paidat": "2026-04-09T16:40:09.186",
+          "paymentlink": null,
+          "paymentrefundorderid": null,
+          "paymentaccountid": null,
+          "paymentlinkgeneratedtime": null,
+          "paymentamount__it": null
         },
         {
-          "paidat": "2025-07-16T08:42:26.064",
-          "paymentaccountid": null,
-          "paymentamount": null,
-          "paymentamount__it": null,
-          "paymentlink": null,
-          "paymentlinkexpiredtime": null,
-          "paymentlinkgeneratedtime": null,
-          "paymentmethod": null,
-          "paymentrefundorderid": null,
           "progress": null,
-          "refundid": null
+          "paymentlinkexpiredtime": null,
+          "paymentamount": null,
+          "refundid": null,
+          "paymentmethod": null,
+          "paidat": "2025-04-15T06:05:07.571",
+          "paymentlink": null,
+          "paymentrefundorderid": null,
+          "paymentaccountid": null,
+          "paymentlinkgeneratedtime": null,
+          "paymentamount__it": null
         }
       ]
     },
     {
       "column_name": "payment_status",
-      "data_type": "STRING",
+      "data_type": "NULL",
       "nullable": true,
-      "null_percentage": 33.0,
-      "description": "Current payment status",
-      "business_context": "Current payment status",
+      "null_percentage": 82.79,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
         "PAID",
         "PAID",
@@ -602,34 +583,34 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Phone number associated with order/merchant",
-      "business_context": "Phone number associated with order/merchant",
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
-        "81239648063",
-        "81393900600",
-        "82239946385"
+        "81382982840",
+        "89698768202",
+        "81514542000"
       ]
     },
     {
       "column_name": "postal_code",
-      "data_type": "STRING",
+      "data_type": "NULL",
       "nullable": true,
-      "null_percentage": 20.0,
-      "description": "Column: postal_code",
-      "business_context": "To be filled",
+      "null_percentage": 60.03,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
-        "32121",
-        "78716",
-        "90222"
+        "13570",
+        "17530",
+        "16263"
       ]
     },
     {
       "column_name": "purchase_referral",
-      "data_type": "STRING",
+      "data_type": "NULL",
       "nullable": true,
-      "null_percentage": 23.0,
-      "description": "Purchase referral information",
-      "business_context": "Purchase referral information",
+      "null_percentage": 83.65,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
         "",
         "",
@@ -638,11 +619,11 @@
     },
     {
       "column_name": "referee_name",
-      "data_type": "STRING",
+      "data_type": "NULL",
       "nullable": true,
-      "null_percentage": 23.0,
-      "description": "Name of referee",
-      "business_context": "Name of referee",
+      "null_percentage": 83.65,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
         "",
         "",
@@ -651,11 +632,11 @@
     },
     {
       "column_name": "referee_phone",
-      "data_type": "STRING",
+      "data_type": "NULL",
       "nullable": true,
-      "null_percentage": 23.0,
-      "description": "Phone of referee",
-      "business_context": "Phone of referee",
+      "null_percentage": 83.65,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
         "",
         "",
@@ -667,51 +648,51 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Current status of order",
-      "business_context": "Current status of order",
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
-        "Waiting_for_additional_doc",
-        "Waiting_for_ops",
-        "Waiting_for_ops"
+        "Cancelled",
+        "Cancelled",
+        "Completed"
       ]
     },
     {
       "column_name": "subdistrict",
-      "data_type": "STRING",
+      "data_type": "NULL",
       "nullable": true,
-      "null_percentage": 20.0,
-      "description": "Sub-district of merchant location",
-      "business_context": "Sub-district of merchant location",
+      "null_percentage": 60.03,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
-        "Tanjung Baru",
-        "Putussibau Utara",
-        "Rappocini"
+        "Makasar",
+        "CIKARANG UTARA",
+        "Tamansari"
       ]
     },
     {
       "column_name": "transaction_id",
       "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 18.0,
-      "description": "Transaction identifier",
-      "business_context": "Transaction identifier",
+      "null_percentage": 0.78,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
-        "E250730H9OP5QG149",
-        "E250819HAASMSIX5R",
-        "E250716H99IR0TRDS"
+        "E250625H8MBO6BGQG",
+        "E250203H49VLB8T3T",
+        "E250219H4RJ3LAYSD"
       ]
     },
     {
       "column_name": "updated_at",
-      "data_type": "STRING",
+      "data_type": "UNKNOWN",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Timestamp of last update",
-      "business_context": "Timestamp of last update",
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
-        "2025-07-30 08:12:46",
-        "2025-09-29 03:44:35",
-        "2025-10-02 08:10:43"
+        "2024-07-24 11:20:47.237000+00:00",
+        "2024-05-03 05:39:26.818000+00:00",
+        "2025-06-25 07:48:08.417000+00:00"
       ]
     },
     {
@@ -719,39 +700,113 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "User ID identifier",
-      "business_context": "User ID identifier",
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
-        "81239648063",
-        "81393900600",
-        "82239946385"
+        "81382982840",
+        "89698768202",
+        "81514542000"
       ]
     },
     {
       "column_name": "user_id_uuid",
       "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 1.0,
-      "description": "User ID in UUID format",
-      "business_context": "User ID in UUID format",
+      "null_percentage": 0.1,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
-        "b48b865f-faf6-41d3-aa06-847c5627fd69",
-        "6263bdf4-82e0-4988-bf12-008510f2ebe8",
-        "f11862e6-f674-4ea2-9f7b-94f548138444"
+        "46d07eaa-1624-41f3-a2a2-9ceb5e712763",
+        "a850a301-ce98-40f4-8d33-8826b5c927cd",
+        "f348b404-f3f4-4c0e-ad1b-226d76b1c911"
       ]
     },
     {
       "column_name": "ward",
-      "data_type": "STRING",
+      "data_type": "NULL",
       "nullable": true,
-      "null_percentage": 20.0,
-      "description": "Ward/neighborhood of merchant location",
-      "business_context": "Ward/neighborhood of merchant location",
+      "null_percentage": 60.03,
+      "description": "[TODO] Add description",
+      "business_context": "[TODO] Add context",
       "example_values": [
-        "Tanjung Baru",
-        " Nanga Sambus",
-        " Gunung Sari"
+        " Kebon Pala",
+        "KABUPATEN BEKASI",
+        " Sukajadi"
       ]
     }
-  ]
+  ],
+  "table_relationships": [
+    {
+      "related_table": "ledger-fcc1e.merchant_success_analytics.tfcode_name",
+      "join_frequency": 17629,
+      "relationship_type": "frequently_joined_with",
+      "last_joined": "2026-05-05T08:59:29.922000+00:00"
+    },
+    {
+      "related_table": "ledger-fcc1e.db_accounting.prod_cart",
+      "join_frequency": 14863,
+      "relationship_type": "frequently_joined_with",
+      "last_joined": "2026-05-05T08:59:29.922000+00:00"
+    },
+    {
+      "related_table": "ledger-fcc1e.db_accounting.prod_cart_plans",
+      "join_frequency": 14862,
+      "relationship_type": "frequently_joined_with",
+      "last_joined": "2026-05-05T08:59:29.922000+00:00"
+    },
+    {
+      "related_table": "ledger-fcc1e.db_accounting.prod_edc_plans",
+      "join_frequency": 14670,
+      "relationship_type": "frequently_joined_with",
+      "last_joined": "2026-05-05T08:59:29.922000+00:00"
+    },
+    {
+      "related_table": "ledger-fcc1e.db_accounting.prod_edc_products",
+      "join_frequency": 14659,
+      "relationship_type": "frequently_joined_with",
+      "last_joined": "2026-05-05T08:59:29.922000+00:00"
+    },
+    {
+      "related_table": "ledger-fcc1e.trb_pymnt_temp.edc_purchase_data",
+      "join_frequency": 14570,
+      "relationship_type": "frequently_joined_with",
+      "last_joined": "2026-05-05T08:59:29.922000+00:00"
+    },
+    {
+      "related_table": "ledger-fcc1e.trb_pymnt_temp.tfcode_otp_not_required",
+      "join_frequency": 14303,
+      "relationship_type": "frequently_joined_with",
+      "last_joined": "2026-05-05T08:59:29.922000+00:00"
+    },
+    {
+      "related_table": "ledger-fcc1e.merchant_success_analytics.ms_visit_ssot",
+      "join_frequency": 8205,
+      "relationship_type": "frequently_joined_with",
+      "last_joined": "2026-05-05T08:36:09.214000+00:00"
+    },
+    {
+      "related_table": "ledger-fcc1e.edc_partnership.partnership_ssot",
+      "join_frequency": 8001,
+      "relationship_type": "frequently_joined_with",
+      "last_joined": "2026-05-05T08:36:09.214000+00:00"
+    },
+    {
+      "related_table": "ledger-fcc1e.payment_reports.edc_new_order_flow_funnel_tracking",
+      "join_frequency": 7717,
+      "relationship_type": "frequently_joined_with",
+      "last_joined": "2026-05-05T08:36:09.214000+00:00"
+    }
+  ],
+  "query_metrics": {
+    "total_queries_30_days": 20868,
+    "select_operations": 21278,
+    "insert_operations": 129,
+    "update_operations": 40,
+    "delete_operations": 0,
+    "days_active_in_30_days": 181,
+    "peak_query_hour": 1,
+    "last_queried": "2026-05-05T08:59:29.922000+00:00"
+  },
+  "table_business_context": "Fact table, regularly queried and for analysis and reporting and frequently joined with tfcode_name, prod_cart.",
+  "documentation_enriched": "2026-05-05T17:33:29.676786"
 }
