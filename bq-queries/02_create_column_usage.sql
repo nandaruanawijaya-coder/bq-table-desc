@@ -33,7 +33,7 @@ SELECT
   MAX(creation_time) as last_queried,
   MIN(creation_time) as first_queried,
   COUNT(DISTINCT DATE(creation_time)) as days_active,
-  MODE(query_hour) as peak_query_hour,
+  APPROX_TOP_COUNT(query_hour, 1)[OFFSET(0)].value as peak_query_hour,
   CURRENT_TIMESTAMP() as extraction_time
 FROM table_queries
 GROUP BY full_table_name, table_ref.project_id, table_ref.dataset_id, table_ref.table_id
