@@ -264,41 +264,74 @@ doc = {
 }
 
 def infer_description(col_name, data_type, sample_values, null_pct):
-    """Auto-generate column description from data analysis"""
+    """Auto-generate business-focused column description (1-2 sentences, no examples)"""
     col_lower = col_name.lower()
     
     # ID/Key columns
     if 'id' in col_lower and data_type == 'STRING':
-        entity = col_name.replace('_id', '').replace('ID', '')
+        entity = col_name.replace('_id', '').replace('ID', '').replace('_', ' ')
         return f"Unique identifier for {entity}"
+    
+    # Location/Geographic columns
+    if 'kabupaten' in col_lower or 'regency' in col_lower or 'district' in col_lower:
+        return "Regency/District name (Indonesian administrative level 2)"
+    if 'kecamatan' in col_lower or 'subdistrict' in col_lower:
+        return "Sub-district/Kecamatan name (Indonesian administrative level 3)"
+    if 'kelurahan' in col_lower or 'village' in col_lower:
+        return "Village/Kelurahan name (Indonesian administrative level 4)"
+    if 'area' in col_lower:
+        return "Geographic area classification for regional grouping"
+    if 'address' in col_lower or 'formatted' in col_lower:
+        return "Complete formatted address from location data source"
+    if 'latitude' in col_lower or 'lat' in col_lower:
+        return "Geographic latitude coordinate for location mapping"
+    if 'longitude' in col_lower or 'lon' in col_lower:
+        return "Geographic longitude coordinate for location mapping"
+    if 'gmaps' in col_lower or 'google_maps' in col_lower or 'maps' in col_lower:
+        return f"Google Maps data for {col_name.replace('gmaps_', '').replace('_maps', '').replace('_', ' ')}"
+    
+    # Code/Classification columns
     if 'code' in col_lower:
-        return f"{col_name.replace('_', ' ').title()} - code/classification. Examples: {', '.join(str(v)[:20] for v in sample_values[:2])}"
+        classification = col_name.replace('_code', '').replace('_', ' ')
+        return f"{classification.title()} classification code"
+    if 'status' in col_lower or 'type' in col_lower or 'category' in col_lower:
+        return f"Classification value indicating {col_name.replace('_', ' ')}"
     
     # Timestamp/Date columns
-    if 'date' in col_lower or 'time' in col_lower or 'timestamp' in col_lower:
-        return f"Timestamp of {col_name.replace('_', ' ')}. Format: YYYY-MM-DD HH:MM:SS"
+    if 'timestamp' in col_lower:
+        event = col_name.replace('_timestamp', '').replace('_', ' ')
+        return f"Timestamp when {event} occurred"
+    if 'date' in col_lower:
+        event = col_name.replace('_date', '').replace('_', ' ')
+        return f"Date when {event} took place"
+    if 'time' in col_lower and 'at' not in col_lower:
+        event = col_name.replace('_time', '').replace('_', ' ')
+        return f"Time of {event}"
     
-    # Boolean columns
-    if data_type == 'BOOLEAN':
-        return f"Flag indicating {col_name.replace('_', ' ')} state (true/false)"
+    # Boolean/Flag columns
+    if data_type == 'BOOLEAN' or 'is_' in col_lower or 'flag' in col_lower:
+        condition = col_name.replace('is_', '').replace('_flag', '').replace('_', ' ')
+        return f"Indicator of {condition} status"
     
-    # Numeric columns
+    # Numeric columns (count, amount, percentage)
     if data_type in ['INTEGER', 'NUMERIC', 'FLOAT']:
-        if sample_values:
-            val_range = f"Range: {min(float(v) for v in sample_values if isinstance(v, (int, float))):.0f} to {max(float(v) for v in sample_values if isinstance(v, (int, float))):.0f}"
-        else:
-            val_range = ""
-        return f"{col_name.replace('_', ' ').title()} - numeric value. {val_range}".strip()
+        if 'count' in col_lower or 'number' in col_lower or 'total' in col_lower:
+            metric = col_name.replace('_count', '').replace('_number', '').replace('_total', '').replace('_', ' ')
+            return f"Total count or number of {metric}"
+        if 'price' in col_lower or 'amount' in col_lower or 'cost' in col_lower or 'fee' in col_lower:
+            return "Monetary amount in the applicable currency"
+        if 'percent' in col_lower or 'pct' in col_lower or 'rate' in col_lower or 'ratio' in col_lower:
+            return "Percentage, rate, or ratio value"
+        if 'score' in col_lower or 'rating' in col_lower:
+            return f"Computed {col_name.replace('_score', '').replace('_rating', '').replace('_', ' ')} score or rating"
+        return f"Numeric metric for {col_name.replace('_', ' ')}"
     
     # String/Text columns
     if data_type in ['STRING', 'STRING (LONG)']:
-        if sample_values:
-            examples = ', '.join(f"'{v}'" if isinstance(v, str) else str(v) for v in sample_values[:2])
-            return f"{col_name.replace('_', ' ').title()} - text value. Examples: {examples}"
-        return f"{col_name.replace('_', ' ').title()} - text/string value"
+        return f"{col_name.replace('_', ' ').title()}"
     
     # Default
-    return f"{col_name.replace('_', ' ').title()} - {data_type} value"
+    return f"{col_name.replace('_', ' ').title()}"
 
 def infer_business_context(col_name, null_pct, table_metrics=None):
     """Auto-generate business context from data patterns"""
