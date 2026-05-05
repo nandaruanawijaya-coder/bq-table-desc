@@ -3,14 +3,14 @@
   "full_table_id": "ledger-fcc1e.datamart_opentable.mapping_area_mse_opentable",
   "total_columns": 10,
   "sample_rows_analyzed": 1157,
-  "documentation_generated": "2026-05-05T18:12:58.636803",
+  "documentation_generated": "2026-05-05T18:22:19.301202",
   "columns": [
     {
       "column_name": "area",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.43,
-      "description": "Geographic area classification. Examples: Java 2, Java 2",
+      "description": "Geographic region classification for merchant location grouping and regional analysis",
       "business_context": "Populated in 100% of records.",
       "example_values": [
         "Java 2",
@@ -23,7 +23,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.43,
-      "description": "Geographic area classification. Examples: Endang, Endang",
+      "description": "Geographic region classification for merchant location grouping and regional analysis",
       "business_context": "Populated in 100% of records.",
       "example_values": [
         "Endang",
@@ -36,7 +36,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.43,
-      "description": "Head Of Region. Examples: ZIKO, ZIKO",
+      "description": "Text classification for head of region",
       "business_context": "Populated in 100% of records.",
       "example_values": [
         "ZIKO",
@@ -49,7 +49,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 40.1,
-      "description": "Date when mse join took place",
+      "description": "Date field capturing when mse join took place",
       "business_context": "Populated in 60% of records. Used for time-based analysis and filtering.",
       "example_values": [
         "1999-12-30",
@@ -62,7 +62,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.43,
-      "description": "Mse Lead. Examples: Amzar Sapunda, Amzar Sapunda",
+      "description": "Text classification for mse lead",
       "business_context": "Populated in 100% of records.",
       "example_values": [
         "Amzar Sapunda",
@@ -75,7 +75,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 2.16,
-      "description": "Date when mse name updated took place",
+      "description": "Date field capturing when mse name updated took place",
       "business_context": "Populated in 98% of records. Used for time-based analysis and filtering.",
       "example_values": [
         "Taufik Nugroho",
@@ -88,7 +88,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.43,
-      "description": "New Mse City Sep 24. Examples: MSE Banjarnegara, MSE Banjarnegara 2",
+      "description": "Text field containing new mse city sep 24 information",
       "business_context": "Populated in 100% of records.",
       "example_values": [
         "MSE Banjarnegara",
@@ -101,7 +101,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.43,
-      "description": "Province. Examples: JAWA TENGAH, JAWA TENGAH",
+      "description": "Text classification for province",
       "business_context": "Populated in 100% of records.",
       "example_values": [
         "JAWA TENGAH",
@@ -114,7 +114,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.43,
-      "description": "Regency/District name for Indonesian administrative division. Examples: KABUPATEN BANJARNEGARA, KABUPATEN BANJARNEGARA",
+      "description": "Regency/District name for Indonesian administrative level 2 classification",
       "business_context": "Populated in 100% of records.",
       "example_values": [
         "KABUPATEN BANJARNEGARA",
@@ -127,7 +127,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.43,
-      "description": "Region. Examples: JAVA, JAVA",
+      "description": "Text classification for region",
       "business_context": "Populated in 100% of records.",
       "example_values": [
         "JAVA",
@@ -146,5 +146,5 @@
     "peak_query_hour": 4,
     "last_queried": "2026-05-04T07:27:24.613000+00:00"
   },
-  "documentation_enriched": "2026-05-05T18:13:00.054468"
+  "documentation_enriched": "2026-05-05T18:22:20.705992"
 }

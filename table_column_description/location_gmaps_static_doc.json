@@ -3,14 +3,14 @@
   "full_table_id": "ledger-fcc1e.trb_pymnts_derived.location_gmaps_static",
   "total_columns": 16,
   "sample_rows_analyzed": 10000,
-  "documentation_generated": "2026-05-05T18:12:18.341194",
+  "documentation_generated": "2026-05-05T18:21:45.838305",
   "columns": [
     {
       "column_name": "area",
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Geographic area classification. Examples: SUMATERA 1, BALI NUSRA",
+      "description": "Geographic region classification for merchant location grouping and regional analysis",
       "business_context": "Required field - always populated.",
       "example_values": [
         "SUMATERA 1",
@@ -23,7 +23,7 @@
       "data_type": "STRING (LONG)",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Complete formatted address from location data for geographic identification",
+      "description": "Complete formatted address for merchant or location identification",
       "business_context": "Required field - always populated.",
       "example_values": [
         "9WR9+C5J, Seukeumbrok, Kec. Pidie, Kabupaten Pidie, Aceh, Indonesia",
@@ -36,7 +36,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Regency/District name for Indonesian administrative division. Examples: KABUPATEN PIDIE, KABUPATEN BADUNG",
+      "description": "Regency/District name for Indonesian administrative level 2 classification",
       "business_context": "Required field - always populated.",
       "example_values": [
         "KABUPATEN PIDIE",
@@ -49,7 +49,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Sub-district/Kecamatan level administrative division. Examples: PIDIE, KUTA UTARA",
+      "description": "Sub-district/Kecamatan name for Indonesian administrative level 3 division",
       "business_context": "Required field - always populated.",
       "example_values": [
         "PIDIE",
@@ -62,7 +62,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Geographic latitude coordinate for location mapping",
+      "description": "Geographic latitude coordinate for precise location mapping",
       "business_context": "Required field - always populated.",
       "example_values": [
         "5.391094208,95.91785431",
@@ -75,7 +75,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Geographic latitude coordinate for location mapping (range: -8.67 to 5.39)",
+      "description": "Geographic latitude coordinate for precise location mapping (range: -8.68 to 5.39)",
       "business_context": "Required field - always populated.",
       "example_values": [
         "5.391094208",
@@ -88,7 +88,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Geographic longitude coordinate for location mapping (range: 95.92 to 115.21)",
+      "description": "Geographic longitude coordinate for precise location mapping (range: 95.92 to 123.06)",
       "business_context": "Required field - always populated.",
       "example_values": [
         "95.91785431",
@@ -101,7 +101,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Regency/District name for Indonesian administrative division. Examples: PIDIE, KABUPATEN BADUNG",
+      "description": "Regency/District name for Indonesian administrative level 2 classification",
       "business_context": "Required field - always populated.",
       "example_values": [
         "PIDIE",
@@ -114,7 +114,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.04,
-      "description": "Sub-district/Kecamatan level administrative division. Examples: SEUKEUMBROK, KEC. KUTA UTARA",
+      "description": "Sub-district/Kecamatan name for Indonesian administrative level 3 division",
       "business_context": "Populated in 100% of records.",
       "example_values": [
         "SEUKEUMBROK",
@@ -127,7 +127,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Old Province Dont Use. Examples: ACEH, BALI",
+      "description": "Text classification for old province dont use",
       "business_context": "Required field - always populated.",
       "example_values": [
         "ACEH",
@@ -140,7 +140,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Status classification. Possible values: COMPLETE_HIGH_CONFIDENCE",
+      "description": "Status field indicating the parsing state",
       "business_context": "Required field - always populated. Used for segmentation and status-based filtering.",
       "example_values": [
         "COMPLETE_HIGH_CONFIDENCE",
@@ -153,7 +153,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Phone Number. Examples: 85314173200, 81237897255",
+      "description": "Text field containing phone number information",
       "business_context": "Required field - always populated.",
       "example_values": [
         "85314173200",
@@ -166,7 +166,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Province. Examples: NANGGROE ACEH DARUSSALAM, BALI",
+      "description": "Text classification for province",
       "business_context": "Required field - always populated.",
       "example_values": [
         "NANGGROE ACEH DARUSSALAM",
@@ -179,7 +179,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for raw response",
+      "description": "Raw Response",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -188,7 +188,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Boolean flag indicating source status. Values: Mar 2026",
+      "description": "Text classification for source flag",
       "business_context": "Required field - always populated. Used for segmentation and status-based filtering.",
       "example_values": [
         "Mar 2026",
@@ -201,7 +201,7 @@
       "data_type": "UNKNOWN",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Timestamp indicating when timestamp   occurred",
+      "description": "Timestamp recording when timestamp   occurred in the system",
       "business_context": "Required field - always populated. Used for time-based analysis and filtering.",
       "example_values": [
         "2026-03-06 06:00:06.308148+00:00",
@@ -282,5 +282,5 @@
     "peak_query_hour": null,
     "last_queried": "2026-05-05T09:00:07.349000+00:00"
   },
-  "documentation_enriched": "2026-05-05T18:12:19.639059"
+  "documentation_enriched": "2026-05-05T18:21:47.152680"
 }

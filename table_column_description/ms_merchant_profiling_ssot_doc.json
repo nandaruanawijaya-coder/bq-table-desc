@@ -3,15 +3,15 @@
   "full_table_id": "ledger-fcc1e.merchant_success_analytics.ms_merchant_profiling_ssot",
   "total_columns": 107,
   "sample_rows_analyzed": 10000,
-  "documentation_generated": "2026-05-05T18:13:06.496730",
+  "documentation_generated": "2026-05-05T18:22:27.965665",
   "columns": [
     {
       "column_name": "active_days_users_in_this_coordinate",
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 95.84,
-      "description": "Boolean flag indicating active days users in thcoordinate status. Values: Users in this coordinate for 301 days, Users in this coordinate for 31 days",
-      "business_context": "Optional field - rarely populated. Used for segmentation and status-based filtering.",
+      "description": "Boolean flag indicating whether the record is active days users in thcoordinate",
+      "business_context": "Optional field - rarely populated.",
       "example_values": [
         "Users in this coordinate for 182 days",
         "Users in this coordinate for 35 days",
@@ -23,7 +23,7 @@
       "data_type": "STRING (LONG)",
       "nullable": true,
       "null_percentage": 28.91,
-      "description": "Complete formatted address from location data for geographic identification",
+      "description": "Complete formatted address for merchant or location identification",
       "business_context": "Populated in 71% of records.",
       "example_values": [
         "Jalan STM, Perumahan Artha Vista Residence, Suka Maju, Medan Johor, Kota Medan, Sumatera Utara, Sumatra, 20146, Indonesia",
@@ -36,7 +36,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 78.85,
-      "description": "Geographic area classification. Examples: SUMATERA 1, JAVA 1",
+      "description": "Geographic region classification for merchant location grouping and regional analysis",
       "business_context": "Sparse field - populated in minority of records.",
       "example_values": [
         "SUMATERA 1",
@@ -62,7 +62,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for briCardTransactions",
+      "description": "Bricardtransactions",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -71,7 +71,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 15.13,
-      "description": "Businessname. Examples: Mie ayam jamur riski, Oemah Sus",
+      "description": "Text field containing businessName information",
       "business_context": "Populated in 85% of records.",
       "example_values": [
         "Mie ayam jamur riski",
@@ -84,7 +84,7 @@
       "data_type": "ARRAY",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Businesstypes classification or category. Examples: []",
+      "description": "Classification type for businessTypes",
       "business_context": "Required field - always populated.",
       "example_values": [
         [],
@@ -97,7 +97,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 26.18,
-      "description": "Businessindustry. Examples: fnb, fnb",
+      "description": "Text classification for businessindustry",
       "business_context": "Populated in 74% of records.",
       "example_values": [
         "fnb",
@@ -110,7 +110,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 26.18,
-      "description": "Businesslocation. Examples: residential, residential",
+      "description": "Text classification for businesslocation",
       "business_context": "Populated in 74% of records.",
       "example_values": [
         "residential",
@@ -136,7 +136,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for completedLoanDate",
+      "description": "Completedloandate",
       "business_context": "Optional field - rarely populated. Used for time-based analysis and filtering.",
       "example_values": []
     },
@@ -158,7 +158,7 @@
       "data_type": "UNKNOWN",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Date when createdDate took place",
+      "description": "Date field capturing when createdDate took place",
       "business_context": "Required field - always populated. Used for time-based analysis and filtering.",
       "example_values": [
         "2022-01-19",
@@ -210,7 +210,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Boolean flag indicating data source status. Values: Prospero CRM DB to BQ, Backfill BQ from Zoho",
+      "description": "Boolean flag indicating whether the record is data source",
       "business_context": "Required field - always populated. Used for segmentation and status-based filtering.",
       "example_values": [
         "Backfill BQ from Zoho",
@@ -223,7 +223,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for desiredloanlimit",
+      "description": "Desiredloanlimit",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -232,7 +232,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 18.88,
-      "description": "District. Examples: TANJUNG MORAWA, WARUNG KIARA",
+      "description": "Text field containing district information",
       "business_context": "Populated in 81% of records.",
       "example_values": [
         "TANJUNG MORAWA",
@@ -245,7 +245,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for edcOwnership",
+      "description": "Edcownership",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -254,7 +254,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for estimatedCustomersPerDay",
+      "description": "Estimatedcustomersperday",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -263,7 +263,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 7.56,
-      "description": "Firstvisitbiztype classification or category. Examples: PAYMENT AGENT, RETAIL",
+      "description": "Classification type for firstVisitBizType",
       "business_context": "Populated in 92% of records.",
       "example_values": [
         "RETAIL",
@@ -276,7 +276,7 @@
       "data_type": "STRING (LONG)",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Gsheet Ssot Documentation. Examples: https://docs.google.com/spreadsheets/d/1fi6jwHsn2O5A5RfbqxCwAeAdBhiaCq2GtF2GjnUFChw/edit?usp=sharing, https://docs.google.com/spreadsheets/d/1fi6jwHsn2O5A5RfbqxCwAeAdBhiaCq2GtF2GjnUFChw/edit?usp=sharing",
+      "description": "Text classification for gsheet ssot documentation",
       "business_context": "Required field - always populated.",
       "example_values": [
         "https://docs.google.com/spreadsheets/d/1fi6jwHsn2O5A5RfbqxCwAeAdBhiaCq2GtF2GjnUFChw/edit?usp=sharing",
@@ -289,7 +289,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for hasAndroidEDC",
+      "description": "Hasandroidedc",
       "business_context": "Optional field - rarely populated. Used for joins and lookups.",
       "example_values": []
     },
@@ -298,7 +298,7 @@
       "data_type": "INTEGER",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Hasbniedc",
+      "description": "Numeric metric for hasBNIEDC",
       "business_context": "Required field - always populated.",
       "example_values": [
         0,
@@ -311,7 +311,7 @@
       "data_type": "INTEGER",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Hasbriedc",
+      "description": "Numeric metric for hasBRIEDC",
       "business_context": "Required field - always populated.",
       "example_values": [
         0,
@@ -324,7 +324,7 @@
       "data_type": "INTEGER",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Hasmandiriedc",
+      "description": "Numeric metric for hasMandiriEDC",
       "business_context": "Required field - always populated.",
       "example_values": [
         0,
@@ -337,7 +337,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for hasSakuEDC",
+      "description": "Hassakuedc",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -346,7 +346,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 27.42,
-      "description": "Interestedinloan. Examples: yes, yes",
+      "description": "Text classification for interestedinloan",
       "business_context": "Populated in 73% of records.",
       "example_values": [
         "yes",
@@ -385,7 +385,7 @@
       "data_type": "UNKNOWN",
       "nullable": true,
       "null_percentage": 7.56,
-      "description": "Geographic latitude coordinate for location mapping",
+      "description": "Geographic latitude coordinate for precise location mapping",
       "business_context": "Populated in 92% of records. Used for time-based analysis and filtering.",
       "example_values": [
         "2024-06-07",
@@ -398,7 +398,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 77.97,
-      "description": "Geographic latitude coordinate for location mapping (range: -6.98 to 3.55)",
+      "description": "Geographic latitude coordinate for precise location mapping (range: -10.10 to 5.12)",
       "business_context": "Sparse field - populated in minority of records.",
       "example_values": [
         "3.547151",
@@ -411,7 +411,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 77.97,
-      "description": "Geographic latitude coordinate for location mapping (range: 98.84 to 109.11)",
+      "description": "Geographic latitude coordinate for precise location mapping (range: 97.17 to 125.00)",
       "business_context": "Sparse field - populated in minority of records.",
       "example_values": [
         "98.835486",
@@ -424,7 +424,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for loanName",
+      "description": "Loanname",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -433,7 +433,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for loanOwnership",
+      "description": "Loanownership",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -442,7 +442,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Location Source. Examples: Old Prospero, Old Prospero",
+      "description": "Text classification for location source",
       "business_context": "Required field - always populated.",
       "example_values": [
         "Old Prospero",
@@ -455,7 +455,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for mee average daily omset non payment agent",
+      "description": "Mee Average Daily Omset Non Payment Agent",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -464,7 +464,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for mee average daily omset payment agent",
+      "description": "Mee Average Daily Omset Payment Agent",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -473,7 +473,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for mee average daily profit non payment agent",
+      "description": "Mee Average Daily Profit Non Payment Agent",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -482,7 +482,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for mee average daily profit payment agent",
+      "description": "Mee Average Daily Profit Payment Agent",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -491,7 +491,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for mee bw loan purpose",
+      "description": "Mee Bw Loan Purpose",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -500,7 +500,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for mee bw loan reason not interested",
+      "description": "Mee Bw Loan Reason Not Interested",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -509,7 +509,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for mee current loan interest",
+      "description": "Mee Current Loan Interest",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -518,7 +518,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for mee current loan type",
+      "description": "Mee Current Loan Type",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -527,7 +527,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for mee current tenor loan",
+      "description": "Mee Current Tenor Loan",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -536,7 +536,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for mee edc ownership",
+      "description": "Mee Edc Ownership",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -545,7 +545,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for mee interested build other business",
+      "description": "Mee Interested Build Other Business",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -554,7 +554,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for mee interested sell other bw products",
+      "description": "Mee Interested Sell Other Bw Products",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -563,7 +563,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for mee kur loan bank",
+      "description": "Mee Kur Loan Bank",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -572,7 +572,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for mee kur loan due",
+      "description": "Mee Kur Loan Due",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -581,7 +581,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for mee kur loan limit",
+      "description": "Mee Kur Loan Limit",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -590,7 +590,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for mee loan ownership mee",
+      "description": "Mee Loan Ownership Mee",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -599,7 +599,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for mee motivation to switch all edc non bri to bw",
+      "description": "Mee Motivation To Switch All Edc Non Bri To Bw",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -608,7 +608,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for mee motivation to switch bri on us to bw",
+      "description": "Mee Motivation To Switch Bri On Us To Bw",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -617,7 +617,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for mee reason why not use bw for bri on us",
+      "description": "Mee Reason Why Not Use Bw For Bri On Us",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -626,7 +626,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for mee reason why not use bw for non bri card edc bri",
+      "description": "Mee Reason Why Not Use Bw For Non Bri Card Edc Bri",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -635,7 +635,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for mee reason why not use bw full",
+      "description": "Mee Reason Why Not Use Bw Full",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -644,7 +644,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for mee total card transaction",
+      "description": "Mee Total Card Transaction",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -679,7 +679,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for notes",
+      "description": "Notes",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -714,7 +714,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for ownedLoanLimit",
+      "description": "Ownedloanlimit",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -723,7 +723,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 29.8,
-      "description": "Ownername. Examples: Riski, Vira",
+      "description": "Text field containing ownerName information",
       "business_context": "Populated in 70% of records.",
       "example_values": [
         "Riski",
@@ -736,7 +736,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Phonenumber. Examples: 85762790793, 85863482345",
+      "description": "Text field containing phoneNumber information",
       "business_context": "Required field - always populated.",
       "example_values": [
         "85762790793",
@@ -762,7 +762,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for ppobTransactions",
+      "description": "Ppobtransactions",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -797,7 +797,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 18.4,
-      "description": "Regency/District name for Indonesian administrative division. Examples: KABUPATEN DELI SERDANG, KABUPATEN SUKABUMI",
+      "description": "Regency/District name for Indonesian administrative level 2 classification",
       "business_context": "Populated in 82% of records.",
       "example_values": [
         "KABUPATEN DELI SERDANG",
@@ -810,7 +810,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for retailCommunityAffiliation",
+      "description": "Retailcommunityaffiliation",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -819,7 +819,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for retailCommunityName",
+      "description": "Retailcommunityname",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -828,7 +828,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for retailContactPicPoi",
+      "description": "Retailcontactpicpoi",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -837,7 +837,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for retailCreditCardPctTransaction",
+      "description": "Retailcreditcardpcttransaction",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -846,7 +846,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for retailDailyQrisVolume",
+      "description": "Retaildailyqrisvolume",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -855,7 +855,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for retailDebitCardPctTransaction",
+      "description": "Retaildebitcardpcttransaction",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -877,7 +877,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for retailEstablishmentType",
+      "description": "Retailestablishmenttype",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -886,7 +886,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for retailEventPicContact",
+      "description": "Retaileventpiccontact",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -895,7 +895,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for retailEventPicName",
+      "description": "Retaileventpicname",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -904,7 +904,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for retailLocatedInEvent",
+      "description": "Retaillocatedinevent",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -913,7 +913,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for retailLocatedInPoi",
+      "description": "Retaillocatedinpoi",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -922,7 +922,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for retailMerchantFlag",
+      "description": "Retailmerchantflag",
       "business_context": "Optional field - rarely populated. Used for segmentation and status-based filtering.",
       "example_values": []
     },
@@ -931,7 +931,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for retailNamePicPoi",
+      "description": "Retailnamepicpoi",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -940,7 +940,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for retailNamePoi",
+      "description": "Retailnamepoi",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -949,7 +949,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for retailOfflineDailyTransaction",
+      "description": "Retailofflinedailytransaction",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -958,7 +958,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for retailOnlineDailyTransaction",
+      "description": "Retailonlinedailytransaction",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -993,7 +993,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for retailQrisPctTransaction",
+      "description": "Retailqrispcttransaction",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -1002,7 +1002,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for retailTypePoi",
+      "description": "Retailtypepoi",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -1011,7 +1011,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for roadLocationType",
+      "description": "Roadlocationtype",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -1020,7 +1020,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for shopPIC",
+      "description": "Shoppic",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -1029,7 +1029,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 27.42,
-      "description": "Storetype classification or category. Examples: kelontong_minimarket, all_type_payment_agent",
+      "description": "Classification type for storeType",
       "business_context": "Populated in 73% of records.",
       "example_values": [
         "snack_beverages",
@@ -1042,7 +1042,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 79.98,
-      "description": "Date when supreme took place",
+      "description": "Date field capturing when supreme took place",
       "business_context": "Sparse field - populated in minority of records. Used for time-based analysis and filtering.",
       "example_values": [
         "2022-08-29",
@@ -1068,7 +1068,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for surroundingArea",
+      "description": "Surroundingarea",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -1077,7 +1077,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for totalAndroidMachine",
+      "description": "Totalandroidmachine",
       "business_context": "Optional field - rarely populated. Used for joins and lookups.",
       "example_values": []
     },
@@ -1086,7 +1086,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 21.41,
-      "description": "Totaldailytransactions",
+      "description": "Numeric metric for totalDailyTransactions",
       "business_context": "Populated in 79% of records.",
       "example_values": [
         0,
@@ -1099,7 +1099,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for totalSakuMachine",
+      "description": "Totalsakumachine",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -1108,7 +1108,7 @@
       "data_type": "UNKNOWN",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Date when updatedAt took place",
+      "description": "Date field capturing when updatedAt took place",
       "business_context": "Required field - always populated. Used for time-based analysis and filtering.",
       "example_values": [
         "2024-08-18 22:39:06.108405+00:00",
@@ -1121,7 +1121,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for userId",
+      "description": "Userid",
       "business_context": "Optional field - rarely populated. Used for joins and lookups.",
       "example_values": []
     },
@@ -1130,7 +1130,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for visited by mee flag",
+      "description": "Visited By Mee Flag",
       "business_context": "Optional field - rarely populated. Used for segmentation and status-based filtering.",
       "example_values": []
     },
@@ -1139,7 +1139,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Column data for yearFounded",
+      "description": "Yearfounded",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -1148,7 +1148,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 21.41,
-      "description": "Yearofbirth",
+      "description": "Numeric metric for yearOfBirth",
       "business_context": "Populated in 79% of records.",
       "example_values": [
         0,
@@ -1229,5 +1229,5 @@
     "peak_query_hour": 1,
     "last_queried": "2026-05-05T07:15:59.941000+00:00"
   },
-  "documentation_enriched": "2026-05-05T18:13:08.127340"
+  "documentation_enriched": "2026-05-05T18:22:29.317875"
 }
