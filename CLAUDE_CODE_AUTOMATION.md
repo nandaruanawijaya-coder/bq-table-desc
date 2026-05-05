@@ -515,6 +515,7 @@ For each column, if it appears in filter patterns:
   "sample_rows_analyzed": 10000,
   "documentation_generated": "2026-05-05T14:30:00Z",
   "documentation_enriched": "2026-05-05T14:35:00Z",
+  "table_business_context": "Read-only dimension table, regularly queried for analysis and reporting, with peak usage during afternoon hours, frequently joined with mapping and merchant tables.",
   
   "query_metrics": {
     "total_queries_30_days": 1234,
@@ -557,13 +558,142 @@ For each column, if it appears in filter patterns:
 }
 ```
 
-### 4.5.5 Python Code for Enrichment
+### 4.5.5 Auto-Generate Business Context from Query Data
+
+Claude Code SHOULD use query metrics to suggest business context:
+
+**Rules for business context generation**:
+
+1. **If column appears in 100% of WHERE clauses**:
+   - Context: "Critical business filter - essential for all queries on this table"
+
+2. **If column appears in 80%+ of WHERE clauses**:
+   - Context: "Primary dimension/filter - used in majority of queries for data segmentation"
+
+3. **If table is frequently joined (join_frequency > 100)**:
+   - Context: "Core fact table - frequently joined with [list related tables] for unified reporting"
+
+4. **If peak_query_hour is 14-17 (afternoon)**:
+   - Context: "Used for afternoon business review/reporting cycles"
+
+5. **If days_active is 30 (every day)**:
+   - Context: "Critical operational table - queried daily for monitoring/operations"
+
+6. **If only SELECT operations (no INSERT/UPDATE)**:
+   - Context: "Read-only dimension table - used for lookup and analysis"
+
+7. **If high INSERT count**:
+   - Context: "Transaction logging table - captures operational events"
+
+8. **Combine insights**:
+   - "User dimension - queried 1,200+ times daily (peak 2-3 PM) for customer analysis and segmentation"
+   - "Order facts - frequently joined with user and product tables for revenue reporting"
+
+### 4.5.6 Python Code for Enrichment with Auto Context
 
 Add this section to your documentation generation script:
 
 ```python
 import json
 from google.cloud import bigquery
+from datetime import datetime
+
+def generate_business_context(table_id, metrics, relationships):
+    """Generate business context from query metrics"""
+    context_parts = []
+    
+    if not metrics:
+        return "[TODO] Add business context"
+    
+    total_queries = metrics.get('total_queries_30_days', 0)
+    peak_hour = metrics.get('peak_query_hour')
+    days_active = metrics.get('days_active_in_30_days', 0)
+    
+    # Determine table type and usage pattern
+    if metrics['select_operations'] == total_queries:
+        context_parts.append("Read-only dimension table")
+    elif metrics['insert_operations'] > metrics['select_operations']:
+        context_parts.append("Transaction/event logging table")
+    else:
+        context_parts.append("Fact table")
+    
+    # Add frequency context
+    if days_active == 30:
+        context_parts.append("queried daily")
+    elif days_active >= 20:
+        context_parts.append("regularly queried")
+    elif days_active >= 10:
+        context_parts.append("occasionally queried")
+    
+    # Add operation context
+    if metrics['select_operations'] > total_queries * 0.9:
+        context_parts.append("for analysis and reporting")
+    elif metrics['insert_operations'] > 0:
+        context_parts.append("for transaction tracking")
+    
+    # Add time context
+    if peak_hour:
+        if 8 <= peak_hour <= 12:
+            context_parts.append("with peak usage during morning hours")
+        elif 13 <= peak_hour <= 17:
+            context_parts.append("with peak usage during afternoon hours")
+        elif 18 <= peak_hour <= 23:
+            context_parts.append("with peak usage during evening hours")
+    
+    # Add relationship context
+    if relationships:
+        related_tables = [r['related_table'].split('.')[-1] for r in relationships[:2]]
+        context_parts.append(f"frequently joined with {', '.join(related_tables)}")
+    
+    # Combine into natural sentence
+    if len(context_parts) >= 2:
+        return f"{context_parts[0]}, {' and '.join(context_parts[1:])}."
+    elif context_parts:
+        return f"{context_parts[0]}."
+    else:
+        return "[TODO] Add business context"
+
+def generate_column_context(column_name, filter_patterns, table_metrics):
+    """Generate business context for a column based on filter patterns"""
+    
+    if not filter_patterns:
+        return "[TODO] Add business context"
+    
+    pct_where = filter_patterns.get('appears_in_where_clause_percentage', 0)
+    
+    context_parts = []
+    
+    # Column usage importance
+    if pct_where >= 80:
+        context_parts.append("Critical dimension column")
+    elif pct_where >= 50:
+        context_parts.append("Primary filter column")
+    elif pct_where >= 20:
+        context_parts.append("Secondary filter column")
+    elif pct_where > 0:
+        context_parts.append("Occasionally filtered")
+    else:
+        context_parts.append("Supporting column")
+    
+    # Filter type usage
+    pct_eq = filter_patterns.get('equality_filter_percentage', 0)
+    pct_range = filter_patterns.get('range_filter_percentage', 0)
+    
+    if pct_eq > 0:
+        context_parts.append(f"used for equality matching ({pct_eq}% of filters)")
+    if pct_range > pct_eq and pct_range > 0:
+        context_parts.append(f"used for range queries ({pct_range}% of filters)")
+    
+    # Add usage frequency if available
+    if table_metrics and table_metrics.get('total_queries_30_days', 0) > 0:
+        context_parts.append(f"in {table_metrics['total_queries_30_days']}+ monthly queries")
+    
+    if len(context_parts) >= 2:
+        return f"{context_parts[0]}, {' and '.join(context_parts[1:])}."
+    elif context_parts:
+        return f"{context_parts[0]}."
+    else:
+        return "[TODO] Add business context"
 
 def enrich_documentation(table_id, doc_file):
     """Enrich documentation with query analysis data"""
@@ -619,6 +749,27 @@ def enrich_documentation(table_id, doc_file):
             "last_queried": row['last_queried'].isoformat() if row['last_queried'] else None
         }
     
+    # 3. Generate business context from metrics
+    if 'query_metrics' in doc:
+        # Update table-level business_context if empty
+        table_context = generate_business_context(
+            table_id, 
+            doc['query_metrics'], 
+            doc.get('table_relationships', [])
+        )
+        if '[TODO]' in doc.get('table_business_context', '[TODO]'):
+            doc['table_business_context'] = table_context
+        
+        # Update column-level business_context if empty
+        for col in doc['columns']:
+            if '[TODO]' in col.get('business_context', '[TODO]'):
+                col_context = generate_column_context(
+                    col['column_name'],
+                    col.get('filter_patterns'),
+                    doc['query_metrics']
+                )
+                col['business_context'] = col_context
+    
     # Save enriched documentation
     with open(doc_file, 'w') as f:
         json.dump(doc, f, indent=2, default=str)
@@ -628,6 +779,7 @@ def enrich_documentation(table_id, doc_file):
         print(f"   - Found {len(relationships)} related tables")
     if 'query_metrics' in doc:
         print(f"   - Added query metrics ({doc['query_metrics']['total_queries_30_days']} queries in 30 days)")
+        print(f"   - Auto-generated business context from query patterns")
 
 # Call enrichment after creating documentation
 enrich_documentation(TABLE_ID, doc_file)
