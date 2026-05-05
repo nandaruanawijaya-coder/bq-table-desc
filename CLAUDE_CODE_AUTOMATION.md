@@ -406,6 +406,246 @@ Claude Code SHOULD:
 
 ---
 
+## 🔗 STEP 4.5: Enrich with Query Analysis Data
+
+Claude Code MUST enrich the documentation with insights from query history analysis tables.
+
+### 4.5.1 Add Table-Level Relationship Data
+
+Query the `table_relationships` table to find related tables:
+
+```sql
+SELECT 
+  table_a, 
+  table_b, 
+  join_count,
+  last_joined
+FROM `ledger-fcc1e.data_documentation.table_relationships`
+WHERE table_a = '[FULL_TABLE_ID]' 
+  OR table_b = '[FULL_TABLE_ID]'
+ORDER BY join_count DESC
+LIMIT 10
+```
+
+Add to documentation JSON as:
+```json
+{
+  "table_relationships": [
+    {
+      "related_table": "ledger-fcc1e.dataset.other_table",
+      "join_frequency": 87,
+      "relationship_type": "frequently_joined_with",
+      "last_joined": "2026-05-05T14:30:00Z"
+    }
+  ]
+}
+```
+
+### 4.5.2 Add Query Usage Metrics
+
+Query the `table_usage` table for metrics:
+
+```sql
+SELECT 
+  total_queries,
+  select_queries,
+  insert_queries,
+  update_queries,
+  delete_queries,
+  peak_query_hour,
+  days_active,
+  last_queried
+FROM `ledger-fcc1e.data_documentation.table_usage`
+WHERE full_table_name = '[FULL_TABLE_ID]'
+```
+
+Add to documentation JSON as:
+```json
+{
+  "query_metrics": {
+    "total_queries_30_days": 1234,
+    "select_operations": 1200,
+    "insert_operations": 20,
+    "update_operations": 10,
+    "delete_operations": 4,
+    "days_active_in_30_days": 23,
+    "peak_query_hour": 14,
+    "last_queried": "2026-05-05T14:30:00Z"
+  }
+}
+```
+
+### 4.5.3 Add Filter Pattern Data for Columns
+
+For frequently filtered columns, query `query_patterns`:
+
+```sql
+SELECT 
+  pct_equality_filters,
+  pct_comparison_filters,
+  pct_range_filters,
+  pct_null_filters
+FROM `ledger-fcc1e.data_documentation.query_patterns`
+WHERE full_table_name = '[FULL_TABLE_ID]'
+```
+
+For each column, if it appears in filter patterns:
+```json
+{
+  "column_name": "user_id",
+  "filter_patterns": {
+    "equality_filter_percentage": 45.2,
+    "comparison_filter_percentage": 32.1,
+    "range_filter_percentage": 22.7,
+    "appears_in_where_clause_percentage": 100.0,
+    "analysis_note": "Critical filter column - appears in 100% of WHERE clauses"
+  }
+}
+```
+
+### 4.5.4 Enhanced Documentation Schema
+
+**Complete enriched JSON structure**:
+
+```json
+{
+  "table_name": "location_gmaps_static_opentable",
+  "full_table_id": "ledger-fcc1e.datamart_opentable.location_gmaps_static_opentable",
+  "total_columns": 16,
+  "sample_rows_analyzed": 10000,
+  "documentation_generated": "2026-05-05T14:30:00Z",
+  "documentation_enriched": "2026-05-05T14:35:00Z",
+  
+  "query_metrics": {
+    "total_queries_30_days": 1234,
+    "select_operations": 1200,
+    "insert_operations": 20,
+    "update_operations": 10,
+    "delete_operations": 4,
+    "days_active_in_30_days": 23,
+    "peak_query_hour": 14,
+    "last_queried": "2026-05-05T14:30:00Z"
+  },
+  
+  "table_relationships": [
+    {
+      "related_table": "ledger-fcc1e.datamart_opentable.mapping_area_mse_opentable",
+      "join_frequency": 87,
+      "relationship_type": "frequently_joined_with",
+      "last_joined": "2026-05-05T14:25:00Z"
+    }
+  ],
+  
+  "columns": [
+    {
+      "column_name": "location_id",
+      "data_type": "STRING",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "Unique identifier for location record",
+      "business_context": "Primary key for location lookups. Used in all queries. Essential for mapping merchants to geographic areas.",
+      "example_values": ["LOC_12345", "LOC_67890", "LOC_11111"],
+      "filter_patterns": {
+        "equality_filter_percentage": 98.5,
+        "comparison_filter_percentage": 0,
+        "range_filter_percentage": 1.5,
+        "appears_in_where_clause_percentage": 100.0,
+        "analysis_note": "Critical filter column - appears in 100% of WHERE clauses with equality operators"
+      }
+    }
+  ]
+}
+```
+
+### 4.5.5 Python Code for Enrichment
+
+Add this section to your documentation generation script:
+
+```python
+import json
+from google.cloud import bigquery
+
+def enrich_documentation(table_id, doc_file):
+    """Enrich documentation with query analysis data"""
+    client = bigquery.Client(project='ledger-fcc1e')
+    
+    # Load existing documentation
+    with open(doc_file, 'r') as f:
+        doc = json.load(f)
+    
+    # 1. Get table relationships
+    rel_query = f"""
+    SELECT table_a, table_b, join_count, last_joined
+    FROM `ledger-fcc1e.data_documentation.table_relationships`
+    WHERE table_a = '{table_id}' OR table_b = '{table_id}'
+    ORDER BY join_count DESC
+    LIMIT 10
+    """
+    rel_results = list(client.query(rel_query).result())
+    
+    relationships = []
+    for row in rel_results:
+        related = row['table_b'] if row['table_a'] == table_id else row['table_a']
+        relationships.append({
+            "related_table": related,
+            "join_frequency": row['join_count'],
+            "relationship_type": "frequently_joined_with",
+            "last_joined": row['last_joined'].isoformat() if row['last_joined'] else None
+        })
+    
+    if relationships:
+        doc['table_relationships'] = relationships
+        doc['documentation_enriched'] = datetime.now().isoformat()
+    
+    # 2. Get query metrics
+    metrics_query = f"""
+    SELECT *
+    FROM `ledger-fcc1e.data_documentation.table_usage`
+    WHERE full_table_name = '{table_id}'
+    LIMIT 1
+    """
+    metrics_result = list(client.query(metrics_query).result())
+    
+    if metrics_result:
+        row = metrics_result[0]
+        doc['query_metrics'] = {
+            "total_queries_30_days": row['total_queries'],
+            "select_operations": row['select_queries'],
+            "insert_operations": row['insert_queries'],
+            "update_operations": row['update_queries'],
+            "delete_operations": row['delete_queries'],
+            "days_active_in_30_days": row['days_active'],
+            "peak_query_hour": row['peak_query_hour'],
+            "last_queried": row['last_queried'].isoformat() if row['last_queried'] else None
+        }
+    
+    # Save enriched documentation
+    with open(doc_file, 'w') as f:
+        json.dump(doc, f, indent=2, default=str)
+    
+    print(f"✅ Documentation enriched with query analysis data")
+    if relationships:
+        print(f"   - Found {len(relationships)} related tables")
+    if 'query_metrics' in doc:
+        print(f"   - Added query metrics ({doc['query_metrics']['total_queries_30_days']} queries in 30 days)")
+
+# Call enrichment after creating documentation
+enrich_documentation(TABLE_ID, doc_file)
+```
+
+### 4.5.6 Enrichment Checklist
+
+Claude Code MUST verify:
+- ✅ Table exists in `table_relationships` (may be 0 if no joins)
+- ✅ Table exists in `table_usage` (should always exist if queried)
+- ✅ Query metrics added if table has queries
+- ✅ Related tables added if table is frequently joined
+- ✅ Filter patterns added for filter columns
+- ✅ New `documentation_enriched` timestamp added
+- ✅ Enhanced JSON is valid
+
+---
+
 ## ✅ STEP 5: Validation
 
 Claude Code MUST validate documentation before committing:
@@ -421,6 +661,7 @@ For each column:
   ☑️ description: No [TODO], clear and concise
   ☑️ business_context: No [TODO], explains usage
   ☑️ example_values: Array with 0-3 real values
+  ☑️ filter_patterns: If present, has valid percentages (0-100)
 
 For document:
   ☑️ JSON is valid (no syntax errors)
@@ -428,6 +669,12 @@ For document:
   ☑️ table_name matches filename
   ☑️ total_columns > 0
   ☑️ sample_rows_analyzed > 0
+
+For enrichment:
+  ☑️ documentation_enriched: Timestamp if enriched
+  ☑️ query_metrics: If table has query history
+  ☑️ table_relationships: If table is frequently joined
+  ☑️ All numeric metrics are valid (non-negative integers)
 
 For sample data:
   ☑️ JSON is valid
@@ -448,6 +695,7 @@ with open(doc_file, 'r') as f:
     doc = json.load(f)
 
 errors = []
+warnings = []
 
 # Check required fields
 for col in doc['columns']:
@@ -460,6 +708,20 @@ for col in doc['columns']:
     if not col.get('data_type'):
         errors.append("Column missing data type")
 
+# Check enrichment data
+if 'query_metrics' not in doc:
+    warnings.append("No query metrics - table may not have query history")
+if 'table_relationships' not in doc:
+    warnings.append("No table relationships - table may not be frequently joined")
+    
+# Validate query metrics if present
+if 'query_metrics' in doc:
+    metrics = doc['query_metrics']
+    if not isinstance(metrics.get('total_queries_30_days'), int):
+        errors.append("query_metrics.total_queries_30_days must be integer")
+    if metrics.get('total_queries_30_days', 0) > 0 and not metrics.get('peak_query_hour'):
+        warnings.append("Table has queries but no peak_query_hour")
+
 if errors:
     print("❌ Validation errors:")
     for error in errors:
@@ -468,6 +730,16 @@ else:
     print("✅ Documentation is complete and valid!")
     print(f"   Columns: {len(doc['columns'])}")
     print(f"   Sample rows: {doc['sample_rows_analyzed']:,}")
+    
+    if 'query_metrics' in doc:
+        print(f"   Query usage: {doc['query_metrics']['total_queries_30_days']} queries in 30 days")
+    if 'table_relationships' in doc:
+        print(f"   Related tables: {len(doc['table_relationships'])}")
+
+if warnings:
+    print("\n⚠️  Warnings:")
+    for warning in warnings:
+        print(f"  - {warning}")
 ```
 
 ---
