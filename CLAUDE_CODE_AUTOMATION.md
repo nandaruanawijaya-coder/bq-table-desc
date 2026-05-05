@@ -179,13 +179,20 @@ DATASET = '[dataset-from-table-id]'
 **Script must**:
 1. Import required libraries: `google.cloud.bigquery`, `json`, `datetime`
 2. Query exactly 10,000 rows (or all rows if table has fewer)
-3. Analyze each column for:
-   - Column name
+3. **Analyze each column using FULL 10,000 rows data**:
+   - Column name (infer business purpose from name)
    - Data type (STRING, INTEGER, FLOAT, BOOLEAN, ARRAY, JSON, NULL, etc.)
-   - Null count and percentage
-   - Sample values (non-null only, max 3)
-4. Save sample data to: `table_list/[TABLE_NAME].json`
+   - Null count and percentage (cardinality analysis)
+   - Sample values (non-null only, max 3 for example_values)
+   - **All values** (for description inference - distribution, patterns, ranges)
+4. Save sample data to: `table_list/[TABLE_NAME].json` (full 10k rows for future analysis)
 5. Generate documentation to: `table_column_description/[TABLE_NAME]_doc.json`
+
+**Key for Descriptions**:
+- Store `all_values` from 10,000 rows (not just sample_values)
+- Use all_values to infer patterns, ranges, cardinality
+- Derive description from data patterns + column name
+- Keep `example_values` field separate (3 real values max)
 
 ### 2.2 Script Template
 
@@ -263,9 +270,17 @@ doc = {
     "columns": []
 }
 
-def infer_description(col_name, data_type, sample_values, null_pct):
-    """Auto-generate business-focused column description (1-2 sentences, no examples)"""
+def infer_description(col_name, data_type, sample_values, all_values, null_pct):
+    """Generate description from column name + actual data analysis (no examples in description)"""
     col_lower = col_name.lower()
+    
+    # Filter out null values for analysis
+    non_null_values = [v for v in all_values if v is not None]
+    if not non_null_values:
+        return f"{col_name.replace('_', ' ').title()}"
+    
+    # Analyze data patterns
+    unique_count = len(set(str(v) for v in non_null_values))
     
     # ID/Key columns
     if 'id' in col_lower and data_type == 'STRING':
@@ -274,61 +289,74 @@ def infer_description(col_name, data_type, sample_values, null_pct):
     
     # Location/Geographic columns
     if 'kabupaten' in col_lower or 'regency' in col_lower or 'district' in col_lower:
-        return "Regency/District name (Indonesian administrative level 2)"
+        return "Regency/District name for Indonesian administrative level 2 classification"
     if 'kecamatan' in col_lower or 'subdistrict' in col_lower:
-        return "Sub-district/Kecamatan name (Indonesian administrative level 3)"
+        return "Sub-district/Kecamatan name for Indonesian administrative level 3 division"
     if 'kelurahan' in col_lower or 'village' in col_lower:
-        return "Village/Kelurahan name (Indonesian administrative level 4)"
+        return "Village/Kelurahan classification for local administrative area"
     if 'area' in col_lower:
-        return "Geographic area classification for regional grouping"
+        return "Geographic region classification for merchant location grouping and regional analysis"
     if 'address' in col_lower or 'formatted' in col_lower:
-        return "Complete formatted address from location data source"
+        return "Complete formatted address for merchant or location identification"
     if 'latitude' in col_lower or 'lat' in col_lower:
-        return "Geographic latitude coordinate for location mapping"
+        return "Geographic latitude coordinate for precise location mapping and spatial analysis"
     if 'longitude' in col_lower or 'lon' in col_lower:
-        return "Geographic longitude coordinate for location mapping"
+        return "Geographic longitude coordinate for precise location mapping and spatial analysis"
     if 'gmaps' in col_lower or 'google_maps' in col_lower or 'maps' in col_lower:
-        return f"Google Maps data for {col_name.replace('gmaps_', '').replace('_maps', '').replace('_', ' ')}"
+        field = col_name.replace('gmaps_', '').replace('_maps', '').replace('_', ' ')
+        return f"Google Maps {field} data for location verification and geographic reference"
     
     # Code/Classification columns
     if 'code' in col_lower:
         classification = col_name.replace('_code', '').replace('_', ' ')
-        return f"{classification.title()} classification code"
-    if 'status' in col_lower or 'type' in col_lower or 'category' in col_lower:
-        return f"Classification value indicating {col_name.replace('_', ' ')}"
+        return f"{classification.title()} code for categorization and system classification"
+    if 'status' in col_lower:
+        return f"Status field indicating the {col_name.replace('_status', '').replace('_', ' ')} state"
+    if 'type' in col_lower:
+        return f"Classification type for {col_name.replace('_type', '').replace('_', ' ')} categorization"
+    if 'category' in col_lower:
+        return f"Category classification for {col_name.replace('_category', '').replace('_', ' ')} grouping"
     
     # Timestamp/Date columns
     if 'timestamp' in col_lower:
         event = col_name.replace('_timestamp', '').replace('_', ' ')
-        return f"Timestamp when {event} occurred"
+        return f"Timestamp recording when {event} occurred in the system"
     if 'date' in col_lower:
         event = col_name.replace('_date', '').replace('_', ' ')
-        return f"Date when {event} took place"
+        return f"Date field capturing when {event} took place"
     if 'time' in col_lower and 'at' not in col_lower:
         event = col_name.replace('_time', '').replace('_', ' ')
-        return f"Time of {event}"
+        return f"Time value representing {event} during the day"
     
     # Boolean/Flag columns
     if data_type == 'BOOLEAN' or 'is_' in col_lower or 'flag' in col_lower:
         condition = col_name.replace('is_', '').replace('_flag', '').replace('_', ' ')
-        return f"Indicator of {condition} status"
+        return f"Boolean flag indicating whether the record is {condition}"
     
-    # Numeric columns (count, amount, percentage)
+    # Numeric columns - analyze actual value ranges
     if data_type in ['INTEGER', 'NUMERIC', 'FLOAT']:
         if 'count' in col_lower or 'number' in col_lower or 'total' in col_lower:
             metric = col_name.replace('_count', '').replace('_number', '').replace('_total', '').replace('_', ' ')
-            return f"Total count or number of {metric}"
+            return f"Count or total of {metric} for record-level aggregation"
         if 'price' in col_lower or 'amount' in col_lower or 'cost' in col_lower or 'fee' in col_lower:
-            return "Monetary amount in the applicable currency"
+            return "Monetary amount representing financial transaction value"
         if 'percent' in col_lower or 'pct' in col_lower or 'rate' in col_lower or 'ratio' in col_lower:
-            return "Percentage, rate, or ratio value"
+            return "Percentage or rate value for proportion-based analysis and reporting"
         if 'score' in col_lower or 'rating' in col_lower:
-            return f"Computed {col_name.replace('_score', '').replace('_rating', '').replace('_', ' ')} score or rating"
-        return f"Numeric metric for {col_name.replace('_', ' ')}"
+            metric = col_name.replace('_score', '').replace('_rating', '').replace('_', ' ')
+            return f"Computed {metric} score representing quality or performance measurement"
+        # Generic numeric with cardinality analysis
+        if unique_count < 100:
+            return f"Numeric code or classification for {col_name.replace('_', ' ')}"
+        else:
+            return f"Numeric metric representing {col_name.replace('_', ' ')} values"
     
     # String/Text columns
     if data_type in ['STRING', 'STRING (LONG)']:
-        return f"{col_name.replace('_', ' ').title()}"
+        if unique_count < 50:
+            return f"Text classification or code for {col_name.replace('_', ' ')} categorization"
+        else:
+            return f"Text data containing {col_name.replace('_', ' ')} information"
     
     # Default
     return f"{col_name.replace('_', ' ').title()}"
@@ -430,34 +458,67 @@ If script fails:
 
 ## ✏️ STEP 4: Auto-Generate & Enhance Documentation
 
+### 4.0 Data-Driven Description Strategy
+
+**IMPORTANT**: Use the full 10,000 rows of sample data to infer descriptions, not just column names.
+
+**Process**:
+1. Load all 10,000 rows from `table_list/[TABLE_NAME].json`
+2. For each column, analyze:
+   - Unique value count (cardinality)
+   - Null percentage (density)
+   - Value distributions and patterns
+   - Data ranges (min/max for numeric)
+   - Text patterns and classifications
+3. Combine column name + data patterns → Business description
+4. Store actual sample values separately in `example_values` field (max 3)
+5. Description should explain WHAT the column is for, based on data evidence
+
+**Key Difference**:
+- ❌ OLD: "Examples: SUMATERA 1, BALI NUSRA" in description
+- ✅ NEW: "Geographic region classification for merchant location grouping" (inferred from data patterns + column name)
+
+---
+
 Claude Code MUST enhance the generated `_doc.json` file by filling in all descriptions:
 
 ### 4.1 Auto-Generate Column Descriptions
 
-**For EVERY column**, generate description based on**:
+**For EVERY column**, generate description from:
 
-1. **Column name** - Infer meaning from name
-2. **Data type** - Use type to describe format
-3. **Nullability** - Is it optional or required?
-4. **Example values** - Use real data from samples
-5. **Null percentage** - How often is it empty?
+1. **Column name** - Infer semantic meaning and business purpose
+2. **Data type** - Understand the format (STRING, NUMERIC, BOOLEAN, DATE, etc.)
+3. **Cardinality** - Analyze unique value count from 10,000 rows
+4. **Value distributions** - Understand patterns in the data
+5. **Nullability** - Track sparse vs. dense columns
 
-**Algorithm**:
+**Algorithm** (No examples in description field):
 ```
-IF column_name matches pattern (user_id, customer_id, etc)
-  → description = "Unique identifier for [entity]"
-ELSE IF data_type = STRING
-  → description = "[Column name] - free text value. Examples: [sample_values]"
-ELSE IF data_type = INTEGER
-  → description = "[Column name] - numeric identifier/count. Range: [min-max]"
-ELSE IF data_type = DATE/TIMESTAMP
-  → description = "[Column name] - timestamp/date. Format: YYYY-MM-DD..."
-ELSE IF data_type = BOOLEAN
-  → description = "[Column name] - flag indicating [true_state] or [false_state]"
-ELSE IF data_type = ARRAY/JSON
-  → description = "[Column name] - structured data containing [description of contents]"
-ELSE
-  → description = "Data value for [inferred_purpose]. Type: [data_type]"
+Analyze 10,000 rows data for this column:
+
+1. Extract column name semantics
+   → ID columns → "Unique identifier for [entity]"
+   → Status columns → "Status field indicating [what state]"
+   → Geographic columns → "Geographic [level] for [region/area] classification"
+   → Date columns → "Date/Timestamp recording when [event] occurred"
+   → Amount columns → "Monetary amount representing [what transaction]"
+
+2. Analyze data cardinality and patterns
+   → Unique values < 50 → "Classification or code"
+   → Unique values > 1000 → "Transaction identifier or measurement"
+   → Null % > 80% → "Optional/supplementary field"
+   → Null % = 0% → "Required field"
+
+3. Combine into business-focused description
+   → Focus on WHAT the column represents, not HOW it's stored
+   → One sentence explaining the column's business purpose
+   → Reference patterns found in 10,000 rows (without listing examples)
+
+EXAMPLES:
+→ user_id (STRING, 10k rows, <100 unique) → "Unique identifier for user"
+→ area (STRING, 10k rows, ~20 unique) → "Geographic region classification for merchant location grouping"
+→ amount (NUMERIC, 10k rows, values 1000-5000000) → "Monetary amount representing transaction value"
+→ is_active (BOOLEAN, 10k rows, 80% true, 20% false) → "Boolean flag indicating whether record is active"
 ```
 
 ### 4.2 Auto-Generate Business Context
@@ -542,16 +603,27 @@ Primarily filtered with equality operators. Used to join with 15+ related tables
 
 ### 4.4 Description Guidelines
 
-✅ **Good Descriptions** (Auto + Query Enhanced):
-- "Customer ID - Unique identifier for customers. Critical filter used in 95% of WHERE clauses"
-- "Order date - Transaction timestamp YYYY-MM-DD. Used for date-range filtering in 70% of queries"
-- "Country code - ISO 3166 code (ID, SG, TH, PH). Primary grouping dimension"
-- "Is active - Boolean flag (1=active, 0=inactive). Used to segment data in reporting"
+**Description Strategy**: Analyze actual 10,000 rows of data + column name to infer business purpose
+
+✅ **Good Descriptions** (Data-Driven, No Examples):
+- "Unique identifier for customer used for record linkage and analysis"
+- "Transaction timestamp recording when order was placed in the system"
+- "Geographic region classification for merchant location grouping and regional analysis"
+- "Boolean flag indicating whether the record is active or inactive"
+- "Monetary amount representing financial transaction value"
+- "Status field indicating the payment state throughout the transaction lifecycle"
+
+✅ **What to Analyze From Data**:
+- Column name semantics (id, date, amount, status, etc.)
+- Data type and cardinality (unique values)
+- Value distributions (sparse vs. dense)
+- Domain-specific patterns (geographic, temporal, monetary)
 
 ❌ **Bad Descriptions**:
 - "[TODO] Add description"
 - "data" or "information" or "value"  
 - "Database column for storing X" (too technical)
+- Examples in description ("Values: SUMATERA 1, BALI NUSRA") - use example_values field instead
 - Generic without business context
 
 ### 4.3 Business Context Guidelines
