@@ -458,18 +458,68 @@ IF column name suggests ID/KEY
   ADD → "Used for joins and lookups with related tables"
 ```
 
-### 4.3 Description Guidelines
+### 4.3 Enhance Descriptions with Query Insights
 
-✅ **Good Descriptions** (Auto-Generated):
-- "Customer ID - Unique identifier for customers. Used in 95% of WHERE clauses"
-- "Order date - Transaction timestamp in YYYY-MM-DD format. Examples: 2024-01-15, 2024-02-20"
-- "Country code - ISO 3166 country code. Examples: ID, SG, TH, PH"
-- "Is active - Boolean flag indicating active (1) or inactive (0) status"
+**After auto-generating base descriptions, ENHANCE with query analysis data**:
+
+Query `query_patterns` table to get column-level insights:
+
+```sql
+SELECT 
+  pct_equality_filters,
+  pct_comparison_filters,
+  pct_range_filters,
+  pct_where
+FROM `ledger-fcc1e.data_documentation.query_patterns`
+WHERE full_table_name = '[TABLE_ID]'
+LIMIT 1
+```
+
+**Enhancement rules**:
+
+```
+IF pct_where >= 95%
+  ADD to description: "Critical filter column - used in 95%+ of WHERE clauses"
+ELSE IF pct_where >= 80%
+  ADD to description: "Primary filter dimension - used in 80%+ of WHERE clauses"  
+ELSE IF pct_where >= 50%
+  ADD to description: "Common filter column - used in 50%+ of WHERE clauses"
+
+IF pct_equality_filters > pct_comparison AND pct_equality > 0
+  ADD to description: "Typically filtered using equality operators"
+IF pct_range_filters > 0
+  ADD to description: "Used for range-based filtering"
+
+IF table_relationships shows many joins
+  ADD to description: "Used to join with [list of frequently-joined tables]"
+```
+
+**Example Enhanced Description**:
+
+Before (auto-generated):
+```
+"Unique identifier for merchant"
+```
+
+After (with query insights):
+```
+"Unique identifier for merchant. Critical filter column used in 98% of WHERE clauses. 
+Primarily filtered with equality operators. Used to join with 15+ related tables."
+```
+
+### 4.4 Description Guidelines
+
+✅ **Good Descriptions** (Auto + Query Enhanced):
+- "Customer ID - Unique identifier for customers. Critical filter used in 95% of WHERE clauses"
+- "Order date - Transaction timestamp YYYY-MM-DD. Used for date-range filtering in 70% of queries"
+- "Country code - ISO 3166 code (ID, SG, TH, PH). Primary grouping dimension"
+- "Is active - Boolean flag (1=active, 0=inactive). Used to segment data in reporting"
 
 ❌ **Bad Descriptions**:
 - "[TODO] Add description"
-- "data" or "information" or "value"
+- "data" or "information" or "value"  
 - "Database column for storing X" (too technical)
+- Generic without business context
 
 ### 4.3 Business Context Guidelines
 
@@ -530,6 +580,62 @@ Claude Code SHOULD:
 ## 🔗 STEP 4.5: Enrich with Query Analysis Data
 
 Claude Code MUST enrich the documentation with insights from query history analysis tables.
+
+### 4.5.0 Enhance Descriptions with Query Pattern Insights
+
+Before adding metrics, enhance auto-generated descriptions with query insights:
+
+```python
+def enhance_descriptions_with_query_insights(doc, table_id):
+    """Enhance column descriptions with query pattern insights"""
+    client = bigquery.Client(project='ledger-fcc1e')
+    
+    # Get table-level filter patterns
+    pattern_query = f"""
+    SELECT pct_where, pct_equality, pct_comparison, pct_range
+    FROM `ledger-fcc1e.data_documentation.query_patterns`
+    WHERE full_table_name = '{table_id}' LIMIT 1
+    """
+    
+    try:
+        result = list(client.query(pattern_query).result())
+        if not result:
+            return
+        
+        patterns = result[0]
+        pct_where = patterns.get('pct_where', 0)
+        pct_eq = patterns.get('pct_equality', 0)
+        pct_range = patterns.get('pct_range', 0)
+        
+        # Enhance each column's description
+        for col in doc.get('columns', []):
+            existing_desc = col.get('description', '')
+            enhancements = []
+            
+            # Add filter importance
+            if pct_where >= 95:
+                enhancements.append("Critical filter - used in 95%+ of WHERE clauses")
+            elif pct_where >= 80:
+                enhancements.append("Primary filter - used in 80%+ of WHERE clauses")
+            elif pct_where >= 50:
+                enhancements.append("Common filter - used in 50%+ of WHERE clauses")
+            
+            # Add filter type
+            if pct_eq > pct_range and pct_eq > 0:
+                enhancements.append("Typically equality-filtered")
+            if pct_range > pct_eq and pct_range > 0:
+                enhancements.append("Used for range filtering")
+            
+            # Update description
+            if enhancements:
+                col['description'] = f"{existing_desc}. {'. '.join(enhancements)}."
+    
+    except Exception as e:
+        print(f"  ℹ️  No query patterns for enhancement")
+
+# Call early in enrichment process
+enhance_descriptions_with_query_insights(doc, table_id)
+```
 
 ### 4.5.1 Add Table-Level Relationship Data
 
