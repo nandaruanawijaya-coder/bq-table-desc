@@ -3,14 +3,14 @@
   "full_table_id": "ledger-fcc1e.datamart_opentable.mapping_area_mse_opentable",
   "total_columns": 10,
   "sample_rows_analyzed": 1157,
-  "documentation_generated": "2026-05-05T17:58:28.600453",
+  "documentation_generated": "2026-05-05T18:12:58.636803",
   "columns": [
     {
       "column_name": "area",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.43,
-      "description": "Geographic area classification for regional grouping",
+      "description": "Geographic area classification. Examples: Java 2, Java 2",
       "business_context": "Populated in 100% of records.",
       "example_values": [
         "Java 2",
@@ -23,7 +23,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.43,
-      "description": "Geographic area classification for regional grouping",
+      "description": "Geographic area classification. Examples: Endang, Endang",
       "business_context": "Populated in 100% of records.",
       "example_values": [
         "Endang",
@@ -36,7 +36,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.43,
-      "description": "Head Of Region",
+      "description": "Head Of Region. Examples: ZIKO, ZIKO",
       "business_context": "Populated in 100% of records.",
       "example_values": [
         "ZIKO",
@@ -62,7 +62,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.43,
-      "description": "Mse Lead",
+      "description": "Mse Lead. Examples: Amzar Sapunda, Amzar Sapunda",
       "business_context": "Populated in 100% of records.",
       "example_values": [
         "Amzar Sapunda",
@@ -75,7 +75,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 2.16,
-      "description": "MSE Name",
+      "description": "Date when mse name updated took place",
       "business_context": "Populated in 98% of records. Used for time-based analysis and filtering.",
       "example_values": [
         "Taufik Nugroho",
@@ -88,7 +88,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.43,
-      "description": "New Mse City Sep 24",
+      "description": "New Mse City Sep 24. Examples: MSE Banjarnegara, MSE Banjarnegara 2",
       "business_context": "Populated in 100% of records.",
       "example_values": [
         "MSE Banjarnegara",
@@ -101,7 +101,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.43,
-      "description": "Province",
+      "description": "Province. Examples: JAWA TENGAH, JAWA TENGAH",
       "business_context": "Populated in 100% of records.",
       "example_values": [
         "JAWA TENGAH",
@@ -114,7 +114,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.43,
-      "description": "Regency/District name (Indonesian administrative level 2)",
+      "description": "Regency/District name for Indonesian administrative division. Examples: KABUPATEN BANJARNEGARA, KABUPATEN BANJARNEGARA",
       "business_context": "Populated in 100% of records.",
       "example_values": [
         "KABUPATEN BANJARNEGARA",
@@ -127,7 +127,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.43,
-      "description": "Region",
+      "description": "Region. Examples: JAVA, JAVA",
       "business_context": "Populated in 100% of records.",
       "example_values": [
         "JAVA",
@@ -146,5 +146,5 @@
     "peak_query_hour": 4,
     "last_queried": "2026-05-04T07:27:24.613000+00:00"
   },
-  "documentation_enriched": "2026-05-05T17:58:43.435865"
+  "documentation_enriched": "2026-05-05T18:13:00.054468"
 }

@@ -3,7 +3,7 @@
   "full_table_id": "ledger-fcc1e.db_accounting.prod_edc_order",
   "total_columns": 36,
   "sample_rows_analyzed": 10000,
-  "documentation_generated": "2026-05-05T18:00:41.893568",
+  "documentation_generated": "2026-05-05T18:13:17.461629",
   "columns": [
     {
       "column_name": "_sdc_batched_at",
@@ -36,7 +36,7 @@
       "data_type": "INTEGER",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Numeric metric for  sdc sequence",
+      "description": "Numeric value for  sdc sequence. Range: 1750311092670739200 to 1777689098546191616",
       "business_context": "Required field - always populated.",
       "example_values": [
         1761127470336346544,
@@ -49,7 +49,7 @@
       "data_type": "INTEGER",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Numeric metric for  sdc table version",
+      "description": "Numeric value for  sdc table version. Range: 1750311085342 to 1750311085342",
       "business_context": "Required field - always populated.",
       "example_values": [
         1750311085342,
@@ -62,7 +62,7 @@
       "data_type": "JSON",
       "nullable": true,
       "null_percentage": 36.4,
-      "description": "Complete formatted address from location data source",
+      "description": "Complete formatted address from location data for geographic identification",
       "business_context": "Populated in 64% of records.",
       "example_values": [
         {
@@ -172,7 +172,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 45.79,
-      "description": "Bank Account",
+      "description": "Bank Account. Examples: 4120882983, 01102030014817",
       "business_context": "Populated in 54% of records.",
       "example_values": [
         "4120882983",
@@ -185,7 +185,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 45.79,
-      "description": "Bank Name",
+      "description": "Bank Name. Examples: PERMATA, SULUT",
       "business_context": "Populated in 54% of records.",
       "example_values": [
         "PERMATA",
@@ -198,7 +198,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 45.79,
-      "description": "Beneficiary Name",
+      "description": "Beneficiary Name. Examples: SUSILO AJI, NOVA JOHANA LAHINDAH",
       "business_context": "Populated in 54% of records.",
       "example_values": [
         "SUSILO AJI",
@@ -211,7 +211,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 45.9,
-      "description": "Classification value indicating business type",
+      "description": "Business classification or category. Examples: Lainnya, Agen Pembayaran",
       "business_context": "Populated in 54% of records.",
       "example_values": [
         "Agen Pembayaran",
@@ -224,7 +224,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 49.34,
-      "description": "Coordinates",
+      "description": "Coordinates. Examples: , ",
       "business_context": "Populated in 51% of records.",
       "example_values": [
         "",
@@ -250,7 +250,7 @@
       "data_type": "STRING (LONG)",
       "nullable": true,
       "null_percentage": 36.23,
-      "description": "Complete formatted address from location data source",
+      "description": "Complete formatted address from location data for geographic identification",
       "business_context": "Populated in 64% of records.",
       "example_values": [
         "Jl. Suwarjono No.16-11, Dusun II Kalibagor, Kalibagor, Kec. Kalibagor, Kabupaten Banyumas, Jawa Tengah 53191, Indonesia",
@@ -300,7 +300,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 58.38,
-      "description": "Classification value indicating delivery status",
+      "description": "Status classification. Possible values: DELIVERED, IN_DELIVERY, WAITING_FOR_SHIPPER",
       "business_context": "Sparse field - populated in minority of records. Used for segmentation and status-based filtering.",
       "example_values": [
         "DELIVERED",
@@ -313,7 +313,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 49.43,
-      "description": "Unique identifier for ecom user",
+      "description": "Unique identifier for ecom user. Examples: , ",
       "business_context": "Populated in 51% of records. Used for joins and lookups.",
       "example_values": [
         "",
@@ -326,7 +326,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 49.48,
-      "description": "Unique identifier for external order",
+      "description": "Unique identifier for external order. Examples: , ",
       "business_context": "Populated in 51% of records. Used for joins and lookups.",
       "example_values": [
         "",
@@ -339,7 +339,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 39.68,
-      "description": "Unique identifier for janus account",
+      "description": "Unique identifier for janus account. Examples: 9cafcde9-9e3c-41e0-b51b-678bcbf7afd4, 8134333c-7346-40de-866c-8f929e0bb914",
       "business_context": "Populated in 60% of records. Used for joins and lookups.",
       "example_values": [
         "9cafcde9-9e3c-41e0-b51b-678bcbf7afd4",
@@ -352,7 +352,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 39.77,
-      "description": "Kyc Tier",
+      "description": "Kyc Tier. Examples: SUPREME, SUPREME",
       "business_context": "Populated in 60% of records.",
       "example_values": [
         "SUPREME",
@@ -582,7 +582,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 32.53,
-      "description": "Name",
+      "description": "Name. Examples: SUSILO AJI, NOVA JOHANA LAHINDAH",
       "business_context": "Populated in 67% of records.",
       "example_values": [
         "SUSILO AJI",
@@ -595,7 +595,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Unique identifier for order",
+      "description": "Unique identifier for order. Examples: a67a8c03-db24-4dc8-993d-3655b29884c8, f009658c-3e61-4107-9aa5-52c33243c41f",
       "business_context": "Required field - always populated. Used for joins and lookups.",
       "example_values": [
         "a67a8c03-db24-4dc8-993d-3655b29884c8",
@@ -678,7 +678,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 50.08,
-      "description": "Classification value indicating payment status",
+      "description": "Status classification. Possible values: PAID",
       "business_context": "Sparse field - populated in minority of records. Used for segmentation and status-based filtering.",
       "example_values": [
         "PAID",
@@ -691,7 +691,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Phone",
+      "description": "Phone. Examples: 88233658973, 82189339100",
       "business_context": "Required field - always populated.",
       "example_values": [
         "88233658973",
@@ -704,7 +704,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 36.23,
-      "description": "Postal classification code",
+      "description": "Postal classification code. Values: 90224, 95234",
       "business_context": "Populated in 64% of records.",
       "example_values": [
         "53191",
@@ -717,7 +717,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 49.35,
-      "description": "Purchase Referral",
+      "description": "Purchase Referral. Examples: , ",
       "business_context": "Populated in 51% of records.",
       "example_values": [
         "",
@@ -730,7 +730,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 49.35,
-      "description": "Referee Name",
+      "description": "Referee Name. Examples: , ",
       "business_context": "Populated in 51% of records.",
       "example_values": [
         "",
@@ -743,7 +743,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 49.35,
-      "description": "Referee Phone",
+      "description": "Referee Phone. Examples: , ",
       "business_context": "Populated in 51% of records.",
       "example_values": [
         "",
@@ -756,7 +756,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Classification value indicating status",
+      "description": "Status classification. Possible values: Completed",
       "business_context": "Required field - always populated. Used for segmentation and status-based filtering.",
       "example_values": [
         "Completed",
@@ -769,7 +769,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 36.23,
-      "description": "Regency/District name (Indonesian administrative level 2)",
+      "description": "Sub-district/Kecamatan level administrative division. Examples: Kalibagor, Singkil",
       "business_context": "Populated in 64% of records.",
       "example_values": [
         "Kalibagor",
@@ -782,7 +782,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 1.87,
-      "description": "Unique identifier for transaction",
+      "description": "Unique identifier for transaction. Examples: E251022HC9KNJUMOZ, E241109H1N3K7HPPY",
       "business_context": "Populated in 98% of records. Used for joins and lookups.",
       "example_values": [
         "E251022HC9KNJUMOZ",
@@ -808,7 +808,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Unique identifier for user",
+      "description": "Unique identifier for user. Examples: 88233658973, 82189339100",
       "business_context": "Required field - always populated. Used for joins and lookups.",
       "example_values": [
         "88233658973",
@@ -821,7 +821,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.3,
-      "description": "Unique identifier for user uuid",
+      "description": "Unique identifier for user uuid. Examples: 4de0c1a0-954d-4ec2-8baf-da08c7ff6c01, 740d101a-0e92-4fe0-ae53-52e82ec0d921",
       "business_context": "Populated in 100% of records. Used for joins and lookups.",
       "example_values": [
         "4de0c1a0-954d-4ec2-8baf-da08c7ff6c01",
@@ -834,7 +834,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 36.23,
-      "description": "Ward",
+      "description": "Ward. Examples: Kalibagor,  Kombos Barat",
       "business_context": "Populated in 64% of records.",
       "example_values": [
         "Kalibagor",
@@ -915,5 +915,5 @@
     "peak_query_hour": 1,
     "last_queried": "2026-05-05T08:59:29.922000+00:00"
   },
-  "documentation_enriched": "2026-05-05T18:01:20.367886"
+  "documentation_enriched": "2026-05-05T18:13:18.896206"
 }
