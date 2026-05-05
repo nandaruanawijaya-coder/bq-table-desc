@@ -3,14 +3,14 @@
   "full_table_id": "ledger-fcc1e.db_accounting.prod_edc_order",
   "total_columns": 36,
   "sample_rows_analyzed": 10000,
-  "documentation_generated": "2026-05-05T17:45:14.680178",
+  "documentation_generated": "2026-05-05T17:50:44.526306",
   "columns": [
     {
       "column_name": "_sdc_batched_at",
       "data_type": "UNKNOWN",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": " Sdc Batched At - UNKNOWN value",
+      "description": " Sdc Batched At",
       "business_context": "Required field - always populated.",
       "example_values": [
         "2025-10-22 10:13:34.660000+00:00",
@@ -23,7 +23,7 @@
       "data_type": "UNKNOWN",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": " Sdc Received At - UNKNOWN value",
+      "description": " Sdc Received At",
       "business_context": "Required field - always populated.",
       "example_values": [
         "2025-10-22 10:05:03+00:00",
@@ -36,7 +36,7 @@
       "data_type": "INTEGER",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": " Sdc Sequence - numeric value. Range: 1750311092670739200 to 1772793091276356864",
+      "description": "Numeric metric for  sdc sequence",
       "business_context": "Required field - always populated.",
       "example_values": [
         1761127470336346544,
@@ -49,7 +49,7 @@
       "data_type": "INTEGER",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": " Sdc Table Version - numeric value. Range: 1750311085342 to 1750311085342",
+      "description": "Numeric metric for  sdc table version",
       "business_context": "Required field - always populated.",
       "example_values": [
         1750311085342,
@@ -62,7 +62,7 @@
       "data_type": "JSON",
       "nullable": true,
       "null_percentage": 36.4,
-      "description": "Address - JSON value",
+      "description": "Complete formatted address from location data source",
       "business_context": "Populated in 64% of records.",
       "example_values": [
         {
@@ -129,7 +129,7 @@
       "data_type": "JSON",
       "nullable": true,
       "null_percentage": 49.68,
-      "description": "Attachments - JSON value",
+      "description": "Attachments",
       "business_context": "Populated in 50% of records.",
       "example_values": [
         {
@@ -172,7 +172,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 45.79,
-      "description": "Bank Account - text value. Examples: '4120882983', '01102030014817'",
+      "description": "Bank Account",
       "business_context": "Populated in 54% of records.",
       "example_values": [
         "4120882983",
@@ -185,7 +185,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 45.79,
-      "description": "Bank Name - text value. Examples: 'PERMATA', 'SULUT'",
+      "description": "Bank Name",
       "business_context": "Populated in 54% of records.",
       "example_values": [
         "PERMATA",
@@ -198,7 +198,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 45.79,
-      "description": "Beneficiary Name - text value. Examples: 'SUSILO AJI', 'NOVA JOHANA LAHINDAH'",
+      "description": "Beneficiary Name",
       "business_context": "Populated in 54% of records.",
       "example_values": [
         "SUSILO AJI",
@@ -211,7 +211,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 45.9,
-      "description": "Business Type - text value. Examples: 'Agen Pembayaran', 'Agen Pembayaran'",
+      "description": "Classification value indicating business type",
       "business_context": "Populated in 54% of records.",
       "example_values": [
         "Agen Pembayaran",
@@ -224,7 +224,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 49.34,
-      "description": "Coordinates - text value. Examples: '', ''",
+      "description": "Coordinates",
       "business_context": "Populated in 51% of records.",
       "example_values": [
         "",
@@ -237,7 +237,7 @@
       "data_type": "UNKNOWN",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Created At - UNKNOWN value",
+      "description": "Created At",
       "business_context": "Required field - always populated.",
       "example_values": [
         "2025-10-22 08:46:59.443000+00:00",
@@ -250,7 +250,7 @@
       "data_type": "STRING (LONG)",
       "nullable": true,
       "null_percentage": 36.23,
-      "description": "Delivery Address - text value. Examples: 'Jl. Suwarjono No.16-11, Dusun II Kalibagor, Kalibagor, Kec. Kalibagor, Kabupaten Banyumas, Jawa Tengah 53191, Indonesia', 'Lingkungan 3 Kombos Barat\nSingkil'",
+      "description": "Complete formatted address from location data source",
       "business_context": "Populated in 64% of records.",
       "example_values": [
         "Jl. Suwarjono No.16-11, Dusun II Kalibagor, Kalibagor, Kec. Kalibagor, Kabupaten Banyumas, Jawa Tengah 53191, Indonesia",
@@ -263,7 +263,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 68.62,
-      "description": "Delivery Metadata - NULL value",
+      "description": "Delivery Metadata",
       "business_context": "Sparse field - populated in minority of records.",
       "example_values": [
         {
@@ -300,7 +300,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 58.38,
-      "description": "Delivery Status - NULL value",
+      "description": "Classification value indicating delivery status",
       "business_context": "Sparse field - populated in minority of records. Used for segmentation.",
       "example_values": [
         "DELIVERED",
@@ -352,7 +352,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 39.77,
-      "description": "Kyc Tier - text value. Examples: 'SUPREME', 'SUPREME'",
+      "description": "Kyc Tier",
       "business_context": "Populated in 60% of records.",
       "example_values": [
         "SUPREME",
@@ -365,7 +365,7 @@
       "data_type": "JSON",
       "nullable": true,
       "null_percentage": 0.34,
-      "description": "Metadata - JSON value",
+      "description": "Metadata",
       "business_context": "Populated in 100% of records.",
       "example_values": [
         {
@@ -582,7 +582,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 32.53,
-      "description": "Name - text value. Examples: 'SUSILO AJI', 'NOVA JOHANA LAHINDAH'",
+      "description": "Name",
       "business_context": "Populated in 67% of records.",
       "example_values": [
         "SUSILO AJI",
@@ -608,7 +608,7 @@
       "data_type": "JSON",
       "nullable": true,
       "null_percentage": 48.02,
-      "description": "Payment Metadata - JSON value",
+      "description": "Payment Metadata",
       "business_context": "Populated in 52% of records.",
       "example_values": [
         {
@@ -678,7 +678,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 50.08,
-      "description": "Payment Status - NULL value",
+      "description": "Classification value indicating payment status",
       "business_context": "Sparse field - populated in minority of records. Used for segmentation.",
       "example_values": [
         "PAID",
@@ -691,7 +691,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Phone - text value. Examples: '88233658973', '82189339100'",
+      "description": "Phone",
       "business_context": "Required field - always populated.",
       "example_values": [
         "88233658973",
@@ -704,7 +704,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 36.23,
-      "description": "Postal Code - classification code. Examples: 53191, 95234",
+      "description": "Postal classification code",
       "business_context": "Populated in 64% of records.",
       "example_values": [
         "53191",
@@ -717,7 +717,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 49.35,
-      "description": "Purchase Referral - text value. Examples: '', ''",
+      "description": "Purchase Referral",
       "business_context": "Populated in 51% of records.",
       "example_values": [
         "",
@@ -730,7 +730,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 49.35,
-      "description": "Referee Name - text value. Examples: '', ''",
+      "description": "Referee Name",
       "business_context": "Populated in 51% of records.",
       "example_values": [
         "",
@@ -743,7 +743,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 49.35,
-      "description": "Referee Phone - text value. Examples: '', ''",
+      "description": "Referee Phone",
       "business_context": "Populated in 51% of records.",
       "example_values": [
         "",
@@ -756,7 +756,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Status - text value. Examples: 'Completed', 'Completed'",
+      "description": "Classification value indicating status",
       "business_context": "Required field - always populated. Used for segmentation.",
       "example_values": [
         "Completed",
@@ -769,7 +769,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 36.23,
-      "description": "Subdistrict - text value. Examples: 'Kalibagor', 'Singkil'",
+      "description": "Subdistrict",
       "business_context": "Populated in 64% of records.",
       "example_values": [
         "Kalibagor",
@@ -795,7 +795,7 @@
       "data_type": "UNKNOWN",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Timestamp of updated at. Format: YYYY-MM-DD",
+      "description": "Date when updated at took place",
       "business_context": "Required field - always populated. Used for time-based analysis.",
       "example_values": [
         "2025-10-22 09:39:50.335000+00:00",
@@ -834,7 +834,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 36.23,
-      "description": "Ward - text value. Examples: 'Kalibagor', ' Kombos Barat'",
+      "description": "Ward",
       "business_context": "Populated in 64% of records.",
       "example_values": [
         "Kalibagor",
@@ -853,7 +853,7 @@
     "peak_query_hour": 1,
     "last_queried": "2026-05-05T08:59:29.922000+00:00"
   },
-  "documentation_enriched": "2026-05-05T17:45:16.396384",
+  "documentation_enriched": "2026-05-05T17:50:46.549427",
   "table_relationships": [
     {
       "related_table": "ledger-fcc1e.merchant_success_analytics.tfcode_name",

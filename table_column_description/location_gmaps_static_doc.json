@@ -3,14 +3,14 @@
   "full_table_id": "ledger-fcc1e.trb_pymnts_derived.location_gmaps_static",
   "total_columns": 16,
   "sample_rows_analyzed": 10000,
-  "documentation_generated": "2026-05-05T17:44:46.090739",
+  "documentation_generated": "2026-05-05T17:50:16.440593",
   "columns": [
     {
       "column_name": "area",
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Area - text value. Examples: 'SUMATERA 1', 'BALI NUSRA'",
+      "description": "Geographic area classification for regional grouping",
       "business_context": "Required field - always populated.",
       "example_values": [
         "SUMATERA 1",
@@ -23,7 +23,7 @@
       "data_type": "STRING (LONG)",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Formatted Address - text value. Examples: '9WR9+C5J, Seukeumbrok, Kec. Pidie, Kabupaten Pidie, Aceh, Indonesia', 'Jl. Gn. Tangkuban Perahu No.10a, Kerobokan Kelod, Kec. Kuta Utara, Kabupaten Badung, Bali 80361, Indonesia'",
+      "description": "Complete formatted address from location data source",
       "business_context": "Required field - always populated.",
       "example_values": [
         "9WR9+C5J, Seukeumbrok, Kec. Pidie, Kabupaten Pidie, Aceh, Indonesia",
@@ -36,7 +36,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Kabupaten - text value. Examples: 'KABUPATEN PIDIE', 'KABUPATEN BADUNG'",
+      "description": "Regency/District name (Indonesian administrative level 2)",
       "business_context": "Required field - always populated.",
       "example_values": [
         "KABUPATEN PIDIE",
@@ -49,7 +49,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Kecamatan - text value. Examples: 'PIDIE', 'KUTA UTARA'",
+      "description": "Sub-district/Kecamatan name (Indonesian administrative level 3)",
       "business_context": "Required field - always populated.",
       "example_values": [
         "PIDIE",
@@ -62,7 +62,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Lat Long - text value. Examples: '5.391094208,95.91785431', '-8.6740059,115.1728238'",
+      "description": "Geographic latitude coordinate for location mapping",
       "business_context": "Required field - always populated.",
       "example_values": [
         "5.391094208,95.91785431",
@@ -75,7 +75,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Latitude - text value. Examples: '5.391094208', '-8.6740059'",
+      "description": "Geographic latitude coordinate for location mapping",
       "business_context": "Required field - always populated.",
       "example_values": [
         "5.391094208",
@@ -88,7 +88,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Longitude - text value. Examples: '95.91785431', '115.1728238'",
+      "description": "Geographic longitude coordinate for location mapping",
       "business_context": "Required field - always populated.",
       "example_values": [
         "95.91785431",
@@ -101,7 +101,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Old Kabupaten Dont Use - text value. Examples: 'PIDIE', 'KABUPATEN BADUNG'",
+      "description": "Regency/District name (Indonesian administrative level 2)",
       "business_context": "Required field - always populated.",
       "example_values": [
         "PIDIE",
@@ -114,7 +114,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.04,
-      "description": "Old Kecamatan Dont Use - text value. Examples: 'SEUKEUMBROK', 'KEC. KUTA UTARA'",
+      "description": "Sub-district/Kecamatan name (Indonesian administrative level 3)",
       "business_context": "Populated in 100% of records.",
       "example_values": [
         "SEUKEUMBROK",
@@ -127,7 +127,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Old Province Dont Use - text value. Examples: 'ACEH', 'BALI'",
+      "description": "Old Province Dont Use",
       "business_context": "Required field - always populated.",
       "example_values": [
         "ACEH",
@@ -140,7 +140,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Parsing Status - text value. Examples: 'COMPLETE_HIGH_CONFIDENCE', 'COMPLETE_HIGH_CONFIDENCE'",
+      "description": "Classification value indicating parsing status",
       "business_context": "Required field - always populated. Used for segmentation.",
       "example_values": [
         "COMPLETE_HIGH_CONFIDENCE",
@@ -153,7 +153,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Phone Number - text value. Examples: '85314173200', '81237897255'",
+      "description": "Phone Number",
       "business_context": "Required field - always populated.",
       "example_values": [
         "85314173200",
@@ -166,7 +166,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Province - text value. Examples: 'NANGGROE ACEH DARUSSALAM', 'BALI'",
+      "description": "Province",
       "business_context": "Required field - always populated.",
       "example_values": [
         "NANGGROE ACEH DARUSSALAM",
@@ -179,7 +179,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Raw Response - NULL value",
+      "description": "Raw Response",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -188,7 +188,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Source Flag - text value. Examples: 'Mar 2026', 'Mar 2026'",
+      "description": "Source Flag",
       "business_context": "Required field - always populated. Used for segmentation.",
       "example_values": [
         "Mar 2026",
@@ -201,7 +201,7 @@
       "data_type": "UNKNOWN",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Timestamp of timestamp  . Format: YYYY-MM-DD",
+      "description": "Timestamp when timestamp   occurred",
       "business_context": "Required field - always populated. Used for time-based analysis.",
       "example_values": [
         "2026-03-06 06:00:06.308148+00:00",
@@ -220,7 +220,7 @@
     "peak_query_hour": 0,
     "last_queried": "2026-05-05T09:00:07.349000+00:00"
   },
-  "documentation_enriched": "2026-05-05T17:44:47.937838",
+  "documentation_enriched": "2026-05-05T17:50:18.420293",
   "table_relationships": [
     {
       "related_table": "ledger-fcc1e.retail_payment_base.retail_order_delivery_funnel",
