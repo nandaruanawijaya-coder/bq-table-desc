@@ -11,8 +11,9 @@ WITH table_queries AS (
     query,
     statement_type,
     EXTRACT(HOUR FROM creation_time) as query_hour,
-    UNNEST(referenced_tables) as table_ref
+    table_ref
   FROM `ledger-fcc1e.data_documentation.query_history`
+  CROSS JOIN UNNEST(referenced_tables) as table_ref
   WHERE statement_type IN ('SELECT', 'INSERT', 'UPDATE', 'DELETE')
 )
 SELECT
@@ -48,8 +49,9 @@ CREATE OR REPLACE TABLE `ledger-fcc1e.data_documentation.query_patterns` AS
 WITH table_queries AS (
   SELECT
     query,
-    UNNEST(referenced_tables) as table_ref
+    table_ref
   FROM `ledger-fcc1e.data_documentation.query_history`
+  CROSS JOIN UNNEST(referenced_tables) as table_ref
   WHERE statement_type IN ('SELECT', 'INSERT', 'UPDATE', 'DELETE')
 ),
 where_patterns AS (

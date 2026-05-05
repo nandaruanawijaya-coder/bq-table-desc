@@ -10,8 +10,9 @@ WITH table_pairs AS (
     job_id,
     creation_time,
     query,
-    UNNEST(referenced_tables) as table_ref_1
+    table_ref_1
   FROM `ledger-fcc1e.data_documentation.query_history`
+  CROSS JOIN UNNEST(referenced_tables) as table_ref_1
   WHERE statement_type IN ('SELECT', 'INSERT', 'UPDATE', 'DELETE')
 ),
 cross_table_pairs AS (
