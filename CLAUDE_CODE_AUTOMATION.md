@@ -458,81 +458,99 @@ If script fails:
 
 ## ✏️ STEP 4: Auto-Generate & Enhance Documentation
 
-### 4.0 Simple Data-Driven Description Strategy
+### 4.0 Data-Driven Description Strategy (Column Name + Sample Data)
 
-**IMPORTANT**: Keep descriptions simple. Use COLUMN NAME + actual sample data values only.
+**IMPORTANT**: Use ONLY column name + actual sample data values. No interpretation beyond what the data shows.
 
 **Process**:
 1. Load all 10,000 rows from `table_list/[TABLE_NAME].json`
 2. For each column:
-   - Read the column name - what does it literally say?
-   - Look at actual values in the 10k rows
-   - Describe what you see: the data type and what values look like
-3. Write simple 1-sentence description combining name + what the data shows
-4. Store actual sample values separately in `example_values` field (max 3)
+   - Read the column name - what does it literally represent?
+   - Look at actual sample values from the 10k rows
+   - Understand the data type (text, number, date, boolean, etc.)
+   - See what patterns or categories exist in the data
+3. Write a business-focused description combining name + what the data contains
+4. Keep description 1-2 sentences explaining the business context
+5. Store actual sample values separately in `example_values` field (max 3)
 
 **Key Principle**:
-- ❌ Don't over-interpret or infer business logic
-- ❌ Don't add context beyond name + data
-- ✅ Column name tells you what it is
-- ✅ Sample data shows you what values look like
-- ✅ Simple: "[Column name] - [What the data represents based on actual values]"
+- ❌ Don't infer business logic beyond name + data
+- ❌ Don't add context not evident from column name or values
+- ✅ Column name tells you the main subject
+- ✅ Sample data shows you what it contains
+- ✅ Combine them into business-focused explanation
 
 **Examples**:
-- Column "area" with data values "SUMATERA 1", "BALI NUSRA" → "Area - Geographic region classification"
-- Column "merchant_id" with data values "M001", "M002" → "Merchant ID - Unique identifier for merchants"  
-- Column "amount" with numeric values 1000-50000 → "Amount - Monetary transaction value"
-- Column "is_active" with boolean values → "Is Active - Boolean indicator of active status"
+- Column "area" with values "SUMATERA 1", "BALI NUSRA", "JAVA 2"
+  → "Geographic area representing regional divisions for merchant location organization and classification"
+
+- Column "merchant_id" with values "M001", "M002", "M12345"
+  → "Unique identifier assigned to each merchant for transaction tracking and merchant-level analysis"
+
+- Column "amount" with numeric values 1000, 5000, 50000
+  → "Monetary transaction amount representing the financial value of orders or payments in the business"
+
+- Column "created_at" with timestamp values
+  → "Timestamp capturing when the record was created in the system for tracking data lineage and transaction timing"
+
+- Column "is_active" with boolean values
+  → "Boolean flag indicating the active or inactive status of the merchant or entity for operational filtering"
 
 ---
 
 Claude Code MUST enhance the generated `_doc.json` file by filling in all descriptions:
 
-### 4.1 Auto-Generate Column Descriptions (Simple)
+### 4.1 Auto-Generate Column Descriptions
 
-**For EVERY column**, generate simple 1-sentence description:
-
-**Formula**: `[Column Name] - [What the actual data represents]`
+**For EVERY column**, generate business-focused description from name + sample data:
 
 **Algorithm**:
 ```
-1. Read the column name literally
-   → What is the column called? That's the main identifier.
+1. Read the column name
+   → What is this column called? Extract the core concept.
 
-2. Look at actual values from 10,000 rows (sample_values)
-   → What do the actual values look like?
-   → What data type are they? (text, number, date, true/false)
-   → What do they appear to represent?
+2. Examine actual sample values from 10,000 rows
+   → What do the values look like?
+   → What data type? (text, numbers, dates, true/false)
+   → What patterns or categories do you see?
+   → What business entity/concept do they represent?
 
-3. Write simple description combining name + data
-   → Keep it short and factual
-   → Just say what you see, don't infer business logic
-   → No examples in description (keep those in example_values field)
+3. Combine into 1-2 sentence business description
+   → Explain what column represents in business context
+   → Reference the data characteristics you observed
+   → Keep it grounded in name + actual data
 
 EXAMPLES:
+
 → Column: area
-  Values: "SUMATERA 1", "BALI NUSRA", "JAVA 2"
-  Description: "Area - Geographic region classification"
+  Sample values: "SUMATERA 1", "BALI NUSRA", "JAVA 2", "JAKARTA"
+  Data type: STRING, ~15 unique values
+  Description: "Geographic area representing regional divisions for merchant location organization and business segmentation. Used to categorize merchants by geographic region for operational management and reporting."
 
 → Column: merchant_id  
-  Values: "M001", "M002", "M123"
-  Description: "Merchant ID - Unique identifier for merchants"
+  Sample values: "M001", "M002", "M12345"
+  Data type: STRING, high cardinality
+  Description: "Unique identifier assigned to each merchant in the system for transaction tracking and merchant-level operations. Primary key for identifying individual merchants across all business processes."
 
 → Column: amount
-  Values: 1000, 5000, 50000, 100000
-  Description: "Amount - Monetary transaction value"
+  Sample values: 1000, 5000, 50000, 100000, 2500000
+  Data type: NUMERIC, wide range
+  Description: "Monetary transaction amount representing the financial value of orders or payments in the business system. Captures the cost or revenue associated with each transaction for financial reporting and analysis."
 
 → Column: is_active
-  Values: true, false, true
-  Description: "Is Active - Boolean indicator of active status"
+  Sample values: true, false
+  Data type: BOOLEAN
+  Description: "Boolean flag indicating the current active or inactive status of the merchant or entity. Used to filter operational data and distinguish between active merchants and those no longer conducting business."
 
 → Column: created_at
-  Values: 2026-01-15, 2026-02-20, 2026-03-10
-  Description: "Created At - Timestamp when record was created"
+  Sample values: 2026-01-15 10:30:00, 2026-02-20 14:45:00
+  Data type: TIMESTAMP
+  Description: "Timestamp capturing when the record was created in the system. Provides audit trail information and is used for tracking data lineage, transaction timing, and historical analysis."
 
 → Column: status
-  Values: "PENDING", "COMPLETED", "FAILED"
-  Description: "Status - Order or transaction status classification"
+  Sample values: "PENDING", "COMPLETED", "FAILED", "PROCESSING"
+  Data type: STRING, limited unique values
+  Description: "Order or transaction status classification indicating the current state within the business process. Used for workflow management, filtering active orders, and generating operational reports."
 ```
 
 ### 4.2 Auto-Generate Business Context
@@ -617,34 +635,36 @@ Primarily filtered with equality operators. Used to join with 15+ related tables
 
 ### 4.4 Description Guidelines
 
-**Formula**: `[Column Name] - [What the data represents]`
+**Template**: Business-focused 1-2 sentence explanation based on column name + sample data
 
-✅ **Good Descriptions** (Simple, Data-Grounded):
-- "Area - Geographic region classification"
-- "Merchant ID - Unique identifier for merchants"
-- "Created At - Timestamp when record was created"
-- "Amount - Monetary transaction value"
-- "Status - Order status classification"
-- "Is Active - Boolean indicator of active status"
+✅ **Good Descriptions** (Business-focused, Data-grounded):
+- "Geographic area representing regional divisions for merchant location organization and business segmentation"
+- "Unique identifier assigned to each merchant in the system for transaction tracking and merchant-level operations"
+- "Timestamp capturing when the record was created in the system for audit trail and data lineage tracking"
+- "Monetary transaction amount representing the financial value of orders or payments in the business"
+- "Order or transaction status classification indicating the current state within the business process"
+- "Boolean flag indicating the active or inactive status of the merchant for operational filtering"
 
 ✅ **How to Write**:
-1. Start with the column name as-is (or cleaned up for readability)
-2. Add dash
-3. Describe what the actual data represents (based on values you see)
-4. Keep it 1 sentence, simple and factual
+1. Read the column name - what is it about?
+2. Look at actual sample values - what patterns do you see?
+3. Write what the column represents in business context (1-2 sentences)
+4. Explain the business purpose or relevance (inferred from name + data)
+5. Don't add examples in description (keep them in example_values field)
 
-✅ **What NOT to do**:
-- Don't add examples in description ("Values: SUMATERA 1, BALI NUSRA")
-- Don't interpret business logic beyond what the name and data show
-- Don't add context about usage ("used for filtering", "used in reports")
-- Don't be too vague ("information", "data", "value")
+✅ **What to Base It On**:
+- Column name semantics (what the name tells you)
+- Actual data values (what they look like)
+- Data type (how data is stored: text, numbers, dates, true/false)
+- Value patterns (many unique vs. few categories)
+- NOT on interpretation beyond what name and data show
 
 ❌ **Bad Descriptions**:
 - "[TODO] Add description"
-- "Geographic region classification for merchant location grouping and regional analysis" (too much inference)
-- "Column that stores area information" (too technical)
-- "Data" or "Value" (too vague)
-- "Area. Examples: SUMATERA 1, BALI NUSRA" (examples don't belong in description)
+- "Area" or "Data" or "Value" (too vague, no context)
+- "Column that stores area information" (too technical, meta)
+- "Area. Examples: SUMATERA 1, BALI NUSRA" (examples don't belong)
+- "Used for regional filtering in merchant segmentation" (inferring beyond data)
 
 ### 4.3 Business Context Guidelines
 
