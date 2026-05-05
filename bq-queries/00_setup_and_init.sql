@@ -1,21 +1,16 @@
 -- ============================================================================
 -- SETUP: Create Documentation Dataset and Metadata Tables
--- Run this ONCE before running other extraction queries
+-- Run this ONCE before scheduling the extraction queries
 -- ============================================================================
 
--- Create dataset for documentation (if it doesn't exist)
-CREATE SCHEMA IF NOT EXISTS `ledger-fcc1e.data_documentation`
-OPTIONS(
-  description="Storage for BigQuery table documentation and query analysis",
-  location="asia-southeast1"  -- CHANGE THIS to your region if different
-);
+-- Verify query_history table exists
+-- SELECT COUNT(*) FROM `ledger-fcc1e.data_documentation.query_history`;
 
 -- Create metadata table to track all extractions
 CREATE OR REPLACE TABLE `ledger-fcc1e.data_documentation.extraction_metadata` (
   extraction_name STRING NOT NULL,
   extraction_timestamp TIMESTAMP NOT NULL,
   description STRING,
-  record_count INT64,
   status STRING DEFAULT "completed"
 );
 
@@ -25,33 +20,23 @@ VALUES (
   'setup_complete',
   CURRENT_TIMESTAMP(),
   'Initial setup - documentation tables created',
-  0,
   'completed'
 );
 
 -- ============================================================================
--- NOTES FOR YOUR ENVIRONMENT
+-- QUERIES POWERED BY query_history TABLE
 -- ============================================================================
 --
--- 1. REGION CONFIGURATION:
---    The SQL files reference INFORMATION_SCHEMA.JOBS_BY_PROJECT
---    Update in 01_create_table_relationships.sql and 02_create_column_usage.sql:
+-- These SQL files extract from: `ledger-fcc1e.data_documentation.query_history`
 --
---    Change FROM clause from: `ledger-fcc1e.region-us`.INFORMATION_SCHEMA.JOBS_BY_PROJECT
---    To your region: `ledger-fcc1e.asia-southeast1`.INFORMATION_SCHEMA.JOBS_BY_PROJECT
+-- 01_create_table_relationships.sql
+--   → Outputs: table_relationships
+--   → Shows which tables are joined together
 --
--- 2. PROJECT_ID:
---    All files use 'ledger-fcc1e' as the project
---    If different, search and replace 'ledger-fcc1e' with your project ID
+-- 02_create_column_usage.sql
+--   → Outputs: table_usage, query_patterns
+--   → Shows how tables are queried and filter patterns
 --
--- 3. DAILY SCHEDULING:
---    After verifying the queries work, schedule in BigQuery:
---    - Create scheduled query for 01_create_table_relationships.sql (daily)
---    - Create scheduled query for 02_create_column_usage.sql (daily)
---    - Set schedule time: 02:00 UTC (avoid peak hours)
---
--- 4. PERMISSIONS NEEDED:
---    - roles/bigquery.dataEditor (for writing to data_documentation dataset)
---    - roles/bigquery.jobUser (for running queries against JOBS_BY_PROJECT)
+-- Schedule both to run daily at 02:00 UTC after query_history is updated
 --
 -- ============================================================================
