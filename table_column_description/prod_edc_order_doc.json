@@ -3,19 +3,19 @@
   "full_table_id": "ledger-fcc1e.db_accounting.prod_edc_order",
   "total_columns": 36,
   "sample_rows_analyzed": 10000,
-  "documentation_generated": "2026-05-05T17:31:32.084959",
+  "documentation_generated": "2026-05-05T17:45:14.680178",
   "columns": [
     {
       "column_name": "_sdc_batched_at",
       "data_type": "UNKNOWN",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": " Sdc Batched At - UNKNOWN value",
+      "business_context": "Required field - always populated.",
       "example_values": [
-        "2025-06-19 05:36:13.494000+00:00",
-        "2025-06-19 05:36:10.206000+00:00",
-        "2025-06-25 08:32:43.873000+00:00"
+        "2025-10-22 10:13:34.660000+00:00",
+        "2025-11-26 03:15:40.269000+00:00",
+        "2025-09-06 02:40:37.041000+00:00"
       ]
     },
     {
@@ -23,12 +23,12 @@
       "data_type": "UNKNOWN",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": " Sdc Received At - UNKNOWN value",
+      "business_context": "Required field - always populated.",
       "example_values": [
-        "2025-06-19 05:31:48+00:00",
-        "2025-06-19 05:31:48+00:00",
-        "2025-06-25 08:31:57+00:00"
+        "2025-10-22 10:05:03+00:00",
+        "2025-11-26 03:04:54+00:00",
+        "2025-09-06 02:32:09+00:00"
       ]
     },
     {
@@ -36,12 +36,12 @@
       "data_type": "INTEGER",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": " Sdc Sequence - numeric value. Range: 1750311092670739200 to 1772793091276356864",
+      "business_context": "Required field - always populated.",
       "example_values": [
-        1750311092433333900,
-        1750311092349098027,
-        1750840288106623193
+        1761127470336346544,
+        1764126260607259566,
+        1757125896813995457
       ]
     },
     {
@@ -49,8 +49,8 @@
       "data_type": "INTEGER",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": " Sdc Table Version - numeric value. Range: 1750311085342 to 1750311085342",
+      "business_context": "Required field - always populated.",
       "example_values": [
         1750311085342,
         1750311085342,
@@ -59,64 +59,78 @@
     },
     {
       "column_name": "address",
-      "data_type": "NULL",
+      "data_type": "JSON",
       "nullable": true,
-      "null_percentage": 59.84,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "null_percentage": 36.4,
+      "description": "Address - JSON value",
+      "business_context": "Populated in 64% of records.",
       "example_values": [
         {
           "store_address": {
-            "city": "Jakarta Timur",
-            "ward": " Kebon Pala",
-            "address": "Jl.permata no.1 rt3/rw5 kebon pala makasar jakarta timur",
-            "district": "Makasar",
-            "province": "DKI Jakarta",
-            "postal_code": "13570"
+            "city": "Kecamatan Kalibagor",
+            "ward": "Kalibagor",
+            "address": "Jl. Suwarjono No.16-11, Dusun II Kalibagor, Kalibagor, Kec. Kalibagor, Kabupaten Banyumas, Jawa Tengah 53191, Indonesia",
+            "district": "Kalibagor",
+            "province": "Jawa Tengah",
+            "postal_code": "53191"
           },
           "delivery_address": {
-            "city": "Jakarta Timur",
-            "ward": " Kebon Pala",
-            "address": "Jl.permata no.1 rt3/rw5 kebon pala makasar jakarta timur",
-            "district": "Makasar",
-            "province": "DKI Jakarta",
-            "postal_code": "13570"
+            "city": "Kecamatan Kalibagor",
+            "ward": "Kalibagor",
+            "address": "Jl. Suwarjono No.16-11, Dusun II Kalibagor, Kalibagor, Kec. Kalibagor, Kabupaten Banyumas, Jawa Tengah 53191, Indonesia",
+            "district": "Kalibagor",
+            "province": "Jawa Tengah",
+            "postal_code": "53191"
           },
-          "delivery_address_same_as_store_address": true
+          "delivery_address_same_as_store_address": false
         },
         {
           "store_address": {
-            "city": "BATANG",
-            "ward": null,
-            "address": "JL. RIMAT BAKTI NO 99,SIJONO,WARUNGASEM,BATANG,JAWA TENGAH,51252",
-            "district": null,
-            "province": null,
-            "postal_code": "51252"
+            "city": "Manado",
+            "ward": " Kombos Barat",
+            "address": "Lingkungan 3 Kombos Barat\nSingkil",
+            "district": "Singkil",
+            "province": "Sulawesi Utara",
+            "postal_code": "95234"
           },
-          "delivery_address": null,
-          "delivery_address_same_as_store_address": null
+          "delivery_address": {
+            "city": "Manado",
+            "ward": " Kombos Barat",
+            "address": "Lingkungan 3 Kombos Barat\nSingkil",
+            "district": "Singkil",
+            "province": "Sulawesi Utara",
+            "postal_code": "95234"
+          },
+          "delivery_address_same_as_store_address": false
         },
         {
           "store_address": {
-            "city": "LOMBOK TENGAH",
-            "ward": null,
-            "address": "KELEKUH,MERTAK,PUJUT,LOMBOK TENGAH,NUSA TENGGARA BARAT,83573",
-            "district": null,
-            "province": null,
-            "postal_code": "83573"
+            "city": "Kecamatan Tamalate",
+            "ward": "Balang Baru",
+            "address": "Jl. Balang Baru No.11, RT.001/RW.02, Balang Baru, Kec. Tamalate, Kota Makassar, Sulawesi Selatan 90224, Indonesia",
+            "district": "Balang Baru",
+            "province": "Sulawesi Selatan",
+            "postal_code": "90224"
           },
-          "delivery_address": null,
-          "delivery_address_same_as_store_address": null
+          "delivery_address": {
+            "city": "Kecamatan Tamalate",
+            "ward": "Balang Baru",
+            "address": "Jl. Balang Baru No.11, RT.001/RW.02, Balang Baru, Kec. Tamalate, Kota Makassar, Sulawesi Selatan 90224, Indonesia",
+            "district": "Balang Baru",
+            "province": "Sulawesi Selatan",
+            "postal_code": "90224"
+          },
+          "delivery_address_same_as_store_address": false
         }
       ]
     },
     {
       "column_name": "attachments",
-      "data_type": "NULL",
+      "data_type": "JSON",
       "nullable": true,
-      "null_percentage": 83.69,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "null_percentage": 49.68,
+      "description": "Attachments - JSON value",
+      "business_context": "Populated in 50% of records.",
       "example_values": [
         {
           "npwp": "",
@@ -155,67 +169,67 @@
     },
     {
       "column_name": "bank_account",
-      "data_type": "NULL",
+      "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 82.13,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "null_percentage": 45.79,
+      "description": "Bank Account - text value. Examples: '4120882983', '01102030014817'",
+      "business_context": "Populated in 54% of records.",
       "example_values": [
-        "9996598354",
-        "9916426663",
-        "4107779251"
+        "4120882983",
+        "01102030014817",
+        "1302010000698794"
       ]
     },
     {
       "column_name": "bank_name",
-      "data_type": "NULL",
+      "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 82.13,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "null_percentage": 45.79,
+      "description": "Bank Name - text value. Examples: 'PERMATA', 'SULUT'",
+      "business_context": "Populated in 54% of records.",
       "example_values": [
         "PERMATA",
-        "PERMATA",
-        "PERMATA"
+        "SULUT",
+        "SULSELBAR"
       ]
     },
     {
       "column_name": "beneficiary_name",
-      "data_type": "NULL",
+      "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 82.13,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "null_percentage": 45.79,
+      "description": "Beneficiary Name - text value. Examples: 'SUSILO AJI', 'NOVA JOHANA LAHINDAH'",
+      "business_context": "Populated in 54% of records.",
       "example_values": [
-        "KUSUMA JAYA SAKTI SIRAIT",
-        "SARDI SURYADI",
-        "ENO WARISMAN"
+        "SUSILO AJI",
+        "NOVA JOHANA LAHINDAH",
+        "EMANUEL"
       ]
     },
     {
       "column_name": "business_type",
-      "data_type": "NULL",
+      "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 81.99,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "null_percentage": 45.9,
+      "description": "Business Type - text value. Examples: 'Agen Pembayaran', 'Agen Pembayaran'",
+      "business_context": "Populated in 54% of records.",
       "example_values": [
-        "Lainnya",
+        "Agen Pembayaran",
         "Agen Pembayaran",
         "Agen Pembayaran"
       ]
     },
     {
       "column_name": "coordinates",
-      "data_type": "NULL",
+      "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 83.59,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "null_percentage": 49.34,
+      "description": "Coordinates - text value. Examples: '', ''",
+      "business_context": "Populated in 51% of records.",
       "example_values": [
         "",
-        "-6.927281, 109.697963",
-        "-8.884459, 116.361186"
+        "",
+        ""
       ]
     },
     {
@@ -223,59 +237,59 @@
       "data_type": "UNKNOWN",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Created At - UNKNOWN value",
+      "business_context": "Required field - always populated.",
       "example_values": [
-        "2024-07-24 11:19:31.160000+00:00",
-        "2024-05-03 05:39:26.818000+00:00",
-        "2025-06-25 07:46:00.642000+00:00"
+        "2025-10-22 08:46:59.443000+00:00",
+        "2024-11-09 11:08:21.302000+00:00",
+        "2025-09-06 01:57:40.332000+00:00"
       ]
     },
     {
       "column_name": "delivery_address",
-      "data_type": "NULL",
+      "data_type": "STRING (LONG)",
       "nullable": true,
-      "null_percentage": 60.03,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "null_percentage": 36.23,
+      "description": "Delivery Address - text value. Examples: 'Jl. Suwarjono No.16-11, Dusun II Kalibagor, Kalibagor, Kec. Kalibagor, Kabupaten Banyumas, Jawa Tengah 53191, Indonesia', 'Lingkungan 3 Kombos Barat\nSingkil'",
+      "business_context": "Populated in 64% of records.",
       "example_values": [
-        "Jl.permata no.1 rt3/rw5 kebon pala makasar jakarta timur",
-        "KP. SUMAPAN JATI",
-        "Jl.babakan impres gadog 2 rt 01/02 desa sukajadi kecamatan Tamansari Bogor "
+        "Jl. Suwarjono No.16-11, Dusun II Kalibagor, Kalibagor, Kec. Kalibagor, Kabupaten Banyumas, Jawa Tengah 53191, Indonesia",
+        "Lingkungan 3 Kombos Barat\nSingkil",
+        "Jl. Balang Baru No.11, RT.001/RW.02, Balang Baru, Kec. Tamalate, Kota Makassar, Sulawesi Selatan 90224, Indonesia"
       ]
     },
     {
       "column_name": "delivery_metadata",
       "data_type": "NULL",
       "nullable": true,
-      "null_percentage": 86.37,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "null_percentage": 68.62,
+      "description": "Delivery Metadata - NULL value",
+      "business_context": "Sparse field - populated in minority of records.",
       "example_values": [
         {
-          "awb": "e89e472ef302442",
+          "awb": "ms-onspot",
           "vendor": "MoreFun",
-          "pickupdate": "2025-02-02T17:00:00.000Z",
-          "couriername": "KARVELO",
-          "serialnumber": "63241025470829",
+          "pickupdate": null,
+          "couriername": "ms-onspot",
+          "serialnumber": "63250326416781",
           "expectedshipmenttime": null,
           "shipperordercreatedtime": null
         },
         {
-          "awb": "dde91266537348b",
+          "awb": "ms-onspot",
           "vendor": "MoreFun",
-          "pickupdate": "2025-02-18T17:00:00.000Z",
-          "couriername": "IMT",
-          "serialnumber": "63241222471189",
+          "pickupdate": null,
+          "couriername": "ms-onspot",
+          "serialnumber": "63250508405191",
           "expectedshipmenttime": null,
           "shipperordercreatedtime": null
         },
         {
-          "awb": "a85c1458aa81478",
+          "awb": "ms-onspot",
           "vendor": "MoreFun",
-          "pickupdate": "2025-01-13T17:00:00.000Z",
-          "couriername": "PTDUNIA",
-          "serialnumber": "63241025470515",
+          "pickupdate": null,
+          "couriername": "ms-onspot",
+          "serialnumber": "63250326403391",
           "expectedshipmenttime": null,
           "shipperordercreatedtime": null
         }
@@ -285,35 +299,35 @@
       "column_name": "delivery_status",
       "data_type": "NULL",
       "nullable": true,
-      "null_percentage": 78.57,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "null_percentage": 58.38,
+      "description": "Delivery Status - NULL value",
+      "business_context": "Sparse field - populated in minority of records. Used for segmentation.",
       "example_values": [
-        "NOT_STARTED",
-        "NOT_STARTED",
+        "DELIVERED",
+        "DELIVERED",
         "DELIVERED"
       ]
     },
     {
       "column_name": "ecom_user_id",
-      "data_type": "NULL",
+      "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 83.66,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "null_percentage": 49.43,
+      "description": "Unique identifier for ecom user",
+      "business_context": "Populated in 51% of records. Used for joins and lookups.",
       "example_values": [
         "",
-        "sardi suryadi",
+        "",
         ""
       ]
     },
     {
       "column_name": "external_order_id",
-      "data_type": "NULL",
+      "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 83.67,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "null_percentage": 49.48,
+      "description": "Unique identifier for external order",
+      "business_context": "Populated in 51% of records. Used for joins and lookups.",
       "example_values": [
         "",
         "",
@@ -322,26 +336,26 @@
     },
     {
       "column_name": "janus_account_id",
-      "data_type": "NULL",
+      "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 70.91,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "null_percentage": 39.68,
+      "description": "Unique identifier for janus account",
+      "business_context": "Populated in 60% of records. Used for joins and lookups.",
       "example_values": [
-        "a8775cf4-28db-4073-a4e1-4a5ee72bfebb",
-        "ce2ab9e6-6fc0-4e0b-9cc3-4aed7a7415eb",
-        "b5405323-2507-4b56-8dfe-9bc046f070fa"
+        "9cafcde9-9e3c-41e0-b51b-678bcbf7afd4",
+        "8134333c-7346-40de-866c-8f929e0bb914",
+        "445b4c11-167a-4fe2-903c-6118004c2a10"
       ]
     },
     {
       "column_name": "kyc_tier",
-      "data_type": "NULL",
+      "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 70.9,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "null_percentage": 39.77,
+      "description": "Kyc Tier - text value. Examples: 'SUPREME', 'SUPREME'",
+      "business_context": "Populated in 60% of records.",
       "example_values": [
-        "ADVANCED",
+        "SUPREME",
         "SUPREME",
         "SUPREME"
       ]
@@ -350,31 +364,70 @@
       "column_name": "metadata",
       "data_type": "JSON",
       "nullable": true,
-      "null_percentage": 0.06,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "null_percentage": 0.34,
+      "description": "Metadata - JSON value",
+      "business_context": "Populated in 100% of records.",
       "example_values": [
         {
-          "tfcode": null,
-          "devicemappingdetails": null,
-          "cartid": null,
-          "kybstatus": null,
+          "tfcode": "TF04477",
+          "devicemappingdetails": {
+            "type": "BUKUWARUNG",
+            "vendor": null,
+            "description": null,
+            "referral_code": null,
+            "serial_number": null
+          },
+          "cartid": "1a443c32-13a7-4ebe-ac03-a41105b3c3cf",
+          "kybstatus": "MANUALLY_VERIFIED",
           "banknamesameasktpname": true,
           "clientname": null,
-          "ktpname": "KUSUMA JAYA BAKTI SIRAIT",
-          "checks": null,
-          "kycstatus": null,
-          "attributionchannel": null,
-          "tfcodevalidated": null,
+          "ktpname": "SUSILO AJI",
+          "checks": {
+            "kybdone": true,
+            "kycdone": true,
+            "bankaccountadded": true,
+            "completionexpiredate": []
+          },
+          "kycstatus": "VERIFIED",
+          "attributionchannel": "SALES",
+          "tfcodevalidated": true,
           "force_updated_note": null,
-          "updatecommand": null,
-          "orderprogress": null,
+          "updatecommand": {
+            "vendor": "MoreFun",
+            "orderid": "a67a8c03-db24-4dc8-993d-3655b29884c8",
+            "newstatus": "Completed",
+            "opsemailid": "bc8e9d74-3c27-4f23-9eb9-70742674f1c0",
+            "terminalid": "71886155",
+            "serialnumber": "63250326416781",
+            "rejectionreason": "",
+            "bukuorigin": null
+          },
+          "orderprogress": {
+            "draft": "2025-10-22T08:46:59.440",
+            "waiting_for_ops": "2025-10-22T09:00:47.030",
+            "unassigned": "2025-10-22T08:49:14.594",
+            "waiting_for_additional_doc": "2025-10-22T08:57:11.292",
+            "rejected": null,
+            "cancelled": null,
+            "completed": "2025-10-22T09:04:37.975"
+          },
           "useracknowledgement": true,
-          "kyctier": null,
-          "version": null,
+          "kyctier": "SUPREME",
+          "version": "v2",
           "beneficiaryaccountdetails": null,
-          "orderamountdetails": null,
-          "otsflow": null,
+          "orderamountdetails": {
+            "totalpayableamount": "499000",
+            "totalpayableamount__it": null,
+            "productprice": "1000000",
+            "productprice__it": null,
+            "discounts": {
+              "diskon_code_referral": "110000",
+              "diskon_code_referral__it": null,
+              "diskon": "391000",
+              "diskon__it": null
+            }
+          },
+          "otsflow": true,
           "partnershipordercreatedby": null,
           "progress": null,
           "paymentlinkexpiredtime": null,
@@ -385,49 +438,66 @@
           "paymentlinkgeneratedtime": null
         },
         {
-          "tfcode": null,
-          "devicemappingdetails": null,
-          "cartid": null,
+          "tfcode": "TF04630",
+          "devicemappingdetails": {
+            "type": "BUKUWARUNG",
+            "vendor": null,
+            "description": null,
+            "referral_code": null,
+            "serial_number": null
+          },
+          "cartid": "2f4ca6dd-364c-47aa-b972-3e34ea044af0",
           "kybstatus": "MANUALLY_VERIFIED",
-          "banknamesameasktpname": null,
-          "clientname": "LAPAKBANGROY",
-          "ktpname": "ANO WARISMAN",
+          "banknamesameasktpname": true,
+          "clientname": null,
+          "ktpname": "NOVA JOHANA LAHINDAH",
           "checks": {
             "kybdone": true,
             "kycdone": true,
             "bankaccountadded": true,
             "completionexpiredate": []
           },
-          "kycstatus": "MANUALLY_VERIFIED",
-          "attributionchannel": null,
-          "tfcodevalidated": null,
+          "kycstatus": "VERIFIED",
+          "attributionchannel": "SALES",
+          "tfcodevalidated": true,
           "force_updated_note": null,
           "updatecommand": {
             "vendor": "MoreFun",
-            "orderid": "59275da4-ba82-4499-8c2d-9f91be208e13",
+            "orderid": "f009658c-3e61-4107-9aa5-52c33243c41f",
             "newstatus": "Completed",
-            "opsemailid": "emilia.mariss@bukuwarung.com",
-            "terminalid": "71826805",
-            "serialnumber": "63241025470320",
-            "rejectionreason": null,
+            "opsemailid": "9e20a15f-c85c-4708-b83f-5b394a629d7b",
+            "terminalid": "718A5083",
+            "serialnumber": "63250508405191",
+            "rejectionreason": "",
             "bukuorigin": null
           },
           "orderprogress": {
-            "draft": null,
-            "waiting_for_ops": "2025-06-25T07:46:00.639",
-            "unassigned": null,
-            "waiting_for_additional_doc": null,
+            "draft": "2024-11-09T11:08:21.299",
+            "waiting_for_ops": "2025-11-26T02:55:15.080",
+            "unassigned": "2025-11-26T02:09:17.570",
+            "waiting_for_additional_doc": "2025-11-26T02:15:41.955",
             "rejected": null,
             "cancelled": null,
-            "completed": "2025-06-25T07:48:08.386"
+            "completed": "2025-11-26T02:57:59.309"
           },
-          "useracknowledgement": null,
+          "useracknowledgement": true,
           "kyctier": "SUPREME",
           "version": "v2",
           "beneficiaryaccountdetails": null,
-          "orderamountdetails": null,
-          "otsflow": null,
-          "partnershipordercreatedby": "emilia.mariss@bukuwarung.com",
+          "orderamountdetails": {
+            "totalpayableamount": "499000",
+            "totalpayableamount__it": null,
+            "productprice": "1000000",
+            "productprice__it": null,
+            "discounts": {
+              "diskon_code_referral": "110000",
+              "diskon_code_referral__it": null,
+              "diskon": "391000",
+              "diskon__it": null
+            }
+          },
+          "otsflow": true,
+          "partnershipordercreatedby": null,
           "progress": null,
           "paymentlinkexpiredtime": null,
           "paymentamount": null,
@@ -437,13 +507,19 @@
           "paymentlinkgeneratedtime": null
         },
         {
-          "tfcode": null,
-          "devicemappingdetails": null,
-          "cartid": null,
+          "tfcode": "TF04420",
+          "devicemappingdetails": {
+            "type": "BUKUWARUNG",
+            "vendor": null,
+            "description": null,
+            "referral_code": null,
+            "serial_number": null
+          },
+          "cartid": "40779d3f-d512-4202-9f12-e4ea791b0023",
           "kybstatus": "MANUALLY_VERIFIED",
-          "banknamesameasktpname": null,
-          "clientname": "KARVELO",
-          "ktpname": "SIMAN",
+          "banknamesameasktpname": true,
+          "clientname": null,
+          "ktpname": "EMANUEL",
           "checks": {
             "kybdone": true,
             "kycdone": true,
@@ -451,35 +527,46 @@
             "completionexpiredate": []
           },
           "kycstatus": "VERIFIED",
-          "attributionchannel": null,
-          "tfcodevalidated": null,
+          "attributionchannel": "SALES",
+          "tfcodevalidated": true,
           "force_updated_note": null,
           "updatecommand": {
             "vendor": "MoreFun",
-            "orderid": "e89e472e-f302-4425-b2f9-2d34e56f9861",
+            "orderid": "935113e1-3e07-4702-a350-9987ca68fee2",
             "newstatus": "Completed",
-            "opsemailid": "farah.dibah@bukuwarung.com",
-            "terminalid": "71818885",
-            "serialnumber": "63241025470829",
-            "rejectionreason": null,
+            "opsemailid": "938aba03-9625-477e-bb91-31f01ae9f2f7",
+            "terminalid": "71861720",
+            "serialnumber": "63250326403391",
+            "rejectionreason": "",
             "bukuorigin": null
           },
           "orderprogress": {
-            "draft": null,
-            "waiting_for_ops": "2025-02-03T10:15:49.398",
-            "unassigned": null,
-            "waiting_for_additional_doc": null,
+            "draft": "2025-09-06T01:57:40.330",
+            "waiting_for_ops": "2025-09-06T02:00:55.797",
+            "unassigned": "2025-09-06T01:59:31.437",
+            "waiting_for_additional_doc": "2025-09-06T02:00:26.565",
             "rejected": null,
             "cancelled": null,
-            "completed": "2025-02-03T10:41:58.747"
+            "completed": "2025-09-06T02:07:56.713"
           },
-          "useracknowledgement": null,
+          "useracknowledgement": true,
           "kyctier": "SUPREME",
           "version": "v2",
           "beneficiaryaccountdetails": null,
-          "orderamountdetails": null,
-          "otsflow": null,
-          "partnershipordercreatedby": "farah.dibah@bukuwarung.com",
+          "orderamountdetails": {
+            "totalpayableamount": "499000",
+            "totalpayableamount__it": null,
+            "productprice": "1000000",
+            "productprice__it": null,
+            "discounts": {
+              "diskon_code_referral": "350000",
+              "diskon_code_referral__it": null,
+              "diskon": "151000",
+              "diskon__it": null
+            }
+          },
+          "otsflow": true,
+          "partnershipordercreatedby": null,
           "progress": null,
           "paymentlinkexpiredtime": null,
           "paymentamount": null,
@@ -492,15 +579,15 @@
     },
     {
       "column_name": "name",
-      "data_type": "NULL",
+      "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 58.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "null_percentage": 32.53,
+      "description": "Name - text value. Examples: 'SUSILO AJI', 'NOVA JOHANA LAHINDAH'",
+      "business_context": "Populated in 67% of records.",
       "example_values": [
-        "KUSUMA JAYA BAKTI SIRAIT",
-        "SARDI SURYADI",
-        "ANO WARISMAN"
+        "SUSILO AJI",
+        "NOVA JOHANA LAHINDAH",
+        "EMANUEL"
       ]
     },
     {
@@ -508,59 +595,80 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Unique identifier for order",
+      "business_context": "Required field - always populated. Used for joins and lookups.",
       "example_values": [
-        "e1b532a1-e7f8-48a3-9e55-6459be77a5b1",
-        "9ccfda0b-3c8e-42f7-aa9c-d94c2102c643",
-        "59275da4-ba82-4499-8c2d-9f91be208e13"
+        "a67a8c03-db24-4dc8-993d-3655b29884c8",
+        "f009658c-3e61-4107-9aa5-52c33243c41f",
+        "935113e1-3e07-4702-a350-9987ca68fee2"
       ]
     },
     {
       "column_name": "payment_metadata",
-      "data_type": "NULL",
+      "data_type": "JSON",
       "nullable": true,
-      "null_percentage": 82.89,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "null_percentage": 48.02,
+      "description": "Payment Metadata - JSON value",
+      "business_context": "Populated in 52% of records.",
       "example_values": [
         {
-          "progress": null,
-          "paymentlinkexpiredtime": null,
-          "paymentamount": null,
+          "progress": {
+            "paid": "2025-10-22T08:57:10",
+            "created": "2025-10-22T08:49:14.419",
+            "refunding": null,
+            "refunded": null,
+            "refunding_failed": null,
+            "cancelled": null
+          },
+          "paymentlinkexpiredtime": "2025-10-22T09:19:14",
+          "paymentamount": "499000",
           "refundid": null,
-          "paymentmethod": null,
-          "paidat": "2026-02-02T13:51:01.857",
+          "paymentmethod": "VIRTUAL_ACCOUNT-BRI",
+          "paidat": "2025-10-22T08:57:10",
           "paymentlink": null,
           "paymentrefundorderid": null,
-          "paymentaccountid": null,
-          "paymentlinkgeneratedtime": null,
+          "paymentaccountid": "5786e7a5-6481-4928-9066-3214ae3810f7",
+          "paymentlinkgeneratedtime": "2025-10-22T08:49:14.419",
           "paymentamount__it": null
         },
         {
-          "progress": null,
-          "paymentlinkexpiredtime": null,
-          "paymentamount": null,
+          "progress": {
+            "paid": "2025-11-26T02:15:34",
+            "created": "2025-11-26T02:09:17.414",
+            "refunding": null,
+            "refunded": null,
+            "refunding_failed": null,
+            "cancelled": null
+          },
+          "paymentlinkexpiredtime": "2025-11-26T02:39:17",
+          "paymentamount": "499000",
           "refundid": null,
-          "paymentmethod": null,
-          "paidat": "2026-04-09T16:40:09.186",
+          "paymentmethod": "ONLINE_TO_OFFLINE-INDOMARET",
+          "paidat": "2025-11-26T02:15:34",
           "paymentlink": null,
           "paymentrefundorderid": null,
-          "paymentaccountid": null,
-          "paymentlinkgeneratedtime": null,
+          "paymentaccountid": "00000193-1090-8d26-abda-d404a10beec4",
+          "paymentlinkgeneratedtime": "2025-11-26T02:09:17.414",
           "paymentamount__it": null
         },
         {
-          "progress": null,
-          "paymentlinkexpiredtime": null,
-          "paymentamount": null,
+          "progress": {
+            "paid": "2025-09-06T02:00:25",
+            "created": "2025-09-06T01:59:31.295",
+            "refunding": null,
+            "refunded": null,
+            "refunding_failed": null,
+            "cancelled": null
+          },
+          "paymentlinkexpiredtime": "2025-09-06T02:29:31",
+          "paymentamount": "499000",
           "refundid": null,
-          "paymentmethod": null,
-          "paidat": "2025-04-15T06:05:07.571",
+          "paymentmethod": "VIRTUAL_ACCOUNT-BRI",
+          "paidat": "2025-09-06T02:00:25",
           "paymentlink": null,
           "paymentrefundorderid": null,
-          "paymentaccountid": null,
-          "paymentlinkgeneratedtime": null,
+          "paymentaccountid": "00000199-1cb1-9ecd-b26f-e875dc1d5f98",
+          "paymentlinkgeneratedtime": "2025-09-06T01:59:31.295",
           "paymentamount__it": null
         }
       ]
@@ -569,9 +677,9 @@
       "column_name": "payment_status",
       "data_type": "NULL",
       "nullable": true,
-      "null_percentage": 82.79,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "null_percentage": 50.08,
+      "description": "Payment Status - NULL value",
+      "business_context": "Sparse field - populated in minority of records. Used for segmentation.",
       "example_values": [
         "PAID",
         "PAID",
@@ -583,34 +691,34 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Phone - text value. Examples: '88233658973', '82189339100'",
+      "business_context": "Required field - always populated.",
       "example_values": [
-        "81382982840",
-        "89698768202",
-        "81514542000"
+        "88233658973",
+        "82189339100",
+        "81356311264"
       ]
     },
     {
       "column_name": "postal_code",
-      "data_type": "NULL",
+      "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 60.03,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "null_percentage": 36.23,
+      "description": "Postal Code - classification code. Examples: 53191, 95234",
+      "business_context": "Populated in 64% of records.",
       "example_values": [
-        "13570",
-        "17530",
-        "16263"
+        "53191",
+        "95234",
+        "90224"
       ]
     },
     {
       "column_name": "purchase_referral",
-      "data_type": "NULL",
+      "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 83.65,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "null_percentage": 49.35,
+      "description": "Purchase Referral - text value. Examples: '', ''",
+      "business_context": "Populated in 51% of records.",
       "example_values": [
         "",
         "",
@@ -619,11 +727,11 @@
     },
     {
       "column_name": "referee_name",
-      "data_type": "NULL",
+      "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 83.65,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "null_percentage": 49.35,
+      "description": "Referee Name - text value. Examples: '', ''",
+      "business_context": "Populated in 51% of records.",
       "example_values": [
         "",
         "",
@@ -632,11 +740,11 @@
     },
     {
       "column_name": "referee_phone",
-      "data_type": "NULL",
+      "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 83.65,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "null_percentage": 49.35,
+      "description": "Referee Phone - text value. Examples: '', ''",
+      "business_context": "Populated in 51% of records.",
       "example_values": [
         "",
         "",
@@ -648,38 +756,38 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Status - text value. Examples: 'Completed', 'Completed'",
+      "business_context": "Required field - always populated. Used for segmentation.",
       "example_values": [
-        "Cancelled",
-        "Cancelled",
+        "Completed",
+        "Completed",
         "Completed"
       ]
     },
     {
       "column_name": "subdistrict",
-      "data_type": "NULL",
+      "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 60.03,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "null_percentage": 36.23,
+      "description": "Subdistrict - text value. Examples: 'Kalibagor', 'Singkil'",
+      "business_context": "Populated in 64% of records.",
       "example_values": [
-        "Makasar",
-        "CIKARANG UTARA",
-        "Tamansari"
+        "Kalibagor",
+        "Singkil",
+        "Balang Baru"
       ]
     },
     {
       "column_name": "transaction_id",
       "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 0.78,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "null_percentage": 1.87,
+      "description": "Unique identifier for transaction",
+      "business_context": "Populated in 98% of records. Used for joins and lookups.",
       "example_values": [
-        "E250625H8MBO6BGQG",
-        "E250203H49VLB8T3T",
-        "E250219H4RJ3LAYSD"
+        "E251022HC9KNJUMOZ",
+        "E241109H1N3K7HPPY",
+        "E250906HAUJK2UHMU"
       ]
     },
     {
@@ -687,12 +795,12 @@
       "data_type": "UNKNOWN",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Timestamp of updated at. Format: YYYY-MM-DD",
+      "business_context": "Required field - always populated. Used for time-based analysis.",
       "example_values": [
-        "2024-07-24 11:20:47.237000+00:00",
-        "2024-05-03 05:39:26.818000+00:00",
-        "2025-06-25 07:48:08.417000+00:00"
+        "2025-10-22 09:39:50.335000+00:00",
+        "2025-11-26 02:57:59.333000+00:00",
+        "2025-09-06 02:29:41.182000+00:00"
       ]
     },
     {
@@ -700,41 +808,52 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Unique identifier for user",
+      "business_context": "Required field - always populated. Used for joins and lookups.",
       "example_values": [
-        "81382982840",
-        "89698768202",
-        "81514542000"
+        "88233658973",
+        "82189339100",
+        "81356311264"
       ]
     },
     {
       "column_name": "user_id_uuid",
       "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 0.1,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "null_percentage": 0.3,
+      "description": "Unique identifier for user uuid",
+      "business_context": "Populated in 100% of records. Used for joins and lookups.",
       "example_values": [
-        "46d07eaa-1624-41f3-a2a2-9ceb5e712763",
-        "a850a301-ce98-40f4-8d33-8826b5c927cd",
-        "f348b404-f3f4-4c0e-ad1b-226d76b1c911"
+        "4de0c1a0-954d-4ec2-8baf-da08c7ff6c01",
+        "740d101a-0e92-4fe0-ae53-52e82ec0d921",
+        "6438a895-49ed-49b5-b016-51606ffbb5ed"
       ]
     },
     {
       "column_name": "ward",
-      "data_type": "NULL",
+      "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 60.03,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "null_percentage": 36.23,
+      "description": "Ward - text value. Examples: 'Kalibagor', ' Kombos Barat'",
+      "business_context": "Populated in 64% of records.",
       "example_values": [
-        " Kebon Pala",
-        "KABUPATEN BEKASI",
-        " Sukajadi"
+        "Kalibagor",
+        " Kombos Barat",
+        "Balang Baru"
       ]
     }
   ],
+  "query_metrics": {
+    "total_queries_30_days": 20868,
+    "select_operations": 21278,
+    "insert_operations": 129,
+    "update_operations": 40,
+    "delete_operations": 0,
+    "days_active_in_30_days": 181,
+    "peak_query_hour": 1,
+    "last_queried": "2026-05-05T08:59:29.922000+00:00"
+  },
+  "documentation_enriched": "2026-05-05T17:45:16.396384",
   "table_relationships": [
     {
       "related_table": "ledger-fcc1e.merchant_success_analytics.tfcode_name",
@@ -796,17 +915,5 @@
       "relationship_type": "frequently_joined_with",
       "last_joined": "2026-05-05T08:36:09.214000+00:00"
     }
-  ],
-  "query_metrics": {
-    "total_queries_30_days": 20868,
-    "select_operations": 21278,
-    "insert_operations": 129,
-    "update_operations": 40,
-    "delete_operations": 0,
-    "days_active_in_30_days": 181,
-    "peak_query_hour": 1,
-    "last_queried": "2026-05-05T08:59:29.922000+00:00"
-  },
-  "table_business_context": "Fact table, regularly queried and for analysis and reporting and frequently joined with tfcode_name, prod_cart.",
-  "documentation_enriched": "2026-05-05T17:33:29.676786"
+  ]
 }

@@ -3,15 +3,15 @@
   "full_table_id": "ledger-fcc1e.trb_pymnts_derived.location_gmaps_static",
   "total_columns": 16,
   "sample_rows_analyzed": 10000,
-  "documentation_generated": "2026-05-05T17:28:54.580922",
+  "documentation_generated": "2026-05-05T17:44:46.090739",
   "columns": [
     {
       "column_name": "area",
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Area - text value. Examples: 'SUMATERA 1', 'BALI NUSRA'",
+      "business_context": "Required field - always populated.",
       "example_values": [
         "SUMATERA 1",
         "BALI NUSRA",
@@ -23,8 +23,8 @@
       "data_type": "STRING (LONG)",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Formatted Address - text value. Examples: '9WR9+C5J, Seukeumbrok, Kec. Pidie, Kabupaten Pidie, Aceh, Indonesia', 'Jl. Gn. Tangkuban Perahu No.10a, Kerobokan Kelod, Kec. Kuta Utara, Kabupaten Badung, Bali 80361, Indonesia'",
+      "business_context": "Required field - always populated.",
       "example_values": [
         "9WR9+C5J, Seukeumbrok, Kec. Pidie, Kabupaten Pidie, Aceh, Indonesia",
         "Jl. Gn. Tangkuban Perahu No.10a, Kerobokan Kelod, Kec. Kuta Utara, Kabupaten Badung, Bali 80361, Indonesia",
@@ -36,8 +36,8 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Kabupaten - text value. Examples: 'KABUPATEN PIDIE', 'KABUPATEN BADUNG'",
+      "business_context": "Required field - always populated.",
       "example_values": [
         "KABUPATEN PIDIE",
         "KABUPATEN BADUNG",
@@ -49,8 +49,8 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Kecamatan - text value. Examples: 'PIDIE', 'KUTA UTARA'",
+      "business_context": "Required field - always populated.",
       "example_values": [
         "PIDIE",
         "KUTA UTARA",
@@ -62,8 +62,8 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Lat Long - text value. Examples: '5.391094208,95.91785431', '-8.6740059,115.1728238'",
+      "business_context": "Required field - always populated.",
       "example_values": [
         "5.391094208,95.91785431",
         "-8.6740059,115.1728238",
@@ -75,8 +75,8 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Latitude - text value. Examples: '5.391094208', '-8.6740059'",
+      "business_context": "Required field - always populated.",
       "example_values": [
         "5.391094208",
         "-8.6740059",
@@ -88,8 +88,8 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Longitude - text value. Examples: '95.91785431', '115.1728238'",
+      "business_context": "Required field - always populated.",
       "example_values": [
         "95.91785431",
         "115.1728238",
@@ -101,8 +101,8 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Old Kabupaten Dont Use - text value. Examples: 'PIDIE', 'KABUPATEN BADUNG'",
+      "business_context": "Required field - always populated.",
       "example_values": [
         "PIDIE",
         "KABUPATEN BADUNG",
@@ -114,8 +114,8 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.04,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Old Kecamatan Dont Use - text value. Examples: 'SEUKEUMBROK', 'KEC. KUTA UTARA'",
+      "business_context": "Populated in 100% of records.",
       "example_values": [
         "SEUKEUMBROK",
         "KEC. KUTA UTARA",
@@ -127,8 +127,8 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Old Province Dont Use - text value. Examples: 'ACEH', 'BALI'",
+      "business_context": "Required field - always populated.",
       "example_values": [
         "ACEH",
         "BALI",
@@ -140,8 +140,8 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Parsing Status - text value. Examples: 'COMPLETE_HIGH_CONFIDENCE', 'COMPLETE_HIGH_CONFIDENCE'",
+      "business_context": "Required field - always populated. Used for segmentation.",
       "example_values": [
         "COMPLETE_HIGH_CONFIDENCE",
         "COMPLETE_HIGH_CONFIDENCE",
@@ -153,8 +153,8 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Phone Number - text value. Examples: '85314173200', '81237897255'",
+      "business_context": "Required field - always populated.",
       "example_values": [
         "85314173200",
         "81237897255",
@@ -166,8 +166,8 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Province - text value. Examples: 'NANGGROE ACEH DARUSSALAM', 'BALI'",
+      "business_context": "Required field - always populated.",
       "example_values": [
         "NANGGROE ACEH DARUSSALAM",
         "BALI",
@@ -179,8 +179,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Raw Response - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -188,8 +188,8 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Source Flag - text value. Examples: 'Mar 2026', 'Mar 2026'",
+      "business_context": "Required field - always populated. Used for segmentation.",
       "example_values": [
         "Mar 2026",
         "Mar 2026",
@@ -201,8 +201,8 @@
       "data_type": "UNKNOWN",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Timestamp of timestamp  . Format: YYYY-MM-DD",
+      "business_context": "Required field - always populated. Used for time-based analysis.",
       "example_values": [
         "2026-03-06 06:00:06.308148+00:00",
         "2026-03-06 06:00:06.308148+00:00",
@@ -210,6 +210,17 @@
       ]
     }
   ],
+  "query_metrics": {
+    "total_queries_30_days": 26839,
+    "select_operations": 26864,
+    "insert_operations": 4075,
+    "update_operations": 4,
+    "delete_operations": 0,
+    "days_active_in_30_days": 181,
+    "peak_query_hour": 0,
+    "last_queried": "2026-05-05T09:00:07.349000+00:00"
+  },
+  "documentation_enriched": "2026-05-05T17:44:47.937838",
   "table_relationships": [
     {
       "related_table": "ledger-fcc1e.retail_payment_base.retail_order_delivery_funnel",
@@ -271,17 +282,5 @@
       "relationship_type": "frequently_joined_with",
       "last_joined": "2026-05-05T09:00:07.349000+00:00"
     }
-  ],
-  "query_metrics": {
-    "total_queries_30_days": 26839,
-    "select_operations": 26864,
-    "insert_operations": 4075,
-    "update_operations": 4,
-    "delete_operations": 0,
-    "days_active_in_30_days": 181,
-    "peak_query_hour": 0,
-    "last_queried": "2026-05-05T09:00:07.349000+00:00"
-  },
-  "table_business_context": "Fact table, regularly queried and for analysis and reporting and frequently joined with retail_order_delivery_funnel, retail_order_data.",
-  "documentation_enriched": "2026-05-05T17:32:11.855809"
+  ]
 }

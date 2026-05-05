@@ -3,15 +3,15 @@
   "full_table_id": "ledger-fcc1e.merchant_success_analytics.ms_merchant_profiling_ssot",
   "total_columns": 107,
   "sample_rows_analyzed": 10000,
-  "documentation_generated": "2026-05-05T17:30:38.749371",
+  "documentation_generated": "2026-05-05T17:44:58.056679",
   "columns": [
     {
       "column_name": "active_days_users_in_this_coordinate",
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 95.84,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Active Days Users In This Coordinate - NULL value",
+      "business_context": "Optional field - rarely populated. Used for segmentation.",
       "example_values": [
         "Users in this coordinate for 182 days",
         "Users in this coordinate for 35 days",
@@ -23,8 +23,8 @@
       "data_type": "STRING (LONG)",
       "nullable": true,
       "null_percentage": 28.91,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Address - text value. Examples: 'Jalan STM, Perumahan Artha Vista Residence, Suka Maju, Medan Johor, Kota Medan, Sumatera Utara, Sumatra, 20146, Indonesia', 'Kompleks IDI Pettarani, Masale, Panakkukang, Makassar, Sulawesi Selatan, Sulawesi, 92300, Indonesia'",
+      "business_context": "Populated in 71% of records.",
       "example_values": [
         "Jalan STM, Perumahan Artha Vista Residence, Suka Maju, Medan Johor, Kota Medan, Sumatera Utara, Sumatra, 20146, Indonesia",
         "Kompleks IDI Pettarani, Masale, Panakkukang, Makassar, Sulawesi Selatan, Sulawesi, 92300, Indonesia",
@@ -36,8 +36,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 78.85,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Area - NULL value",
+      "business_context": "Sparse field - populated in minority of records.",
       "example_values": [
         "SUMATERA 1",
         "JAVA 1",
@@ -49,8 +49,8 @@
       "data_type": "ARRAY",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Banktransferapps - ARRAY value",
+      "business_context": "Required field - always populated.",
       "example_values": [
         [],
         [],
@@ -62,8 +62,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Bricardtransactions - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -71,8 +71,8 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 15.13,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Businessname - text value. Examples: 'Mie ayam jamur riski', 'Oemah Sus'",
+      "business_context": "Populated in 85% of records.",
       "example_values": [
         "Mie ayam jamur riski",
         "Oemah Sus",
@@ -84,8 +84,8 @@
       "data_type": "ARRAY",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Businesstypes - ARRAY value",
+      "business_context": "Required field - always populated.",
       "example_values": [
         [],
         [],
@@ -97,8 +97,8 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 26.18,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Businessindustry - text value. Examples: 'fnb', 'fnb'",
+      "business_context": "Populated in 74% of records.",
       "example_values": [
         "fnb",
         "fnb",
@@ -110,8 +110,8 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 26.18,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Businesslocation - text value. Examples: 'residential', 'residential'",
+      "business_context": "Populated in 74% of records.",
       "example_values": [
         "residential",
         "residential",
@@ -123,8 +123,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 99.81,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Cardtransactions - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": [
         51,
         11,
@@ -136,8 +136,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Timestamp of completedLoanDate. Format: YYYY-MM-DD",
+      "business_context": "Optional field - rarely populated. Used for time-based analysis.",
       "example_values": []
     },
     {
@@ -145,8 +145,8 @@
       "data_type": "UNKNOWN",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Createdat - UNKNOWN value",
+      "business_context": "Required field - always populated.",
       "example_values": [
         "2022-01-19 00:00:00+00:00",
         "2022-04-19 00:00:00+00:00",
@@ -158,8 +158,8 @@
       "data_type": "UNKNOWN",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Timestamp of createdDate. Format: YYYY-MM-DD",
+      "business_context": "Required field - always populated. Used for time-based analysis.",
       "example_values": [
         "2022-01-19",
         "2022-04-19",
@@ -171,8 +171,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 96.37,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Current Mse Hoa - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": [
         "vacant_sum_1",
         "mirzan",
@@ -184,8 +184,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 96.37,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Current Mse Hor - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": [
         "rolly",
         "ziko",
@@ -197,8 +197,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 96.37,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Current Mse Lead - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": [
         "heppy",
         "no_msl_java_1",
@@ -210,8 +210,8 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Data Source Flag - text value. Examples: 'Backfill BQ from Zoho', 'Backfill BQ from Zoho'",
+      "business_context": "Required field - always populated. Used for segmentation.",
       "example_values": [
         "Backfill BQ from Zoho",
         "Backfill BQ from Zoho",
@@ -223,8 +223,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Desiredloanlimit - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -232,8 +232,8 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 18.88,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "District - text value. Examples: 'TANJUNG MORAWA', 'WARUNG KIARA'",
+      "business_context": "Populated in 81% of records.",
       "example_values": [
         "TANJUNG MORAWA",
         "WARUNG KIARA",
@@ -245,8 +245,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Edcownership - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -254,8 +254,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Estimatedcustomersperday - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -263,8 +263,8 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 7.56,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Firstvisitbiztype - text value. Examples: 'RETAIL', 'PAYMENT AGENT'",
+      "business_context": "Populated in 92% of records.",
       "example_values": [
         "RETAIL",
         "PAYMENT AGENT",
@@ -276,8 +276,8 @@
       "data_type": "STRING (LONG)",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Gsheet Ssot Documentation - text value. Examples: 'https://docs.google.com/spreadsheets/d/1fi6jwHsn2O5A5RfbqxCwAeAdBhiaCq2GtF2GjnUFChw/edit?usp=sharing', 'https://docs.google.com/spreadsheets/d/1fi6jwHsn2O5A5RfbqxCwAeAdBhiaCq2GtF2GjnUFChw/edit?usp=sharing'",
+      "business_context": "Required field - always populated.",
       "example_values": [
         "https://docs.google.com/spreadsheets/d/1fi6jwHsn2O5A5RfbqxCwAeAdBhiaCq2GtF2GjnUFChw/edit?usp=sharing",
         "https://docs.google.com/spreadsheets/d/1fi6jwHsn2O5A5RfbqxCwAeAdBhiaCq2GtF2GjnUFChw/edit?usp=sharing",
@@ -289,8 +289,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Hasandroidedc - NULL value",
+      "business_context": "Optional field - rarely populated. Used for joins and lookups.",
       "example_values": []
     },
     {
@@ -298,8 +298,8 @@
       "data_type": "INTEGER",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Hasbniedc - numeric value. Range: 0 to 0",
+      "business_context": "Required field - always populated.",
       "example_values": [
         0,
         0,
@@ -311,8 +311,8 @@
       "data_type": "INTEGER",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Hasbriedc - numeric value. Range: 0 to 0",
+      "business_context": "Required field - always populated.",
       "example_values": [
         0,
         0,
@@ -324,8 +324,8 @@
       "data_type": "INTEGER",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Hasmandiriedc - numeric value. Range: 0 to 0",
+      "business_context": "Required field - always populated.",
       "example_values": [
         0,
         0,
@@ -337,8 +337,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Hassakuedc - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -346,8 +346,8 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 27.42,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Interestedinloan - text value. Examples: 'yes', 'yes'",
+      "business_context": "Populated in 73% of records.",
       "example_values": [
         "yes",
         "yes",
@@ -359,8 +359,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 78.11,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Kyc Name - NULL value",
+      "business_context": "Sparse field - populated in minority of records.",
       "example_values": [
         "BUDI ARI MUSWANDI",
         "ANI MARYANI",
@@ -372,8 +372,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 78.65,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Lakupandaicertificate - NULL value",
+      "business_context": "Sparse field - populated in minority of records.",
       "example_values": [
         false,
         false,
@@ -385,8 +385,8 @@
       "data_type": "UNKNOWN",
       "nullable": true,
       "null_percentage": 7.56,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Timestamp of latestVisitDate. Format: YYYY-MM-DD",
+      "business_context": "Populated in 92% of records. Used for time-based analysis.",
       "example_values": [
         "2024-06-07",
         "2024-07-24",
@@ -398,8 +398,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 77.97,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Latest Latitude - NULL value",
+      "business_context": "Sparse field - populated in minority of records.",
       "example_values": [
         "3.547151",
         "-6.977045",
@@ -411,8 +411,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 77.97,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Latest Longitude - NULL value",
+      "business_context": "Sparse field - populated in minority of records.",
       "example_values": [
         "98.835486",
         "106.720412",
@@ -424,8 +424,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Loanname - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -433,8 +433,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Loanownership - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -442,8 +442,8 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Location Source - text value. Examples: 'Old Prospero', 'Old Prospero'",
+      "business_context": "Required field - always populated.",
       "example_values": [
         "Old Prospero",
         "Old Prospero",
@@ -455,8 +455,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Mee Average Daily Omset Non Payment Agent - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -464,8 +464,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Mee Average Daily Omset Payment Agent - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -473,8 +473,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Mee Average Daily Profit Non Payment Agent - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -482,8 +482,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Mee Average Daily Profit Payment Agent - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -491,8 +491,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Mee Bw Loan Purpose - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -500,8 +500,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Mee Bw Loan Reason Not Interested - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -509,8 +509,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Mee Current Loan Interest - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -518,8 +518,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Mee Current Loan Type - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -527,8 +527,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Mee Current Tenor Loan - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -536,8 +536,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Mee Edc Ownership - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -545,8 +545,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Mee Interested Build Other Business - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -554,8 +554,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Mee Interested Sell Other Bw Products - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -563,8 +563,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Mee Kur Loan Bank - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -572,8 +572,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Mee Kur Loan Due - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -581,8 +581,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Mee Kur Loan Limit - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -590,8 +590,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Mee Loan Ownership Mee - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -599,8 +599,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Mee Motivation To Switch All Edc Non Bri To Bw - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -608,8 +608,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Mee Motivation To Switch Bri On Us To Bw - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -617,8 +617,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Mee Reason Why Not Use Bw For Bri On Us - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -626,8 +626,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Mee Reason Why Not Use Bw For Non Bri Card Edc Bri - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -635,8 +635,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Mee Reason Why Not Use Bw Full - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -644,8 +644,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Mee Total Card Transaction - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -653,8 +653,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 78.11,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Nik - NULL value",
+      "business_context": "Sparse field - populated in minority of records.",
       "example_values": [
         "1471021611820021",
         "3202096006800006",
@@ -666,8 +666,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 99.68,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Noncardtransactions - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": [
         31,
         11,
@@ -679,8 +679,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Notes - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -688,8 +688,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 78.65,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Numberofbranches - NULL value",
+      "business_context": "Sparse field - populated in minority of records.",
       "example_values": [
         "0",
         "0",
@@ -701,8 +701,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 93.74,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Numberofemployees - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": [
         "0",
         "0",
@@ -714,8 +714,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Ownedloanlimit - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -723,8 +723,8 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 29.8,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Ownername - text value. Examples: 'Riski', 'Vira'",
+      "business_context": "Populated in 70% of records.",
       "example_values": [
         "Riski",
         "Vira",
@@ -736,8 +736,8 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Phonenumber - text value. Examples: '85762790793', '85863482345'",
+      "business_context": "Required field - always populated.",
       "example_values": [
         "85762790793",
         "85863482345",
@@ -749,8 +749,8 @@
       "data_type": "ARRAY",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Ppobapps - ARRAY value",
+      "business_context": "Required field - always populated.",
       "example_values": [
         [],
         [],
@@ -762,8 +762,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Ppobtransactions - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -771,8 +771,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 98.52,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Prospero Merchant Profile Id - NULL value",
+      "business_context": "Optional field - rarely populated. Used for joins and lookups.",
       "example_values": [
         "5523b1c5-99a7-4616-978a-c57981a5379d",
         "5af4e3d1-0eb4-48a1-8029-c106854dc469",
@@ -784,8 +784,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 78.85,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Province - NULL value",
+      "business_context": "Sparse field - populated in minority of records.",
       "example_values": [
         "SUMATERA UTARA",
         "JAWA BARAT",
@@ -797,8 +797,8 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 18.4,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Regency - text value. Examples: 'KABUPATEN DELI SERDANG', 'KABUPATEN SUKABUMI'",
+      "business_context": "Populated in 82% of records.",
       "example_values": [
         "KABUPATEN DELI SERDANG",
         "KABUPATEN SUKABUMI",
@@ -810,8 +810,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Retailcommunityaffiliation - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -819,8 +819,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Retailcommunityname - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -828,8 +828,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Retailcontactpicpoi - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -837,8 +837,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Retailcreditcardpcttransaction - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -846,8 +846,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Retaildailyqrisvolume - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -855,8 +855,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Retaildebitcardpcttransaction - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -864,8 +864,8 @@
       "data_type": "ARRAY",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Retailedcownership - ARRAY value",
+      "business_context": "Required field - always populated.",
       "example_values": [
         [],
         [],
@@ -877,8 +877,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Retailestablishmenttype - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -886,8 +886,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Retaileventpiccontact - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -895,8 +895,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Retaileventpicname - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -904,8 +904,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Retaillocatedinevent - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -913,8 +913,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Retaillocatedinpoi - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -922,8 +922,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Retailmerchantflag - NULL value",
+      "business_context": "Optional field - rarely populated. Used for segmentation.",
       "example_values": []
     },
     {
@@ -931,8 +931,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Retailnamepicpoi - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -940,8 +940,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Retailnamepoi - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -949,8 +949,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Retailofflinedailytransaction - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -958,8 +958,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Retailonlinedailytransaction - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -967,8 +967,8 @@
       "data_type": "ARRAY",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Retailposownership - ARRAY value",
+      "business_context": "Required field - always populated.",
       "example_values": [
         [],
         [],
@@ -980,8 +980,8 @@
       "data_type": "ARRAY",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Retailqrisownership - ARRAY value",
+      "business_context": "Required field - always populated.",
       "example_values": [
         [],
         [],
@@ -993,8 +993,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Retailqrispcttransaction - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -1002,8 +1002,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Retailtypepoi - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -1011,8 +1011,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Roadlocationtype - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -1020,8 +1020,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Shoppic - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -1029,8 +1029,8 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 27.42,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Storetype - text value. Examples: 'snack_beverages', 'snack_beverages'",
+      "business_context": "Populated in 73% of records.",
       "example_values": [
         "snack_beverages",
         "snack_beverages",
@@ -1042,8 +1042,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 79.98,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Timestamp of supreme date. Format: YYYY-MM-DD",
+      "business_context": "Sparse field - populated in minority of records. Used for time-based analysis.",
       "example_values": [
         "2022-08-29",
         "2022-11-30",
@@ -1055,8 +1055,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 79.98,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Supreme Tier - NULL value",
+      "business_context": "Sparse field - populated in minority of records.",
       "example_values": [
         "SUPREME",
         "SUPREME",
@@ -1068,8 +1068,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Surroundingarea - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -1077,8 +1077,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Totalandroidmachine - NULL value",
+      "business_context": "Optional field - rarely populated. Used for joins and lookups.",
       "example_values": []
     },
     {
@@ -1086,8 +1086,8 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 21.41,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Totaldailytransactions - numeric value. Range: 0 to 0",
+      "business_context": "Populated in 79% of records.",
       "example_values": [
         0,
         0,
@@ -1099,8 +1099,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Totalsakumachine - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -1108,8 +1108,8 @@
       "data_type": "UNKNOWN",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Timestamp of updatedAt. Format: YYYY-MM-DD",
+      "business_context": "Required field - always populated. Used for time-based analysis.",
       "example_values": [
         "2024-08-18 22:39:06.108405+00:00",
         "2024-08-18 22:39:06.108405+00:00",
@@ -1121,8 +1121,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Userid - NULL value",
+      "business_context": "Optional field - rarely populated. Used for joins and lookups.",
       "example_values": []
     },
     {
@@ -1130,8 +1130,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Visited By Mee Flag - NULL value",
+      "business_context": "Optional field - rarely populated. Used for segmentation.",
       "example_values": []
     },
     {
@@ -1139,8 +1139,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Yearfounded - NULL value",
+      "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
     {
@@ -1148,8 +1148,8 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 21.41,
-      "description": "[TODO] Add description",
-      "business_context": "[TODO] Add context",
+      "description": "Yearofbirth - numeric value. Range: 0 to 0",
+      "business_context": "Populated in 79% of records.",
       "example_values": [
         0,
         0,
@@ -1157,6 +1157,17 @@
       ]
     }
   ],
+  "query_metrics": {
+    "total_queries_30_days": 4113,
+    "select_operations": 4129,
+    "insert_operations": 568,
+    "update_operations": 40,
+    "delete_operations": 0,
+    "days_active_in_30_days": 181,
+    "peak_query_hour": 1,
+    "last_queried": "2026-05-05T07:15:59.941000+00:00"
+  },
+  "documentation_enriched": "2026-05-05T17:44:59.658968",
   "table_relationships": [
     {
       "related_table": "ledger-fcc1e.trb_pymnts_derived.edc_transaction_level",
@@ -1218,17 +1229,5 @@
       "relationship_type": "frequently_joined_with",
       "last_joined": "2026-05-05T00:15:04.669000+00:00"
     }
-  ],
-  "query_metrics": {
-    "total_queries_30_days": 4113,
-    "select_operations": 4129,
-    "insert_operations": 568,
-    "update_operations": 40,
-    "delete_operations": 0,
-    "days_active_in_30_days": 181,
-    "peak_query_hour": 1,
-    "last_queried": "2026-05-05T07:15:59.941000+00:00"
-  },
-  "table_business_context": "Fact table, regularly queried and for analysis and reporting and frequently joined with edc_transaction_level, book_store.",
-  "documentation_enriched": "2026-05-05T17:32:24.023113"
+  ]
 }
