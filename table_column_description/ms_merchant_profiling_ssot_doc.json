@@ -3,7 +3,7 @@
   "full_table_id": "ledger-fcc1e.merchant_success_analytics.ms_merchant_profiling_ssot",
   "total_columns": 107,
   "sample_rows_analyzed": 10000,
-  "documentation_generated": "2026-05-05T17:50:28.839296",
+  "documentation_generated": "2026-05-05T17:59:20.556476",
   "columns": [
     {
       "column_name": "active_days_users_in_this_coordinate",
@@ -11,7 +11,7 @@
       "nullable": true,
       "null_percentage": 95.84,
       "description": "Indicator of active days users in thcoordinate status",
-      "business_context": "Optional field - rarely populated.",
+      "business_context": "Optional field - rarely populated. Used for segmentation and status-based filtering.",
       "example_values": [
         "Users in this coordinate for 182 days",
         "Users in this coordinate for 35 days",
@@ -137,7 +137,7 @@
       "nullable": true,
       "null_percentage": 100.0,
       "description": "Date when completedLoanDate took place",
-      "business_context": "Optional field - rarely populated. Used for time-based analysis.",
+      "business_context": "Optional field - rarely populated. Used for time-based analysis and filtering.",
       "example_values": []
     },
     {
@@ -159,7 +159,7 @@
       "nullable": false,
       "null_percentage": 0.0,
       "description": "Date when createdDate took place",
-      "business_context": "Required field - always populated. Used for time-based analysis.",
+      "business_context": "Required field - always populated. Used for time-based analysis and filtering.",
       "example_values": [
         "2022-01-19",
         "2022-04-19",
@@ -210,8 +210,8 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Data Source Flag",
-      "business_context": "Required field - always populated. Used for segmentation.",
+      "description": "Indicator of data source status",
+      "business_context": "Required field - always populated. Used for segmentation and status-based filtering.",
       "example_values": [
         "Backfill BQ from Zoho",
         "Backfill BQ from Zoho",
@@ -232,7 +232,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 18.88,
-      "description": "District",
+      "description": "Regency/District name (Indonesian administrative level 2)",
       "business_context": "Populated in 81% of records.",
       "example_values": [
         "TANJUNG MORAWA",
@@ -386,7 +386,7 @@
       "nullable": true,
       "null_percentage": 7.56,
       "description": "Geographic latitude coordinate for location mapping",
-      "business_context": "Populated in 92% of records. Used for time-based analysis.",
+      "business_context": "Populated in 92% of records. Used for time-based analysis and filtering.",
       "example_values": [
         "2024-06-07",
         "2024-07-24",
@@ -797,7 +797,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 18.4,
-      "description": "Regency",
+      "description": "Regency/District name (Indonesian administrative level 2)",
       "business_context": "Populated in 82% of records.",
       "example_values": [
         "KABUPATEN DELI SERDANG",
@@ -922,8 +922,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retailmerchantflag",
-      "business_context": "Optional field - rarely populated. Used for segmentation.",
+      "description": "Indicator of retailMerchantFlag status",
+      "business_context": "Optional field - rarely populated. Used for segmentation and status-based filtering.",
       "example_values": []
     },
     {
@@ -1043,7 +1043,7 @@
       "nullable": true,
       "null_percentage": 79.98,
       "description": "Date when supreme took place",
-      "business_context": "Sparse field - populated in minority of records. Used for time-based analysis.",
+      "business_context": "Sparse field - populated in minority of records. Used for time-based analysis and filtering.",
       "example_values": [
         "2022-08-29",
         "2022-11-30",
@@ -1086,7 +1086,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 21.41,
-      "description": "Total count of totalDailyTransactions",
+      "description": "Total count or number of totalDailyTransactions",
       "business_context": "Populated in 79% of records.",
       "example_values": [
         0,
@@ -1109,7 +1109,7 @@
       "nullable": false,
       "null_percentage": 0.0,
       "description": "Date when updatedAt took place",
-      "business_context": "Required field - always populated. Used for time-based analysis.",
+      "business_context": "Required field - always populated. Used for time-based analysis and filtering.",
       "example_values": [
         "2024-08-18 22:39:06.108405+00:00",
         "2024-08-18 22:39:06.108405+00:00",
@@ -1130,8 +1130,8 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Visited By Mee Flag",
-      "business_context": "Optional field - rarely populated. Used for segmentation.",
+      "description": "Indicator of visited by mee status",
+      "business_context": "Optional field - rarely populated. Used for segmentation and status-based filtering.",
       "example_values": []
     },
     {
@@ -1157,17 +1157,6 @@
       ]
     }
   ],
-  "query_metrics": {
-    "total_queries_30_days": 4113,
-    "select_operations": 4129,
-    "insert_operations": 568,
-    "update_operations": 40,
-    "delete_operations": 0,
-    "days_active_in_30_days": 181,
-    "peak_query_hour": 1,
-    "last_queried": "2026-05-05T07:15:59.941000+00:00"
-  },
-  "documentation_enriched": "2026-05-05T17:50:30.622188",
   "table_relationships": [
     {
       "related_table": "ledger-fcc1e.trb_pymnts_derived.edc_transaction_level",
@@ -1229,5 +1218,16 @@
       "relationship_type": "frequently_joined_with",
       "last_joined": "2026-05-05T00:15:04.669000+00:00"
     }
-  ]
+  ],
+  "query_metrics": {
+    "total_queries_30_days": 4113,
+    "select_operations": 4129,
+    "insert_operations": 568,
+    "update_operations": 40,
+    "delete_operations": 0,
+    "days_active_in_30_days": 181,
+    "peak_query_hour": 1,
+    "last_queried": "2026-05-05T07:15:59.941000+00:00"
+  },
+  "documentation_enriched": "2026-05-05T17:59:53.999211"
 }

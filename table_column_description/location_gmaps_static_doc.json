@@ -3,7 +3,7 @@
   "full_table_id": "ledger-fcc1e.trb_pymnts_derived.location_gmaps_static",
   "total_columns": 16,
   "sample_rows_analyzed": 10000,
-  "documentation_generated": "2026-05-05T17:50:16.440593",
+  "documentation_generated": "2026-05-05T17:57:39.277199",
   "columns": [
     {
       "column_name": "area",
@@ -141,7 +141,7 @@
       "nullable": false,
       "null_percentage": 0.0,
       "description": "Classification value indicating parsing status",
-      "business_context": "Required field - always populated. Used for segmentation.",
+      "business_context": "Required field - always populated. Used for segmentation and status-based filtering.",
       "example_values": [
         "COMPLETE_HIGH_CONFIDENCE",
         "COMPLETE_HIGH_CONFIDENCE",
@@ -188,8 +188,8 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Source Flag",
-      "business_context": "Required field - always populated. Used for segmentation.",
+      "description": "Indicator of source status",
+      "business_context": "Required field - always populated. Used for segmentation and status-based filtering.",
       "example_values": [
         "Mar 2026",
         "Mar 2026",
@@ -202,7 +202,7 @@
       "nullable": false,
       "null_percentage": 0.0,
       "description": "Timestamp when timestamp   occurred",
-      "business_context": "Required field - always populated. Used for time-based analysis.",
+      "business_context": "Required field - always populated. Used for time-based analysis and filtering.",
       "example_values": [
         "2026-03-06 06:00:06.308148+00:00",
         "2026-03-06 06:00:06.308148+00:00",
@@ -210,17 +210,6 @@
       ]
     }
   ],
-  "query_metrics": {
-    "total_queries_30_days": 26839,
-    "select_operations": 26864,
-    "insert_operations": 4075,
-    "update_operations": 4,
-    "delete_operations": 0,
-    "days_active_in_30_days": 181,
-    "peak_query_hour": 0,
-    "last_queried": "2026-05-05T09:00:07.349000+00:00"
-  },
-  "documentation_enriched": "2026-05-05T17:50:18.420293",
   "table_relationships": [
     {
       "related_table": "ledger-fcc1e.retail_payment_base.retail_order_delivery_funnel",
@@ -282,5 +271,16 @@
       "relationship_type": "frequently_joined_with",
       "last_joined": "2026-05-05T09:00:07.349000+00:00"
     }
-  ]
+  ],
+  "query_metrics": {
+    "total_queries_30_days": 26839,
+    "select_operations": 26864,
+    "insert_operations": 4075,
+    "update_operations": 4,
+    "delete_operations": 0,
+    "days_active_in_30_days": 181,
+    "peak_query_hour": null,
+    "last_queried": "2026-05-05T09:00:07.349000+00:00"
+  },
+  "documentation_enriched": "2026-05-05T17:57:52.610326"
 }

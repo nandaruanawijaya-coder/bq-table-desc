@@ -3,7 +3,7 @@
   "full_table_id": "ledger-fcc1e.db_accounting.prod_edc_order",
   "total_columns": 36,
   "sample_rows_analyzed": 10000,
-  "documentation_generated": "2026-05-05T17:50:44.526306",
+  "documentation_generated": "2026-05-05T18:00:41.893568",
   "columns": [
     {
       "column_name": "_sdc_batched_at",
@@ -301,7 +301,7 @@
       "nullable": true,
       "null_percentage": 58.38,
       "description": "Classification value indicating delivery status",
-      "business_context": "Sparse field - populated in minority of records. Used for segmentation.",
+      "business_context": "Sparse field - populated in minority of records. Used for segmentation and status-based filtering.",
       "example_values": [
         "DELIVERED",
         "DELIVERED",
@@ -679,7 +679,7 @@
       "nullable": true,
       "null_percentage": 50.08,
       "description": "Classification value indicating payment status",
-      "business_context": "Sparse field - populated in minority of records. Used for segmentation.",
+      "business_context": "Sparse field - populated in minority of records. Used for segmentation and status-based filtering.",
       "example_values": [
         "PAID",
         "PAID",
@@ -757,7 +757,7 @@
       "nullable": false,
       "null_percentage": 0.0,
       "description": "Classification value indicating status",
-      "business_context": "Required field - always populated. Used for segmentation.",
+      "business_context": "Required field - always populated. Used for segmentation and status-based filtering.",
       "example_values": [
         "Completed",
         "Completed",
@@ -769,7 +769,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 36.23,
-      "description": "Subdistrict",
+      "description": "Regency/District name (Indonesian administrative level 2)",
       "business_context": "Populated in 64% of records.",
       "example_values": [
         "Kalibagor",
@@ -796,7 +796,7 @@
       "nullable": false,
       "null_percentage": 0.0,
       "description": "Date when updated at took place",
-      "business_context": "Required field - always populated. Used for time-based analysis.",
+      "business_context": "Required field - always populated. Used for time-based analysis and filtering.",
       "example_values": [
         "2025-10-22 09:39:50.335000+00:00",
         "2025-11-26 02:57:59.333000+00:00",
@@ -843,17 +843,6 @@
       ]
     }
   ],
-  "query_metrics": {
-    "total_queries_30_days": 20868,
-    "select_operations": 21278,
-    "insert_operations": 129,
-    "update_operations": 40,
-    "delete_operations": 0,
-    "days_active_in_30_days": 181,
-    "peak_query_hour": 1,
-    "last_queried": "2026-05-05T08:59:29.922000+00:00"
-  },
-  "documentation_enriched": "2026-05-05T17:50:46.549427",
   "table_relationships": [
     {
       "related_table": "ledger-fcc1e.merchant_success_analytics.tfcode_name",
@@ -915,5 +904,16 @@
       "relationship_type": "frequently_joined_with",
       "last_joined": "2026-05-05T08:36:09.214000+00:00"
     }
-  ]
+  ],
+  "query_metrics": {
+    "total_queries_30_days": 20868,
+    "select_operations": 21278,
+    "insert_operations": 129,
+    "update_operations": 40,
+    "delete_operations": 0,
+    "days_active_in_30_days": 181,
+    "peak_query_hour": 1,
+    "last_queried": "2026-05-05T08:59:29.922000+00:00"
+  },
+  "documentation_enriched": "2026-05-05T18:01:20.367886"
 }

@@ -1,0 +1,150 @@
+{
+  "table_name": "mapping_area_mse_opentable",
+  "full_table_id": "ledger-fcc1e.datamart_opentable.mapping_area_mse_opentable",
+  "total_columns": 10,
+  "sample_rows_analyzed": 1157,
+  "documentation_generated": "2026-05-05T17:58:28.600453",
+  "columns": [
+    {
+      "column_name": "area",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.43,
+      "description": "Geographic area classification for regional grouping",
+      "business_context": "Populated in 100% of records.",
+      "example_values": [
+        "Java 2",
+        "Java 2",
+        "Java 2"
+      ]
+    },
+    {
+      "column_name": "head_of_area",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.43,
+      "description": "Geographic area classification for regional grouping",
+      "business_context": "Populated in 100% of records.",
+      "example_values": [
+        "Endang",
+        "Endang",
+        "Endang"
+      ]
+    },
+    {
+      "column_name": "head_of_region",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.43,
+      "description": "Head Of Region",
+      "business_context": "Populated in 100% of records.",
+      "example_values": [
+        "ZIKO",
+        "ZIKO",
+        "ZIKO"
+      ]
+    },
+    {
+      "column_name": "mse_join_date",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 40.1,
+      "description": "Date when mse join took place",
+      "business_context": "Populated in 60% of records. Used for time-based analysis and filtering.",
+      "example_values": [
+        "1999-12-30",
+        "1999-12-30",
+        "1999-12-30"
+      ]
+    },
+    {
+      "column_name": "mse_lead",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.43,
+      "description": "Mse Lead",
+      "business_context": "Populated in 100% of records.",
+      "example_values": [
+        "Amzar Sapunda",
+        "Amzar Sapunda",
+        "Amzar Sapunda"
+      ]
+    },
+    {
+      "column_name": "mse_name_updated",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 2.16,
+      "description": "MSE Name",
+      "business_context": "Populated in 98% of records. Used for time-based analysis and filtering.",
+      "example_values": [
+        "Taufik Nugroho",
+        "Vacant MSE Banjarnegara 2",
+        "Nura Asharin"
+      ]
+    },
+    {
+      "column_name": "new_mse_city_sep_24",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.43,
+      "description": "New Mse City Sep 24",
+      "business_context": "Populated in 100% of records.",
+      "example_values": [
+        "MSE Banjarnegara",
+        "MSE Banjarnegara 2",
+        "MSE Bantul"
+      ]
+    },
+    {
+      "column_name": "province",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.43,
+      "description": "Province",
+      "business_context": "Populated in 100% of records.",
+      "example_values": [
+        "JAWA TENGAH",
+        "JAWA TENGAH",
+        "DI YOGYAKARTA"
+      ]
+    },
+    {
+      "column_name": "regency_city",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.43,
+      "description": "Regency/District name (Indonesian administrative level 2)",
+      "business_context": "Populated in 100% of records.",
+      "example_values": [
+        "KABUPATEN BANJARNEGARA",
+        "KABUPATEN BANJARNEGARA",
+        "KABUPATEN SLEMAN"
+      ]
+    },
+    {
+      "column_name": "region",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.43,
+      "description": "Region",
+      "business_context": "Populated in 100% of records.",
+      "example_values": [
+        "JAVA",
+        "JAVA",
+        "JAVA"
+      ]
+    }
+  ],
+  "query_metrics": {
+    "total_queries_30_days": 7,
+    "select_operations": 7,
+    "insert_operations": 0,
+    "update_operations": 0,
+    "delete_operations": 0,
+    "days_active_in_30_days": 4,
+    "peak_query_hour": 4,
+    "last_queried": "2026-05-04T07:27:24.613000+00:00"
+  },
+  "documentation_enriched": "2026-05-05T17:58:43.435865"
+}
