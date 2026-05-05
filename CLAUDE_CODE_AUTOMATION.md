@@ -263,6 +263,76 @@ doc = {
     "columns": []
 }
 
+def infer_description(col_name, data_type, sample_values, null_pct):
+    """Auto-generate column description from data analysis"""
+    col_lower = col_name.lower()
+    
+    # ID/Key columns
+    if 'id' in col_lower and data_type == 'STRING':
+        entity = col_name.replace('_id', '').replace('ID', '')
+        return f"Unique identifier for {entity}"
+    if 'code' in col_lower:
+        return f"{col_name.replace('_', ' ').title()} - code/classification. Examples: {', '.join(str(v)[:20] for v in sample_values[:2])}"
+    
+    # Timestamp/Date columns
+    if 'date' in col_lower or 'time' in col_lower or 'timestamp' in col_lower:
+        return f"Timestamp of {col_name.replace('_', ' ')}. Format: YYYY-MM-DD HH:MM:SS"
+    
+    # Boolean columns
+    if data_type == 'BOOLEAN':
+        return f"Flag indicating {col_name.replace('_', ' ')} state (true/false)"
+    
+    # Numeric columns
+    if data_type in ['INTEGER', 'NUMERIC', 'FLOAT']:
+        if sample_values:
+            val_range = f"Range: {min(float(v) for v in sample_values if isinstance(v, (int, float))):.0f} to {max(float(v) for v in sample_values if isinstance(v, (int, float))):.0f}"
+        else:
+            val_range = ""
+        return f"{col_name.replace('_', ' ').title()} - numeric value. {val_range}".strip()
+    
+    # String/Text columns
+    if data_type in ['STRING', 'STRING (LONG)']:
+        if sample_values:
+            examples = ', '.join(f"'{v}'" if isinstance(v, str) else str(v) for v in sample_values[:2])
+            return f"{col_name.replace('_', ' ').title()} - text value. Examples: {examples}"
+        return f"{col_name.replace('_', ' ').title()} - text/string value"
+    
+    # Default
+    return f"{col_name.replace('_', ' ').title()} - {data_type} value"
+
+def infer_business_context(col_name, null_pct, table_metrics=None):
+    """Auto-generate business context from data patterns"""
+    col_lower = col_name.lower()
+    context_parts = []
+    
+    # Nullability context
+    if null_pct >= 80:
+        context_parts.append("Optional field - rarely populated")
+    elif null_pct == 0:
+        context_parts.append("Required field - always populated")
+    elif null_pct > 50:
+        context_parts.append("Sparse field - populated in minority of records")
+    else:
+        context_parts.append(f"Populated in {100-null_pct:.0f}% of records")
+    
+    # ID/Key context
+    if 'id' in col_lower or 'key' in col_lower:
+        context_parts.append("Used for joins and lookups")
+    
+    # Date context
+    if 'date' in col_lower or 'time' in col_lower:
+        context_parts.append("Used for time-based analysis and filtering")
+    
+    # Status/Flag context
+    if 'status' in col_lower or 'flag' in col_lower or 'is_' in col_lower:
+        context_parts.append("Used for segmentation and status-based filtering")
+    
+    # Add table context if available
+    if table_metrics and table_metrics.get('total_queries_30_days', 0) > 0:
+        context_parts.append(f"Table is actively queried ({table_metrics['total_queries_30_days']} queries/month)")
+    
+    return '. '.join(context_parts) + '.'
+
 for col in sorted(columns_info.keys()):
     info = columns_info[col]
     primary_type = max(info['types'].items(), key=lambda x: x[1])[0] if info['types'] else 'NULL'
@@ -273,8 +343,8 @@ for col in sorted(columns_info.keys()):
         "data_type": primary_type,
         "nullable": True if null_pct > 0 else False,
         "null_percentage": round(null_pct, 2),
-        "description": "[TODO] Add description",
-        "business_context": "[TODO] Add context",
+        "description": infer_description(col, primary_type, info['sample_values'], null_pct),
+        "business_context": infer_business_context(col, null_pct),
         "example_values": [v for v in info['sample_values'][:3] if v is not None]
     }
     doc['columns'].append(col_doc)
@@ -294,13 +364,19 @@ print(f"✅ Documentation saved to {doc_file}")
 
 Claude Code MUST:
 
-### 3.1 Execution Steps
+### 3.1 Execution Steps (No .py files in repo)
 ```bash
-# 1. Create the script file
-# 2. Save it in repository root as: document_[TABLE_NAME].py
-# 3. Execute it via terminal: python3 document_[TABLE_NAME].py
+# 1. Generate Python script as string
+# 2. Execute it directly (don't save .py file)
+# 3. Delete any .py files created
 # 4. Check for errors and report status
 ```
+
+### 3.2 Important: Don't Commit .py Files
+- ✅ Execute scripts in memory or as temporary files
+- ❌ DO NOT commit document_[TABLE_NAME].py files to git
+- ✅ Clean up any temporary files after execution
+- Files to delete after run: `document_*.py`, `enrich_*.py`
 
 ### 3.2 Success Indicators
 Script completed successfully when:
@@ -319,36 +395,81 @@ If script fails:
 
 ---
 
-## ✏️ STEP 4: Enhance Documentation
+## ✏️ STEP 4: Auto-Generate & Enhance Documentation
 
-Claude Code MUST enhance the generated `_doc.json` file by:
+Claude Code MUST enhance the generated `_doc.json` file by filling in all descriptions:
 
-### 4.1 For Each Column
+### 4.1 Auto-Generate Column Descriptions
 
-**Replace [TODO] markers with real content**:
+**For EVERY column**, generate description based on**:
 
-```json
-{
-  "column_name": "example_column",
-  "description": "[ENHANCE THIS]",
-  "business_context": "[ENHANCE THIS]"
-}
+1. **Column name** - Infer meaning from name
+2. **Data type** - Use type to describe format
+3. **Nullability** - Is it optional or required?
+4. **Example values** - Use real data from samples
+5. **Null percentage** - How often is it empty?
+
+**Algorithm**:
+```
+IF column_name matches pattern (user_id, customer_id, etc)
+  → description = "Unique identifier for [entity]"
+ELSE IF data_type = STRING
+  → description = "[Column name] - free text value. Examples: [sample_values]"
+ELSE IF data_type = INTEGER
+  → description = "[Column name] - numeric identifier/count. Range: [min-max]"
+ELSE IF data_type = DATE/TIMESTAMP
+  → description = "[Column name] - timestamp/date. Format: YYYY-MM-DD..."
+ELSE IF data_type = BOOLEAN
+  → description = "[Column name] - flag indicating [true_state] or [false_state]"
+ELSE IF data_type = ARRAY/JSON
+  → description = "[Column name] - structured data containing [description of contents]"
+ELSE
+  → description = "Data value for [inferred_purpose]. Type: [data_type]"
 ```
 
-### 4.2 Description Guidelines
+### 4.2 Auto-Generate Business Context
 
-✅ **Good Descriptions**:
-- What data is stored
-- Format/type of data
-- Any special encoding
-- Related columns
-- Example: "Customer's full name (first + last). Format: 'FirstName LastName'"
+**For EVERY column**, generate context based on**:
+
+1. **Usage frequency** - How often appears in WHERE clauses
+2. **Filter types** - What kind of filtering is done
+3. **Nullability** - If 80%+ null → "optional/sparse", if 0% null → "required"
+4. **Table metrics** - Is table critical? Used daily?
+5. **Data quality** - Distribution, uniqueness, value patterns
+
+**Algorithm**:
+```
+IF appears_in_where_clause >= 80%
+  → "Critical dimension/filter. Used in [80%+] of queries for filtering/segmentation"
+ELSE IF appears_in_where_clause >= 50%
+  → "Primary filter dimension. Frequently used in queries for data subsetting"
+ELSE IF appears_in_where_clause >= 20%
+  → "Secondary dimension. Used in [20-50%] of queries for analysis"
+ELSE IF null_percentage >= 80%
+  → "Optional field - rarely populated. Provides supplementary information when available"
+ELSE IF null_percentage == 0%
+  → "Required field. Always present, essential for all records in this table"
+ELSE
+  → "Supporting field. Used for [context from name/type]. Present in [100-null%] of records"
+
+IF table has high query_frequency (daily usage)
+  ADD → "Used in high-frequency queries"
+IF column name suggests ID/KEY
+  ADD → "Used for joins and lookups with related tables"
+```
+
+### 4.3 Description Guidelines
+
+✅ **Good Descriptions** (Auto-Generated):
+- "Customer ID - Unique identifier for customers. Used in 95% of WHERE clauses"
+- "Order date - Transaction timestamp in YYYY-MM-DD format. Examples: 2024-01-15, 2024-02-20"
+- "Country code - ISO 3166 country code. Examples: ID, SG, TH, PH"
+- "Is active - Boolean flag indicating active (1) or inactive (0) status"
 
 ❌ **Bad Descriptions**:
-- Generic ("data", "information")
-- Too technical
-- Database-focused
-- Too long (>1 sentence)
+- "[TODO] Add description"
+- "data" or "information" or "value"
+- "Database column for storing X" (too technical)
 
 ### 4.3 Business Context Guidelines
 
