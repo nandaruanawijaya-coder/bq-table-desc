@@ -23,9 +23,10 @@ table_pairs AS (
     job_id,
     creation_time,
     query,
-    UNNEST(referenced_tables) as table_ref_1,
+    table_ref_1,
     query_size_gb
   FROM query_jobs
+  CROSS JOIN UNNEST(referenced_tables) as table_ref_1
 ),
 cross_table_pairs AS (
   SELECT
