@@ -3,14 +3,14 @@
   "full_table_id": "ledger-fcc1e.merchant_success_analytics.ms_merchant_profiling_ssot",
   "total_columns": 107,
   "sample_rows_analyzed": 10000,
-  "documentation_generated": "2026-05-06 12:07:32.661478",
+  "documentation_generated": "2026-05-06 12:12:27.791748",
   "columns": [
     {
       "column_name": "phoneNumber",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Merchant phone number (10-11 digit Indonesian mobile, no country code prefix). Primary identifier for EDC order lookup and joins.",
+      "description": "Phone number (10-11 digit Indonesian mobile). Primary identifier for EDC order lookup and joins",
       "business_context": "Required field - always populated",
       "example_values": [
         "81256525752",
@@ -23,7 +23,7 @@
       "data_type": "TIMESTAMP",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": null,
+      "description": "Createdat timestamp for tracking and record management",
       "business_context": "Required field - always populated",
       "example_values": [
         "2022-08-25 00:00:00+00:00",
@@ -36,7 +36,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": null,
+      "description": "Data Source Flag field for business operations and tracking",
       "business_context": "Required field - always populated",
       "example_values": [
         "Backfill BQ from Zoho",
@@ -54,7 +54,7 @@
       "data_type": "TIMESTAMP",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": null,
+      "description": "Updatedat timestamp for tracking and record management",
       "business_context": "Required field - always populated",
       "example_values": [
         "2024-08-18 22:39:06.108405+00:00",
@@ -67,7 +67,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 15.04,
-      "description": null,
+      "description": "Merchant or business name field for identification and records",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "toko eli",
@@ -80,7 +80,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 29.98,
-      "description": null,
+      "description": "Merchant or business name field for identification and records",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "Indah tristanti",
@@ -93,7 +93,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 21.16,
-      "description": "Yearofbirth field for MSE mapping and territory organization (optional in this data)",
+      "description": "Yearofbirth field for business operations",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "0",
@@ -109,7 +109,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 28.32,
-      "description": null,
+      "description": "Address field for business operations and tracking",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "Sayati, Kabupaten Bandung, Jawa Barat, Jawa, 40228, Indonesia",
@@ -122,7 +122,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Yearfounded field for MSE mapping and territory organization (optional in this data)",
+      "description": "Yearfounded field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -131,7 +131,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Shoppic field for MSE mapping and territory organization (optional in this data)",
+      "description": "Shoppic field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -140,7 +140,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 78.87,
-      "description": null,
+      "description": "Numberofbranches field for business operations and tracking",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "0",
@@ -156,7 +156,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 93.86,
-      "description": null,
+      "description": "Numberofemployees field for business operations and tracking",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "0",
@@ -172,7 +172,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Surroundingarea field for MSE mapping and territory organization (optional in this data)",
+      "description": "Surroundingarea field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -181,7 +181,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Roadlocationtype field for MSE mapping and territory organization (optional in this data)",
+      "description": "Roadlocationtype field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -190,7 +190,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Estimatedcustomersperday field for MSE mapping and territory organization (optional in this data)",
+      "description": "Estimatedcustomersperday field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -199,7 +199,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 21.16,
-      "description": "Totaldailytransactions field for MSE mapping and territory organization (optional in this data)",
+      "description": "Totaldailytransactions field for business operations",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "0",
@@ -215,7 +215,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 99.89,
-      "description": null,
+      "description": "Cardtransactions field for business operations and tracking",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "11",
@@ -234,7 +234,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 99.7,
-      "description": null,
+      "description": "Noncardtransactions field for business operations and tracking",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "31",
@@ -253,7 +253,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Bricardtransactions field for MSE mapping and territory organization (optional in this data)",
+      "description": "Bricardtransactions field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -262,7 +262,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Ppobtransactions field for MSE mapping and territory organization (optional in this data)",
+      "description": "Ppobtransactions field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -271,7 +271,7 @@
       "data_type": "RECORD",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Banktransferapps field for MSE mapping and territory organization (optional in this data)",
+      "description": "Banktransferapps field for business operations",
       "business_context": "Required field - always populated",
       "example_values": [
         "[]",
@@ -287,7 +287,7 @@
       "data_type": "RECORD",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Ppobapps field for MSE mapping and territory organization (optional in this data)",
+      "description": "Ppobapps field for business operations",
       "business_context": "Required field - always populated",
       "example_values": [
         "[]",
@@ -303,7 +303,7 @@
       "data_type": "BOOLEAN",
       "nullable": true,
       "null_percentage": 78.87,
-      "description": "Lakupandaicertificate field for MSE mapping and territory organization (optional in this data)",
+      "description": "Lakupandaicertificate field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "False",
@@ -319,7 +319,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Userid field for MSE mapping and territory organization (optional in this data)",
+      "description": "Userid field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -328,7 +328,7 @@
       "data_type": "RECORD",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Businesstypes field for MSE mapping and territory organization (optional in this data)",
+      "description": "Businesstypes field for business operations",
       "business_context": "Required field - always populated",
       "example_values": [
         "[]",
@@ -344,7 +344,7 @@
       "data_type": "TIMESTAMP",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Completedloandate field for MSE mapping and territory organization (optional in this data)",
+      "description": "Date or timestamp for completedloandate tracking",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -353,7 +353,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Edcownership field for MSE mapping and territory organization (optional in this data)",
+      "description": "Edcownership field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -362,7 +362,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Loanname field for MSE mapping and territory organization (optional in this data)",
+      "description": "Loanname field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -371,7 +371,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Loanownership field for MSE mapping and territory organization (optional in this data)",
+      "description": "Loanownership field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -380,7 +380,7 @@
       "data_type": "FLOAT",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Ownedloanlimit field for MSE mapping and territory organization (optional in this data)",
+      "description": "Ownedloanlimit field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -389,7 +389,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retaileventpiccontact field for MSE mapping and territory organization (optional in this data)",
+      "description": "Retaileventpiccontact field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -398,7 +398,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retailtypepoi field for MSE mapping and territory organization (optional in this data)",
+      "description": "Retailtypepoi field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -407,7 +407,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retailcommunityname field for MSE mapping and territory organization (optional in this data)",
+      "description": "Retailcommunityname field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -416,7 +416,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retailcommunityaffiliation field for MSE mapping and territory organization (optional in this data)",
+      "description": "Retailcommunityaffiliation field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -425,7 +425,7 @@
       "data_type": "RECORD",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Retailqrisownership field for MSE mapping and territory organization (optional in this data)",
+      "description": "Retailqrisownership field for business operations",
       "business_context": "Required field - always populated",
       "example_values": [
         "[]",
@@ -441,7 +441,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retailcreditcardpcttransaction field for MSE mapping and territory organization (optional in this data)",
+      "description": "Retailcreditcardpcttransaction field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -450,7 +450,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retailqrispcttransaction field for MSE mapping and territory organization (optional in this data)",
+      "description": "Retailqrispcttransaction field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -459,7 +459,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retailcontactpicpoi field for MSE mapping and territory organization (optional in this data)",
+      "description": "Retailcontactpicpoi field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -468,7 +468,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retaildebitcardpcttransaction field for MSE mapping and territory organization (optional in this data)",
+      "description": "Retaildebitcardpcttransaction field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -477,7 +477,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retailnamepicpoi field for MSE mapping and territory organization (optional in this data)",
+      "description": "Retailnamepicpoi field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -486,7 +486,7 @@
       "data_type": "RECORD",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Retailposownership field for MSE mapping and territory organization (optional in this data)",
+      "description": "Retailposownership field for business operations",
       "business_context": "Required field - always populated",
       "example_values": [
         "[]",
@@ -502,7 +502,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retailestablishmenttype field for MSE mapping and territory organization (optional in this data)",
+      "description": "Retailestablishmenttype field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -511,7 +511,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retaillocatedinevent field for MSE mapping and territory organization (optional in this data)",
+      "description": "Retaillocatedinevent field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -520,7 +520,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retaillocatedinpoi field for MSE mapping and territory organization (optional in this data)",
+      "description": "Retaillocatedinpoi field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -529,7 +529,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retaileventpicname field for MSE mapping and territory organization (optional in this data)",
+      "description": "Retaileventpicname field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -538,7 +538,7 @@
       "data_type": "RECORD",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Retailedcownership field for MSE mapping and territory organization (optional in this data)",
+      "description": "Retailedcownership field for business operations",
       "business_context": "Required field - always populated",
       "example_values": [
         "[]",
@@ -554,7 +554,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retailofflinedailytransaction field for MSE mapping and territory organization (optional in this data)",
+      "description": "Retailofflinedailytransaction field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -563,7 +563,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retailonlinedailytransaction field for MSE mapping and territory organization (optional in this data)",
+      "description": "Retailonlinedailytransaction field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -572,7 +572,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retaildailyqrisvolume field for MSE mapping and territory organization (optional in this data)",
+      "description": "Retaildailyqrisvolume field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -581,7 +581,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retailnamepoi field for MSE mapping and territory organization (optional in this data)",
+      "description": "Retailnamepoi field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -590,7 +590,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retailmerchantflag field for MSE mapping and territory organization (optional in this data)",
+      "description": "Retailmerchantflag field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -599,7 +599,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Notes field for MSE mapping and territory organization (optional in this data)",
+      "description": "Notes field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -608,7 +608,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 26.63,
-      "description": null,
+      "description": "Storetype field for business operations and tracking",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "kelontong_minimarket",
@@ -621,7 +621,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 25.45,
-      "description": null,
+      "description": "Businessindustry field for business operations and tracking",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "fmcg",
@@ -643,7 +643,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 25.45,
-      "description": null,
+      "description": "Businesslocation field for business operations and tracking",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "commercial",
@@ -670,7 +670,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 26.63,
-      "description": "Loan product ownership or qualification indicator. Tracks merchant's relationship with lending services.",
+      "description": "Loan product ownership or qualification indicator tracking merchant lending services",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "yes",
@@ -686,7 +686,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Desiredloanlimit field for MSE mapping and territory organization (optional in this data)",
+      "description": "Desiredloanlimit field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -695,7 +695,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Interested Sell Other Bw Products field for MSE mapping and territory organization (optional in this data)",
+      "description": "Mee Interested Sell Other Bw Products field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -704,7 +704,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Average Daily Profit Payment Agent field for MSE mapping and territory organization (optional in this data)",
+      "description": "Mee Average Daily Profit Payment Agent field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -713,7 +713,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Interested Build Other Business field for MSE mapping and territory organization (optional in this data)",
+      "description": "Mee Interested Build Other Business field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -722,7 +722,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Total Card Transaction field for MSE mapping and territory organization (optional in this data)",
+      "description": "Mee Total Card Transaction field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -731,7 +731,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Reason Why Not Use Bw For Bri On Us field for MSE mapping and territory organization (optional in this data)",
+      "description": "Mee Reason Why Not Use Bw For Bri On Us field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -740,7 +740,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Edc Ownership field for MSE mapping and territory organization (optional in this data)",
+      "description": "Mee Edc Ownership field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -749,7 +749,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Reason Why Not Use Bw For Non Bri Card Edc Bri field for MSE mapping and territory organization (optional in this data)",
+      "description": "Mee Reason Why Not Use Bw For Non Bri Card Edc Bri field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -758,7 +758,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Loan Ownership Mee field for MSE mapping and territory organization (optional in this data)",
+      "description": "Mee Loan Ownership Mee field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -767,7 +767,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "MSE-related mee average daily omset payment agent for territory assignment and team organization (optional in this data)",
+      "description": "MSE-related mee average daily omset payment agent for territory assignment and team organization",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -776,7 +776,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Motivation To Switch Bri On Us To Bw field for MSE mapping and territory organization (optional in this data)",
+      "description": "Mee Motivation To Switch Bri On Us To Bw field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -785,7 +785,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Current Tenor Loan field for MSE mapping and territory organization (optional in this data)",
+      "description": "Mee Current Tenor Loan field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -794,7 +794,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Average Daily Profit Non Payment Agent field for MSE mapping and territory organization (optional in this data)",
+      "description": "Mee Average Daily Profit Non Payment Agent field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -803,7 +803,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Current Loan Type field for MSE mapping and territory organization (optional in this data)",
+      "description": "Mee Current Loan Type field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -812,7 +812,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "MSE-related mee average daily omset non payment agent for territory assignment and team organization (optional in this data)",
+      "description": "MSE-related mee average daily omset non payment agent for territory assignment and team organization",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -821,7 +821,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Current Loan Interest field for MSE mapping and territory organization (optional in this data)",
+      "description": "Mee Current Loan Interest field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -830,7 +830,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Reason Why Not Use Bw Full field for MSE mapping and territory organization (optional in this data)",
+      "description": "Mee Reason Why Not Use Bw Full field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -839,7 +839,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Motivation To Switch All Edc Non Bri To Bw field for MSE mapping and territory organization (optional in this data)",
+      "description": "Mee Motivation To Switch All Edc Non Bri To Bw field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -848,7 +848,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Kur Loan Due field for MSE mapping and territory organization (optional in this data)",
+      "description": "Mee Kur Loan Due field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -857,7 +857,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Bw Loan Reason Not Interested field for MSE mapping and territory organization (optional in this data)",
+      "description": "Mee Bw Loan Reason Not Interested field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -866,7 +866,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Kur Loan Bank field for MSE mapping and territory organization (optional in this data)",
+      "description": "Mee Kur Loan Bank field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -875,7 +875,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Kur Loan Limit field for MSE mapping and territory organization (optional in this data)",
+      "description": "Mee Kur Loan Limit field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -884,7 +884,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Bw Loan Purpose field for MSE mapping and territory organization (optional in this data)",
+      "description": "Mee Bw Loan Purpose field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -893,7 +893,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 7.36,
-      "description": null,
+      "description": "Firstvisitbiztype field for business operations and tracking",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "PAYMENT AGENT",
@@ -912,7 +912,7 @@
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 7.36,
-      "description": null,
+      "description": "Latestvisitdate timestamp for tracking and record management",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "2023-10-23",
@@ -925,7 +925,7 @@
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": null,
+      "description": "Createddate timestamp for tracking and record management",
       "business_context": "Required field - always populated",
       "example_values": [
         "2022-08-25",
@@ -938,7 +938,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Hasbriedc field for MSE mapping and territory organization (optional in this data)",
+      "description": "Hasbriedc field for business operations",
       "business_context": "Required field - always populated",
       "example_values": [
         "0",
@@ -954,7 +954,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Hasbniedc field for MSE mapping and territory organization (optional in this data)",
+      "description": "Hasbniedc field for business operations",
       "business_context": "Required field - always populated",
       "example_values": [
         "0",
@@ -970,7 +970,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Hasmandiriedc field for MSE mapping and territory organization (optional in this data)",
+      "description": "Hasmandiriedc field for business operations",
       "business_context": "Required field - always populated",
       "example_values": [
         "0",
@@ -986,7 +986,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 96.65,
-      "description": null,
+      "description": "Current Mse Hor field for business operations and tracking",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "tommy",
@@ -1004,7 +1004,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 96.65,
-      "description": null,
+      "description": "Current Mse Hoa field for business operations and tracking",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "vacant_kalimantan",
@@ -1028,7 +1028,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 96.65,
-      "description": null,
+      "description": "Current Mse Lead field for business operations and tracking",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "tl-julius",
@@ -1041,7 +1041,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 80.36,
-      "description": null,
+      "description": "Supreme Tier field for business operations and tracking",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "SUPREME",
@@ -1057,7 +1057,7 @@
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 80.36,
-      "description": null,
+      "description": "Supreme Date timestamp for tracking and record management",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "2022-08-30",
@@ -1070,7 +1070,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Hasandroidedc field for MSE mapping and territory organization (optional in this data)",
+      "description": "Hasandroidedc field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -1079,7 +1079,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Totalandroidmachine field for MSE mapping and territory organization (optional in this data)",
+      "description": "Totalandroidmachine field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -1088,7 +1088,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Hassakuedc field for MSE mapping and territory organization (optional in this data)",
+      "description": "Hassakuedc field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -1097,7 +1097,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Totalsakumachine field for MSE mapping and territory organization (optional in this data)",
+      "description": "Totalsakumachine field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -1106,7 +1106,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 98.48,
-      "description": "Unique record identifier in UUID v4 format.",
+      "description": "Unique identifier in UUID v4 format",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "3bcd51ab-0e11-442b-bb2d-85b2f8bc88d6",
@@ -1119,7 +1119,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 78.12,
-      "description": null,
+      "description": "Latest Latitude field for business operations and tracking",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "0.01381",
@@ -1132,7 +1132,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 78.12,
-      "description": null,
+      "description": "Latest Longitude field for business operations and tracking",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "109.288564",
@@ -1145,7 +1145,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 95.8,
-      "description": "Boolean indicator of merchant's ownership or qualification for active days users in thcoordinate. Related to EDC, loan, or product offerings.",
+      "description": "Boolean indicator of merchant's ownership or qualification for active_days_users_in_thcoordinate. Related to EDC, loan, or product offerings",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "Users in this coordinate for 351 days",
@@ -1158,7 +1158,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": null,
+      "description": "Gsheet Ssot Documentation field for business operations and tracking",
       "business_context": "Required field - always populated",
       "example_values": [
         "https://docs.google.com/spreadsheets/d/1fi6jwHsn2O5A5RfbqxCwAeAdBhiaCq2GtF2GjnUFChw/edit?usp=sharing",
@@ -1174,7 +1174,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 78.93,
-      "description": "Bank account number for merchant settlement and payout.",
+      "description": "Bank account number for merchant settlement and payout",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "6102084612880002",
@@ -1187,7 +1187,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 78.93,
-      "description": null,
+      "description": "Merchant or business name field for identification and records",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "ENDAN WINDARBIH",
@@ -1200,7 +1200,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 19.08,
-      "description": null,
+      "description": "District field for business operations and tracking",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "SIANTAN",
@@ -1213,7 +1213,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 18.33,
-      "description": null,
+      "description": "Regency field for business operations and tracking",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "KABUPATEN MEMPAWAH",
@@ -1226,7 +1226,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 79.23,
-      "description": null,
+      "description": "Province field for business operations and tracking",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "KALIMANTAN BARAT",
@@ -1239,7 +1239,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 79.23,
-      "description": null,
+      "description": "Area field for business operations and tracking",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "KALIMANTAN",
@@ -1264,7 +1264,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": null,
+      "description": "Location Source field for business operations and tracking",
       "business_context": "Required field - always populated",
       "example_values": [
         "Old Prospero",
@@ -1281,7 +1281,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Visited By Mee Flag field for MSE mapping and territory organization (optional in this data)",
+      "description": "Visited By Mee Flag field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     }

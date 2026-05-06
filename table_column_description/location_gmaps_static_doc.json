@@ -3,14 +3,14 @@
   "full_table_id": "ledger-fcc1e.trb_pymnts_derived.location_gmaps_static",
   "total_columns": 16,
   "sample_rows_analyzed": 10000,
-  "documentation_generated": "2026-05-06 12:07:23.011271",
+  "documentation_generated": "2026-05-06 12:11:57.078482",
   "columns": [
     {
       "column_name": "phone_number",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Merchant phone number (10-11 digit Indonesian mobile, no country code prefix). Primary key for merchant identification.",
+      "description": "Phone number (10-11 digit Indonesian mobile, no country code prefix)",
       "business_context": "Required field - always populated",
       "example_values": [
         "85314173200",
@@ -23,7 +23,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": null,
+      "description": "Geographic coordinates from merchant KYB data. Used by geocoding API to derive address and divisions",
       "business_context": "Required field - always populated",
       "example_values": [
         "5.391094208,95.91785431",
@@ -36,7 +36,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": null,
+      "description": "Geographic coordinates from merchant KYB data. Used by geocoding API to derive address and divisions",
       "business_context": "Required field - always populated",
       "example_values": [
         "5.391094208",
@@ -49,7 +49,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": null,
+      "description": "Geographic coordinates from merchant KYB data. Used by geocoding API to derive address and divisions",
       "business_context": "Required field - always populated",
       "example_values": [
         "95.91785431",
@@ -62,7 +62,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": null,
+      "description": "Complete formatted address from geocoding API processing of merchant KYB coordinates",
       "business_context": "Required field - always populated",
       "example_values": [
         "9WR9+C5J, Seukeumbrok, Kec. Pidie, Kabupaten Pidie, Aceh, Indonesia",
@@ -75,7 +75,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Raw Response field for MSE mapping and territory organization (optional in this data)",
+      "description": "Raw Response field for business operations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -84,7 +84,7 @@
       "data_type": "TIMESTAMP",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": null,
+      "description": "Timestamp   timestamp for tracking and record management",
       "business_context": "Required field - always populated",
       "example_values": [
         "2026-03-06 06:00:06.308148+00:00",
@@ -102,7 +102,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": null,
+      "description": "Source Flag field for business operations and tracking",
       "business_context": "Required field - always populated",
       "example_values": [
         "Mar 2026",
@@ -120,7 +120,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.04,
-      "description": null,
+      "description": "Administrative division extracted from geocoding API results for territory mapping",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "SEUKEUMBROK",
@@ -133,7 +133,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": null,
+      "description": "Administrative division extracted from geocoding API results for territory mapping",
       "business_context": "Required field - always populated",
       "example_values": [
         "PIDIE",
@@ -146,7 +146,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Indonesian province location where this MSE operates. Part of administrative hierarchy: province \u2192 regency/city \u2192 area \u2192 region for territory organization.",
+      "description": "Indonesian province where MSE operates. Part of hierarchy: province \u2192 regency \u2192 area \u2192 region for territory organization",
       "business_context": "Required field - always populated",
       "example_values": [
         "ACEH",
@@ -159,7 +159,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": null,
+      "description": "Administrative division extracted from geocoding API results for territory mapping",
       "business_context": "Required field - always populated",
       "example_values": [
         "KABUPATEN PIDIE",
@@ -172,7 +172,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": null,
+      "description": "Administrative division extracted from geocoding API results for territory mapping",
       "business_context": "Required field - always populated",
       "example_values": [
         "PIDIE",
@@ -185,7 +185,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Indonesian province location where this MSE operates. Part of administrative hierarchy: province \u2192 regency/city \u2192 area \u2192 region for territory organization.",
+      "description": "Indonesian province where MSE operates. Part of hierarchy: province \u2192 regency \u2192 area \u2192 region for territory organization",
       "business_context": "Required field - always populated",
       "example_values": [
         "NANGGROE ACEH DARUSSALAM",
@@ -198,7 +198,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Geographic area region (Java 1-3, Sumatera 1-3, etc) used for organizing MSE team structure and merchant territory grouping by region.",
+      "description": "Geographic area region (Java 1-3, Sumatera 1-3) organizing MSE team structure and merchant territory grouping",
       "business_context": "Required field - always populated",
       "example_values": [
         "SUMATERA 1",
@@ -223,7 +223,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": null,
+      "description": "Parsing Status field for business operations and tracking",
       "business_context": "Required field - always populated",
       "example_values": [
         "COMPLETE_HIGH_CONFIDENCE",
