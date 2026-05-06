@@ -3,14 +3,14 @@
   "full_table_id": "ledger-fcc1e.trb_pymnts_derived.location_gmaps_static",
   "total_columns": 16,
   "sample_rows_analyzed": 10000,
-  "documentation_generated": "2026-05-06 12:11:57.078482",
+  "documentation_generated": "2026-05-06T12:20:20.791038",
   "columns": [
     {
       "column_name": "phone_number",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Phone number (10-11 digit Indonesian mobile, no country code prefix)",
+      "description": "Phone number (10-11 digit Indonesian mobile, no country code prefix). Used as primary merchant identifier for order lookup and joins",
       "business_context": "Required field - always populated",
       "example_values": [
         "85314173200",
@@ -23,7 +23,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Geographic coordinates from merchant KYB data. Used by geocoding API to derive address and divisions",
+      "description": "Latitude and longitude pair for merchant location coordinates. Format: 'lat,long'. Derived from geocoding API for mapping and geographic analysis",
       "business_context": "Required field - always populated",
       "example_values": [
         "5.391094208,95.91785431",
@@ -36,7 +36,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Geographic coordinates from merchant KYB data. Used by geocoding API to derive address and divisions",
+      "description": "Latitude coordinate for merchant location. Derived from geocoding API, used for geographic analysis and mapping",
       "business_context": "Required field - always populated",
       "example_values": [
         "5.391094208",
@@ -49,7 +49,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Geographic coordinates from merchant KYB data. Used by geocoding API to derive address and divisions",
+      "description": "Longitude coordinate for merchant location. Derived from geocoding API, used for geographic analysis and mapping",
       "business_context": "Required field - always populated",
       "example_values": [
         "95.91785431",
@@ -62,11 +62,11 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Complete formatted address from geocoding API processing of merchant KYB coordinates",
+      "description": "Complete formatted address for merchant location. Derived from geocoding API, includes street address and administrative divisions",
       "business_context": "Required field - always populated",
       "example_values": [
         "9WR9+C5J, Seukeumbrok, Kec. Pidie, Kabupaten Pidie, Aceh, Indonesia",
-        "Jl. Gn. Tangkuban Perahu No.10a, Kerobokan Kelod, Kec. Kuta Utara, Kabupaten Badung, Bali 80361, Ind",
+        "Jl. Gn. Tangkuban Perahu No.10a, Kerobokan Kelod, Kec. Kuta Utara, Kabupaten Badung, Bali 80361, Indonesia",
         "W534+9QG, Jl. Bungkulan, Bungkulan, Kec. Sawan, Kabupaten Buleleng, Bali 81171, Indonesia"
       ]
     },
@@ -75,7 +75,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Raw Response field for business operations",
+      "description": "Empty column - no data currently available",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -84,7 +84,7 @@
       "data_type": "TIMESTAMP",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Timestamp   timestamp for tracking and record management",
+      "description": "Timestamp associated with the record",
       "business_context": "Required field - always populated",
       "example_values": [
         "2026-03-06 06:00:06.308148+00:00",
@@ -102,7 +102,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Source Flag field for business operations and tracking",
+      "description": "Boolean flag indicating source. Used for filtering and segmentation in merchant analysis",
       "business_context": "Required field - always populated",
       "example_values": [
         "Mar 2026",
@@ -120,7 +120,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.04,
-      "description": "Administrative division extracted from geocoding API results for territory mapping",
+      "description": "Kecamatan (district) level administrative division for merchant location detail",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "SEUKEUMBROK",
@@ -133,7 +133,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Administrative division extracted from geocoding API results for territory mapping",
+      "description": "Kabupaten (regency) administrative division for merchant location detail",
       "business_context": "Required field - always populated",
       "example_values": [
         "PIDIE",
@@ -146,7 +146,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Indonesian province where MSE operates. Part of hierarchy: province \u2192 regency \u2192 area \u2192 region for territory organization",
+      "description": "Province or state level administrative division for merchant location",
       "business_context": "Required field - always populated",
       "example_values": [
         "ACEH",
@@ -159,7 +159,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Administrative division extracted from geocoding API results for territory mapping",
+      "description": "Kabupaten (regency) administrative division for merchant location detail",
       "business_context": "Required field - always populated",
       "example_values": [
         "KABUPATEN PIDIE",
@@ -172,7 +172,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Administrative division extracted from geocoding API results for territory mapping",
+      "description": "Kecamatan (district) level administrative division for merchant location detail",
       "business_context": "Required field - always populated",
       "example_values": [
         "PIDIE",
@@ -185,7 +185,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Indonesian province where MSE operates. Part of hierarchy: province \u2192 regency \u2192 area \u2192 region for territory organization",
+      "description": "Province or state level administrative division for merchant location",
       "business_context": "Required field - always populated",
       "example_values": [
         "NANGGROE ACEH DARUSSALAM",
@@ -198,7 +198,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Geographic area region (Java 1-3, Sumatera 1-3) organizing MSE team structure and merchant territory grouping",
+      "description": "Geographic area or region classification for merchant organization",
       "business_context": "Required field - always populated",
       "example_values": [
         "SUMATERA 1",
@@ -223,7 +223,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Parsing Status field for business operations and tracking",
+      "description": "Status or state indicator. Represents current processing or lifecycle state",
       "business_context": "Required field - always populated",
       "example_values": [
         "COMPLETE_HIGH_CONFIDENCE",
