@@ -3,14 +3,14 @@
   "full_table_id": "ledger-fcc1e.db_accounting.prod_edc_order",
   "total_columns": 36,
   "sample_rows_analyzed": 10000,
-  "documentation_generated": "2026-05-06 11:38:46.181779",
+  "documentation_generated": "2026-05-06 11:47:19.522263",
   "columns": [
     {
       "column_name": "user_id",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Field for user id",
+      "description": "Merchant phone number (10-11 digit Indonesian mobile, no country code prefix). Primary identifier for EDC order lookup and joins.",
       "business_context": "Required field - always populated",
       "example_values": [
         "81366356368",
@@ -22,9 +22,9 @@
       "column_name": "user_id_uuid",
       "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 0.0,
-      "description": "Field for user id uuid",
-      "business_context": "Required field - always populated",
+      "null_percentage": 0.25,
+      "description": "Unique user identifier in UUID v4 format.",
+      "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "f0495c2e-5de2-4dfd-a530-8d59e93c7e24",
         "876b9ace-57be-487b-8044-c54e42ceaba7",
@@ -35,22 +35,25 @@
       "column_name": "referee_name",
       "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 0.01,
-      "description": "Field for referee name",
-      "business_context": "Core field - rarely empty (>90% populated)",
+      "null_percentage": 50.32,
+      "description": "Empty column - no sample data available",
+      "business_context": "Optional field - sparsely populated",
       "example_values": [
         "",
         "",
         ""
+      ],
+      "possible_values": [
+        "EXP STORE"
       ]
     },
     {
       "column_name": "postal_code",
       "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 0.01,
-      "description": "Field for postal code",
-      "business_context": "Core field - rarely empty (>90% populated)",
+      "null_percentage": 37.37,
+      "description": "Postal Code field",
+      "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "22475",
         "96414",
@@ -61,22 +64,43 @@
       "column_name": "ecom_user_id",
       "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 0.01,
-      "description": "Field for ecom user id",
-      "business_context": "Core field - rarely empty (>90% populated)",
+      "null_percentage": 50.41,
+      "description": "Empty column - no sample data available",
+      "business_context": "Optional field - sparsely populated",
       "example_values": [
         "",
         "",
         ""
+      ],
+      "possible_values": [
+        "Bastian tampubolon",
+        "Deiit fitriani",
+        "Eva Oktania",
+        "Kantinora eva aritonang",
+        "Karya Indah Kusen",
+        "MARYATI",
+        "Munawir sinarfajar ",
+        "Nurhaesih",
+        "Rla_cell",
+        "SITI SUDARMININGSIH",
+        "Sendi Rachmat Darmawan",
+        "Tidak ada",
+        "Tidal ada",
+        "Valentino Roedianto ",
+        "Wandyep",
+        "Wiwit Yulianingsih ",
+        "cantigy",
+        "doniedamara340@gmail.com",
+        "pandiyanto"
       ]
     },
     {
       "column_name": "coordinates",
       "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 0.01,
-      "description": "Field for coordinates",
-      "business_context": "Core field - rarely empty (>90% populated)",
+      "null_percentage": 50.31,
+      "description": "Empty column - no sample data available",
+      "business_context": "Optional field - sparsely populated",
       "example_values": [
         "",
         "",
@@ -87,9 +111,9 @@
       "column_name": "name",
       "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 0.01,
-      "description": "Name or title field",
-      "business_context": "Core field - rarely empty (>90% populated)",
+      "null_percentage": 33.91,
+      "description": "Name or title field.",
+      "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "Sri Putri Lindawati Siahaan ( UD. ADVENT SIBURIAN)",
         "NUR ASRI AINUN LOI",
@@ -100,9 +124,9 @@
       "column_name": "bank_name",
       "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 0.01,
-      "description": "Name or title field",
-      "business_context": "Core field - rarely empty (>90% populated)",
+      "null_percentage": 46.96,
+      "description": "Name of the merchant's bank for settlement.",
+      "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "",
         "SULUT",
@@ -114,11 +138,14 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Field for  sdc table version",
+      "description": "Singer data connector: table schema version for data lineage tracking",
       "business_context": "Required field - always populated",
       "example_values": [
         "1750311085342",
         "1750311085342",
+        "1750311085342"
+      ],
+      "possible_values": [
         "1750311085342"
       ]
     },
@@ -126,9 +153,9 @@
       "column_name": "bank_account",
       "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 0.01,
-      "description": "Count or numeric measure",
-      "business_context": "Core field - rarely empty (>90% populated)",
+      "null_percentage": 46.96,
+      "description": "Bank account number for merchant settlement and payout.",
+      "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "",
         "01002060152903",
@@ -139,13 +166,25 @@
       "column_name": "external_order_id",
       "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 0.01,
-      "description": "Field for external order id",
-      "business_context": "Core field - rarely empty (>90% populated)",
+      "null_percentage": 50.44,
+      "description": "Empty column - no sample data available",
+      "business_context": "Optional field - sparsely populated",
       "example_values": [
         "",
         "",
         ""
+      ],
+      "possible_values": [
+        "085102174565",
+        "087820122227",
+        "12145963939",
+        "12153022990",
+        "8593763432",
+        "GriyaMotor",
+        "Munawir sinarfajar ",
+        "Pandiyanto",
+        "Tidak ada",
+        "Tisak ada"
       ]
     },
     {
@@ -153,7 +192,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Field for order id",
+      "description": "Unique order identifier in UUID v4 format. Primary key for EDC order records.",
       "business_context": "Required field - always populated",
       "example_values": [
         "31ca7df4-4648-41c1-bc8e-9bf25c628e16",
@@ -166,7 +205,7 @@
       "data_type": "TIMESTAMP",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Timestamp of the most recent modification or update to the record",
+      "description": "Timestamp of the most recent modification.",
       "business_context": "Required field - always populated",
       "example_values": [
         "2026-05-06 03:40:32.456000+00:00",
@@ -178,9 +217,9 @@
       "column_name": "address",
       "data_type": "RECORD",
       "nullable": true,
-      "null_percentage": 0.01,
-      "description": "Delivery address for EDC order shipment and merchant location",
-      "business_context": "Core field - rarely empty (>90% populated)",
+      "null_percentage": 37.51,
+      "description": "Location field.",
+      "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "{'store_address': {'city': 'Humbang Hasundutan', 'ward': ' Sihonongan', 'address': 'SIHONONGAN, DEPA",
         "{'store_address': {'city': 'Pohuwato', 'ward': ' Marisa Utara', 'address': 'DUSUN MELATI', 'district",
@@ -192,21 +231,30 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "EDC order status indicating the current state (e.g., Unassigned)",
+      "description": "EDC order status field. Indicates current state in the order lifecycle.",
       "business_context": "Required field - always populated",
       "example_values": [
         "Unassigned",
         "Draft",
         "Cancelled"
+      ],
+      "possible_values": [
+        "Cancelled",
+        "Completed",
+        "Draft",
+        "Rejected",
+        "Unassigned",
+        "Waiting_for_additional_doc",
+        "Waiting_for_ops"
       ]
     },
     {
       "column_name": "delivery_address",
       "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 0.01,
-      "description": "Delivery address for EDC order shipment and merchant location",
-      "business_context": "Core field - rarely empty (>90% populated)",
+      "null_percentage": 37.37,
+      "description": "Location field.",
+      "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "SIHONONGAN, DEPAN GEREJA HKI SIHONONGAN, DESA SIHONONGAN ",
         "DUSUN MELATI",
@@ -217,12 +265,17 @@
       "column_name": "kyc_tier",
       "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 0.01,
-      "description": "Field for kyc tier",
-      "business_context": "Core field - rarely empty (>90% populated)",
+      "null_percentage": 40.97,
+      "description": "Kyc Tier field",
+      "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "NON_KYC",
         "SUPREME",
+        "SUPREME"
+      ],
+      "possible_values": [
+        "ADVANCED",
+        "NON_KYC",
         "SUPREME"
       ]
     },
@@ -230,22 +283,26 @@
       "column_name": "purchase_referral",
       "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 0.01,
-      "description": "Field for purchase referral",
-      "business_context": "Core field - rarely empty (>90% populated)",
+      "null_percentage": 50.32,
+      "description": "Empty column - no sample data available",
+      "business_context": "Optional field - sparsely populated",
       "example_values": [
         "",
         "",
         ""
+      ],
+      "possible_values": [
+        "friend_recommendation",
+        "sales_team"
       ]
     },
     {
       "column_name": "metadata",
       "data_type": "RECORD",
       "nullable": true,
-      "null_percentage": 0.0,
-      "description": "Field for metadata",
-      "business_context": "Required field - always populated",
+      "null_percentage": 0.34,
+      "description": "Metadata field",
+      "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "{'tfcode': 'MRORUMI', 'devicemappingdetails': {'type': 'BUKUWARUNG', 'vendor': None, 'description': ",
         "{'tfcode': None, 'devicemappingdetails': {'type': 'BUKUWARUNG', 'vendor': None, 'description': None,",
@@ -256,9 +313,9 @@
       "column_name": "beneficiary_name",
       "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 0.01,
-      "description": "Name or title field",
-      "business_context": "Core field - rarely empty (>90% populated)",
+      "null_percentage": 46.96,
+      "description": "Name or title field.",
+      "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "",
         "NUR ASRI AINUN LOI",
@@ -270,7 +327,7 @@
       "data_type": "TIMESTAMP",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Timestamp field for temporal tracking",
+      "description": "Singer data connector: timestamp when record was received by the pipeline",
       "business_context": "Required field - always populated",
       "example_values": [
         "2026-05-06 04:32:11+00:00",
@@ -283,7 +340,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Field for  sdc sequence",
+      "description": "Singer data connector: sequence number for change data capture ordering",
       "business_context": "Required field - always populated",
       "example_values": [
         "1778041896754943427",
@@ -295,9 +352,9 @@
       "column_name": "janus_account_id",
       "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 0.01,
-      "description": "Count or numeric measure",
-      "business_context": "Core field - rarely empty (>90% populated)",
+      "null_percentage": 40.9,
+      "description": "Unique record identifier in UUID v4 format.",
+      "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "6d485d01-0326-42ea-be29-1a399d6b07d9",
         "ebaa6aaf-5ef8-459a-8c57-51a82ffaa14e",
@@ -309,7 +366,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Merchant or user phone number serving as unique identifier",
+      "description": "Merchant phone number (10-11 digit Indonesian mobile, no country code prefix). Primary identifier for EDC order lookup and joins.",
       "business_context": "Required field - always populated",
       "example_values": [
         "81366356368",
@@ -321,8 +378,8 @@
       "column_name": "transaction_id",
       "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 0.02,
-      "description": "Field for transaction id",
+      "null_percentage": 1.81,
+      "description": "Transaction Id field",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "E260506HI9FMYHD6Z",
@@ -334,9 +391,9 @@
       "column_name": "payment_metadata",
       "data_type": "RECORD",
       "nullable": true,
-      "null_percentage": 0.03,
-      "description": "Field for payment metadata",
-      "business_context": "Core field - rarely empty (>90% populated)",
+      "null_percentage": 49.03,
+      "description": "Payment Metadata field",
+      "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "{'progress': {'paid': None, 'created': '2026-05-06T03:40:32.316', 'refunding': None, 'refunded': Non",
         "{'progress': {'paid': '2026-01-13T02:24:15', 'created': '2026-01-13T02:22:35.114', 'refunding': None",
@@ -348,7 +405,7 @@
       "data_type": "TIMESTAMP",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Timestamp when the record was initially created",
+      "description": "Timestamp when the record was initially created.",
       "business_context": "Required field - always populated",
       "example_values": [
         "2026-05-06 03:35:59.087000+00:00",
@@ -360,9 +417,9 @@
       "column_name": "delivery_metadata",
       "data_type": "RECORD",
       "nullable": true,
-      "null_percentage": 0.04,
-      "description": "Field for delivery metadata",
-      "business_context": "Core field - rarely empty (>90% populated)",
+      "null_percentage": 68.73,
+      "description": "Delivery Metadata field",
+      "business_context": "Optional field - sparsely populated",
       "example_values": [
         "{'awb': 'ms-onspot', 'vendor': 'MoreFun', 'pickupdate': None, 'couriername': 'ms-onspot', 'serialnum",
         "{'awb': '0117762501777960', 'vendor': 'MoreFun', 'pickupdate': '16-09-2025', 'couriername': 'JNE', '",
@@ -373,9 +430,9 @@
       "column_name": "subdistrict",
       "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 0.01,
-      "description": "Field for subdistrict",
-      "business_context": "Core field - rarely empty (>90% populated)",
+      "null_percentage": 37.37,
+      "description": "Subdistrict field",
+      "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "Paranginan",
         "Marisa",
@@ -386,9 +443,9 @@
       "column_name": "ward",
       "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 0.01,
-      "description": "Field for ward",
-      "business_context": "Core field - rarely empty (>90% populated)",
+      "null_percentage": 37.37,
+      "description": "Ward field",
+      "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         " Sihonongan",
         " Marisa Utara",
@@ -400,7 +457,7 @@
       "data_type": "TIMESTAMP",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Timestamp field for temporal tracking",
+      "description": "Singer data connector: timestamp when batch was processed in the pipeline",
       "business_context": "Required field - always populated",
       "example_values": [
         "2026-05-06 04:34:11.331000+00:00",
@@ -412,65 +469,104 @@
       "column_name": "referee_phone",
       "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 0.01,
-      "description": "Merchant or user phone number identifier",
-      "business_context": "Core field - rarely empty (>90% populated)",
+      "null_percentage": 50.32,
+      "description": "Empty column - no sample data available",
+      "business_context": "Optional field - sparsely populated",
       "example_values": [
         "",
         "",
         ""
+      ],
+      "possible_values": [
+        "+62 811-5115-857"
       ]
     },
     {
       "column_name": "payment_status",
       "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 0.03,
-      "description": "EDC order status indicating the current state (e.g., CREATED)",
-      "business_context": "Core field - rarely empty (>90% populated)",
+      "null_percentage": 51.21,
+      "description": "EDC order status field. Indicates current state in the order lifecycle.",
+      "business_context": "Optional field - sparsely populated",
       "example_values": [
         "CREATED",
         "PAID",
         "PAID"
+      ],
+      "possible_values": [
+        "CANCELLED",
+        "CREATED",
+        "PAID",
+        "REFUNDED"
       ]
     },
     {
       "column_name": "attachments",
       "data_type": "RECORD",
       "nullable": true,
-      "null_percentage": 0.01,
-      "description": "Field for attachments",
-      "business_context": "Core field - rarely empty (>90% populated)",
+      "null_percentage": 50.58,
+      "description": "Attachments field",
+      "business_context": "Optional field - sparsely populated",
       "example_values": [
         "{'npwp': '', 'store_side': '', 'ktp': '', 'store_front': '', 'family_card': '', 'inventory': '', 'se",
         "{'npwp': '', 'store_side': '', 'ktp': '', 'store_front': '', 'family_card': '', 'inventory': '', 'se",
         "{'npwp': '', 'store_side': '', 'ktp': '', 'store_front': '', 'family_card': '', 'inventory': '', 'se"
+      ],
+      "possible_values": [
+        "{'npwp': '', 'store_side': '', 'ktp': '', 'store_front': '', 'family_card': '', 'inventory': '', 'selfie': '', 'buku_bank': '', 'store': ''}",
+        "{'npwp': '', 'store_side': '', 'ktp': 'attachments/033c27ab-1429-4a96-9669-b09f3a420b4e/1719029033962_KTP_KTP.jpeg', 'store_front': 'attachments/033c27ab-1429-4a96-9669-b09f3a420b4e/1719029034386_STORE_FRONT_STORE_FRONT.jpeg', 'family_card': '', 'inventory': 'attachments/033c27ab-1429-4a96-9669-b09f3a420b4e/1719029034262_INVENTORY_INVENTORY.jpeg', 'selfie': 'attachments/033c27ab-1429-4a96-9669-b09f3a420b4e/1719029034209_SELFIE_SELFIE.jpeg', 'buku_bank': '', 'store': ''}",
+        "{'npwp': '', 'store_side': '', 'ktp': 'attachments/2778ee7e-5aac-4acf-8927-6f3b98aca9d2/1716362390042_KTP_KTP.jpeg', 'store_front': 'attachments/2778ee7e-5aac-4acf-8927-6f3b98aca9d2/1716362176756_STORE_FRONT_STORE_FRONT.jpeg', 'family_card': '', 'inventory': 'attachments/2778ee7e-5aac-4acf-8927-6f3b98aca9d2/1716362195373_INVENTORY_INVENTORY.jpeg', 'selfie': 'attachments/2778ee7e-5aac-4acf-8927-6f3b98aca9d2/1716362429927_SELFIE_SELFIE.jpeg', 'buku_bank': '', 'store': ''}",
+        "{'npwp': '', 'store_side': '', 'ktp': 'attachments/31583d9f-4f42-4727-a816-8ab3286aa4f5/1715851581440_KTP_KTP.jpeg', 'store_front': 'attachments/31583d9f-4f42-4727-a816-8ab3286aa4f5/1715851620083_STORE_FRONT_STORE_FRONT.png', 'family_card': '', 'inventory': 'attachments/31583d9f-4f42-4727-a816-8ab3286aa4f5/1715851633604_INVENTORY_INVENTORY.jpeg', 'selfie': 'attachments/31583d9f-4f42-4727-a816-8ab3286aa4f5/1715851598256_SELFIE_SELFIE.jpeg', 'buku_bank': '', 'store': ''}",
+        "{'npwp': '', 'store_side': '', 'ktp': 'attachments/3dfdeabe-8333-4cee-ba42-c4c6171f5a49/1718009893179_KTP_KTP.jpeg', 'store_front': 'attachments/3dfdeabe-8333-4cee-ba42-c4c6171f5a49/1718009921830_STORE_FRONT_STORE_FRONT.jpeg', 'family_card': '', 'inventory': 'attachments/3dfdeabe-8333-4cee-ba42-c4c6171f5a49/1718009937319_INVENTORY_INVENTORY.jpeg', 'selfie': 'attachments/3dfdeabe-8333-4cee-ba42-c4c6171f5a49/1718009893992_SELFIE_SELFIE.jpeg', 'buku_bank': '', 'store': ''}",
+        "{'npwp': '', 'store_side': '', 'ktp': 'attachments/839e6559-e3df-4782-8307-8e085575feed/1717043823530_KTP_KTP.jpeg', 'store_front': 'attachments/839e6559-e3df-4782-8307-8e085575feed/1717043879831_STORE_FRONT_STORE_FRONT.jpeg', 'family_card': '', 'inventory': 'attachments/839e6559-e3df-4782-8307-8e085575feed/1717043892698_INVENTORY_INVENTORY.jpeg', 'selfie': 'attachments/839e6559-e3df-4782-8307-8e085575feed/1717043824329_SELFIE_SELFIE.jpeg', 'buku_bank': 'attachments/839e6559-e3df-4782-8307-8e085575feed/1717043853006_BUKU_BANK_BUKU_BANK.jpeg', 'store': ''}",
+        "{'npwp': '', 'store_side': '', 'ktp': 'attachments/9d174261-3fc4-4968-a7af-7419f54c274b/1720414935185_KTP_KTP.jpeg', 'store_front': 'attachments/9d174261-3fc4-4968-a7af-7419f54c274b/1720414974324_STORE_FRONT_STORE_FRONT.jpeg', 'family_card': '', 'inventory': 'attachments/9d174261-3fc4-4968-a7af-7419f54c274b/1720414985297_INVENTORY_INVENTORY.jpeg', 'selfie': 'attachments/9d174261-3fc4-4968-a7af-7419f54c274b/1720414937763_SELFIE_SELFIE.jpeg', 'buku_bank': '', 'store': ''}",
+        "{'npwp': '', 'store_side': '', 'ktp': 'attachments/e1d5e95f-0606-4065-a929-044e9d944f48/1718086101789_KTP_KTP.jpeg', 'store_front': 'attachments/e1d5e95f-0606-4065-a929-044e9d944f48/1718086102386_STORE_FRONT_STORE_FRONT.jpeg', 'family_card': '', 'inventory': 'attachments/e1d5e95f-0606-4065-a929-044e9d944f48/1718086102674_INVENTORY_INVENTORY.jpeg', 'selfie': 'attachments/e1d5e95f-0606-4065-a929-044e9d944f48/1718086102057_SELFIE_SELFIE.jpeg', 'buku_bank': '', 'store': ''}",
+        "{'npwp': '', 'store_side': '', 'ktp': 'attachments/eec2cf2c-22fd-42f0-9c48-4a6948b2f70a/1718212388091_KTP_KTP.jpeg', 'store_front': 'attachments/eec2cf2c-22fd-42f0-9c48-4a6948b2f70a/1718212407581_STORE_FRONT_STORE_FRONT.jpeg', 'family_card': '', 'inventory': 'attachments/eec2cf2c-22fd-42f0-9c48-4a6948b2f70a/1718212405586_INVENTORY_INVENTORY.jpeg', 'selfie': 'attachments/eec2cf2c-22fd-42f0-9c48-4a6948b2f70a/1718212397223_SELFIE_SELFIE.jpeg', 'buku_bank': '', 'store': ''}",
+        "{'npwp': '', 'store_side': '', 'ktp': 'attachments/ff326ea3-b96b-4310-b628-7ef789dee303/1716271587634_KTP_KTP.jpeg', 'store_front': 'attachments/ff326ea3-b96b-4310-b628-7ef789dee303/1716271611787_STORE_FRONT_STORE_FRONT.jpg', 'family_card': '', 'inventory': 'attachments/ff326ea3-b96b-4310-b628-7ef789dee303/1716271622868_INVENTORY_INVENTORY.jpg', 'selfie': 'attachments/ff326ea3-b96b-4310-b628-7ef789dee303/1716271598345_SELFIE_SELFIE.jpg', 'buku_bank': '', 'store': ''}",
+        "{'npwp': '', 'store_side': 'attachments/b1441cd8-3b1c-4259-9e7d-9c4e7b647322/1716883531873_STORE_SIDE_STORE_SIDE.jpeg', 'ktp': 'attachments/b1441cd8-3b1c-4259-9e7d-9c4e7b647322/1716883197352_KTP_KTP.jpeg', 'store_front': 'attachments/b1441cd8-3b1c-4259-9e7d-9c4e7b647322/1716883470359_STORE_FRONT_STORE_FRONT.jpeg', 'family_card': 'attachments/b1441cd8-3b1c-4259-9e7d-9c4e7b647322/1716883768074_FAMILY_CARD_FAMILY_CARD.jpeg', 'inventory': 'attachments/b1441cd8-3b1c-4259-9e7d-9c4e7b647322/1716883504035_INVENTORY_INVENTORY.jpeg', 'selfie': 'attachments/b1441cd8-3b1c-4259-9e7d-9c4e7b647322/1716883197551_SELFIE_SELFIE.jpeg', 'buku_bank': '', 'store': 'attachments/b1441cd8-3b1c-4259-9e7d-9c4e7b647322/1716883566056_STORE_STORE.jpeg'}",
+        "{'npwp': '', 'store_side': 'attachments/f49c3e44-bd39-41d9-b359-f4b89bb97a58/1719200805181_STORE_SIDE_STORE_SIDE.jpeg', 'ktp': 'attachments/f49c3e44-bd39-41d9-b359-f4b89bb97a58/1719201746339_KTP_KTP.jpeg', 'store_front': 'attachments/f49c3e44-bd39-41d9-b359-f4b89bb97a58/1719201746649_STORE_FRONT_STORE_FRONT.jpeg', 'family_card': 'attachments/f49c3e44-bd39-41d9-b359-f4b89bb97a58/1719200751654_FAMILY_CARD_FAMILY_CARD.jpg', 'inventory': 'attachments/f49c3e44-bd39-41d9-b359-f4b89bb97a58/1719201746535_INVENTORY_INVENTORY.jpeg', 'selfie': 'attachments/f49c3e44-bd39-41d9-b359-f4b89bb97a58/1719201746237_SELFIE_SELFIE.jpeg', 'buku_bank': 'attachments/f49c3e44-bd39-41d9-b359-f4b89bb97a58/1719201211575_BUKU_BANK_BUKU_BANK.jpeg', 'store': 'attachments/f49c3e44-bd39-41d9-b359-f4b89bb97a58/1719201154976_STORE_STORE.jpeg'}"
       ]
     },
     {
       "column_name": "business_type",
       "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 0.01,
-      "description": "Field for business type",
-      "business_context": "Core field - rarely empty (>90% populated)",
+      "null_percentage": 47.11,
+      "description": "Business Type field",
+      "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "Agen Pembayaran",
         "Agen Pembayaran",
         "Agen Pembayaran"
+      ],
+      "possible_values": [
+        "Agen Pembayaran",
+        "Jasa (Bengkel, Laundry, Salon, dan lainnya)",
+        "Lainnya",
+        "Makanan Atau Minuman",
+        "Produk Kesehatan/Kecantikan",
+        "Pulsa, Token Listrik, dan Tagihan",
+        "Warung Sembako/Rokok"
       ]
     },
     {
       "column_name": "delivery_status",
       "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 0.02,
-      "description": "EDC order status indicating the current state (e.g., NOT_STARTED)",
-      "business_context": "Core field - rarely empty (>90% populated)",
+      "null_percentage": 58.5,
+      "description": "EDC order status field. Indicates current state in the order lifecycle.",
+      "business_context": "Optional field - sparsely populated",
       "example_values": [
         "NOT_STARTED",
         "NOT_STARTED",
         "DELIVERED"
+      ],
+      "possible_values": [
+        "DELIVERED",
+        "IN_DELIVERY",
+        "NOT_STARTED",
+        "RETURNED",
+        "WAITING_FOR_SHIPPER"
       ]
     }
   ]

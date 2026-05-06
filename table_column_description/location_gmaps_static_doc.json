@@ -3,14 +3,14 @@
   "full_table_id": "ledger-fcc1e.trb_pymnts_derived.location_gmaps_static",
   "total_columns": 16,
   "sample_rows_analyzed": 10000,
-  "documentation_generated": "2026-05-06 11:37:53.626158",
+  "documentation_generated": "2026-05-06 11:47:02.012145",
   "columns": [
     {
       "column_name": "phone_number",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Merchant or user phone number serving as unique identifier",
+      "description": "Merchant phone number (10-11 digit Indonesian mobile, no country code prefix). Primary key for merchant identification.",
       "business_context": "Required field - always populated",
       "example_values": [
         "85314173200",
@@ -23,7 +23,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Latitude and longitude coordinates from merchant KYB location, used for geocoding",
+      "description": "Geographic location field derived from geocoding API.",
       "business_context": "Required field - always populated",
       "example_values": [
         "5.391094208,95.91785431",
@@ -36,7 +36,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Latitude coordinate from merchant KYB location, used for geocoding API processing",
+      "description": "Geographic location field derived from geocoding API.",
       "business_context": "Required field - always populated",
       "example_values": [
         "5.391094208",
@@ -49,7 +49,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Longitude coordinate from merchant KYB location, used for geocoding API processing",
+      "description": "Geographic location field derived from geocoding API.",
       "business_context": "Required field - always populated",
       "example_values": [
         "95.91785431",
@@ -62,7 +62,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Complete formatted address derived from geocoding API processing of merchant KYB coordinates",
+      "description": "Geographic location field derived from geocoding API.",
       "business_context": "Required field - always populated",
       "example_values": [
         "9WR9+C5J, Seukeumbrok, Kec. Pidie, Kabupaten Pidie, Aceh, Indonesia",
@@ -75,7 +75,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Field for raw response",
+      "description": "Empty column - no sample data available",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -84,11 +84,16 @@
       "data_type": "TIMESTAMP",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Timestamp field for temporal tracking",
+      "description": "Date/time field.",
       "business_context": "Required field - always populated",
       "example_values": [
         "2026-03-06 06:00:06.308148+00:00",
         "2026-03-06 06:00:06.308148+00:00",
+        "2026-03-06 06:00:06.308148+00:00"
+      ],
+      "possible_values": [
+        "2026-01-16 07:00:08.907528+00:00",
+        "2026-02-27 03:50:29.076038+00:00",
         "2026-03-06 06:00:06.308148+00:00"
       ]
     },
@@ -97,11 +102,16 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Source or data origin indicator flag",
+      "description": "Source Flag field",
       "business_context": "Required field - always populated",
       "example_values": [
         "Mar 2026",
         "Mar 2026",
+        "Mar 2026"
+      ],
+      "possible_values": [
+        "Feb 2026",
+        "Jan 2026",
         "Mar 2026"
       ]
     },
@@ -109,9 +119,9 @@
       "column_name": "old_kecamatan_dont_use",
       "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 0.0,
-      "description": "Kecamatan (district) administrative division extracted from merchant location",
-      "business_context": "Required field - always populated",
+      "null_percentage": 0.04,
+      "description": "Old Kecamatan Dont Use field",
+      "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "SEUKEUMBROK",
         "KEC. KUTA UTARA",
@@ -123,7 +133,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Kabupaten (regency) administrative division extracted from merchant location",
+      "description": "Old Kabupaten Dont Use field",
       "business_context": "Required field - always populated",
       "example_values": [
         "PIDIE",
@@ -136,7 +146,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Province administrative division extracted from merchant location",
+      "description": "Old Province Dont Use field",
       "business_context": "Required field - always populated",
       "example_values": [
         "ACEH",
@@ -149,7 +159,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Kabupaten (regency) administrative division extracted from merchant location",
+      "description": "Kabupaten field",
       "business_context": "Required field - always populated",
       "example_values": [
         "KABUPATEN PIDIE",
@@ -162,7 +172,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Kecamatan (district) administrative division extracted from merchant location",
+      "description": "Kecamatan field",
       "business_context": "Required field - always populated",
       "example_values": [
         "PIDIE",
@@ -175,7 +185,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Province administrative division extracted from merchant location",
+      "description": "Province field",
       "business_context": "Required field - always populated",
       "example_values": [
         "NANGGROE ACEH DARUSSALAM",
@@ -188,12 +198,24 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Geographic area derived from geocoding API and mapped to MSE territorial assignments",
+      "description": "Area field",
       "business_context": "Required field - always populated",
       "example_values": [
         "SUMATERA 1",
         "BALI NUSRA",
         "BALI NUSRA"
+      ],
+      "possible_values": [
+        "BALI NUSRA",
+        "JAKARTA",
+        "JAVA 1",
+        "JAVA 2",
+        "JAVA 3",
+        "KALIMANTAN",
+        "SULAWESI",
+        "SUMATERA 1",
+        "SUMATERA 2",
+        "SUMATERA 3"
       ]
     },
     {
@@ -201,12 +223,17 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Status field indicating current state",
+      "description": "Status or state field.",
       "business_context": "Required field - always populated",
       "example_values": [
         "COMPLETE_HIGH_CONFIDENCE",
         "COMPLETE_HIGH_CONFIDENCE",
         "COMPLETE_HIGH_CONFIDENCE"
+      ],
+      "possible_values": [
+        "COMPLETE_HIGH_CONFIDENCE",
+        "COMPLETE_LOW_CONFIDENCE",
+        "COMPLETE_MEDIUM_CONFIDENCE"
       ]
     }
   ]

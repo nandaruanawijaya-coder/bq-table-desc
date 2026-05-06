@@ -42,6 +42,49 @@ OUTPUT: All missing tables documented and committed
 
 ---
 
+## 📊 Output JSON Schema
+
+Each table generates a documentation JSON with this structure:
+
+```json
+{
+  "table_name": "prod_edc_order",
+  "full_table_id": "ledger-fcc1e.db_accounting.prod_edc_order",
+  "total_columns": 36,
+  "sample_rows_analyzed": 10000,
+  "documentation_generated": "2026-05-06T11:45:00",
+  "columns": [
+    {
+      "column_name": "order_id",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Unique order identifier in UUID v4 format. Primary key for EDC order records.",
+      "business_context": "Required field - always populated",
+      "example_values": ["31ca7df4-4648-41c1-bc8e-9bf25c628e16", "..."],
+      "possible_values": null
+    },
+    {
+      "column_name": "status",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "EDC order status field. Indicates current state in the order lifecycle.",
+      "business_context": "Required field - always populated",
+      "example_values": ["Unassigned", "Active", "Cancelled"],
+      "possible_values": ["Active", "Cancelled", "Completed", "Draft", "Unassigned"]
+    }
+  ]
+}
+```
+
+**New Field - `possible_values`** (added 2026-05-06):
+- Present only when column has ≤ 20 unique values across 10k rows
+- Helps AI SQL assistant understand valid values for WHERE clauses and enums
+- Example: `possible_values: ["Active", "Cancelled", "Completed", "Draft", "Unassigned"]`
+
+---
+
 ## 📋 STEP 0: Read table_list.md and Filter
 
 Claude Code MUST start here before processing any tables.
@@ -165,6 +208,31 @@ If table is not accessible:
 ## 🐍 STEP 2: Generate Python Script
 
 Claude Code MUST generate a Python script that:
+
+### 2.0 Description Quality Rules (NEW - IMPORTANT for AI SQL Assistant)
+
+Descriptions must help an AI SQL assistant write correct queries. Use this priority order:
+
+**Value Format Detection** (from actual sample data):
+1. **SDC Metadata** (`_sdc_*` columns) → "Singer data connector: [purpose]"
+   - Example: "_sdc_batched_at" → "Singer data connector: timestamp when batch was processed in the pipeline"
+   
+2. **UUID Format** (36-char hex with dashes) → "Unique [entity] identifier in UUID v4 format"
+   - Example: "user_id_uuid" → "Unique user identifier in UUID v4 format"
+   
+3. **Phone Number** (8-13 digits, starts with 8) → "[Context] phone number (10-11 digit Indonesian mobile, no country code prefix)"
+   - Example in EDC context: "Merchant phone number (10-11 digit Indonesian mobile, no country code prefix). Primary identifier for EDC order lookup and joins."
+   
+4. **Bank Account** (numeric, 8-16 digits) → "Bank account number for merchant [settlement/payout]"
+   
+5. **Enumeration** (≤20 unique values) → Add `possible_values` array to JSON with all unique values
+
+6. **Domain Context** → Always apply table context from `table_list.md`
+   - Phone number in `ms_merchant_profiling_ssot` context → "...Primary key for merchant identification"
+   - Same column in `prod_edc_order` context → "...Primary identifier for EDC order lookup"
+
+**Never generate bare fallbacks like "Field for X"**. If no pattern matches, use at least:
+- Column name + context: "Status or state field" → "EDC order status field. Indicates current state in the order lifecycle."
 
 ### 2.1 Script Requirements
 

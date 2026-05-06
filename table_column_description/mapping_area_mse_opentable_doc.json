@@ -3,14 +3,14 @@
   "full_table_id": "ledger-fcc1e.datamart_opentable.mapping_area_mse_opentable",
   "total_columns": 10,
   "sample_rows_analyzed": 1237,
-  "documentation_generated": "2026-05-06 11:37:59.487865",
+  "documentation_generated": "2026-05-06 11:47:03.176718",
   "columns": [
     {
       "column_name": "new_mse_city_sep_24",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.4,
-      "description": "City administrative division extracted from merchant location",
+      "description": "New Mse City Sep 24 field",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "MSE Demak",
@@ -22,8 +22,8 @@
       "column_name": "mse_name_updated",
       "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 0.4,
-      "description": "Timestamp of the most recent modification or update to the record",
+      "null_percentage": 1.94,
+      "description": "Merchant or MSE name field.",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "Bambang Pujiyono",
@@ -36,7 +36,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.4,
-      "description": "Province administrative division extracted from merchant location",
+      "description": "Province field",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "JAWA TENGAH",
@@ -49,7 +49,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.4,
-      "description": "City administrative division extracted from merchant location",
+      "description": "Regency City field",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "KABUPATEN DEMAK",
@@ -62,7 +62,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.4,
-      "description": "Field for mse lead",
+      "description": "Mse Lead field",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "TL-Agus",
@@ -75,12 +75,24 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.4,
-      "description": "Geographic area representing MSE territory assignment for merchant organization",
+      "description": "Head Of Area field",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "Endang",
         "Endang",
         "Endang"
+      ],
+      "possible_values": [
+        "Eko",
+        "Endang",
+        "Faizal Fahri",
+        "Mirzan",
+        "Sefnat Erich",
+        "Vacant Jakarta",
+        "Vacant Kalimantan",
+        "Vacant Sum 1",
+        "Vacant Sum 2",
+        "Vacant Sum 3"
       ]
     },
     {
@@ -88,12 +100,24 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.4,
-      "description": "Geographic area representing MSE territory assignment for merchant organization",
+      "description": "Area field",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "Java 2",
         "Java 2",
         "Java 2"
+      ],
+      "possible_values": [
+        "Bali Nusra",
+        "Jakarta",
+        "Java 1",
+        "Java 2",
+        "Java 3",
+        "Kalimantan",
+        "Sulawesi",
+        "Sumatera 1",
+        "Sumatera 2",
+        "Sumatera 3"
       ]
     },
     {
@@ -101,11 +125,16 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.4,
-      "description": "Field for head of region",
+      "description": "Head Of Region field",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "ZIKO",
         "ZIKO",
+        "ZIKO"
+      ],
+      "possible_values": [
+        "ROLLY",
+        "TOMMY",
         "ZIKO"
       ]
     },
@@ -114,21 +143,26 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.4,
-      "description": "Field for region",
+      "description": "Region field",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "JAVA",
         "JAVA",
         "JAVA"
+      ],
+      "possible_values": [
+        "EAST INDO",
+        "JAVA",
+        "SUMATERA"
       ]
     },
     {
       "column_name": "mse_join_date",
       "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 0.4,
-      "description": "Timestamp field for temporal tracking",
-      "business_context": "Core field - rarely empty (>90% populated)",
+      "null_percentage": 42.6,
+      "description": "Date/time field.",
+      "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "2026-03-02",
         "1999-12-30",
