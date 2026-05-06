@@ -3,14 +3,14 @@
   "full_table_id": "ledger-fcc1e.datamart_opentable.mapping_area_mse_opentable",
   "total_columns": 10,
   "sample_rows_analyzed": 1157,
-  "documentation_generated": "2026-05-05T18:22:19.301202",
+  "documentation_generated": "2026-05-05T18:46:19.301379",
   "columns": [
     {
       "column_name": "area",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.43,
-      "description": "Geographic region classification for merchant location grouping and regional analysis",
+      "description": "Geographic area representing regional divisions for merchant location organization and business segmentation. Used to categorize and group merchants by geographic region",
       "business_context": "Populated in 100% of records.",
       "example_values": [
         "Java 2",
@@ -23,7 +23,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.43,
-      "description": "Geographic region classification for merchant location grouping and regional analysis",
+      "description": "Geographic area representing regional divisions for merchant location organization and business segmentation. Used to categorize and group merchants by geographic region",
       "business_context": "Populated in 100% of records.",
       "example_values": [
         "Endang",
@@ -36,7 +36,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.43,
-      "description": "Text classification for head of region",
+      "description": "Text classification or code for head of region used in business operations. Values represent different categories or classifications in the business domain",
       "business_context": "Populated in 100% of records.",
       "example_values": [
         "ZIKO",
@@ -49,7 +49,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 40.1,
-      "description": "Date field capturing when mse join took place",
+      "description": "Date value recording when mse join took place. Used for time-based analysis, filtering, and business event tracking",
       "business_context": "Populated in 60% of records. Used for time-based analysis and filtering.",
       "example_values": [
         "1999-12-30",
@@ -62,7 +62,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.43,
-      "description": "Text classification for mse lead",
+      "description": "Text classification or code for mse lead used in business operations. Values represent different categories or classifications in the business domain",
       "business_context": "Populated in 100% of records.",
       "example_values": [
         "Amzar Sapunda",
@@ -75,7 +75,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 2.16,
-      "description": "Date field capturing when mse name updated took place",
+      "description": "Name or label identifying the mse updated. Used for display, reporting, and business communication",
       "business_context": "Populated in 98% of records. Used for time-based analysis and filtering.",
       "example_values": [
         "Taufik Nugroho",
@@ -88,7 +88,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.43,
-      "description": "Text field containing new mse city sep 24 information",
+      "description": "Text classification or code for new mse city sep 24 used in business operations. Values represent different categories or classifications in the business domain",
       "business_context": "Populated in 100% of records.",
       "example_values": [
         "MSE Banjarnegara",
@@ -101,7 +101,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.43,
-      "description": "Text classification for province",
+      "description": "Province or state name representing Indonesian administrative regions. Used for high-level geographic classification and regional business grouping",
       "business_context": "Populated in 100% of records.",
       "example_values": [
         "JAWA TENGAH",
@@ -114,7 +114,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.43,
-      "description": "Regency/District name for Indonesian administrative level 2 classification",
+      "description": "Regency or district name representing Indonesian administrative level 2 divisions. Used for geographic classification and regional business organization",
       "business_context": "Populated in 100% of records.",
       "example_values": [
         "KABUPATEN BANJARNEGARA",
@@ -127,7 +127,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.43,
-      "description": "Text classification for region",
+      "description": "Text classification or code for region used in business operations. Values represent different categories or classifications in the business domain",
       "business_context": "Populated in 100% of records.",
       "example_values": [
         "JAVA",
@@ -146,5 +146,5 @@
     "peak_query_hour": 4,
     "last_queried": "2026-05-04T07:27:24.613000+00:00"
   },
-  "documentation_enriched": "2026-05-05T18:22:20.705992"
+  "documentation_enriched": "2026-05-05T18:46:20.874943"
 }

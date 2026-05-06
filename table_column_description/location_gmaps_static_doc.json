@@ -3,14 +3,14 @@
   "full_table_id": "ledger-fcc1e.trb_pymnts_derived.location_gmaps_static",
   "total_columns": 16,
   "sample_rows_analyzed": 10000,
-  "documentation_generated": "2026-05-05T18:21:45.838305",
+  "documentation_generated": "2026-05-05T18:46:17.197157",
   "columns": [
     {
       "column_name": "area",
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Geographic region classification for merchant location grouping and regional analysis",
+      "description": "Geographic area representing regional divisions for merchant location organization and business segmentation. Used to categorize and group merchants by geographic region",
       "business_context": "Required field - always populated.",
       "example_values": [
         "SUMATERA 1",
@@ -23,7 +23,7 @@
       "data_type": "STRING (LONG)",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Complete formatted address for merchant or location identification",
+      "description": "Complete formatted address providing full location details for merchants or entities. Used for business operations, customer communication, and location verification",
       "business_context": "Required field - always populated.",
       "example_values": [
         "9WR9+C5J, Seukeumbrok, Kec. Pidie, Kabupaten Pidie, Aceh, Indonesia",
@@ -36,7 +36,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Regency/District name for Indonesian administrative level 2 classification",
+      "description": "Regency or district name representing Indonesian administrative level 2 divisions. Used for geographic classification and regional business organization",
       "business_context": "Required field - always populated.",
       "example_values": [
         "KABUPATEN PIDIE",
@@ -49,7 +49,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Sub-district/Kecamatan name for Indonesian administrative level 3 division",
+      "description": "Sub-district or kecamatan name representing Indonesian administrative level 3 divisions. Used for detailed geographic classification and location-based business operations",
       "business_context": "Required field - always populated.",
       "example_values": [
         "PIDIE",
@@ -62,7 +62,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Geographic latitude coordinate for precise location mapping",
+      "description": "Geographic latitude coordinate providing precise location mapping data. Used in conjunction with longitude for spatial analysis and location-based business intelligence",
       "business_context": "Required field - always populated.",
       "example_values": [
         "5.391094208,95.91785431",
@@ -75,7 +75,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Geographic latitude coordinate for precise location mapping (range: -8.68 to 5.39)",
+      "description": "Geographic latitude coordinate providing precise location mapping data. Used in conjunction with longitude for spatial analysis and location-based business intelligence",
       "business_context": "Required field - always populated.",
       "example_values": [
         "5.391094208",
@@ -88,7 +88,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Geographic longitude coordinate for precise location mapping (range: 95.92 to 123.06)",
+      "description": "Geographic longitude coordinate providing precise location mapping data. Used in conjunction with latitude for spatial analysis and location-based business intelligence",
       "business_context": "Required field - always populated.",
       "example_values": [
         "95.91785431",
@@ -101,7 +101,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Regency/District name for Indonesian administrative level 2 classification",
+      "description": "Regency or district name representing Indonesian administrative level 2 divisions. Used for geographic classification and regional business organization",
       "business_context": "Required field - always populated.",
       "example_values": [
         "PIDIE",
@@ -114,7 +114,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.04,
-      "description": "Sub-district/Kecamatan name for Indonesian administrative level 3 division",
+      "description": "Sub-district or kecamatan name representing Indonesian administrative level 3 divisions. Used for detailed geographic classification and location-based business operations",
       "business_context": "Populated in 100% of records.",
       "example_values": [
         "SEUKEUMBROK",
@@ -127,7 +127,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Text classification for old province dont use",
+      "description": "Province or state name representing Indonesian administrative regions. Used for high-level geographic classification and regional business grouping",
       "business_context": "Required field - always populated.",
       "example_values": [
         "ACEH",
@@ -140,7 +140,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Status field indicating the parsing state",
+      "description": "Status classification indicating the current state of parsing within the business process. Used for workflow management, filtering, and operational reporting",
       "business_context": "Required field - always populated. Used for segmentation and status-based filtering.",
       "example_values": [
         "COMPLETE_HIGH_CONFIDENCE",
@@ -153,7 +153,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Text field containing phone number information",
+      "description": "Count or total number of phone for aggregation and quantitative analysis. Used in metrics, dashboards, and business measurements",
       "business_context": "Required field - always populated.",
       "example_values": [
         "85314173200",
@@ -166,7 +166,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Text classification for province",
+      "description": "Province or state name representing Indonesian administrative regions. Used for high-level geographic classification and regional business grouping",
       "business_context": "Required field - always populated.",
       "example_values": [
         "NANGGROE ACEH DARUSSALAM",
@@ -179,7 +179,7 @@
       "data_type": "NULL",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Raw Response",
+      "description": "raw response data",
       "business_context": "Optional field - rarely populated.",
       "example_values": []
     },
@@ -188,7 +188,7 @@
       "data_type": "STRING",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Text classification for source flag",
+      "description": "Boolean flag indicating the source status of the record. Used for segmentation, filtering, and operational decision making",
       "business_context": "Required field - always populated. Used for segmentation and status-based filtering.",
       "example_values": [
         "Mar 2026",
@@ -201,7 +201,7 @@
       "data_type": "UNKNOWN",
       "nullable": false,
       "null_percentage": 0.0,
-      "description": "Timestamp recording when timestamp   occurred in the system",
+      "description": "Timestamp capturing when timestamp occurred in the system. Provides audit trail and data lineage information for tracking and historical analysis",
       "business_context": "Required field - always populated. Used for time-based analysis and filtering.",
       "example_values": [
         "2026-03-06 06:00:06.308148+00:00",
@@ -282,5 +282,5 @@
     "peak_query_hour": null,
     "last_queried": "2026-05-05T09:00:07.349000+00:00"
   },
-  "documentation_enriched": "2026-05-05T18:21:47.152680"
+  "documentation_enriched": "2026-05-05T18:46:18.571630"
 }
