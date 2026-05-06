@@ -3,14 +3,14 @@
   "full_table_id": "ledger-fcc1e.merchant_success_analytics.ms_merchant_profiling_ssot",
   "total_columns": 107,
   "sample_rows_analyzed": 10000,
-  "documentation_generated": "2026-05-06 12:12:27.791748",
+  "documentation_generated": "2026-05-06 12:17:03.129767",
   "columns": [
     {
       "column_name": "phoneNumber",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Phone number (10-11 digit Indonesian mobile). Primary identifier for EDC order lookup and joins",
+      "description": "Phone number (10-11 digit Indonesian mobile). Primary key for merchant profile. Used for order linking and merchant identification",
       "business_context": "Required field - always populated",
       "example_values": [
         "81256525752",
@@ -23,7 +23,7 @@
       "data_type": "TIMESTAMP",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Createdat timestamp for tracking and record management",
+      "description": "Timestamp when merchant profile was created. Indicates merchant onboarding date",
       "business_context": "Required field - always populated",
       "example_values": [
         "2022-08-25 00:00:00+00:00",
@@ -36,7 +36,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Data Source Flag field for business operations and tracking",
+      "description": "Data source identifier (Jan 2026, Feb 2026, etc). Tracks batch or time period of data collection",
       "business_context": "Required field - always populated",
       "example_values": [
         "Backfill BQ from Zoho",
@@ -54,7 +54,7 @@
       "data_type": "TIMESTAMP",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Updatedat timestamp for tracking and record management",
+      "description": "Timestamp of last profile update. Tracks when merchant information was last modified",
       "business_context": "Required field - always populated",
       "example_values": [
         "2024-08-18 22:39:06.108405+00:00",
@@ -67,7 +67,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 15.04,
-      "description": "Merchant or business name field for identification and records",
+      "description": "Business or store name. Used for merchant identification and business classification",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "toko eli",
@@ -80,7 +80,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 29.98,
-      "description": "Merchant or business name field for identification and records",
+      "description": "Merchant owner's full name. Used for KYC verification and merchant identification",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "Indah tristanti",
@@ -93,7 +93,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 21.16,
-      "description": "Yearofbirth field for business operations",
+      "description": "Year merchant owner was born. Used for KYC demographic verification and merchant profiling",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "0",
@@ -109,7 +109,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 28.32,
-      "description": "Address field for business operations and tracking",
+      "description": "Complete street address for merchant location. Primary address field for shipping, KYC verification, and contact",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "Sayati, Kabupaten Bandung, Jawa Barat, Jawa, 40228, Indonesia",
@@ -122,7 +122,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Yearfounded field for business operations",
+      "description": "Year the business was established. Indicates business age and operational stability",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -131,7 +131,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Shoppic field for business operations",
+      "description": "Person In Charge (PIC) name for the merchant shop/store. Primary contact person for merchant support",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -140,7 +140,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 78.87,
-      "description": "Numberofbranches field for business operations and tracking",
+      "description": "Number of business branches or locations operated by merchant. Indicates business scale and organization complexity",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "0",
@@ -156,7 +156,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 93.86,
-      "description": "Numberofemployees field for business operations and tracking",
+      "description": "Number of employees in merchant's business. Used for business classification and capacity assessment",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "0",
@@ -172,7 +172,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Surroundingarea field for business operations",
+      "description": "Description of surrounding area characteristics. Indicates neighborhood/location type",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -181,7 +181,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Roadlocationtype field for business operations",
+      "description": "Type of road location (main road, side street, etc). Indicates location accessibility",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -190,7 +190,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Estimatedcustomersperday field for business operations",
+      "description": "Estimated daily customer count for the merchant. Indicates business volume and sales potential",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -199,7 +199,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 21.16,
-      "description": "Totaldailytransactions field for business operations",
+      "description": "Expected daily transaction count. Used for business sizing and product recommendation",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "0",
@@ -215,7 +215,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 99.89,
-      "description": "Cardtransactions field for business operations and tracking",
+      "description": "Number or volume of card-based transactions processed. Key metric for EDC usage and card payment adoption",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "11",
@@ -234,7 +234,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 99.7,
-      "description": "Noncardtransactions field for business operations and tracking",
+      "description": "Transaction count excluding card payments. Measures non-card payment method usage",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "31",
@@ -253,7 +253,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Bricardtransactions field for business operations",
+      "description": "BRI card-specific transaction count. Tracks BRI card payment adoption with merchant",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -262,7 +262,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Ppobtransactions field for business operations",
+      "description": "PPOB (Bill Payment) transaction count. Measures merchant engagement with utility bill payment services",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -271,7 +271,7 @@
       "data_type": "RECORD",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Banktransferapps field for business operations",
+      "description": "Banktransferapps field",
       "business_context": "Required field - always populated",
       "example_values": [
         "[]",
@@ -287,7 +287,7 @@
       "data_type": "RECORD",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Ppobapps field for business operations",
+      "description": "Ppobapps field",
       "business_context": "Required field - always populated",
       "example_values": [
         "[]",
@@ -303,7 +303,7 @@
       "data_type": "BOOLEAN",
       "nullable": true,
       "null_percentage": 78.87,
-      "description": "Lakupandaicertificate field for business operations",
+      "description": "Laku Pandai certification status or document. Indicates merchant certification for agent services",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "False",
@@ -319,7 +319,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Userid field for business operations",
+      "description": "Userid field",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -328,7 +328,7 @@
       "data_type": "RECORD",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Businesstypes field for business operations",
+      "description": "Type or classification of businesss",
       "business_context": "Required field - always populated",
       "example_values": [
         "[]",
@@ -344,7 +344,7 @@
       "data_type": "TIMESTAMP",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Date or timestamp for completedloandate tracking",
+      "description": "Date when merchant completed loan application. Tracks loan onboarding timeline",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -353,7 +353,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Edcownership field for business operations",
+      "description": "EDC device ownership status. Indicates whether merchant owns or leases EDC machine",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -362,7 +362,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Loanname field for business operations",
+      "description": "Name or product type of active loan. Identifies which loan product merchant holds",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -371,7 +371,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Loanownership field for business operations",
+      "description": "Loan product status and ownership. Indicates if merchant has active loan with BukuWarung",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -380,7 +380,7 @@
       "data_type": "FLOAT",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Ownedloanlimit field for business operations",
+      "description": "Maximum loan limit approved for merchant. Indicates merchant credit capacity",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -389,7 +389,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retaileventpiccontact field for business operations",
+      "description": "Contact information for retail event coordinator. Point of contact for event-based sales",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -398,7 +398,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retailtypepoi field for business operations",
+      "description": "Type of retail point of interest (store, stand, etc). Indicates retail location category",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -407,7 +407,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retailcommunityname field for business operations",
+      "description": "Community or association name for retail merchant. Shows merchant group affiliation",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -416,7 +416,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retailcommunityaffiliation field for business operations",
+      "description": "Community or business association merchant belongs to. Indicates group buying power",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -425,7 +425,7 @@
       "data_type": "RECORD",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Retailqrisownership field for business operations",
+      "description": "QRIS payment ownership status for retail merchant. Indicates QR code payment adoption",
       "business_context": "Required field - always populated",
       "example_values": [
         "[]",
@@ -441,7 +441,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retailcreditcardpcttransaction field for business operations",
+      "description": "Percentage of transactions via credit card. Shows credit card payment prevalence",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -450,7 +450,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retailqrispcttransaction field for business operations",
+      "description": "Percentage of transactions via QRIS (Indonesian QR standard). Shows QR adoption percentage",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -459,7 +459,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retailcontactpicpoi field for business operations",
+      "description": "Contact information for retail point of interest manager. Primary contact for retail location",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -468,7 +468,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retaildebitcardpcttransaction field for business operations",
+      "description": "Percentage of transactions via debit card. Shows debit card payment prevalence",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -477,7 +477,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retailnamepicpoi field for business operations",
+      "description": "Name of manager or owner at retail point of interest. Key contact person",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -486,7 +486,7 @@
       "data_type": "RECORD",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Retailposownership field for business operations",
+      "description": "POS (Point of Sale) system ownership status. Indicates technology adoption level",
       "business_context": "Required field - always populated",
       "example_values": [
         "[]",
@@ -502,7 +502,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retailestablishmenttype field for business operations",
+      "description": "Type of retail establishment (modern trade, traditional, etc). Retail business model classification",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -511,7 +511,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retaillocatedinevent field for business operations",
+      "description": "Boolean indicating if retail location is in an event venue. Identifies event-based retail locations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -520,7 +520,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retaillocatedinpoi field for business operations",
+      "description": "Boolean indicating if retail location is in a point of interest. Identifies POI-based retail locations",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -529,7 +529,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retaileventpicname field for business operations",
+      "description": "Name of retail event coordinator or manager. Primary contact for retail event coordination",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -538,7 +538,7 @@
       "data_type": "RECORD",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Retailedcownership field for business operations",
+      "description": "EDC device ownership status for retail merchant. Indicates payment equipment adoption",
       "business_context": "Required field - always populated",
       "example_values": [
         "[]",
@@ -554,7 +554,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retailofflinedailytransaction field for business operations",
+      "description": "Estimated daily offline (card-based) transaction volume for retail segment",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -563,7 +563,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retailonlinedailytransaction field for business operations",
+      "description": "Estimated daily online transaction volume for retail segment",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -572,7 +572,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retaildailyqrisvolume field for business operations",
+      "description": "Daily QRIS (Indonesian QR code payment standard) transaction volume for retail merchants",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -581,7 +581,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retailnamepoi field for business operations",
+      "description": "Name of retail point of interest or store. Used for store identification",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -590,7 +590,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Retailmerchantflag field for business operations",
+      "description": "Flag indicating retailmerchant",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -599,7 +599,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Notes field for business operations",
+      "description": "Free-form notes or comments about merchant or order. Contains qualitative information and special instructions",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -608,7 +608,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 26.63,
-      "description": "Storetype field for business operations and tracking",
+      "description": "Store or business type classification. Indicates merchant business model and product suitability",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "kelontong_minimarket",
@@ -621,7 +621,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 25.45,
-      "description": "Businessindustry field for business operations and tracking",
+      "description": "Industry classification for merchant business. Enables industry-specific analysis and product targeting",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "fmcg",
@@ -643,7 +643,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 25.45,
-      "description": "Businesslocation field for business operations and tracking",
+      "description": "Business location type or geographic area classification. Used for merchant territory and sales organization",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "commercial",
@@ -670,7 +670,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 26.63,
-      "description": "Loan product ownership or qualification indicator tracking merchant lending services",
+      "description": "Boolean indicating merchant interest in loan products. Indicates sales opportunity for financing",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "yes",
@@ -686,7 +686,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Desiredloanlimit field for business operations",
+      "description": "Requested loan limit by merchant. Shows merchant's financing need assessment",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -695,7 +695,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Interested Sell Other Bw Products field for business operations",
+      "description": "Boolean indicating MEE merchant interest in selling other BukuWarung products. Sales opportunity indicator",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -704,7 +704,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Average Daily Profit Payment Agent field for business operations",
+      "description": "Estimated daily profit for MEE merchant as payment agent. Indicates revenue potential from agent services",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -713,7 +713,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Interested Build Other Business field for business operations",
+      "description": "Boolean indicating MEE merchant interest in building additional business. Growth opportunity indicator",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -722,7 +722,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Total Card Transaction field for business operations",
+      "description": "Total card transaction count for MEE segment. Indicates payment card adoption level",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -731,7 +731,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Reason Why Not Use Bw For Bri On Us field for business operations",
+      "description": "Reason merchant is not using BukuWarung for BRI card payments. Identifies sales barriers",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -740,7 +740,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Edc Ownership field for business operations",
+      "description": "EDC ownership indicator for MEE segment merchant. Tracks product adoption in sales channel",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -749,7 +749,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Reason Why Not Use Bw For Non Bri Card Edc Bri field for business operations",
+      "description": "Reason merchant is not using BukuWarung for non-BRI EDC. Identifies competitive gaps",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -758,7 +758,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Loan Ownership Mee field for business operations",
+      "description": "Loan ownership status for MEE merchant. Indicates credit product adoption",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -767,7 +767,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "MSE-related mee average daily omset payment agent for territory assignment and team organization",
+      "description": "Average daily revenue (omset) as payment agent. Measures payment agent business performance",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -776,7 +776,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Motivation To Switch Bri On Us To Bw field for business operations",
+      "description": "Merchant motivation or reason to switch from BRI On Us to BukuWarung. Competitive analysis indicator",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -785,7 +785,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Current Tenor Loan field for business operations",
+      "description": "Current loan tenor (duration) in months. Indicates loan repayment timeline",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -794,7 +794,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Average Daily Profit Non Payment Agent field for business operations",
+      "description": "Daily profit when merchant is not acting as payment agent. Baseline business profitability",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -803,7 +803,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Current Loan Type field for business operations",
+      "description": "Current loan product type for MEE merchant. Identifies which financing product merchant uses",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -812,7 +812,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "MSE-related mee average daily omset non payment agent for territory assignment and team organization",
+      "description": "Daily revenue (omset) from non-payment agent activities. Baseline business revenue",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -821,7 +821,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Current Loan Interest field for business operations",
+      "description": "Current interest rate for merchant's active loan. Tracks loan cost structure",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -830,7 +830,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Reason Why Not Use Bw Full field for business operations",
+      "description": "Overall reason merchant is not fully using BukuWarung services. Identifies adoption barriers",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -839,7 +839,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Motivation To Switch All Edc Non Bri To Bw field for business operations",
+      "description": "Merchant motivation to consolidate all non-BRI card payments to BukuWarung. Shows product consolidation opportunity",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -848,7 +848,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Kur Loan Due field for business operations",
+      "description": "KUR (Micro Credit) loan due date. Tracks alternative financing timeline",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -857,7 +857,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Bw Loan Reason Not Interested field for business operations",
+      "description": "Reason MEE merchant is not interested in BukuWarung loan. Helps refine loan product offerings",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -866,7 +866,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Kur Loan Bank field for business operations",
+      "description": "Bank providing KUR loan to merchant. Identifies competing financing source",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -875,7 +875,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Kur Loan Limit field for business operations",
+      "description": "Limit amount of KUR loan. Indicates merchant credit capacity in competing products",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -884,7 +884,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Mee Bw Loan Purpose field for business operations",
+      "description": "Purpose or use case merchant has for BukuWarung loan. Indicates loan product suitability",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -893,7 +893,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 7.36,
-      "description": "Firstvisitbiztype field for business operations and tracking",
+      "description": "Business type recorded at first merchant visit. Baseline business classification for trend analysis",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "PAYMENT AGENT",
@@ -912,7 +912,7 @@
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 7.36,
-      "description": "Latestvisitdate timestamp for tracking and record management",
+      "description": "Date of last visit by MSE or sales representative. Indicates engagement frequency",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "2023-10-23",
@@ -925,7 +925,7 @@
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Createddate timestamp for tracking and record management",
+      "description": "Date merchant profile record was created. Used for cohort analysis and onboarding tracking",
       "business_context": "Required field - always populated",
       "example_values": [
         "2022-08-25",
@@ -938,7 +938,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Hasbriedc field for business operations",
+      "description": "Boolean indicating if merchant has active BRI EDC machine. Used for product penetration analysis",
       "business_context": "Required field - always populated",
       "example_values": [
         "0",
@@ -954,7 +954,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Hasbniedc field for business operations",
+      "description": "Boolean indicating if merchant has active BNI EDC machine. Tracks multi-bank EDC adoption",
       "business_context": "Required field - always populated",
       "example_values": [
         "0",
@@ -970,7 +970,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Hasmandiriedc field for business operations",
+      "description": "Boolean indicating if merchant has active Mandiri EDC machine. Indicates payment diversification",
       "business_context": "Required field - always populated",
       "example_values": [
         "0",
@@ -986,7 +986,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 96.65,
-      "description": "Current Mse Hor field for business operations and tracking",
+      "description": "Current Head of Region assigned to merchant. Indicates merchant's regional management hierarchy",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "tommy",
@@ -1004,7 +1004,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 96.65,
-      "description": "Current Mse Hoa field for business operations and tracking",
+      "description": "Current Head of Area assigned to merchant. Indicates merchant's area management oversight",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "vacant_kalimantan",
@@ -1028,7 +1028,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 96.65,
-      "description": "Current Mse Lead field for business operations and tracking",
+      "description": "Current MSE Lead assigned to merchant. Indicates merchant's team leader for daily management",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "tl-julius",
@@ -1041,7 +1041,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 80.36,
-      "description": "Supreme Tier field for business operations and tracking",
+      "description": "Supreme Tier field",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "SUPREME",
@@ -1057,7 +1057,7 @@
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 80.36,
-      "description": "Supreme Date timestamp for tracking and record management",
+      "description": "Timestamp for supreme",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "2022-08-30",
@@ -1070,7 +1070,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Hasandroidedc field for business operations",
+      "description": "Boolean indicating if merchant has Android-based EDC terminal. Identifies modern payment technology adoption",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -1079,7 +1079,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Totalandroidmachine field for business operations",
+      "description": "Totalandroidmachine field",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -1088,7 +1088,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Hassakuedc field for business operations",
+      "description": "Boolean indicating if merchant has Saku EDC (BRI's digital wallet/payment). Tracks digital payment adoption",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -1097,7 +1097,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Totalsakumachine field for business operations",
+      "description": "Totalsakumachine field",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -1119,7 +1119,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 78.12,
-      "description": "Latest Latitude field for business operations and tracking",
+      "description": "Latitude coordinate for merchant location. Component of geographic coordinate for mapping and analysis",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "0.01381",
@@ -1132,7 +1132,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 78.12,
-      "description": "Latest Longitude field for business operations and tracking",
+      "description": "Longitude coordinate for merchant location. Component of geographic coordinate for mapping and analysis",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "109.288564",
@@ -1145,7 +1145,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 95.8,
-      "description": "Boolean indicator of merchant's ownership or qualification for active_days_users_in_thcoordinate. Related to EDC, loan, or product offerings",
+      "description": "Number of active days merchant was present at coordinate location. Tracks location usage pattern",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "Users in this coordinate for 351 days",
@@ -1158,7 +1158,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Gsheet Ssot Documentation field for business operations and tracking",
+      "description": "Reference to shared spreadsheet documentation. Links to detailed source documentation",
       "business_context": "Required field - always populated",
       "example_values": [
         "https://docs.google.com/spreadsheets/d/1fi6jwHsn2O5A5RfbqxCwAeAdBhiaCq2GtF2GjnUFChw/edit?usp=sharing",
@@ -1174,7 +1174,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 78.93,
-      "description": "Bank account number for merchant settlement and payout",
+      "description": "NIK (National Identity Number) of merchant owner. Primary government ID for KYC compliance",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "6102084612880002",
@@ -1187,7 +1187,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 78.93,
-      "description": "Merchant or business name field for identification and records",
+      "description": "Name recorded during KYC (Know Your Customer) verification. Official business or owner name for compliance",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "ENDAN WINDARBIH",
@@ -1200,7 +1200,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 19.08,
-      "description": "District field for business operations and tracking",
+      "description": "District administrative division for merchant location. Used for geographic segmentation",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "SIANTAN",
@@ -1213,7 +1213,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 18.33,
-      "description": "Regency field for business operations and tracking",
+      "description": "Regency administrative division for merchant location",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "KABUPATEN MEMPAWAH",
@@ -1226,7 +1226,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 79.23,
-      "description": "Province field for business operations and tracking",
+      "description": "State or province level administrative division for merchant location and geographic segmentation",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "KALIMANTAN BARAT",
@@ -1239,7 +1239,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 79.23,
-      "description": "Area field for business operations and tracking",
+      "description": "Geographic area region classification (Java 1-3, Sumatera 1-3, etc). Used for MSE organization and sales targets",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "KALIMANTAN",
@@ -1264,7 +1264,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Location Source field for business operations and tracking",
+      "description": "Source or method used to determine location. Indicates location data reliability",
       "business_context": "Required field - always populated",
       "example_values": [
         "Old Prospero",
@@ -1281,7 +1281,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Visited By Mee Flag field for business operations",
+      "description": "Boolean indicating if merchant has been visited by MEE. Tracks sales engagement activity",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     }

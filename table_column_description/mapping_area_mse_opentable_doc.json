@@ -3,14 +3,14 @@
   "full_table_id": "ledger-fcc1e.datamart_opentable.mapping_area_mse_opentable",
   "total_columns": 10,
   "sample_rows_analyzed": 1237,
-  "documentation_generated": "2026-05-06 12:12:02.611907",
+  "documentation_generated": "2026-05-06 12:16:56.723833",
   "columns": [
     {
       "column_name": "new_mse_city_sep_24",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.4,
-      "description": "Regency or city (kabupaten/kota) administrative division defining geographic scope for merchant location assignment",
+      "description": "Updated MSE city/area assignment as of September 2024. Shows territory reorganization after restructuring",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "MSE Demak",
@@ -23,7 +23,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 1.94,
-      "description": "Name of the Merchant Success Executive assigned to this territory. Tracks MSE-merchant relationships and team assignments",
+      "description": "Name of Merchant Success Executive assigned to merchant territory. Used for sales team assignment and accountability",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "Bambang Pujiyono",
@@ -36,7 +36,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.4,
-      "description": "Indonesian province where MSE operates. Part of hierarchy: province \u2192 regency \u2192 area \u2192 region for territory organization",
+      "description": "State or province level administrative division for merchant location and geographic segmentation",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "JAWA TENGAH",
@@ -49,7 +49,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.4,
-      "description": "Regency or city (kabupaten/kota) administrative division defining geographic scope for merchant location assignment",
+      "description": "Regency or city name for geographic location classification and merchant territory mapping",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "KABUPATEN DEMAK",
@@ -62,7 +62,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.4,
-      "description": "Name of the MSE Team Lead managing assigned MSE members and merchant acquisition",
+      "description": "Name of MSE Team Lead managing assigned MSE members. Shows organizational hierarchy for territory management",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "TL-Agus",
@@ -75,7 +75,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.4,
-      "description": "Name of the Area Head supervising the geographic area and managing the assigned MSE team",
+      "description": "Name of Area Head supervising geographic area and MSE team. Top area management for performance accountability",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "Endang",
@@ -100,7 +100,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.4,
-      "description": "Geographic area region (Java 1-3, Sumatera 1-3) organizing MSE team structure and merchant territory grouping",
+      "description": "Geographic area region classification (Java 1-3, Sumatera 1-3, etc). Used for MSE organization and sales targets",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "Java 2",
@@ -125,7 +125,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.4,
-      "description": "Name of the Regional Head overseeing entire region. Top-level management for geographic area supervision",
+      "description": "Name of Regional Head overseeing entire region. Regional management responsible for regional targets",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "ZIKO",
@@ -143,7 +143,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.4,
-      "description": "Broad geographic region (JAVA, SUMATERA, EAST INDO) representing highest level of MSE organizational grouping",
+      "description": "Broad geographic region (JAVA, SUMATERA, EAST INDO). High-level geographic grouping for organizational hierarchy",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "JAVA",
@@ -161,7 +161,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 42.6,
-      "description": "Date when MSE was assigned to or joined this territory. Tracks tenure and organizational changes",
+      "description": "Date when the MSE joined or was assigned to this territory",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "2026-03-02",

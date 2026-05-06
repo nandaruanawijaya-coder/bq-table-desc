@@ -3,14 +3,14 @@
   "full_table_id": "ledger-fcc1e.db_accounting.prod_edc_order",
   "total_columns": 36,
   "sample_rows_analyzed": 10000,
-  "documentation_generated": "2026-05-06 12:12:36.881322",
+  "documentation_generated": "2026-05-06 12:17:14.113908",
   "columns": [
     {
       "column_name": "user_id",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Phone number (10-11 digit Indonesian mobile). Primary identifier for EDC order lookup and joins",
+      "description": "Phone number (10-11 digit Indonesian mobile). Merchant phone identifier for order owner and merchant lookups",
       "business_context": "Required field - always populated",
       "example_values": [
         "81366356368",
@@ -23,7 +23,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.25,
-      "description": "Unique identifier in UUID v4 format",
+      "description": "Unique UUID identifier for the merchant/user. Used for system-level merchant tracking when phone number not available",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "f0495c2e-5de2-4dfd-a530-8d59e93c7e24",
@@ -36,7 +36,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 50.32,
-      "description": "Referee Name field for business operations",
+      "description": "Name of referrer or partner who referred merchant. Used for partnership tracking and referral attribution",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "",
@@ -52,7 +52,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 37.37,
-      "description": "Postal Code classification code for categorization",
+      "description": "Postal code for merchant location. Used for shipping, geographic analysis, and address validation",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "22475",
@@ -65,7 +65,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 50.41,
-      "description": "Ecom User Id field for business operations",
+      "description": "Ecommerce platform user identifier. Links order to ecommerce user when applicable",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "",
@@ -99,7 +99,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 50.31,
-      "description": "Coordinates field for business operations",
+      "description": "Geographic latitude,longitude pair for EDC device delivery location. Used for mapping and territory analysis when address is partial",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "",
@@ -112,7 +112,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 33.91,
-      "description": "Name for identification and business records",
+      "description": "Merchant or order contact name. Used for order fulfillment and communication",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "Sri Putri Lindawati Siahaan ( UD. ADVENT SIBURIAN)",
@@ -125,7 +125,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 46.96,
-      "description": "Bank information for merchant settlement and payout processing",
+      "description": "Bank name for merchant settlement account. Used for payment routing and settlement processing",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "",
@@ -138,7 +138,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Singer data connector: table schema version for data lineage tracking",
+      "description": "Singer data connector table schema version. Tracks schema evolution for data quality",
       "business_context": "Required field - always populated",
       "example_values": [
         "1750311085342",
@@ -154,7 +154,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 46.96,
-      "description": "Bank account number for merchant settlement and payout",
+      "description": "Bank account number for merchant settlement and payouts. Critical for payment processing",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "",
@@ -167,7 +167,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 50.44,
-      "description": "External Order Id field for business operations",
+      "description": "External order identifier from partner system. Used for order reconciliation with external platforms",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "",
@@ -192,7 +192,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Unique order identifier in UUID v4 format. Primary key for EDC order records",
+      "description": "Unique order identifier in UUID format. Primary key for EDC order. Used for order tracking and joins",
       "business_context": "Required field - always populated",
       "example_values": [
         "31ca7df4-4648-41c1-bc8e-9bf25c628e16",
@@ -205,7 +205,7 @@
       "data_type": "TIMESTAMP",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Timestamp of the most recent modification to the EDC order",
+      "description": "Timestamp of the most recent modification",
       "business_context": "Required field - always populated",
       "example_values": [
         "2026-05-06 03:40:32.456000+00:00",
@@ -218,7 +218,7 @@
       "data_type": "RECORD",
       "nullable": true,
       "null_percentage": 37.51,
-      "description": "Delivery address for EDC device shipment to merchant. Contains location for logistical tracking",
+      "description": "Complete street address for merchant location. Primary address field for shipping, KYC verification, and contact",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "{'store_address': {'city': 'Humbang Hasundutan', 'ward': ' Sihonongan', 'address': 'SIHONONGAN, DEPA",
@@ -231,7 +231,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "EDC order status field indicating current state in order lifecycle. Use for filtering active vs completed orders",
+      "description": "Order lifecycle status (Draft, Unassigned, Active, Completed, Cancelled). Indicates order processing stage",
       "business_context": "Required field - always populated",
       "example_values": [
         "Unassigned",
@@ -253,7 +253,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 37.37,
-      "description": "Delivery address for EDC device shipment to merchant. Contains location for logistical tracking",
+      "description": "Address where EDC device should be shipped. Primary delivery location for order fulfillment",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "SIHONONGAN, DEPAN GEREJA HKI SIHONONGAN, DESA SIHONONGAN ",
@@ -266,7 +266,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 40.97,
-      "description": "KYC (Know Your Customer) tier or classification for merchant verification level",
+      "description": "Merchant KYC verification tier level. Indicates compliance status and verification completeness",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "NON_KYC",
@@ -284,7 +284,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 50.32,
-      "description": "Purchase Referral field for business operations",
+      "description": "Referral source or channel that led to order. Tracks acquisition source for analysis",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "",
@@ -301,7 +301,7 @@
       "data_type": "RECORD",
       "nullable": true,
       "null_percentage": 0.34,
-      "description": "Metadata object containing additional order information for tracking and delivery",
+      "description": "Additional structured data object for order. Contains supplementary information not in standard columns",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "{'tfcode': 'MRORUMI', 'devicemappingdetails': {'type': 'BUKUWARUNG', 'vendor': None, 'description': ",
@@ -314,7 +314,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 46.96,
-      "description": "Beneficiary Name for identification and business records",
+      "description": "Name of account holder for payment settlement. Recipient of merchant payouts",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "",
@@ -327,7 +327,7 @@
       "data_type": "TIMESTAMP",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Singer data connector: timestamp when record was received by the pipeline",
+      "description": "Timestamp when record was received by data pipeline. Tracks data ingestion timing",
       "business_context": "Required field - always populated",
       "example_values": [
         "2026-05-06 04:32:11+00:00",
@@ -340,7 +340,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Singer data connector: sequence number for change data capture ordering",
+      "description": "Sequence number for change data capture ordering. Ensures proper ordering of incremental changes",
       "business_context": "Required field - always populated",
       "example_values": [
         "1778041896754943427",
@@ -353,7 +353,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 40.9,
-      "description": "Unique identifier in UUID v4 format",
+      "description": "Unique identifier in the Janus system. System-level merchant account identifier for integration tracking",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "6d485d01-0326-42ea-be29-1a399d6b07d9",
@@ -366,7 +366,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Phone number (10-11 digit Indonesian mobile). Primary identifier for EDC order lookup and joins",
+      "description": "Phone number (10-11 digit Indonesian mobile). Primary identifier for EDC orders, merchant lookups, and customer contact",
       "business_context": "Required field - always populated",
       "example_values": [
         "81366356368",
@@ -379,7 +379,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 1.81,
-      "description": "Transaction Id for record identification and relationships",
+      "description": "Transaction identifier related to order. Used for payment reconciliation and transaction tracking",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "E260506HI9FMYHD6Z",
@@ -392,7 +392,7 @@
       "data_type": "RECORD",
       "nullable": true,
       "null_percentage": 49.03,
-      "description": "Metadata object containing additional order information for tracking and delivery",
+      "description": "Metadata containing payment and settlement details for order. Tracks payment transaction information",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "{'progress': {'paid': None, 'created': '2026-05-06T03:40:32.316', 'refunding': None, 'refunded': Non",
@@ -405,7 +405,7 @@
       "data_type": "TIMESTAMP",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Timestamp when the EDC order was initially created",
+      "description": "Timestamp when the record was initially created",
       "business_context": "Required field - always populated",
       "example_values": [
         "2026-05-06 03:35:59.087000+00:00",
@@ -418,7 +418,7 @@
       "data_type": "RECORD",
       "nullable": true,
       "null_percentage": 68.73,
-      "description": "Metadata object containing additional order information for tracking and delivery",
+      "description": "Metadata containing delivery details: AWB, courier name, tracking dates, serial number. Used for shipment tracking",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "{'awb': 'ms-onspot', 'vendor': 'MoreFun', 'pickupdate': None, 'couriername': 'ms-onspot', 'serialnum",
@@ -431,7 +431,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 37.37,
-      "description": "Subdistrict field for business operations and tracking",
+      "description": "District administrative division for merchant location. Used for geographic segmentation",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "Paranginan",
@@ -444,7 +444,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 37.37,
-      "description": "Ward field for business operations and tracking",
+      "description": "Ward or neighborhood designation for local-level merchant location",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         " Sihonongan",
@@ -457,7 +457,7 @@
       "data_type": "TIMESTAMP",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Singer data connector: timestamp when batch was processed in the pipeline",
+      "description": "Timestamp when batch was processed by Singer data connector. Records pipeline batch processing time",
       "business_context": "Required field - always populated",
       "example_values": [
         "2026-05-06 04:34:11.331000+00:00",
@@ -470,7 +470,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 50.32,
-      "description": "Referee Phone field for business operations",
+      "description": "Phone of referrer or partner. Contact information for referral channel management",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "",
@@ -486,7 +486,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 51.21,
-      "description": "EDC order status field indicating current state in order lifecycle. Use for filtering active vs completed orders",
+      "description": "Payment completion status for order. Indicates whether merchant has completed payment",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "CREATED",
@@ -505,7 +505,7 @@
       "data_type": "RECORD",
       "nullable": true,
       "null_percentage": 50.58,
-      "description": "Attachments field for business operations and tracking",
+      "description": "Attached documents or file references for order. Contains supporting documentation and proof",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "{'npwp': '', 'store_side': '', 'ktp': '', 'store_front': '', 'family_card': '', 'inventory': '', 'se",
@@ -532,7 +532,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 47.11,
-      "description": "Business Type field for business operations and tracking",
+      "description": "Type of business operation (Retail, Food, Services, etc). Used for merchant segmentation and sales targeting",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "Agen Pembayaran",
@@ -554,7 +554,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 58.5,
-      "description": "EDC order status field indicating current state in order lifecycle. Use for filtering active vs completed orders",
+      "description": "Delivery progress status for EDC device. Tracks physical shipment status of device to merchant",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "NOT_STARTED",
