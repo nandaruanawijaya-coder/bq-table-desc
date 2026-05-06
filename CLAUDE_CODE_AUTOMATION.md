@@ -458,43 +458,52 @@ If script fails:
 
 ## ✏️ STEP 4: Auto-Generate & Enhance Documentation
 
-### 4.0 Data-Driven Description Strategy (Column Name + Sample Data)
+### 4.0 Context-Enhanced Description Strategy (Table Context + Column Name + Sample Data)
 
-**IMPORTANT**: Use ONLY column name + actual sample data values. No interpretation beyond what the data shows.
+**IMPORTANT**: Use table context from `table_list.md` + column name + actual sample data. Ground descriptions in real data while using table purpose.
 
 **Process**:
-1. Load all 10,000 rows from `table_list/[TABLE_NAME].json`
-2. For each column:
-   - Read the column name - what does it literally represent?
+1. Read table context from `table_list.md` (the description after the table ID)
+   - Understand the table's business purpose
+   - Learn what the data represents in the business
+   - Know the source and how data flows into this table
+   
+2. Load all 10,000 rows from `table_list/[TABLE_NAME].json`
+
+3. For each column:
+   - Read the column name - what does it represent?
    - Look at actual sample values from the 10k rows
    - Understand the data type (text, number, date, boolean, etc.)
-   - See what patterns or categories exist in the data
-3. Write a business-focused description combining name + what the data contains
-4. Keep description 1-2 sentences explaining the business context
-5. Store actual sample values separately in `example_values` field (max 3)
+   - See patterns or categories in the data
+   
+4. Write business-focused description combining:
+   - Table context (what this table is about)
+   - Column name (what this column is called)
+   - Sample data (what actual values look like)
+   
+5. Keep description 1-2 sentences explaining business relevance
+6. Store actual sample values separately in `example_values` field (max 3)
 
 **Key Principle**:
-- ❌ Don't infer business logic beyond name + data
-- ❌ Don't add context not evident from column name or values
-- ✅ Column name tells you the main subject
-- ✅ Sample data shows you what it contains
-- ✅ Combine them into business-focused explanation
+- ✅ Use table context to understand column purpose
+- ✅ Column name tells you the specific field
+- ✅ Sample data confirms what it contains
+- ✅ Combine all three for complete understanding
+- ❌ Don't infer beyond what context + name + data show
 
-**Examples**:
-- Column "area" with values "SUMATERA 1", "BALI NUSRA", "JAVA 2"
-  → "Geographic area representing regional divisions for merchant location organization and classification"
+**Examples** (with table context):
 
-- Column "merchant_id" with values "M001", "M002", "M12345"
-  → "Unique identifier assigned to each merchant for transaction tracking and merchant-level analysis"
+Table Context: "Geographic location data based on merchant KYB, geocoded and mapped to administrative divisions"
+- Column "area" with values "SUMATERA 1", "BALI NUSRA"
+  → "Geographic area representing regional MSE territory assignment within BukuWarung's merchant location structure"
 
-- Column "amount" with numeric values 1000, 5000, 50000
-  → "Monetary transaction amount representing the financial value of orders or payments in the business"
+Table Context: "Profile of BukuWarung Merchant with EDC, Loan, and Product ownership information"
+- Column "has_edc" with boolean values
+  → "Boolean indicator of whether the merchant owns or has been assigned an EDC (Electronic Data Capture) device"
 
-- Column "created_at" with timestamp values
-  → "Timestamp capturing when the record was created in the system for tracking data lineage and transaction timing"
-
-- Column "is_active" with boolean values
-  → "Boolean flag indicating the active or inactive status of the merchant or entity for operational filtering"
+Table Context: "Historical EDC orders from merchants"
+- Column "order_amount" with numeric values
+  → "Monetary amount representing the transaction value of each EDC order from the merchant"
 
 ---
 

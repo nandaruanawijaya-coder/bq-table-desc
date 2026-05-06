@@ -2,29 +2,81 @@
   "table_name": "mapping_area_mse_opentable",
   "full_table_id": "ledger-fcc1e.datamart_opentable.mapping_area_mse_opentable",
   "total_columns": 10,
-  "sample_rows_analyzed": 1157,
-  "documentation_generated": "2026-05-05T18:46:19.301379",
+  "sample_rows_analyzed": 1237,
+  "documentation_generated": "2026-05-06 11:31:38.482053",
   "columns": [
     {
-      "column_name": "area",
+      "column_name": "new_mse_city_sep_24",
       "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 0.43,
-      "description": "Geographic area representing regional divisions for merchant location organization and business segmentation. Used to categorize and group merchants by geographic region",
-      "business_context": "Populated in 100% of records.",
+      "null_percentage": 0.4,
+      "description": "City or regency administrative division",
+      "business_context": "Optional field - may be empty",
       "example_values": [
-        "Java 2",
-        "Java 2",
-        "Java 2"
+        "MSE Demak",
+        "MSE Banjarnegara",
+        "MSE Banjarnegara"
+      ]
+    },
+    {
+      "column_name": "mse_name_updated",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.4,
+      "description": "Date/time field for temporal tracking",
+      "business_context": "Optional field - may be empty",
+      "example_values": [
+        "Bambang Pujiyono",
+        "Taufik Nugroho",
+        "Taufik Nugroho"
+      ]
+    },
+    {
+      "column_name": "province",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.4,
+      "description": "Province administrative division",
+      "business_context": "Optional field - may be empty",
+      "example_values": [
+        "JAWA TENGAH",
+        "JAWA TENGAH",
+        "JAWA TENGAH"
+      ]
+    },
+    {
+      "column_name": "regency_city",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.4,
+      "description": "City or regency administrative division",
+      "business_context": "Optional field - may be empty",
+      "example_values": [
+        "KABUPATEN DEMAK",
+        "KABUPATEN WONOSOBO",
+        "KABUPATEN PURWOREJO"
+      ]
+    },
+    {
+      "column_name": "mse_lead",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.4,
+      "description": "Name or identifier of the reporting leader",
+      "business_context": "Optional field - may be empty",
+      "example_values": [
+        "TL-Agus",
+        "Amzar Sapunda",
+        "Amzar Sapunda"
       ]
     },
     {
       "column_name": "head_of_area",
       "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 0.43,
-      "description": "Geographic area representing regional divisions for merchant location organization and business segmentation. Used to categorize and group merchants by geographic region",
-      "business_context": "Populated in 100% of records.",
+      "null_percentage": 0.4,
+      "description": "Geographic area representing MSE territory assignment",
+      "business_context": "Optional field - may be empty",
       "example_values": [
         "Endang",
         "Endang",
@@ -32,12 +84,25 @@
       ]
     },
     {
+      "column_name": "area",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.4,
+      "description": "Geographic area representing MSE territory assignment",
+      "business_context": "Optional field - may be empty",
+      "example_values": [
+        "Java 2",
+        "Java 2",
+        "Java 2"
+      ]
+    },
+    {
       "column_name": "head_of_region",
       "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 0.43,
-      "description": "Text classification or code for head of region used in business operations. Values represent different categories or classifications in the business domain",
-      "business_context": "Populated in 100% of records.",
+      "null_percentage": 0.4,
+      "description": "Field for head of region",
+      "business_context": "Optional field - may be empty",
       "example_values": [
         "ZIKO",
         "ZIKO",
@@ -45,106 +110,30 @@
       ]
     },
     {
-      "column_name": "mse_join_date",
-      "data_type": "STRING",
-      "nullable": true,
-      "null_percentage": 40.1,
-      "description": "Date value recording when mse join took place. Used for time-based analysis, filtering, and business event tracking",
-      "business_context": "Populated in 60% of records. Used for time-based analysis and filtering.",
-      "example_values": [
-        "1999-12-30",
-        "1999-12-30",
-        "1999-12-30"
-      ]
-    },
-    {
-      "column_name": "mse_lead",
-      "data_type": "STRING",
-      "nullable": true,
-      "null_percentage": 0.43,
-      "description": "Text classification or code for mse lead used in business operations. Values represent different categories or classifications in the business domain",
-      "business_context": "Populated in 100% of records.",
-      "example_values": [
-        "Amzar Sapunda",
-        "Amzar Sapunda",
-        "Amzar Sapunda"
-      ]
-    },
-    {
-      "column_name": "mse_name_updated",
-      "data_type": "STRING",
-      "nullable": true,
-      "null_percentage": 2.16,
-      "description": "Name or label identifying the mse updated. Used for display, reporting, and business communication",
-      "business_context": "Populated in 98% of records. Used for time-based analysis and filtering.",
-      "example_values": [
-        "Taufik Nugroho",
-        "Vacant MSE Banjarnegara 2",
-        "Nura Asharin"
-      ]
-    },
-    {
-      "column_name": "new_mse_city_sep_24",
-      "data_type": "STRING",
-      "nullable": true,
-      "null_percentage": 0.43,
-      "description": "Text classification or code for new mse city sep 24 used in business operations. Values represent different categories or classifications in the business domain",
-      "business_context": "Populated in 100% of records.",
-      "example_values": [
-        "MSE Banjarnegara",
-        "MSE Banjarnegara 2",
-        "MSE Bantul"
-      ]
-    },
-    {
-      "column_name": "province",
-      "data_type": "STRING",
-      "nullable": true,
-      "null_percentage": 0.43,
-      "description": "Province or state name representing Indonesian administrative regions. Used for high-level geographic classification and regional business grouping",
-      "business_context": "Populated in 100% of records.",
-      "example_values": [
-        "JAWA TENGAH",
-        "JAWA TENGAH",
-        "DI YOGYAKARTA"
-      ]
-    },
-    {
-      "column_name": "regency_city",
-      "data_type": "STRING",
-      "nullable": true,
-      "null_percentage": 0.43,
-      "description": "Regency or district name representing Indonesian administrative level 2 divisions. Used for geographic classification and regional business organization",
-      "business_context": "Populated in 100% of records.",
-      "example_values": [
-        "KABUPATEN BANJARNEGARA",
-        "KABUPATEN BANJARNEGARA",
-        "KABUPATEN SLEMAN"
-      ]
-    },
-    {
       "column_name": "region",
       "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 0.43,
-      "description": "Text classification or code for region used in business operations. Values represent different categories or classifications in the business domain",
-      "business_context": "Populated in 100% of records.",
+      "null_percentage": 0.4,
+      "description": "Field for region",
+      "business_context": "Optional field - may be empty",
       "example_values": [
         "JAVA",
         "JAVA",
         "JAVA"
       ]
+    },
+    {
+      "column_name": "mse_join_date",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.4,
+      "description": "Date when the MSE joined or was assigned",
+      "business_context": "Optional field - may be empty",
+      "example_values": [
+        "2026-03-02",
+        "1999-12-30",
+        "1999-12-30"
+      ]
     }
-  ],
-  "query_metrics": {
-    "total_queries_30_days": 7,
-    "select_operations": 7,
-    "insert_operations": 0,
-    "update_operations": 0,
-    "delete_operations": 0,
-    "days_active_in_30_days": 4,
-    "peak_query_hour": 4,
-    "last_queried": "2026-05-04T07:27:24.613000+00:00"
-  },
-  "documentation_enriched": "2026-05-05T18:46:20.874943"
+  ]
 }

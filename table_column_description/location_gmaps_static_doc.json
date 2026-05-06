@@ -3,284 +3,211 @@
   "full_table_id": "ledger-fcc1e.trb_pymnts_derived.location_gmaps_static",
   "total_columns": 16,
   "sample_rows_analyzed": 10000,
-  "documentation_generated": "2026-05-05T18:46:17.197157",
+  "documentation_generated": "2026-05-06 11:30:08.983938",
   "columns": [
     {
-      "column_name": "area",
+      "column_name": "phone_number",
       "data_type": "STRING",
-      "nullable": false,
+      "nullable": true,
       "null_percentage": 0.0,
-      "description": "Geographic area representing regional divisions for merchant location organization and business segmentation. Used to categorize and group merchants by geographic region",
-      "business_context": "Required field - always populated.",
+      "description": "Phone number serving as unique merchant/user identifier for lookups and contact",
+      "business_context": "Optional field - may be empty",
       "example_values": [
-        "SUMATERA 1",
-        "BALI NUSRA",
-        "BALI NUSRA"
-      ]
-    },
-    {
-      "column_name": "formatted_address",
-      "data_type": "STRING (LONG)",
-      "nullable": false,
-      "null_percentage": 0.0,
-      "description": "Complete formatted address providing full location details for merchants or entities. Used for business operations, customer communication, and location verification",
-      "business_context": "Required field - always populated.",
-      "example_values": [
-        "9WR9+C5J, Seukeumbrok, Kec. Pidie, Kabupaten Pidie, Aceh, Indonesia",
-        "Jl. Gn. Tangkuban Perahu No.10a, Kerobokan Kelod, Kec. Kuta Utara, Kabupaten Badung, Bali 80361, Indonesia",
-        "W534+9QG, Jl. Bungkulan, Bungkulan, Kec. Sawan, Kabupaten Buleleng, Bali 81171, Indonesia"
-      ]
-    },
-    {
-      "column_name": "kabupaten",
-      "data_type": "STRING",
-      "nullable": false,
-      "null_percentage": 0.0,
-      "description": "Regency or district name representing Indonesian administrative level 2 divisions. Used for geographic classification and regional business organization",
-      "business_context": "Required field - always populated.",
-      "example_values": [
-        "KABUPATEN PIDIE",
-        "KABUPATEN BADUNG",
-        "KABUPATEN BULELENG"
-      ]
-    },
-    {
-      "column_name": "kecamatan",
-      "data_type": "STRING",
-      "nullable": false,
-      "null_percentage": 0.0,
-      "description": "Sub-district or kecamatan name representing Indonesian administrative level 3 divisions. Used for detailed geographic classification and location-based business operations",
-      "business_context": "Required field - always populated.",
-      "example_values": [
-        "PIDIE",
-        "KUTA UTARA",
-        "SAWAN"
+        "81517819519",
+        "81317112376",
+        "81779915086"
       ]
     },
     {
       "column_name": "lat_long",
       "data_type": "STRING",
-      "nullable": false,
+      "nullable": true,
       "null_percentage": 0.0,
-      "description": "Geographic latitude coordinate providing precise location mapping data. Used in conjunction with longitude for spatial analysis and location-based business intelligence",
-      "business_context": "Required field - always populated.",
+      "description": "Timestamp field for temporal tracking and audit purposes",
+      "business_context": "Optional field - may be empty",
       "example_values": [
-        "5.391094208,95.91785431",
-        "-8.6740059,115.1728238",
-        "-8.0965327,115.1569949"
+        "3.4635664,98.8890666",
+        "-7.9759318,111.9235118",
+        "-3.626137,103.849086"
       ]
     },
     {
       "column_name": "latitude",
       "data_type": "STRING",
-      "nullable": false,
+      "nullable": true,
       "null_percentage": 0.0,
-      "description": "Geographic latitude coordinate providing precise location mapping data. Used in conjunction with longitude for spatial analysis and location-based business intelligence",
-      "business_context": "Required field - always populated.",
+      "description": "Timestamp field for temporal tracking and audit purposes",
+      "business_context": "Optional field - may be empty",
       "example_values": [
-        "5.391094208",
-        "-8.6740059",
-        "-8.0965327"
+        "3.4635664",
+        "-7.9759318",
+        "-3.626137"
       ]
     },
     {
       "column_name": "longitude",
       "data_type": "STRING",
-      "nullable": false,
+      "nullable": true,
       "null_percentage": 0.0,
-      "description": "Geographic longitude coordinate providing precise location mapping data. Used in conjunction with latitude for spatial analysis and location-based business intelligence",
-      "business_context": "Required field - always populated.",
+      "description": null,
+      "business_context": "Optional field - may be empty",
       "example_values": [
-        "95.91785431",
-        "115.1728238",
-        "115.1569949"
+        "98.8890666",
+        "111.9235118",
+        "103.849086"
       ]
     },
     {
-      "column_name": "old_kabupaten_dont_use",
+      "column_name": "formatted_address",
       "data_type": "STRING",
-      "nullable": false,
+      "nullable": true,
       "null_percentage": 0.0,
-      "description": "Regency or district name representing Indonesian administrative level 2 divisions. Used for geographic classification and regional business organization",
-      "business_context": "Required field - always populated.",
+      "description": "Timestamp field for temporal tracking and audit purposes",
+      "business_context": "Optional field - may be empty",
       "example_values": [
-        "PIDIE",
-        "KABUPATEN BADUNG",
-        "KABUPATEN BULELENG"
+        "FV7Q+FJ3, Jl. Besar Petumbukan, Pertangguhan, Kec. Galang, Kabupaten Deli Serdang, Sumatera Utara 20",
+        "2WFF+R89, Lemahduwur, Batokan, Kec. Ngantru, Kabupaten Tulungagung, Jawa Timur 66252, Indonesia",
+        "Jl. Melati, Harapan Jaya, Kec. Muara Enim, Kabupaten Muara Enim, Sumatera Selatan 31311, Indonesia"
+      ]
+    },
+    {
+      "column_name": "raw_response",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Empty column - no sample data available",
+      "business_context": "Optional field - may be empty",
+      "example_values": []
+    },
+    {
+      "column_name": "timestamp__",
+      "data_type": "TIMESTAMP",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Timestamp field for temporal tracking and audit purposes",
+      "business_context": "Optional field - may be empty",
+      "example_values": [
+        "2026-04-25 06:00:05.238332+00:00",
+        "2026-04-25 06:00:05.238332+00:00",
+        "2026-04-25 06:00:05.238332+00:00"
+      ]
+    },
+    {
+      "column_name": "source_flag",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Flag or indicator field",
+      "business_context": "Optional field - may be empty",
+      "example_values": [
+        "Apr 2026",
+        "Apr 2026",
+        "Apr 2026"
       ]
     },
     {
       "column_name": "old_kecamatan_dont_use",
       "data_type": "STRING",
       "nullable": true,
-      "null_percentage": 0.04,
-      "description": "Sub-district or kecamatan name representing Indonesian administrative level 3 divisions. Used for detailed geographic classification and location-based business operations",
-      "business_context": "Populated in 100% of records.",
+      "null_percentage": 0.0,
+      "description": "Timestamp field for temporal tracking and audit purposes",
+      "business_context": "Optional field - may be empty",
       "example_values": [
-        "SEUKEUMBROK",
-        "KEC. KUTA UTARA",
-        "KEC. SAWAN"
+        "KEC. GALANG",
+        "KEC. NGANTRU",
+        "HARAPAN JAYA"
+      ]
+    },
+    {
+      "column_name": "old_kabupaten_dont_use",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Timestamp field for temporal tracking and audit purposes",
+      "business_context": "Optional field - may be empty",
+      "example_values": [
+        "KABUPATEN DELI SERDANG",
+        "KABUPATEN TULUNGAGUNG",
+        "MUARA ENIM"
       ]
     },
     {
       "column_name": "old_province_dont_use",
       "data_type": "STRING",
-      "nullable": false,
+      "nullable": true,
       "null_percentage": 0.0,
-      "description": "Province or state name representing Indonesian administrative regions. Used for high-level geographic classification and regional business grouping",
-      "business_context": "Required field - always populated.",
+      "description": "Province administrative division derived from location data",
+      "business_context": "Optional field - may be empty",
       "example_values": [
-        "ACEH",
-        "BALI",
-        "BALI"
+        "SUMATERA UTARA",
+        "JAWA TIMUR",
+        "SUMATERA SELATAN"
       ]
     },
     {
-      "column_name": "parsing_status",
+      "column_name": "kabupaten",
       "data_type": "STRING",
-      "nullable": false,
+      "nullable": true,
       "null_percentage": 0.0,
-      "description": "Status classification indicating the current state of parsing within the business process. Used for workflow management, filtering, and operational reporting",
-      "business_context": "Required field - always populated. Used for segmentation and status-based filtering.",
+      "description": "Timestamp field for temporal tracking and audit purposes",
+      "business_context": "Optional field - may be empty",
       "example_values": [
-        "COMPLETE_HIGH_CONFIDENCE",
-        "COMPLETE_HIGH_CONFIDENCE",
-        "COMPLETE_HIGH_CONFIDENCE"
+        "KABUPATEN DELI SERDANG",
+        "KABUPATEN TULUNGAGUNG",
+        "KABUPATEN MUARA ENIM"
       ]
     },
     {
-      "column_name": "phone_number",
+      "column_name": "kecamatan",
       "data_type": "STRING",
-      "nullable": false,
+      "nullable": true,
       "null_percentage": 0.0,
-      "description": "Count or total number of phone for aggregation and quantitative analysis. Used in metrics, dashboards, and business measurements",
-      "business_context": "Required field - always populated.",
+      "description": "Timestamp field for temporal tracking and audit purposes",
+      "business_context": "Optional field - may be empty",
       "example_values": [
-        "85314173200",
-        "81237897255",
-        "83116081741"
+        "GALANG",
+        "NGANTRU",
+        "MUARA ENIM"
       ]
     },
     {
       "column_name": "province",
       "data_type": "STRING",
-      "nullable": false,
-      "null_percentage": 0.0,
-      "description": "Province or state name representing Indonesian administrative regions. Used for high-level geographic classification and regional business grouping",
-      "business_context": "Required field - always populated.",
-      "example_values": [
-        "NANGGROE ACEH DARUSSALAM",
-        "BALI",
-        "BALI"
-      ]
-    },
-    {
-      "column_name": "raw_response",
-      "data_type": "NULL",
       "nullable": true,
-      "null_percentage": 100.0,
-      "description": "raw response data",
-      "business_context": "Optional field - rarely populated.",
-      "example_values": []
+      "null_percentage": 0.0,
+      "description": "Province administrative division derived from location data",
+      "business_context": "Optional field - may be empty",
+      "example_values": [
+        "SUMATERA UTARA",
+        "JAWA TIMUR",
+        "SUMATERA SELATAN"
+      ]
     },
     {
-      "column_name": "source_flag",
+      "column_name": "area",
       "data_type": "STRING",
-      "nullable": false,
+      "nullable": true,
       "null_percentage": 0.0,
-      "description": "Boolean flag indicating the source status of the record. Used for segmentation, filtering, and operational decision making",
-      "business_context": "Required field - always populated. Used for segmentation and status-based filtering.",
+      "description": "Geographic area derived from geocoding and mapped to MSE territorial assignments",
+      "business_context": "Optional field - may be empty",
       "example_values": [
-        "Mar 2026",
-        "Mar 2026",
-        "Mar 2026"
+        "SUMATERA 1",
+        "JAVA 3",
+        "SUMATERA 3"
       ]
     },
     {
-      "column_name": "timestamp__",
-      "data_type": "UNKNOWN",
-      "nullable": false,
+      "column_name": "parsing_status",
+      "data_type": "STRING",
+      "nullable": true,
       "null_percentage": 0.0,
-      "description": "Timestamp capturing when timestamp occurred in the system. Provides audit trail and data lineage information for tracking and historical analysis",
-      "business_context": "Required field - always populated. Used for time-based analysis and filtering.",
+      "description": "Timestamp field for temporal tracking and audit purposes",
+      "business_context": "Optional field - may be empty",
       "example_values": [
-        "2026-03-06 06:00:06.308148+00:00",
-        "2026-03-06 06:00:06.308148+00:00",
-        "2026-03-06 06:00:06.308148+00:00"
+        "COMPLETE_HIGH_CONFIDENCE",
+        "COMPLETE_HIGH_CONFIDENCE",
+        "COMPLETE_HIGH_CONFIDENCE"
       ]
     }
-  ],
-  "table_relationships": [
-    {
-      "related_table": "ledger-fcc1e.retail_payment_base.retail_order_delivery_funnel",
-      "join_frequency": 12677,
-      "relationship_type": "frequently_joined_with",
-      "last_joined": "2026-05-05T09:00:07.349000+00:00"
-    },
-    {
-      "related_table": "ledger-fcc1e.retail_payment_base.retail_order_data",
-      "join_frequency": 12477,
-      "relationship_type": "frequently_joined_with",
-      "last_joined": "2026-05-05T09:00:07.349000+00:00"
-    },
-    {
-      "related_table": "ledger-fcc1e.merchant_success_analytics.retail_visit_ssot",
-      "join_frequency": 12470,
-      "relationship_type": "frequently_joined_with",
-      "last_joined": "2026-05-05T09:00:07.349000+00:00"
-    },
-    {
-      "related_table": "ledger-fcc1e.retail_payment_base.retail_ms_voucher_code",
-      "join_frequency": 12233,
-      "relationship_type": "frequently_joined_with",
-      "last_joined": "2026-05-05T09:00:07.349000+00:00"
-    },
-    {
-      "related_table": "ledger-fcc1e.retail_payment_base.retail_preoder_funnel",
-      "join_frequency": 12230,
-      "relationship_type": "frequently_joined_with",
-      "last_joined": "2026-05-05T09:00:07.349000+00:00"
-    },
-    {
-      "related_table": "ledger-fcc1e.retail_payment_base.retail_digital_voucher_code",
-      "join_frequency": 12230,
-      "relationship_type": "frequently_joined_with",
-      "last_joined": "2026-05-05T09:00:07.349000+00:00"
-    },
-    {
-      "related_table": "ledger-fcc1e.trb_pymnt_temp.edc_order_delivery_funnel",
-      "join_frequency": 10562,
-      "relationship_type": "frequently_joined_with",
-      "last_joined": "2026-05-05T08:59:29.922000+00:00"
-    },
-    {
-      "related_table": "ledger-fcc1e.retail_payment_base.retail_created_account_app",
-      "join_frequency": 9611,
-      "relationship_type": "frequently_joined_with",
-      "last_joined": "2026-05-05T09:00:07.349000+00:00"
-    },
-    {
-      "related_table": "ledger-fcc1e.trb_pymnt_temp.edc_purchase_data",
-      "join_frequency": 6596,
-      "relationship_type": "frequently_joined_with",
-      "last_joined": "2026-05-05T08:59:29.922000+00:00"
-    },
-    {
-      "related_table": "ledger-fcc1e.trb_pymnts_derived.kyc_kyb_status",
-      "join_frequency": 6512,
-      "relationship_type": "frequently_joined_with",
-      "last_joined": "2026-05-05T09:00:07.349000+00:00"
-    }
-  ],
-  "query_metrics": {
-    "total_queries_30_days": 26839,
-    "select_operations": 26864,
-    "insert_operations": 4075,
-    "update_operations": 4,
-    "delete_operations": 0,
-    "days_active_in_30_days": 181,
-    "peak_query_hour": null,
-    "last_queried": "2026-05-05T09:00:07.349000+00:00"
-  },
-  "documentation_enriched": "2026-05-05T18:46:18.571630"
+  ]
 }
