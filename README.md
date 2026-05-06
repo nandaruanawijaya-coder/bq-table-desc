@@ -1,6 +1,6 @@
-# BigQuery Table Documentation Repository
+# BigQuery Table Documentation for AI SQL Assistant
 
-> **Fastest way to document BigQuery tables** - Add table names to a list, Claude Code does the rest automatically
+> **Purpose**: Create rich, semantic column descriptions optimized for AI-driven SQL query generation. Document BigQuery tables automatically using Claude Code.
 
 ---
 
@@ -38,38 +38,49 @@ Follow CLAUDE_CODE_AUTOMATION.md for complete workflow.
 
 ## 📊 Current Status
 
-| Tables | Columns | Sample Rows | Status |
-|--------|---------|-------------|--------|
-| 4 documented | 169 | 31,086 | ✅ Complete |
+| Tables | Columns | Sample Rows | Description Quality | Status |
+|--------|---------|-------------|---------------------|--------|
+| 4 documented | 169 | 31,086+ | Enhanced semantic | ✅ Production Ready |
 
-**Tables:**
-- `location_gmaps_static_opentable` (16 cols, 10,000 rows)
-- `mapping_area_mse_opentable` (10 cols, 1,086 rows)
-- `ms_merchant_profiling_ssot_opentable` (107 cols, 10,000 rows)
-- `prod_edc_order` (36 cols, 10,000 rows)
+**Tables with Semantic Descriptions:**
+- `location_gmaps_static` (16 cols) — Geocoding data with coordinates and administrative divisions
+- `mapping_area_mse_opentable` (10 cols) — MSE team organizational hierarchy and territory mapping
+- `ms_merchant_profiling_ssot` (107 cols) — Comprehensive merchant profile with business metrics and product ownership
+- `prod_edc_order` (36 cols) — EDC order lifecycle with merchant details and delivery metadata
+
+**Description Quality**: All 169 columns have enhanced semantic descriptions explaining:
+- ✓ What the field represents (business meaning, not just naming)
+- ✓ How it's used (product adoption metrics, KYC verification, sales targeting, etc)
+- ✓ Value format (UUID, phone number, coordinates, timestamps, etc)
+- ✓ Business context (required vs optional, core vs supplementary)
 
 ---
 
 ## 📁 Repository Structure
 
 ```
-├── 📄 README.md (This file)
-├── 📄 CONTRIBUTING.md (Manual guide for data team)
-├── 📄 CLAUDE_CODE_AUTOMATION.md (AI automation instruction set)
-├── 📄 table_list.md (Tables to document - EDIT THIS)
+├── 📄 README.md (Overview - this file)
+├── 📄 CLAUDE_CODE_AUTOMATION.md (Reference guide for Claude Code automation)
+├── 📄 CONTRIBUTING.md (Guide for data team - quick reference)
+├── 📄 table_list.md (List of tables to document - EDIT THIS FILE)
 │
 ├── 📁 table_column_description/
-│   ├── location_gmaps_static_opentable_doc.json
-│   ├── mapping_area_mse_opentable_doc.json
-│   ├── ms_merchant_profiling_ssot_opentable_doc.json
-│   └── prod_edc_order_doc.json
+│   ├── location_gmaps_static_doc.json (Geocoding data - 16 columns)
+│   ├── mapping_area_mse_opentable_doc.json (MSE hierarchy - 10 columns)
+│   ├── ms_merchant_profiling_ssot_doc.json (Merchant profiles - 107 columns)
+│   └── prod_edc_order_doc.json (EDC orders - 36 columns)
 │
 └── 📁 table_list/
-    ├── location_gmaps_static_opentable.json
-    ├── mapping_area_mse_opentable.json
-    ├── ms_merchant_profiling_ssot_opentable.json
-    └── prod_edc_order.json
+    ├── location_gmaps_static.json (10,000 sample rows)
+    ├── mapping_area_mse_opentable.json (1,086 sample rows)
+    ├── ms_merchant_profiling_ssot.json (10,000 sample rows)
+    └── prod_edc_order.json (10,000 sample rows)
 ```
+
+**Key Files:**
+- **table_list.md** — Active list of tables to document (data team edits this)
+- **CLAUDE_CODE_AUTOMATION.md** — Reference guide for Claude Code (automated documentation generation)
+- **CONTRIBUTING.md** — Quick start guide for data team
 
 ---
 
@@ -102,14 +113,17 @@ No additional prompts needed - it's fully self-documented!
 
 ---
 
-## 📚 Documentation Guides
+## 📚 Documentation Files
 
-| Guide | For Whom | Purpose |
-|-------|----------|---------|
-| **README.md** | Data Team | Overview (this file) |
-| **table_list.md** | Data Team | List of tables to document |
-| **CONTRIBUTING.md** | Data Team | Manual process guide |
-| **CLAUDE_CODE_AUTOMATION.md** | Claude Code | Complete automation instructions |
+| File | Audience | Purpose |
+|------|----------|---------|
+| **README.md** | Data Team | Overview and quick reference (this file) |
+| **table_list.md** | Data Team | Active list of tables to document — **EDIT THIS** |
+| **CONTRIBUTING.md** | Data Team | Step-by-step quick start guide |
+| **CLAUDE_CODE_AUTOMATION.md** | Claude Code | Complete automation reference with description rules and examples |
+
+**For Data Team**: Start with this README, then edit `table_list.md`, then ask Claude Code to document  
+**For Claude Code**: Read `CLAUDE_CODE_AUTOMATION.md` for complete workflow instructions
 
 ---
 
@@ -140,6 +154,54 @@ Claude Code will:
 
 ---
 
+## 🎯 Description Quality: Why This Matters for AI
+
+All 169 columns now have **semantic descriptions** that explain business meaning, not just field names. This helps AI SQL assistants write better queries.
+
+### Examples of Enhanced Descriptions
+
+**Before** (Generic):
+```
+"Yearofbirth field"
+"Estimatedcustomersperday field"
+"Province field"
+```
+
+**After** (Semantic & Explanatory):
+```
+"Year merchant owner was born. Used for KYC demographic verification and merchant profiling"
+"Estimated daily customer count for the merchant. Indicates business volume and sales potential"
+"State or province level administrative division for merchant location and geographic segmentation"
+```
+
+### What Makes Descriptions Effective
+
+✅ **Answer: "What is this and why does it exist?"**
+```
+Good: "Estimated daily customer count. Indicates business volume and sales potential"
+Bad: "Estimatedcustomersperday field"
+```
+
+✅ **Include usage context**
+```
+Good: "Boolean indicating if merchant has active BRI EDC machine. Used for product penetration analysis"
+Bad: "Hasbriedc field"
+```
+
+✅ **Identify value formats**
+```
+Good: "Phone number (10-11 digit Indonesian mobile). Primary identifier for order lookup"
+Bad: "Phone field"
+```
+
+✅ **Explain business relationships**
+```
+Good: "Name of Merchant Success Executive assigned to merchant territory. Used for sales team assignment and accountability"
+Bad: "MSE name field"
+```
+
+---
+
 ## 📋 What Gets Created
 
 For each table, Claude Code creates:
@@ -147,21 +209,40 @@ For each table, Claude Code creates:
 **1. Documentation File** (`table_column_description/[table_name]_doc.json`)
 ```json
 {
-  "table_name": "...",
-  "total_columns": 50,
+  "table_name": "prod_edc_order",
+  "full_table_id": "ledger-fcc1e.db_accounting.prod_edc_order",
+  "total_columns": 36,
+  "sample_rows_analyzed": 10000,
   "columns": [
     {
-      "column_name": "...",
+      "column_name": "order_id",
       "data_type": "STRING",
-      "nullable": false,
+      "nullable": true,
       "null_percentage": 0.0,
-      "description": "Clear description",
-      "business_context": "Business usage",
-      "example_values": ["val1", "val2"]
+      "description": "Unique order identifier in UUID format. Primary key for EDC order. Used for order tracking and joins",
+      "business_context": "Required field - always populated",
+      "example_values": ["31ca7df4-4648-41c1-bc8e-9bf25c628e16"],
+      "possible_values": null
+    },
+    {
+      "column_name": "status",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Order lifecycle status (Draft, Unassigned, Active, Completed, Cancelled). Indicates order processing stage",
+      "business_context": "Required field - always populated",
+      "example_values": ["Unassigned", "Active", "Completed"],
+      "possible_values": ["Active", "Cancelled", "Completed", "Draft", "Rejected", "Unassigned"]
     }
   ]
 }
 ```
+
+**Key Features:**
+- `description` — Semantic explanation of business meaning (not just field naming)
+- `business_context` — Why this field matters (Required/Core/Common/Optional based on null percentage)
+- `possible_values` — Enum values for low-cardinality columns (helps AI understand valid values)
+- `example_values` — Real sample data from 10,000 rows analyzed
 
 **2. Sample Data File** (`table_list/[table_name].json`)
 - 10,000 rows of actual BigQuery data
@@ -276,6 +357,7 @@ When table schema changes:
 
 ---
 
-**Last Updated**: 2026-04-23  
+**Last Updated**: 2026-05-06  
 **Status**: Production Ready ✅  
+**Description Quality**: Enhanced with semantic context for all 169 columns  
 **GitHub**: https://github.com/nandaruanawijaya-coder/bq-table-desc
