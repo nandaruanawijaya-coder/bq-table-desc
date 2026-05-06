@@ -3,19 +3,19 @@
   "full_table_id": "ledger-fcc1e.trb_pymnts_derived.location_gmaps_static",
   "total_columns": 16,
   "sample_rows_analyzed": 10000,
-  "documentation_generated": "2026-05-06 11:30:08.983938",
+  "documentation_generated": "2026-05-06 11:37:53.626158",
   "columns": [
     {
       "column_name": "phone_number",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Phone number serving as unique merchant/user identifier for lookups and contact",
-      "business_context": "Optional field - may be empty",
+      "description": "Merchant or user phone number serving as unique identifier",
+      "business_context": "Required field - always populated",
       "example_values": [
-        "81517819519",
-        "81317112376",
-        "81779915086"
+        "85314173200",
+        "81237897255",
+        "83116081741"
       ]
     },
     {
@@ -23,12 +23,12 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Timestamp field for temporal tracking and audit purposes",
-      "business_context": "Optional field - may be empty",
+      "description": "Latitude and longitude coordinates from merchant KYB location, used for geocoding",
+      "business_context": "Required field - always populated",
       "example_values": [
-        "3.4635664,98.8890666",
-        "-7.9759318,111.9235118",
-        "-3.626137,103.849086"
+        "5.391094208,95.91785431",
+        "-8.6740059,115.1728238",
+        "-8.0965327,115.1569949"
       ]
     },
     {
@@ -36,12 +36,12 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Timestamp field for temporal tracking and audit purposes",
-      "business_context": "Optional field - may be empty",
+      "description": "Latitude coordinate from merchant KYB location, used for geocoding API processing",
+      "business_context": "Required field - always populated",
       "example_values": [
-        "3.4635664",
-        "-7.9759318",
-        "-3.626137"
+        "5.391094208",
+        "-8.6740059",
+        "-8.0965327"
       ]
     },
     {
@@ -49,12 +49,12 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": null,
-      "business_context": "Optional field - may be empty",
+      "description": "Longitude coordinate from merchant KYB location, used for geocoding API processing",
+      "business_context": "Required field - always populated",
       "example_values": [
-        "98.8890666",
-        "111.9235118",
-        "103.849086"
+        "95.91785431",
+        "115.1728238",
+        "115.1569949"
       ]
     },
     {
@@ -62,12 +62,12 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Timestamp field for temporal tracking and audit purposes",
-      "business_context": "Optional field - may be empty",
+      "description": "Complete formatted address derived from geocoding API processing of merchant KYB coordinates",
+      "business_context": "Required field - always populated",
       "example_values": [
-        "FV7Q+FJ3, Jl. Besar Petumbukan, Pertangguhan, Kec. Galang, Kabupaten Deli Serdang, Sumatera Utara 20",
-        "2WFF+R89, Lemahduwur, Batokan, Kec. Ngantru, Kabupaten Tulungagung, Jawa Timur 66252, Indonesia",
-        "Jl. Melati, Harapan Jaya, Kec. Muara Enim, Kabupaten Muara Enim, Sumatera Selatan 31311, Indonesia"
+        "9WR9+C5J, Seukeumbrok, Kec. Pidie, Kabupaten Pidie, Aceh, Indonesia",
+        "Jl. Gn. Tangkuban Perahu No.10a, Kerobokan Kelod, Kec. Kuta Utara, Kabupaten Badung, Bali 80361, Ind",
+        "W534+9QG, Jl. Bungkulan, Bungkulan, Kec. Sawan, Kabupaten Buleleng, Bali 81171, Indonesia"
       ]
     },
     {
@@ -75,8 +75,8 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Empty column - no sample data available",
-      "business_context": "Optional field - may be empty",
+      "description": "Field for raw response",
+      "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
     {
@@ -84,12 +84,12 @@
       "data_type": "TIMESTAMP",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Timestamp field for temporal tracking and audit purposes",
-      "business_context": "Optional field - may be empty",
+      "description": "Timestamp field for temporal tracking",
+      "business_context": "Required field - always populated",
       "example_values": [
-        "2026-04-25 06:00:05.238332+00:00",
-        "2026-04-25 06:00:05.238332+00:00",
-        "2026-04-25 06:00:05.238332+00:00"
+        "2026-03-06 06:00:06.308148+00:00",
+        "2026-03-06 06:00:06.308148+00:00",
+        "2026-03-06 06:00:06.308148+00:00"
       ]
     },
     {
@@ -97,12 +97,12 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Flag or indicator field",
-      "business_context": "Optional field - may be empty",
+      "description": "Source or data origin indicator flag",
+      "business_context": "Required field - always populated",
       "example_values": [
-        "Apr 2026",
-        "Apr 2026",
-        "Apr 2026"
+        "Mar 2026",
+        "Mar 2026",
+        "Mar 2026"
       ]
     },
     {
@@ -110,12 +110,12 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Timestamp field for temporal tracking and audit purposes",
-      "business_context": "Optional field - may be empty",
+      "description": "Kecamatan (district) administrative division extracted from merchant location",
+      "business_context": "Required field - always populated",
       "example_values": [
-        "KEC. GALANG",
-        "KEC. NGANTRU",
-        "HARAPAN JAYA"
+        "SEUKEUMBROK",
+        "KEC. KUTA UTARA",
+        "KEC. SAWAN"
       ]
     },
     {
@@ -123,12 +123,12 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Timestamp field for temporal tracking and audit purposes",
-      "business_context": "Optional field - may be empty",
+      "description": "Kabupaten (regency) administrative division extracted from merchant location",
+      "business_context": "Required field - always populated",
       "example_values": [
-        "KABUPATEN DELI SERDANG",
-        "KABUPATEN TULUNGAGUNG",
-        "MUARA ENIM"
+        "PIDIE",
+        "KABUPATEN BADUNG",
+        "KABUPATEN BULELENG"
       ]
     },
     {
@@ -136,12 +136,12 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Province administrative division derived from location data",
-      "business_context": "Optional field - may be empty",
+      "description": "Province administrative division extracted from merchant location",
+      "business_context": "Required field - always populated",
       "example_values": [
-        "SUMATERA UTARA",
-        "JAWA TIMUR",
-        "SUMATERA SELATAN"
+        "ACEH",
+        "BALI",
+        "BALI"
       ]
     },
     {
@@ -149,12 +149,12 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Timestamp field for temporal tracking and audit purposes",
-      "business_context": "Optional field - may be empty",
+      "description": "Kabupaten (regency) administrative division extracted from merchant location",
+      "business_context": "Required field - always populated",
       "example_values": [
-        "KABUPATEN DELI SERDANG",
-        "KABUPATEN TULUNGAGUNG",
-        "KABUPATEN MUARA ENIM"
+        "KABUPATEN PIDIE",
+        "KABUPATEN BADUNG",
+        "KABUPATEN BULELENG"
       ]
     },
     {
@@ -162,12 +162,12 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Timestamp field for temporal tracking and audit purposes",
-      "business_context": "Optional field - may be empty",
+      "description": "Kecamatan (district) administrative division extracted from merchant location",
+      "business_context": "Required field - always populated",
       "example_values": [
-        "GALANG",
-        "NGANTRU",
-        "MUARA ENIM"
+        "PIDIE",
+        "KUTA UTARA",
+        "SAWAN"
       ]
     },
     {
@@ -175,12 +175,12 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Province administrative division derived from location data",
-      "business_context": "Optional field - may be empty",
+      "description": "Province administrative division extracted from merchant location",
+      "business_context": "Required field - always populated",
       "example_values": [
-        "SUMATERA UTARA",
-        "JAWA TIMUR",
-        "SUMATERA SELATAN"
+        "NANGGROE ACEH DARUSSALAM",
+        "BALI",
+        "BALI"
       ]
     },
     {
@@ -188,12 +188,12 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Geographic area derived from geocoding and mapped to MSE territorial assignments",
-      "business_context": "Optional field - may be empty",
+      "description": "Geographic area derived from geocoding API and mapped to MSE territorial assignments",
+      "business_context": "Required field - always populated",
       "example_values": [
         "SUMATERA 1",
-        "JAVA 3",
-        "SUMATERA 3"
+        "BALI NUSRA",
+        "BALI NUSRA"
       ]
     },
     {
@@ -201,8 +201,8 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Timestamp field for temporal tracking and audit purposes",
-      "business_context": "Optional field - may be empty",
+      "description": "Status field indicating current state",
+      "business_context": "Required field - always populated",
       "example_values": [
         "COMPLETE_HIGH_CONFIDENCE",
         "COMPLETE_HIGH_CONFIDENCE",
