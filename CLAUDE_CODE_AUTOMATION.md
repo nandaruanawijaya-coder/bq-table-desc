@@ -1,50 +1,79 @@
-# Claude Code Automation Guide for Table Documentation
+# Claude Code Table Documentation Reference
 
-> **For Claude Code & AI Assistants** - Complete instruction set to automatically document BigQuery tables without additional prompts
-
----
-
-## 📋 Purpose
-
-This document enables Claude Code and other AI assistants to:
-- Automatically document any BigQuery table
-- Generate Python scripts
-- Create JSON documentation
-- Enhance descriptions and business context
-- Validate documentation quality
-- Commit and push to GitHub
-
-**No additional prompts needed** - Claude Code can read this and execute all steps.
+> **For Claude Code** - Read this when asked to document BigQuery tables. Data team only needs to update `table_list.md` and run Claude Code.
 
 ---
 
-## 🎯 Automated Workflow Overview
+## How to Use This Document
+
+When a data team member asks Claude Code to document tables:
 
 ```
-INPUT: User asks Claude Code to document tables from table_list.md
+User: "Document all tables in table_list.md that don't have documentation in table_column_description/ yet"
+```
+
+Claude Code will:
+1. Read this document to understand the workflow
+2. Read `table_list.md` for the list of tables and their context
+3. Check `table_column_description/` for existing documentation
+4. Document missing tables following the rules below
+5. Commit to git
+
+---
+
+## Superpowers Methodology Applied
+
+This process follows the [obra superpowers](https://github.com/obra/superpowers) framework:
+
+- **Design Phase**: Ask clarifying questions about what makes documentation useful (answer: for AI SQL assistant)
+- **Systematic Process**: Clear steps for documentation generation
+- **Data-Driven**: Extract patterns from actual 10k rows of data
+- **Verification**: Test descriptions against success criteria
+
+---
+
+## Workflow
+
+```
+READ table_list.md → EXTRACT table list with business context
   ↓
-STEP 0: Read table_list.md and check table_column_description/
+FILTER documented vs undocumented tables
   ↓
-STEP 1: Filter tables - only process those NOT already documented
-  ↓
-STEP 2: For each missing table:
-  ├─ Validate table access in BigQuery
-  ├─ Generate Python script
-  ├─ Execute script (10,000 rows)
-  ├─ Analyze columns
-  ├─ Create JSON documentation
-  ├─ Enhance descriptions
-  ├─ Validate quality
-  └─ Commit to git
-  ↓
-OUTPUT: All missing tables documented and committed
+FOR EACH undocumented table:
+  ├─ FETCH 10,000 rows from BigQuery
+  ├─ ANALYZE each column:
+  │   ├─ Detect value format (UUID, phone, enum, etc)
+  │   ├─ Generate description (3 sources: name + data + context)
+  │   ├─ List possible values (if ≤20 unique)
+  │   └─ Set business context (from null %)
+  ├─ SAVE JSON to table_column_description/[TABLE_NAME]_doc.json
+  └─ GIT commit with summary
 ```
 
 ---
 
-## 📊 Output JSON Schema
+## Data Source: table_list.md Format
 
-Each table generates a documentation JSON with this structure:
+```markdown
+# Tables to Document
+
+- ledger-fcc1e.project.dataset.table_name
+Table context: Business purpose and meaning in 1-2 sentences
+```
+
+Each table has:
+- **Full table ID** (project.dataset.table)
+- **Context** (2 lines max): What this table contains and how it's used
+
+Example:
+```
+- ledger-fcc1e.db_accounting.prod_edc_order
+Table explaining Historical EDC Order from Merchants, each row represents unique order
+```
+
+---
+
+## Output: table_column_description JSON Schema
 
 ```json
 {
@@ -61,1586 +90,196 @@ Each table generates a documentation JSON with this structure:
       "null_percentage": 0.0,
       "description": "Unique order identifier in UUID v4 format. Primary key for EDC order records.",
       "business_context": "Required field - always populated",
-      "example_values": ["31ca7df4-4648-41c1-bc8e-9bf25c628e16", "..."],
+      "example_values": ["31ca7df4-4648-41c1-bc8e-9bf25c628e16"],
       "possible_values": null
-    },
-    {
-      "column_name": "status",
-      "data_type": "STRING",
-      "nullable": true,
-      "null_percentage": 0.0,
-      "description": "EDC order status field. Indicates current state in the order lifecycle.",
-      "business_context": "Required field - always populated",
-      "example_values": ["Unassigned", "Active", "Cancelled"],
-      "possible_values": ["Active", "Cancelled", "Completed", "Draft", "Unassigned"]
     }
   ]
 }
 ```
 
-**New Field - `possible_values`** (added 2026-05-06):
-- Present only when column has ≤ 20 unique values across 10k rows
-- Helps AI SQL assistant understand valid values for WHERE clauses and enums
-- Example: `possible_values: ["Active", "Cancelled", "Completed", "Draft", "Unassigned"]`
+**Key fields**:
+- `description`: 1-2 sentence explanation (see description rules below)
+- `business_context`: Populated based on null_percentage
+- `possible_values`: Only present if ≤20 unique values exist (for enums/status fields)
 
 ---
 
-## 📋 STEP 0: Read table_list.md and Filter
+## Description Generation Rules
 
-Claude Code MUST start here before processing any tables.
+Descriptions must help an AI SQL assistant write correct queries. **Never use bare fallbacks like "Field for X"**.
 
-### 0.1 Read table_list.md
+### Priority Order (apply first match)
 
-```bash
-cat table_list.md
+**1. SDC Metadata Columns** (`_sdc_*`)
+```
+_sdc_batched_at → "Singer data connector: timestamp when batch was processed in the pipeline"
+_sdc_sequence → "Singer data connector: sequence number for change data capture ordering"
+_sdc_table_version → "Singer data connector: table schema version for data lineage tracking"
 ```
 
-**Expected format**:
-```markdown
-# Tables to Document
+**2. UUID Format** (36-char hex: `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`)
+```
+Detect: all values match UUID pattern
+Generate: "Unique [entity] identifier in UUID v4 format. [Context]"
 
-- ledger-fcc1e.dataset.table_name_1
-- ledger-fcc1e.dataset.table_name_2
-- ledger-fcc1e.dataset.table_name_3
+Examples:
+- order_id → "Unique order identifier in UUID v4 format. Primary key for EDC order records."
+- user_id_uuid → "Unique user identifier in UUID v4 format."
 ```
 
-### 0.2 Parse Table List
-
-Claude Code MUST:
-1. Extract all table IDs from file
-2. Ignore comment lines (starting with #)
-3. Ignore empty lines
-4. Create list of tables to process
-
-**Example extraction**:
+**3. Phone Number** (8-13 digits, starts with 8)
 ```
-Tables found:
-  - ledger-fcc1e.dataset.table_name_1
-  - ledger-fcc1e.dataset.table_name_2
-  - ledger-fcc1e.dataset.table_name_3
+Detect: all values are digits, 8-13 length, start with 8
+Generate: "Phone number (10-11 digit Indonesian mobile, no country code prefix). [Context]"
+
+Examples in different contexts:
+- In EDC context: "...Primary identifier for EDC order lookup and joins."
+- In merchant context: "...Primary key for merchant identification."
 ```
 
-### 0.3 Check Already Documented
-
-Claude Code MUST check which tables are already documented and if empty, run all table in table_list.md:
-
-```bash
-# List all documented tables
-ls -1 table_column_description/*_doc.json | sed 's/.*\///' | sed 's/_doc.json//'
+**4. Bank Account** (8-16 digits)
+```
+Detect: all values are digits, 8-16 length
+Generate: "Bank account number for merchant settlement and payout."
 ```
 
-**Example**:
+**5. Column Name + Table Context**
 ```
-location_gmaps_static_opentable
-mapping_area_mse_opentable
-ms_merchant_profiling_ssot_opentable
-prod_edc_order
-```
-
-### 0.4 Filter to Missing Tables Only
-
-Claude Code MUST:
-1. Compare table_list.md with documented tables
-2. Keep only tables that DON'T have documentation yet
-3. Report which tables will be processed
-
-**Example**:
-```
-Table list: [table1, table2, table3, table4, table5]
-Already documented: [table1, table3, table5]
-Will process: [table2, table4]
+status column in EDC context → "EDC order status field. Indicates current state in the order lifecycle."
+name column in bank context → "Name of the merchant's bank for settlement."
+date/timestamp columns → "Timestamp when..." or "Timestamp of..."
+location columns → "Geographic location field derived from geocoding API."
+amount columns → "Monetary amount field in IDR."
 ```
 
-### 0.5 Report Status
+**6. Infer from Name (for empty/sparse columns)**
+```
+If column has no valid sample data (all null or no non-empty values):
+- Extract core meaning from column name
+- Combine with table context
+- Mark as optional
 
-Claude Code MUST report:
-- Total tables in list
-- Already documented
-- Will process
-- Estimated time (10 min per table)
+Examples:
+- ecom_user_id in prod_edc_order → "Ecommerce user identifier for linking with ecommerce platform orders (optional in this data)"
+- coordinates in prod_edc_order → "Geographic coordinates for delivery location mapping (optional in this data)"
+```
+
+### Fallback (if nothing matches)
+```
+Use capitalized column name as description:
+"Bank Account field"
+"Postal Code field"
+```
 
 ---
 
-## 🔍 STEP 1: Validate Each Table
+## Business Context Generation
 
-For each table from the filtered list (STEP 0), Claude Code MUST:
+Based on null_percentage:
 
-### 1.1 Verify Table Format
-
-Validate the table ID format:
 ```
-Pattern: project-id.dataset.table_name
-
-Examples (VALID):
-  ✅ ledger-fcc1e.datamart_opentable.location_gmaps_static_opentable
-  ✅ ledger-fcc1e.db_accounting.prod_edc_order
-  ✅ project-123.dataset_name.table_name
-
-Invalid formats:
-  ❌ dataset.table_name (missing project)
-  ❌ table_name (missing project and dataset)
-  ❌ project.table (missing dataset)
+null_percentage == 0 → "Required field - always populated"
+null_percentage < 10 → "Core field - rarely empty (>90% populated)"
+null_percentage < 50 → "Common field - frequently populated (>50%)"
+null_percentage >= 50 → "Optional field - sparsely populated"
 ```
-
-### 1.2 Validate BigQuery Access
-
-For each table, verify it exists:
-
-```bash
-# Check if table exists and accessible
-bq query --format=csv --use_legacy_sql=false \
-  "SELECT COUNT(*) FROM \`project.dataset.table\` LIMIT 1"
-
-# Expected: A number (row count)
-# If error: Skip this table, report error, continue with next
-```
-
-### 1.3 Error Handling for Access Issues
-
-If table is not accessible:
-- ✅ Log error: "Table [name] - Access denied or not found"
-- ✅ Continue with next table
-- ✅ Report all inaccessible tables at end
-- ❌ Do NOT stop entire process
 
 ---
 
-## 🐍 STEP 2: Generate Python Script
+## Enumeration (possible_values Field)
 
-Claude Code MUST generate a Python script that:
+**When to add**: Column has ≤ 20 unique non-null values across 10k rows
 
-### 2.0 Description Quality Rules (NEW - IMPORTANT for AI SQL Assistant)
-
-Descriptions must help an AI SQL assistant write correct queries. Use this priority order:
-
-**Value Format Detection** (from actual sample data):
-1. **SDC Metadata** (`_sdc_*` columns) → "Singer data connector: [purpose]"
-   - Example: "_sdc_batched_at" → "Singer data connector: timestamp when batch was processed in the pipeline"
-   
-2. **UUID Format** (36-char hex with dashes) → "Unique [entity] identifier in UUID v4 format"
-   - Example: "user_id_uuid" → "Unique user identifier in UUID v4 format"
-   
-3. **Phone Number** (8-13 digits, starts with 8) → "[Context] phone number (10-11 digit Indonesian mobile, no country code prefix)"
-   - Example in EDC context: "Merchant phone number (10-11 digit Indonesian mobile, no country code prefix). Primary identifier for EDC order lookup and joins."
-   
-4. **Bank Account** (numeric, 8-16 digits) → "Bank account number for merchant [settlement/payout]"
-   
-5. **Enumeration** (≤20 unique values) → Add `possible_values` array to JSON with all unique values
-
-6. **Domain Context** → Always apply table context from `table_list.md`
-   - Phone number in `ms_merchant_profiling_ssot` context → "...Primary key for merchant identification"
-   - Same column in `prod_edc_order` context → "...Primary identifier for EDC order lookup"
-
-**Never generate bare fallbacks like "Field for X"**. If no pattern matches, use at least:
-- Column name + context: "Status or state field" → "EDC order status field. Indicates current state in the order lifecycle."
-
-### 2.1 Script Requirements
-
-**Input Variables**:
+**How**: 
 ```python
-PROJECT_ID = 'ledger-fcc1e'
-TABLE_ID = '[full-table-id-from-input]'
-TABLE_NAME = '[table-name-only]'
-DATASET = '[dataset-from-table-id]'
+unique_values = sorted(set(non_null_values))
+if 0 < len(unique_values) <= 20:
+    col_doc["possible_values"] = unique_values
 ```
 
-**Script must**:
-1. Import required libraries: `google.cloud.bigquery`, `json`, `datetime`
-2. Query exactly 10,000 rows (or all rows if table has fewer)
-3. **Analyze each column using FULL 10,000 rows data**:
-   - Column name (infer business purpose from name)
-   - Data type (STRING, INTEGER, FLOAT, BOOLEAN, ARRAY, JSON, NULL, etc.)
-   - Null count and percentage (cardinality analysis)
-   - Sample values (non-null only, max 3 for example_values)
-   - **All values** (for description inference - distribution, patterns, ranges)
-4. Save sample data to: `table_list/[TABLE_NAME].json` (full 10k rows for future analysis)
-5. Generate documentation to: `table_column_description/[TABLE_NAME]_doc.json`
+**Use case**: Helps AI SQL assistant understand valid values for WHERE clauses and enums.
 
-**Key for Descriptions**:
-- Store `all_values` from 10,000 rows (not just sample_values)
-- Use all_values to infer patterns, ranges, cardinality
-- Derive description from data patterns + column name
-- Keep `example_values` field separate (3 real values max)
-
-### 2.2 Script Template
-
-```python
-from google.cloud import bigquery
-import json
-from collections import defaultdict
-from datetime import datetime
-
-# Configuration
-PROJECT_ID = 'ledger-fcc1e'
-TABLE_ID = '[project.dataset.table]'
-TABLE_NAME = '[table_name_only]'
-
-def analyze_data_type(value):
-    """Determine data type of value"""
-    if value is None:
-        return 'NULL'
-    if isinstance(value, bool):
-        return 'BOOLEAN'
-    if isinstance(value, int):
-        return 'INTEGER'
-    if isinstance(value, float):
-        return 'NUMERIC'
-    if isinstance(value, list):
-        return 'ARRAY'
-    if isinstance(value, dict):
-        return 'JSON'
-    if isinstance(value, str):
-        return 'STRING (LONG)' if len(value) > 50 else 'STRING'
-    return 'UNKNOWN'
-
-# Step 1: Fetch sample data
-print(f"⏳ Fetching 10,000 rows from {TABLE_ID}...")
-client = bigquery.Client(project=PROJECT_ID)
-query = f"SELECT * FROM `{TABLE_ID}` LIMIT 10000"
-query_job = client.query(query)
-
-rows = list(query_job.result())
-rows_list = [dict(row) for row in rows]
-
-# Save sample data
-sample_file = f'table_list/{TABLE_NAME}.json'
-with open(sample_file, 'w') as f:
-    json.dump(rows_list, f, indent=2, default=str)
-print(f"✅ Saved {len(rows_list):,} rows to {sample_file}")
-
-# Step 2: Analyze columns
-print(f"⏳ Analyzing columns...")
-columns_info = defaultdict(lambda: {
-    'types': defaultdict(int),
-    'null_count': 0,
-    'sample_values': [],
-})
-
-for row in rows_list:
-    for col, value in row.items():
-        data_type = analyze_data_type(value)
-        columns_info[col]['types'][data_type] += 1
-        if value is None:
-            columns_info[col]['null_count'] += 1
-        else:
-            columns_info[col]['sample_values'].append(value)
-            if len(columns_info[col]['sample_values']) > 10:
-                columns_info[col]['sample_values'] = columns_info[col]['sample_values'][:10]
-
-# Step 3: Build documentation
-print(f"⏳ Creating documentation...")
-doc = {
-    "table_name": TABLE_NAME,
-    "full_table_id": TABLE_ID,
-    "total_columns": len(columns_info),
-    "sample_rows_analyzed": len(rows_list),
-    "documentation_generated": datetime.now().isoformat(),
-    "columns": []
-}
-
-def infer_description(col_name, data_type, sample_values, all_values, null_pct):
-    """Generate description from column name + actual data analysis (no examples in description)"""
-    col_lower = col_name.lower()
-    
-    # Filter out null values for analysis
-    non_null_values = [v for v in all_values if v is not None]
-    if not non_null_values:
-        return f"{col_name.replace('_', ' ').title()}"
-    
-    # Analyze data patterns
-    unique_count = len(set(str(v) for v in non_null_values))
-    
-    # ID/Key columns
-    if 'id' in col_lower and data_type == 'STRING':
-        entity = col_name.replace('_id', '').replace('ID', '').replace('_', ' ')
-        return f"Unique identifier for {entity}"
-    
-    # Location/Geographic columns
-    if 'kabupaten' in col_lower or 'regency' in col_lower or 'district' in col_lower:
-        return "Regency/District name for Indonesian administrative level 2 classification"
-    if 'kecamatan' in col_lower or 'subdistrict' in col_lower:
-        return "Sub-district/Kecamatan name for Indonesian administrative level 3 division"
-    if 'kelurahan' in col_lower or 'village' in col_lower:
-        return "Village/Kelurahan classification for local administrative area"
-    if 'area' in col_lower:
-        return "Geographic region classification for merchant location grouping and regional analysis"
-    if 'address' in col_lower or 'formatted' in col_lower:
-        return "Complete formatted address for merchant or location identification"
-    if 'latitude' in col_lower or 'lat' in col_lower:
-        return "Geographic latitude coordinate for precise location mapping and spatial analysis"
-    if 'longitude' in col_lower or 'lon' in col_lower:
-        return "Geographic longitude coordinate for precise location mapping and spatial analysis"
-    if 'gmaps' in col_lower or 'google_maps' in col_lower or 'maps' in col_lower:
-        field = col_name.replace('gmaps_', '').replace('_maps', '').replace('_', ' ')
-        return f"Google Maps {field} data for location verification and geographic reference"
-    
-    # Code/Classification columns
-    if 'code' in col_lower:
-        classification = col_name.replace('_code', '').replace('_', ' ')
-        return f"{classification.title()} code for categorization and system classification"
-    if 'status' in col_lower:
-        return f"Status field indicating the {col_name.replace('_status', '').replace('_', ' ')} state"
-    if 'type' in col_lower:
-        return f"Classification type for {col_name.replace('_type', '').replace('_', ' ')} categorization"
-    if 'category' in col_lower:
-        return f"Category classification for {col_name.replace('_category', '').replace('_', ' ')} grouping"
-    
-    # Timestamp/Date columns
-    if 'timestamp' in col_lower:
-        event = col_name.replace('_timestamp', '').replace('_', ' ')
-        return f"Timestamp recording when {event} occurred in the system"
-    if 'date' in col_lower:
-        event = col_name.replace('_date', '').replace('_', ' ')
-        return f"Date field capturing when {event} took place"
-    if 'time' in col_lower and 'at' not in col_lower:
-        event = col_name.replace('_time', '').replace('_', ' ')
-        return f"Time value representing {event} during the day"
-    
-    # Boolean/Flag columns
-    if data_type == 'BOOLEAN' or 'is_' in col_lower or 'flag' in col_lower:
-        condition = col_name.replace('is_', '').replace('_flag', '').replace('_', ' ')
-        return f"Boolean flag indicating whether the record is {condition}"
-    
-    # Numeric columns - analyze actual value ranges
-    if data_type in ['INTEGER', 'NUMERIC', 'FLOAT']:
-        if 'count' in col_lower or 'number' in col_lower or 'total' in col_lower:
-            metric = col_name.replace('_count', '').replace('_number', '').replace('_total', '').replace('_', ' ')
-            return f"Count or total of {metric} for record-level aggregation"
-        if 'price' in col_lower or 'amount' in col_lower or 'cost' in col_lower or 'fee' in col_lower:
-            return "Monetary amount representing financial transaction value"
-        if 'percent' in col_lower or 'pct' in col_lower or 'rate' in col_lower or 'ratio' in col_lower:
-            return "Percentage or rate value for proportion-based analysis and reporting"
-        if 'score' in col_lower or 'rating' in col_lower:
-            metric = col_name.replace('_score', '').replace('_rating', '').replace('_', ' ')
-            return f"Computed {metric} score representing quality or performance measurement"
-        # Generic numeric with cardinality analysis
-        if unique_count < 100:
-            return f"Numeric code or classification for {col_name.replace('_', ' ')}"
-        else:
-            return f"Numeric metric representing {col_name.replace('_', ' ')} values"
-    
-    # String/Text columns
-    if data_type in ['STRING', 'STRING (LONG)']:
-        if unique_count < 50:
-            return f"Text classification or code for {col_name.replace('_', ' ')} categorization"
-        else:
-            return f"Text data containing {col_name.replace('_', ' ')} information"
-    
-    # Default
-    return f"{col_name.replace('_', ' ').title()}"
-
-def infer_business_context(col_name, null_pct, table_metrics=None):
-    """Auto-generate business context from data patterns"""
-    col_lower = col_name.lower()
-    context_parts = []
-    
-    # Nullability context
-    if null_pct >= 80:
-        context_parts.append("Optional field - rarely populated")
-    elif null_pct == 0:
-        context_parts.append("Required field - always populated")
-    elif null_pct > 50:
-        context_parts.append("Sparse field - populated in minority of records")
-    else:
-        context_parts.append(f"Populated in {100-null_pct:.0f}% of records")
-    
-    # ID/Key context
-    if 'id' in col_lower or 'key' in col_lower:
-        context_parts.append("Used for joins and lookups")
-    
-    # Date context
-    if 'date' in col_lower or 'time' in col_lower:
-        context_parts.append("Used for time-based analysis and filtering")
-    
-    # Status/Flag context
-    if 'status' in col_lower or 'flag' in col_lower or 'is_' in col_lower:
-        context_parts.append("Used for segmentation and status-based filtering")
-    
-    # Add table context if available
-    if table_metrics and table_metrics.get('total_queries_30_days', 0) > 0:
-        context_parts.append(f"Table is actively queried ({table_metrics['total_queries_30_days']} queries/month)")
-    
-    return '. '.join(context_parts) + '.'
-
-for col in sorted(columns_info.keys()):
-    info = columns_info[col]
-    primary_type = max(info['types'].items(), key=lambda x: x[1])[0] if info['types'] else 'NULL'
-    null_pct = (info['null_count'] / len(rows_list) * 100) if len(rows_list) > 0 else 0
-    
-    col_doc = {
-        "column_name": col,
-        "data_type": primary_type,
-        "nullable": True if null_pct > 0 else False,
-        "null_percentage": round(null_pct, 2),
-        "description": infer_description(col, primary_type, info['sample_values'], null_pct),
-        "business_context": infer_business_context(col, null_pct),
-        "example_values": [v for v in info['sample_values'][:3] if v is not None]
-    }
-    doc['columns'].append(col_doc)
-
-# Save documentation
-doc_file = f'table_column_description/{TABLE_NAME}_doc.json'
-with open(doc_file, 'w') as f:
-    json.dump(doc, f, indent=2, default=str)
-
-print(f"✅ Created documentation for {len(columns_info)} columns")
-print(f"✅ Documentation saved to {doc_file}")
-```
-
----
-
-## ▶️ STEP 3: Execute Python Script
-
-Claude Code MUST:
-
-### 3.1 Execution Steps (No .py files in repo)
-```bash
-# 1. Generate Python script as string
-# 2. Execute it directly (don't save .py file)
-# 3. Delete any .py files created
-# 4. Check for errors and report status
-```
-
-### 3.2 Important: Don't Commit .py Files
-- ✅ Execute scripts in memory or as temporary files
-- ❌ DO NOT commit document_[TABLE_NAME].py files to git
-- ✅ Clean up any temporary files after execution
-- Files to delete after run: `document_*.py`, `enrich_*.py`
-
-### 3.2 Success Indicators
-Script completed successfully when:
-- ✅ No Python errors
-- ✅ Sample data file created: `table_list/[TABLE_NAME].json`
-- ✅ Documentation file created: `table_column_description/[TABLE_NAME]_doc.json`
-- ✅ Both files are valid JSON
-- ✅ Column count > 0
-
-### 3.3 Error Handling
-If script fails:
-1. **AuthenticationError**: User needs to run `gcloud auth application-default login`
-2. **TableNotFoundError**: Verify table ID and BigQuery access
-3. **JSONDecodeError**: Check that sample data is valid JSON
-4. **FileNotFoundError**: Ensure directories exist (they should)
-
----
-
-## ✏️ STEP 4: Auto-Generate & Enhance Documentation
-
-### 4.0 Context-Enhanced Description Strategy (Table Context + Column Name + Sample Data)
-
-**IMPORTANT**: Use table context from `table_list.md` + column name + actual sample data. Ground descriptions in real data while using table purpose.
-
-**Process**:
-1. Read table context from `table_list.md` (the description after the table ID)
-   - Understand the table's business purpose
-   - Learn what the data represents in the business
-   - Know the source and how data flows into this table
-   
-2. Load all 10,000 rows from `table_list/[TABLE_NAME].json`
-
-3. For each column:
-   - Read the column name - what does it represent?
-   - Look at actual sample values from the 10k rows
-   - Understand the data type (text, number, date, boolean, etc.)
-   - See patterns or categories in the data
-   
-4. Write business-focused description combining:
-   - Table context (what this table is about)
-   - Column name (what this column is called)
-   - Sample data (what actual values look like)
-   
-5. Keep description 1-2 sentences explaining business relevance
-6. Store actual sample values separately in `example_values` field (max 3)
-
-**Key Principle**:
-- ✅ Use table context to understand column purpose
-- ✅ Column name tells you the specific field
-- ✅ Sample data confirms what it contains
-- ✅ Combine all three for complete understanding
-- ❌ Don't infer beyond what context + name + data show
-
-**Examples** (with table context):
-
-Table Context: "Geographic location data based on merchant KYB, geocoded and mapped to administrative divisions"
-- Column "area" with values "SUMATERA 1", "BALI NUSRA"
-  → "Geographic area representing regional MSE territory assignment within BukuWarung's merchant location structure"
-
-Table Context: "Profile of BukuWarung Merchant with EDC, Loan, and Product ownership information"
-- Column "has_edc" with boolean values
-  → "Boolean indicator of whether the merchant owns or has been assigned an EDC (Electronic Data Capture) device"
-
-Table Context: "Historical EDC orders from merchants"
-- Column "order_amount" with numeric values
-  → "Monetary amount representing the transaction value of each EDC order from the merchant"
-
----
-
-Claude Code MUST enhance the generated `_doc.json` file by filling in all descriptions:
-
-### 4.1 Auto-Generate Column Descriptions
-
-**For EVERY column**, generate business-focused description from name + sample data:
-
-**Algorithm**:
-```
-1. Read the column name
-   → What is this column called? Extract the core concept.
-
-2. Examine actual sample values from 10,000 rows
-   → What do the values look like?
-   → What data type? (text, numbers, dates, true/false)
-   → What patterns or categories do you see?
-   → What business entity/concept do they represent?
-
-3. Combine into 1-2 sentence business description
-   → Explain what column represents in business context
-   → Reference the data characteristics you observed
-   → Keep it grounded in name + actual data
-
-EXAMPLES:
-
-→ Column: area
-  Sample values: "SUMATERA 1", "BALI NUSRA", "JAVA 2", "JAKARTA"
-  Data type: STRING, ~15 unique values
-  Description: "Geographic area representing regional divisions for merchant location organization and business segmentation. Used to categorize merchants by geographic region for operational management and reporting."
-
-→ Column: merchant_id  
-  Sample values: "M001", "M002", "M12345"
-  Data type: STRING, high cardinality
-  Description: "Unique identifier assigned to each merchant in the system for transaction tracking and merchant-level operations. Primary key for identifying individual merchants across all business processes."
-
-→ Column: amount
-  Sample values: 1000, 5000, 50000, 100000, 2500000
-  Data type: NUMERIC, wide range
-  Description: "Monetary transaction amount representing the financial value of orders or payments in the business system. Captures the cost or revenue associated with each transaction for financial reporting and analysis."
-
-→ Column: is_active
-  Sample values: true, false
-  Data type: BOOLEAN
-  Description: "Boolean flag indicating the current active or inactive status of the merchant or entity. Used to filter operational data and distinguish between active merchants and those no longer conducting business."
-
-→ Column: created_at
-  Sample values: 2026-01-15 10:30:00, 2026-02-20 14:45:00
-  Data type: TIMESTAMP
-  Description: "Timestamp capturing when the record was created in the system. Provides audit trail information and is used for tracking data lineage, transaction timing, and historical analysis."
-
-→ Column: status
-  Sample values: "PENDING", "COMPLETED", "FAILED", "PROCESSING"
-  Data type: STRING, limited unique values
-  Description: "Order or transaction status classification indicating the current state within the business process. Used for workflow management, filtering active orders, and generating operational reports."
-```
-
-### 4.2 Auto-Generate Business Context
-
-**For EVERY column**, generate context based on**:
-
-1. **Usage frequency** - How often appears in WHERE clauses
-2. **Filter types** - What kind of filtering is done
-3. **Nullability** - If 80%+ null → "optional/sparse", if 0% null → "required"
-4. **Table metrics** - Is table critical? Used daily?
-5. **Data quality** - Distribution, uniqueness, value patterns
-
-**Algorithm**:
-```
-IF appears_in_where_clause >= 80%
-  → "Critical dimension/filter. Used in [80%+] of queries for filtering/segmentation"
-ELSE IF appears_in_where_clause >= 50%
-  → "Primary filter dimension. Frequently used in queries for data subsetting"
-ELSE IF appears_in_where_clause >= 20%
-  → "Secondary dimension. Used in [20-50%] of queries for analysis"
-ELSE IF null_percentage >= 80%
-  → "Optional field - rarely populated. Provides supplementary information when available"
-ELSE IF null_percentage == 0%
-  → "Required field. Always present, essential for all records in this table"
-ELSE
-  → "Supporting field. Used for [context from name/type]. Present in [100-null%] of records"
-
-IF table has high query_frequency (daily usage)
-  ADD → "Used in high-frequency queries"
-IF column name suggests ID/KEY
-  ADD → "Used for joins and lookups with related tables"
-```
-
-### 4.3 Enhance Descriptions with Query Insights
-
-**After auto-generating base descriptions, ENHANCE with query analysis data**:
-
-Query `query_patterns` table to get column-level insights:
-
-```sql
-SELECT 
-  pct_equality_filters,
-  pct_comparison_filters,
-  pct_range_filters,
-  pct_where
-FROM `ledger-fcc1e.data_documentation.query_patterns`
-WHERE full_table_name = '[TABLE_ID]'
-LIMIT 1
-```
-
-**Enhancement rules**:
-
-```
-IF pct_where >= 95%
-  ADD to description: "Critical filter column - used in 95%+ of WHERE clauses"
-ELSE IF pct_where >= 80%
-  ADD to description: "Primary filter dimension - used in 80%+ of WHERE clauses"  
-ELSE IF pct_where >= 50%
-  ADD to description: "Common filter column - used in 50%+ of WHERE clauses"
-
-IF pct_equality_filters > pct_comparison AND pct_equality > 0
-  ADD to description: "Typically filtered using equality operators"
-IF pct_range_filters > 0
-  ADD to description: "Used for range-based filtering"
-
-IF table_relationships shows many joins
-  ADD to description: "Used to join with [list of frequently-joined tables]"
-```
-
-**Example Enhanced Description**:
-
-Before (auto-generated):
-```
-"Unique identifier for merchant"
-```
-
-After (with query insights):
-```
-"Unique identifier for merchant. Critical filter column used in 98% of WHERE clauses. 
-Primarily filtered with equality operators. Used to join with 15+ related tables."
-```
-
-### 4.4 Description Guidelines
-
-**Template**: Business-focused 1-2 sentence explanation based on column name + sample data
-
-✅ **Good Descriptions** (Business-focused, Data-grounded):
-- "Geographic area representing regional divisions for merchant location organization and business segmentation"
-- "Unique identifier assigned to each merchant in the system for transaction tracking and merchant-level operations"
-- "Timestamp capturing when the record was created in the system for audit trail and data lineage tracking"
-- "Monetary transaction amount representing the financial value of orders or payments in the business"
-- "Order or transaction status classification indicating the current state within the business process"
-- "Boolean flag indicating the active or inactive status of the merchant for operational filtering"
-
-✅ **How to Write**:
-1. Read the column name - what is it about?
-2. Look at actual sample values - what patterns do you see?
-3. Write what the column represents in business context (1-2 sentences)
-4. Explain the business purpose or relevance (inferred from name + data)
-5. Don't add examples in description (keep them in example_values field)
-
-✅ **What to Base It On**:
-- Column name semantics (what the name tells you)
-- Actual data values (what they look like)
-- Data type (how data is stored: text, numbers, dates, true/false)
-- Value patterns (many unique vs. few categories)
-- NOT on interpretation beyond what name and data show
-
-❌ **Bad Descriptions**:
-- "[TODO] Add description"
-- "Area" or "Data" or "Value" (too vague, no context)
-- "Column that stores area information" (too technical, meta)
-- "Area. Examples: SUMATERA 1, BALI NUSRA" (examples don't belong)
-- "Used for regional filtering in merchant segmentation" (inferring beyond data)
-
-### 4.3 Business Context Guidelines
-
-✅ **Good Context**:
-- Why this column exists
-- How it's used in business
-- What reports use it
-- Important for what analysis
-- Example: "Used for customer communication, mail delivery, and CRM matching. Essential for all customer-facing operations."
-
-❌ **Bad Context**:
-- Technical implementation
-- Database schema info
-- What method created it
-- Too vague
-
-### 4.4 Automated Enhancement Process
-
-Claude Code SHOULD:
-
-1. **Analyze existing descriptions** in similar tables (location, merchant, order tables)
-2. **Apply same quality level** to new table
-3. **Use business terminology** not technical jargon
-4. **Keep descriptions concise** (1-2 sentences max)
-5. **Verify example values** are real (not made up)
-6. **Cross-reference columns** (explain relationships)
-
-### 4.5 Column Type-Specific Enhancements
-
-**For STRING columns**:
-- Explain format (freeform text, codes, IDs)
-- Max length if relevant
-- Character encoding if special
-
-**For NUMERIC columns**:
-- Currency type if applicable
-- Decimal places
-- Range if bounded
-- Units (IDR, percentage, count)
-
-**For DATE/TIMESTAMP columns**:
-- Timezone if applicable
-- What event this represents
-- Is it nullable? Why?
-
-**For BOOLEAN/ARRAY columns**:
-- What values mean
-- What each element represents
-- How to interpret nulls
-
-**For JSON columns**:
-- General structure
-- What it contains
-- Common fields
-
----
-
-## 🔗 STEP 4.5: Enrich with Query Analysis Data
-
-Claude Code MUST enrich the documentation with insights from query history analysis tables.
-
-### 4.5.0 Enhance Descriptions with Query Pattern Insights
-
-Before adding metrics, enhance auto-generated descriptions with query insights:
-
-```python
-def enhance_descriptions_with_query_insights(doc, table_id):
-    """Enhance column descriptions with query pattern insights"""
-    client = bigquery.Client(project='ledger-fcc1e')
-    
-    # Get table-level filter patterns
-    pattern_query = f"""
-    SELECT pct_where, pct_equality, pct_comparison, pct_range
-    FROM `ledger-fcc1e.data_documentation.query_patterns`
-    WHERE full_table_name = '{table_id}' LIMIT 1
-    """
-    
-    try:
-        result = list(client.query(pattern_query).result())
-        if not result:
-            return
-        
-        patterns = result[0]
-        pct_where = patterns.get('pct_where', 0)
-        pct_eq = patterns.get('pct_equality', 0)
-        pct_range = patterns.get('pct_range', 0)
-        
-        # Enhance each column's description
-        for col in doc.get('columns', []):
-            existing_desc = col.get('description', '')
-            enhancements = []
-            
-            # Add filter importance
-            if pct_where >= 95:
-                enhancements.append("Critical filter - used in 95%+ of WHERE clauses")
-            elif pct_where >= 80:
-                enhancements.append("Primary filter - used in 80%+ of WHERE clauses")
-            elif pct_where >= 50:
-                enhancements.append("Common filter - used in 50%+ of WHERE clauses")
-            
-            # Add filter type
-            if pct_eq > pct_range and pct_eq > 0:
-                enhancements.append("Typically equality-filtered")
-            if pct_range > pct_eq and pct_range > 0:
-                enhancements.append("Used for range filtering")
-            
-            # Update description
-            if enhancements:
-                col['description'] = f"{existing_desc}. {'. '.join(enhancements)}."
-    
-    except Exception as e:
-        print(f"  ℹ️  No query patterns for enhancement")
-
-# Call early in enrichment process
-enhance_descriptions_with_query_insights(doc, table_id)
-```
-
-### 4.5.1 Add Table-Level Relationship Data
-
-Query the `table_relationships` table to find related tables:
-
-```sql
-SELECT 
-  table_a, 
-  table_b, 
-  join_count,
-  last_joined
-FROM `ledger-fcc1e.data_documentation.table_relationships`
-WHERE table_a = '[FULL_TABLE_ID]' 
-  OR table_b = '[FULL_TABLE_ID]'
-ORDER BY join_count DESC
-LIMIT 10
-```
-
-Add to documentation JSON as:
+Example:
 ```json
 {
-  "table_relationships": [
-    {
-      "related_table": "ledger-fcc1e.dataset.other_table",
-      "join_frequency": 87,
-      "relationship_type": "frequently_joined_with",
-      "last_joined": "2026-05-05T14:30:00Z"
-    }
-  ]
+  "column_name": "status",
+  "possible_values": ["Active", "Cancelled", "Completed", "Draft", "Unassigned"]
 }
 ```
 
-### 4.5.2 Add Query Usage Metrics
+---
 
-Query the `table_usage` table for metrics:
+## Implementation: In-Memory Python Execution
 
-```sql
-SELECT 
-  total_queries,
-  select_queries,
-  insert_queries,
-  update_queries,
-  delete_queries,
-  peak_query_hour,
-  days_active,
-  last_queried
-FROM `ledger-fcc1e.data_documentation.table_usage`
-WHERE full_table_name = '[FULL_TABLE_ID]'
-```
+When documenting tables, Claude Code will:
 
-Add to documentation JSON as:
-```json
-{
-  "query_metrics": {
-    "total_queries_30_days": 1234,
-    "select_operations": 1200,
-    "insert_operations": 20,
-    "update_operations": 10,
-    "delete_operations": 4,
-    "days_active_in_30_days": 23,
-    "peak_query_hour": 14,
-    "last_queried": "2026-05-05T14:30:00Z"
-  }
-}
-```
+1. **Parse table_list.md** to extract:
+   - Table IDs
+   - Business context for each table
 
-### 4.5.3 Add Filter Pattern Data for Columns
+2. **For each missing table**, fetch 10,000 rows and:
+   ```python
+   - Collect ALL values per column (for enumeration)
+   - Sample first 5 values (for description generation)
+   - Detect value format using regex patterns
+   - Generate description using rules above
+   - Build JSON documentation
+   - Save to table_column_description/[TABLE_NAME]_doc.json
+   ```
 
-For frequently filtered columns, query `query_patterns`:
-
-```sql
-SELECT 
-  pct_equality_filters,
-  pct_comparison_filters,
-  pct_range_filters,
-  pct_null_filters
-FROM `ledger-fcc1e.data_documentation.query_patterns`
-WHERE full_table_name = '[FULL_TABLE_ID]'
-```
-
-For each column, if it appears in filter patterns:
-```json
-{
-  "column_name": "user_id",
-  "filter_patterns": {
-    "equality_filter_percentage": 45.2,
-    "comparison_filter_percentage": 32.1,
-    "range_filter_percentage": 22.7,
-    "appears_in_where_clause_percentage": 100.0,
-    "analysis_note": "Critical filter column - appears in 100% of WHERE clauses"
-  }
-}
-```
-
-### 4.5.4 Enhanced Documentation Schema
-
-**Complete enriched JSON structure**:
-
-```json
-{
-  "table_name": "location_gmaps_static_opentable",
-  "full_table_id": "ledger-fcc1e.datamart_opentable.location_gmaps_static_opentable",
-  "total_columns": 16,
-  "sample_rows_analyzed": 10000,
-  "documentation_generated": "2026-05-05T14:30:00Z",
-  "documentation_enriched": "2026-05-05T14:35:00Z",
-  "table_business_context": "Read-only dimension table, regularly queried for analysis and reporting, with peak usage during afternoon hours, frequently joined with mapping and merchant tables.",
-  
-  "query_metrics": {
-    "total_queries_30_days": 1234,
-    "select_operations": 1200,
-    "insert_operations": 20,
-    "update_operations": 10,
-    "delete_operations": 4,
-    "days_active_in_30_days": 23,
-    "peak_query_hour": 14,
-    "last_queried": "2026-05-05T14:30:00Z"
-  },
-  
-  "table_relationships": [
-    {
-      "related_table": "ledger-fcc1e.datamart_opentable.mapping_area_mse_opentable",
-      "join_frequency": 87,
-      "relationship_type": "frequently_joined_with",
-      "last_joined": "2026-05-05T14:25:00Z"
-    }
-  ],
-  
-  "columns": [
-    {
-      "column_name": "location_id",
-      "data_type": "STRING",
-      "nullable": false,
-      "null_percentage": 0.0,
-      "description": "Unique identifier for location record",
-      "business_context": "Primary key for location lookups. Used in all queries. Essential for mapping merchants to geographic areas.",
-      "example_values": ["LOC_12345", "LOC_67890", "LOC_11111"],
-      "filter_patterns": {
-        "equality_filter_percentage": 98.5,
-        "comparison_filter_percentage": 0,
-        "range_filter_percentage": 1.5,
-        "appears_in_where_clause_percentage": 100.0,
-        "analysis_note": "Critical filter column - appears in 100% of WHERE clauses with equality operators"
-      }
-    }
-  ]
-}
-```
-
-### 4.5.5 Auto-Generate Business Context from Query Data
-
-Claude Code SHOULD use query metrics to suggest business context:
-
-**Rules for business context generation**:
-
-1. **If column appears in 100% of WHERE clauses**:
-   - Context: "Critical business filter - essential for all queries on this table"
-
-2. **If column appears in 80%+ of WHERE clauses**:
-   - Context: "Primary dimension/filter - used in majority of queries for data segmentation"
-
-3. **If table is frequently joined (join_frequency > 100)**:
-   - Context: "Core fact table - frequently joined with [list related tables] for unified reporting"
-
-4. **If peak_query_hour is 14-17 (afternoon)**:
-   - Context: "Used for afternoon business review/reporting cycles"
-
-5. **If days_active is 30 (every day)**:
-   - Context: "Critical operational table - queried daily for monitoring/operations"
-
-6. **If only SELECT operations (no INSERT/UPDATE)**:
-   - Context: "Read-only dimension table - used for lookup and analysis"
-
-7. **If high INSERT count**:
-   - Context: "Transaction logging table - captures operational events"
-
-8. **Combine insights**:
-   - "User dimension - queried 1,200+ times daily (peak 2-3 PM) for customer analysis and segmentation"
-   - "Order facts - frequently joined with user and product tables for revenue reporting"
-
-### 4.5.6 Python Code for Enrichment with Auto Context
-
-Add this section to your documentation generation script:
-
-```python
-import json
-from google.cloud import bigquery
-from datetime import datetime
-
-def generate_business_context(table_id, metrics, relationships):
-    """Generate business context from query metrics"""
-    context_parts = []
-    
-    if not metrics:
-        return "[TODO] Add business context"
-    
-    total_queries = metrics.get('total_queries_30_days', 0)
-    peak_hour = metrics.get('peak_query_hour')
-    days_active = metrics.get('days_active_in_30_days', 0)
-    
-    # Determine table type and usage pattern
-    if metrics['select_operations'] == total_queries:
-        context_parts.append("Read-only dimension table")
-    elif metrics['insert_operations'] > metrics['select_operations']:
-        context_parts.append("Transaction/event logging table")
-    else:
-        context_parts.append("Fact table")
-    
-    # Add frequency context
-    if days_active == 30:
-        context_parts.append("queried daily")
-    elif days_active >= 20:
-        context_parts.append("regularly queried")
-    elif days_active >= 10:
-        context_parts.append("occasionally queried")
-    
-    # Add operation context
-    if metrics['select_operations'] > total_queries * 0.9:
-        context_parts.append("for analysis and reporting")
-    elif metrics['insert_operations'] > 0:
-        context_parts.append("for transaction tracking")
-    
-    # Add time context
-    if peak_hour:
-        if 8 <= peak_hour <= 12:
-            context_parts.append("with peak usage during morning hours")
-        elif 13 <= peak_hour <= 17:
-            context_parts.append("with peak usage during afternoon hours")
-        elif 18 <= peak_hour <= 23:
-            context_parts.append("with peak usage during evening hours")
-    
-    # Add relationship context
-    if relationships:
-        related_tables = [r['related_table'].split('.')[-1] for r in relationships[:2]]
-        context_parts.append(f"frequently joined with {', '.join(related_tables)}")
-    
-    # Combine into natural sentence
-    if len(context_parts) >= 2:
-        return f"{context_parts[0]}, {' and '.join(context_parts[1:])}."
-    elif context_parts:
-        return f"{context_parts[0]}."
-    else:
-        return "[TODO] Add business context"
-
-def generate_column_context(column_name, filter_patterns, table_metrics):
-    """Generate business context for a column based on filter patterns"""
-    
-    if not filter_patterns:
-        return "[TODO] Add business context"
-    
-    pct_where = filter_patterns.get('appears_in_where_clause_percentage', 0)
-    
-    context_parts = []
-    
-    # Column usage importance
-    if pct_where >= 80:
-        context_parts.append("Critical dimension column")
-    elif pct_where >= 50:
-        context_parts.append("Primary filter column")
-    elif pct_where >= 20:
-        context_parts.append("Secondary filter column")
-    elif pct_where > 0:
-        context_parts.append("Occasionally filtered")
-    else:
-        context_parts.append("Supporting column")
-    
-    # Filter type usage
-    pct_eq = filter_patterns.get('equality_filter_percentage', 0)
-    pct_range = filter_patterns.get('range_filter_percentage', 0)
-    
-    if pct_eq > 0:
-        context_parts.append(f"used for equality matching ({pct_eq}% of filters)")
-    if pct_range > pct_eq and pct_range > 0:
-        context_parts.append(f"used for range queries ({pct_range}% of filters)")
-    
-    # Add usage frequency if available
-    if table_metrics and table_metrics.get('total_queries_30_days', 0) > 0:
-        context_parts.append(f"in {table_metrics['total_queries_30_days']}+ monthly queries")
-    
-    if len(context_parts) >= 2:
-        return f"{context_parts[0]}, {' and '.join(context_parts[1:])}."
-    elif context_parts:
-        return f"{context_parts[0]}."
-    else:
-        return "[TODO] Add business context"
-
-def enrich_documentation(table_id, doc_file):
-    """Enrich documentation with query analysis data"""
-    client = bigquery.Client(project='ledger-fcc1e')
-    
-    # Load existing documentation
-    with open(doc_file, 'r') as f:
-        doc = json.load(f)
-    
-    # 1. Get table relationships
-    rel_query = f"""
-    SELECT table_a, table_b, join_count, last_joined
-    FROM `ledger-fcc1e.data_documentation.table_relationships`
-    WHERE table_a = '{table_id}' OR table_b = '{table_id}'
-    ORDER BY join_count DESC
-    LIMIT 10
-    """
-    rel_results = list(client.query(rel_query).result())
-    
-    relationships = []
-    for row in rel_results:
-        related = row['table_b'] if row['table_a'] == table_id else row['table_a']
-        relationships.append({
-            "related_table": related,
-            "join_frequency": row['join_count'],
-            "relationship_type": "frequently_joined_with",
-            "last_joined": row['last_joined'].isoformat() if row['last_joined'] else None
-        })
-    
-    if relationships:
-        doc['table_relationships'] = relationships
-        doc['documentation_enriched'] = datetime.now().isoformat()
-    
-    # 2. Get query metrics
-    metrics_query = f"""
-    SELECT *
-    FROM `ledger-fcc1e.data_documentation.table_usage`
-    WHERE full_table_name = '{table_id}'
-    LIMIT 1
-    """
-    metrics_result = list(client.query(metrics_query).result())
-    
-    if metrics_result:
-        row = metrics_result[0]
-        doc['query_metrics'] = {
-            "total_queries_30_days": row['total_queries'],
-            "select_operations": row['select_queries'],
-            "insert_operations": row['insert_queries'],
-            "update_operations": row['update_queries'],
-            "delete_operations": row['delete_queries'],
-            "days_active_in_30_days": row['days_active'],
-            "peak_query_hour": row['peak_query_hour'],
-            "last_queried": row['last_queried'].isoformat() if row['last_queried'] else None
-        }
-    
-    # 3. Generate business context from metrics
-    if 'query_metrics' in doc:
-        # Update table-level business_context if empty
-        table_context = generate_business_context(
-            table_id, 
-            doc['query_metrics'], 
-            doc.get('table_relationships', [])
-        )
-        if '[TODO]' in doc.get('table_business_context', '[TODO]'):
-            doc['table_business_context'] = table_context
-        
-        # Update column-level business_context if empty
-        for col in doc['columns']:
-            if '[TODO]' in col.get('business_context', '[TODO]'):
-                col_context = generate_column_context(
-                    col['column_name'],
-                    col.get('filter_patterns'),
-                    doc['query_metrics']
-                )
-                col['business_context'] = col_context
-    
-    # Save enriched documentation
-    with open(doc_file, 'w') as f:
-        json.dump(doc, f, indent=2, default=str)
-    
-    print(f"✅ Documentation enriched with query analysis data")
-    if relationships:
-        print(f"   - Found {len(relationships)} related tables")
-    if 'query_metrics' in doc:
-        print(f"   - Added query metrics ({doc['query_metrics']['total_queries_30_days']} queries in 30 days)")
-        print(f"   - Auto-generated business context from query patterns")
-
-# Call enrichment after creating documentation
-enrich_documentation(TABLE_ID, doc_file)
-```
-
-### 4.5.6 Enrichment Checklist
-
-Claude Code MUST verify:
-- ✅ Table exists in `table_relationships` (may be 0 if no joins)
-- ✅ Table exists in `table_usage` (should always exist if queried)
-- ✅ Query metrics added if table has queries
-- ✅ Related tables added if table is frequently joined
-- ✅ Filter patterns added for filter columns
-- ✅ New `documentation_enriched` timestamp added
-- ✅ Enhanced JSON is valid
+3. **Git commit** with message:
+   ```
+   Document [TABLE_NAMES] with AI SQL-focused descriptions
+   
+   - Value format detection (UUID, phone, enum, etc)
+   - Descriptions optimized for query generation
+   - Enumeration for low-cardinality columns
+   ```
 
 ---
 
-## ✅ STEP 5: Validation
+## Success Criteria
 
-Claude Code MUST validate documentation before committing:
+After documentation, verify:
 
-### 5.1 Validation Checklist
-
-```
-For each column:
-  ☑️ column_name: Not empty, matches BigQuery name
-  ☑️ data_type: Valid BigQuery type
-  ☑️ nullable: Boolean true/false
-  ☑️ null_percentage: 0-100 number
-  ☑️ description: No [TODO], clear and concise
-  ☑️ business_context: No [TODO], explains usage
-  ☑️ example_values: Array with 0-3 real values
-  ☑️ filter_patterns: If present, has valid percentages (0-100)
-
-For document:
-  ☑️ JSON is valid (no syntax errors)
-  ☑️ All required fields present
-  ☑️ table_name matches filename
-  ☑️ total_columns > 0
-  ☑️ sample_rows_analyzed > 0
-
-For enrichment:
-  ☑️ documentation_enriched: Timestamp if enriched
-  ☑️ query_metrics: If table has query history
-  ☑️ table_relationships: If table is frequently joined
-  ☑️ All numeric metrics are valid (non-negative integers)
-
-For sample data:
-  ☑️ JSON is valid
-  ☑️ Row count > 0
-  ☑️ Contains actual BigQuery data
-```
-
-### 5.2 Validation Script
-
-Claude Code SHOULD run:
-
-```python
-import json
-
-# Validate documentation file
-doc_file = f'table_column_description/{TABLE_NAME}_doc.json'
-with open(doc_file, 'r') as f:
-    doc = json.load(f)
-
-errors = []
-warnings = []
-
-# Check required fields
-for col in doc['columns']:
-    if '[TODO]' in col.get('description', ''):
-        errors.append(f"{col['column_name']}: Missing description")
-    if '[TODO]' in col.get('business_context', ''):
-        errors.append(f"{col['column_name']}: Missing business context")
-    if not col.get('column_name'):
-        errors.append("Column missing name")
-    if not col.get('data_type'):
-        errors.append("Column missing data type")
-
-# Check enrichment data
-if 'query_metrics' not in doc:
-    warnings.append("No query metrics - table may not have query history")
-if 'table_relationships' not in doc:
-    warnings.append("No table relationships - table may not be frequently joined")
-    
-# Validate query metrics if present
-if 'query_metrics' in doc:
-    metrics = doc['query_metrics']
-    if not isinstance(metrics.get('total_queries_30_days'), int):
-        errors.append("query_metrics.total_queries_30_days must be integer")
-    if metrics.get('total_queries_30_days', 0) > 0 and not metrics.get('peak_query_hour'):
-        warnings.append("Table has queries but no peak_query_hour")
-
-if errors:
-    print("❌ Validation errors:")
-    for error in errors:
-        print(f"  - {error}")
-else:
-    print("✅ Documentation is complete and valid!")
-    print(f"   Columns: {len(doc['columns'])}")
-    print(f"   Sample rows: {doc['sample_rows_analyzed']:,}")
-    
-    if 'query_metrics' in doc:
-        print(f"   Query usage: {doc['query_metrics']['total_queries_30_days']} queries in 30 days")
-    if 'table_relationships' in doc:
-        print(f"   Related tables: {len(doc['table_relationships'])}")
-
-if warnings:
-    print("\n⚠️  Warnings:")
-    for warning in warnings:
-        print(f"  - {warning}")
-```
+✓ All columns have descriptions (never empty or "Field for X")
+✓ Enum columns have `possible_values` array
+✓ SDC metadata columns clearly identified
+✓ Phone numbers mention "10-11 digit Indonesian"
+✓ UUIDs mention "UUID v4 format"
+✓ Business context set based on null %
 
 ---
 
-## 📤 STEP 6: Git Commit & Push
+## For Data Team
 
-Claude Code MUST commit with proper git workflow:
+**To document new tables:**
 
-### 6.1 Git Commands
+1. Add to `table_list.md`:
+   ```
+   - ledger-fcc1e.project.dataset.new_table
+   Description of what this table contains and how it's used
+   ```
 
-```bash
-# 1. Check current branch
-git branch
+2. In Claude Code, ask:
+   ```
+   Document all tables in table_list.md that don't have 
+   documentation in table_column_description/ yet
+   ```
 
-# 2. Stage files
-git add table_list/[TABLE_NAME].json
-git add table_column_description/[TABLE_NAME]_doc.json
-git add document_[TABLE_NAME].py  # Optional, but good to keep
+3. Claude Code will:
+   - Read this file as reference
+   - Follow the workflow above
+   - Generate documentation
+   - Commit automatically
 
-# 3. Verify files are staged
-git status
-
-# 4. Commit with descriptive message
-git commit -m "Add documentation for [TABLE_NAME] table
-
-- Documented [X] columns
-- Added 10,000 row sample data
-- Included business context and descriptions
-- Data quality: [% null columns, key metrics]"
-
-# 5. Push to remote
-git push origin main
-```
-
-### 6.2 Commit Message Format
-
-```
-[ACTION] [TABLE_NAME]: Brief description
-
-Detailed explanation:
-- What was done
-- Key statistics
-- Any important notes
-- Quality metrics
-
-Format:
-  ✅ "Add documentation for user_profiles: 50 columns documented"
-  ✅ "Update merchant_data: Enhanced descriptions and added context"
-  ✅ "Refresh location_data: 10,000 row sample updated"
-  
-  ❌ "Fixed stuff"
-  ❌ "Documentation"
-  ❌ "Update"
-```
-
-### 6.3 Push Variations
-
-```bash
-# If pushing to main (approved change):
-git push origin main
-
-# If pushing new feature branch:
-git push -u origin feature/document-[TABLE_NAME]
-
-# If authentication fails:
-# - Check GitHub access token
-# - Verify SSH key setup
-# - Run: git config --global credential.helper store
-```
+**That's it!** No other steps needed.
 
 ---
 
-## 📊 Expected Output Structure
+## Reference Links
 
-After completing all steps, Claude Code MUST create:
-
-### 6.1 File: `table_column_description/[TABLE_NAME]_doc.json`
-
-```json
-{
-  "table_name": "[table_name]",
-  "full_table_id": "[project.dataset.table]",
-  "total_columns": [number],
-  "sample_rows_analyzed": [number],
-  "documentation_generated": "[ISO timestamp]",
-  "columns": [
-    {
-      "column_name": "[name]",
-      "data_type": "[type]",
-      "nullable": [boolean],
-      "null_percentage": [0-100],
-      "description": "[clear description]",
-      "business_context": "[business usage]",
-      "example_values": ["val1", "val2", "val3"]
-    }
-  ]
-}
-```
-
-### 6.2 File: `table_list/[TABLE_NAME].json`
-
-```json
-[
-  { "column1": value1, "column2": value2, ... },
-  { "column1": value1, "column2": value2, ... },
-  ...  (10,000 rows or all rows if less than 10,000)
-]
-```
-
----
-
-## 🎯 Decision Trees for Claude Code
-
-### Q: Should I proceed without user confirmation?
-
-**YES** - if:
-- Table ID is valid and formatted correctly
-- BigQuery access is confirmed
-- Files were successfully generated
-- Documentation is complete and validated
-
-**NO** - if:
-- Table not found or access denied
-- Script execution failed
-- Documentation incomplete (has [TODO])
-- Validation failed
-- Any required field is missing
-
-### Q: Should I enhance descriptions automatically?
-
-**YES** - if:
-- Documentation has [TODO] markers
-- Similar columns exist in other tables
-- Data types allow inference of meaning
-- Example values are informative
-
-**NO** - if:
-- Domain knowledge required
-- Business context unclear
-- Example values don't reveal purpose
-- Table is proprietary/sensitive
-
-### Q: Should I commit to main or create a PR?
-
-**CREATE BRANCH** (recommended):
-```bash
-git checkout -b feature/document-[TABLE_NAME]
-# ... make changes ...
-git push origin feature/document-[TABLE_NAME]
-# Create PR on GitHub
-```
-
-**COMMIT TO MAIN** only if:
-- Pre-approved by data team lead
-- Documentation is 100% complete
-- Validation passed
-- No other changes pending
-
----
-
-## 🚨 Error Handling Matrix
-
-| Error | Cause | Solution | Claude Action |
-|-------|-------|----------|---------------|
-| `NotFound: Table ...` | Table doesn't exist | Verify table ID | STOP, report error |
-| `Permission denied` | No BigQuery access | Run auth login | STOP, report error |
-| `JSONDecodeError` | Invalid JSON in files | Check syntax | Auto-fix or STOP |
-| `FileNotFoundError` | Directory missing | Create directory | Create and retry |
-| `[TODO] in description` | Incomplete enhancement | Add descriptions | Auto-enhance or flag |
-| `Null percentage > 90%` | Very sparse column | Document as optional | Note in context |
-| `Git authentication failed` | Bad credentials | Refresh token | STOP, report error |
-
----
-
-## 📋 Pre-Execution Checklist
-
-Before Claude Code starts, verify:
-
-- ✅ Repository cloned locally
-- ✅ User is in correct directory: `bq-table-desc`
-- ✅ BigQuery authentication active: `gcloud auth application-default login`
-- ✅ Python 3.7+ installed with `google-cloud-bigquery`
-- ✅ Git configured: `git config --global user.name` and `git config --global user.email`
-- ✅ GitHub SSH key or token configured
-- ✅ Table ID provided in correct format
-
----
-
-## 🎓 Learning from Existing Tables
-
-Claude Code SHOULD analyze existing documentation:
-
-### Examine These Files for Patterns:
-```
-table_column_description/location_gmaps_static_opentable_doc.json
-table_column_description/ms_merchant_profiling_ssot_opentable_doc.json
-table_column_description/prod_edc_order_doc.json
-```
-
-### Learn From:
-- Description length and style
-- Business context depth
-- Example value formatting
-- Null percentage interpretation
-- Data type accuracy
-
----
-
-## ⚙️ Configuration Variables
-
-Claude Code MUST use:
-
-```python
-# Project configuration
-PROJECT_ID = 'ledger-fcc1e'  # BukuWarung's BigQuery project
-
-# Directory configuration
-SAMPLE_DIR = 'table_list'
-DOC_DIR = 'table_column_description'
-
-# Query configuration
-SAMPLE_SIZE = 10000  # rows to fetch
-EXAMPLE_COUNT = 3  # sample values per column
-
-# File naming
-SAMPLE_FILE = f'{SAMPLE_DIR}/{TABLE_NAME}.json'
-DOC_FILE = f'{DOC_DIR}/{TABLE_NAME}_doc.json'
-SCRIPT_FILE = f'document_{TABLE_NAME}.py'
-
-# Git configuration
-BRANCH_PREFIX = 'feature/document-'
-COMMIT_PREFIX = 'Add documentation for'
-```
-
----
-
-## 🔄 Workflow Summary for Claude Code
-
-```
-INPUT: BigQuery table ID
-  ↓
-VALIDATE: Table exists & accessible
-  ↓
-GENERATE: Python script
-  ↓
-EXECUTE: Script (query + analyze)
-  ↓
-ENHANCE: Documentation descriptions
-  ↓
-VALIDATE: All fields complete
-  ↓
-COMMIT: Git commit with message
-  ↓
-PUSH: To GitHub (main or feature branch)
-  ↓
-OUTPUT: Documentation complete
-  ↓
-REPORT: Success/Failure status
-```
-
----
-
-## ✅ Success Criteria
-
-Documentation is complete when:
-
-✅ All 4 files created:
-- `document_[TABLE_NAME].py` (script)
-- `table_list/[TABLE_NAME].json` (sample data)
-- `table_column_description/[TABLE_NAME]_doc.json` (documentation)
-- Git commit created
-
-✅ Quality checks pass:
-- No [TODO] markers remain
-- All descriptions clear and concise
-- All business context filled in
-- Example values are real data
-- JSON validates correctly
-
-✅ Git workflow complete:
-- Files staged properly
-- Commit message descriptive
-- Pushed to GitHub
-- Ready for PR review
-
----
-
-## 📞 Support for Claude Code
-
-When Claude Code encounters issues:
-
-1. **Check this document** - Find the relevant section
-2. **Use error handling matrix** - Find your error type
-3. **Apply recommended solution** - Follow the steps
-4. **Report status** - What succeeded, what failed
-5. **Ask for help** - Involve data team lead if needed
-
----
-
-**Last Updated**: 2026-04-23  
-**Version**: 1.0  
-**For**: Claude Code & AI Assistants  
-**Status**: Production Ready ✅
+- Table List: `table_list.md`
+- Documentation Output: `table_column_description/*.json`
+- Sample Data: `table_list/*.json` (10k rows per table)
+- Superpowers Methodology: https://github.com/obra/superpowers

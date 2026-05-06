@@ -3,7 +3,7 @@
   "full_table_id": "ledger-fcc1e.db_accounting.prod_edc_order",
   "total_columns": 36,
   "sample_rows_analyzed": 10000,
-  "documentation_generated": "2026-05-06 11:47:19.522263",
+  "documentation_generated": "2026-05-06 11:53:06.898259",
   "columns": [
     {
       "column_name": "user_id",
@@ -36,7 +36,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 50.32,
-      "description": "Empty column - no sample data available",
+      "description": "Referee Name field (optional in this data)",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "",
@@ -65,7 +65,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 50.41,
-      "description": "Empty column - no sample data available",
+      "description": "Ecommerce user identifier for linking with ecommerce platform orders (optional in this data)",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "",
@@ -99,7 +99,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 50.31,
-      "description": "Empty column - no sample data available",
+      "description": "Geographic coordinates for delivery location mapping (optional in this data)",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "",
@@ -167,7 +167,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 50.44,
-      "description": "Empty column - no sample data available",
+      "description": "Identifier for external order (optional in this data)",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "",
@@ -284,7 +284,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 50.32,
-      "description": "Empty column - no sample data available",
+      "description": "Purchase Referral field (optional in this data)",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "",
@@ -470,7 +470,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 50.32,
-      "description": "Empty column - no sample data available",
+      "description": "Referee Phone field (optional in this data)",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "",

@@ -3,7 +3,7 @@
   "full_table_id": "ledger-fcc1e.datamart_opentable.mapping_area_mse_opentable",
   "total_columns": 10,
   "sample_rows_analyzed": 1237,
-  "documentation_generated": "2026-05-06 11:47:03.176718",
+  "documentation_generated": "2026-05-06 11:52:50.952355",
   "columns": [
     {
       "column_name": "new_mse_city_sep_24",

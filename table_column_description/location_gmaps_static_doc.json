@@ -3,7 +3,7 @@
   "full_table_id": "ledger-fcc1e.trb_pymnts_derived.location_gmaps_static",
   "total_columns": 16,
   "sample_rows_analyzed": 10000,
-  "documentation_generated": "2026-05-06 11:47:02.012145",
+  "documentation_generated": "2026-05-06 11:52:49.713590",
   "columns": [
     {
       "column_name": "phone_number",
@@ -75,7 +75,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Empty column - no sample data available",
+      "description": "Raw Response field (optional in this data)",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
