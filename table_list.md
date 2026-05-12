@@ -21,7 +21,7 @@ Table explaining credit memo that was results from merchant submitted loan inter
 - ledger-fcc1e.merchant_success_analytics.ms_form_hiring_and_active
 Table explaining merchant sales executive (MSE) and retail sales executive (RSE) hiring process and steps. Containing several information such as all hiring steps complete with the timestamp for each, is sales active currently or not, sales start active date and end date, CV analysis results and score from AI assessment
 
-- ledger-fcc1e.merchant_success_analytics.payments_ssot
+- ledger-fcc1e.payment_reports.payments_ssot
 Table explaining payment product in bukuwarung such as Core Payment (CP) and Bill Payment (PPOB). Also showing money in and money out. Contains several value like money in and out, fee, revenue in gross and net, etc.
 
 - ledger-fcc1e.merchant_success_analytics.retail_ph_visit_ssot
