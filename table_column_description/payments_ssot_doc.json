@@ -41,7 +41,7 @@
       "data_type": "BOOL",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Boolean flag indicating state or condition. Used for status or attribute tracking.",
+      "description": "Is b2b. Boolean flag indicating state or condition. Used for status or attribute tracking.",
       "business_context": "Required field - always populated",
       "example_values": [
         "false",
@@ -51,7 +51,7 @@
       "possible_values": [
         "false"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "bw_order_id",
@@ -135,7 +135,7 @@
       "data_type": "TIMESTAMP",
       "nullable": true,
       "null_percentage": 26.0,
-      "description": "Timestamp when payment was successfully received and processed. Payment completion point.",
+      "description": "Paid ts. Timestamp when payment was successfully received and processed. Payment completion point.",
       "business_context": "Common field - >50% populated",
       "example_values": [
         "2020-10-26 04:19:12",
@@ -198,7 +198,7 @@
       "data_type": "TIMESTAMP",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Timestamp when refund process was initiated. Refund start timestamp.",
+      "description": "Refunding ts. Timestamp when refund process was initiated. Refund start timestamp.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
@@ -246,7 +246,7 @@
       "data_type": "TIMESTAMP",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Timestamp when payment hold was released. Hold release time.",
+      "description": "Unhold ts. Timestamp when payment hold was released. Hold release time.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
@@ -257,7 +257,7 @@
       "data_type": "TIMESTAMP",
       "nullable": true,
       "null_percentage": 26.0,
-      "description": "Timestamp when record was created. Indicates when entity entered the system.",
+      "description": "Timestamp when disbursement record was created. Disbursement processing start.",
       "business_context": "Common field - >50% populated",
       "example_values": [
         "2020-10-26 04:19:14",
@@ -265,14 +265,14 @@
         "2020-10-26 09:49:19"
       ],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "updated_at_disb",
       "data_type": "TIMESTAMP",
       "nullable": true,
       "null_percentage": 26.0,
-      "description": "Timestamp of last modification. Tracks when data was last changed.",
+      "description": "Timestamp when disbursement record was last updated. Latest disbursement change time.",
       "business_context": "Common field - >50% populated",
       "example_values": [
         "2020-10-26 04:19:20",
@@ -280,7 +280,7 @@
         "2020-10-26 09:49:23"
       ],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "disbursement_type",
@@ -411,7 +411,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 26.0,
-      "description": "Name identifier. Used for display, lookup, and account tracking.",
+      "description": "Destination bank holder name. Name identifier. Used for display, lookup, and account tracking.",
       "business_context": "Common field - >50% populated",
       "example_values": [
         "SUPRIADI HARIANTO SI",
@@ -419,7 +419,7 @@
         "RIYAN TAMA PUTRA"
       ],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "money_out_channel",
@@ -464,11 +464,11 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Incoming payment amount. Tracks customer payments received.",
+      "description": "money in channel. Incoming payment amount. Tracks customer payments received.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "sender_account_id",
@@ -501,22 +501,22 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Unique identifier for va. Primary key or foreign key for data relationships.",
+      "description": "va number. Unique identifier for va. Primary key or foreign key for data relationships.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "money_in_pg",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Incoming payment amount. Tracks customer payments received.",
+      "description": "money in pg. Incoming payment amount. Tracks customer payments received.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "money_out_pg",
@@ -617,55 +617,55 @@
       "data_type": "NUMERIC",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Monetary or numeric amount. Used for financial tracking.",
+      "description": "Item Amount - Monetary or numeric amount. Used for financial tracking.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "selling_amount_ppob",
       "data_type": "NUMERIC",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Monetary or numeric amount. Used for financial tracking.",
+      "description": "Selling Amount - Monetary or numeric amount. Used for financial tracking.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "admin_fee_ppob",
       "data_type": "NUMERIC",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Transaction or service fee amount. Used for cost and revenue calculation.",
+      "description": "Admin Fee - Transaction or service fee amount. Used for cost and revenue calculation.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "sharing_fee_ppob",
       "data_type": "NUMERIC",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Transaction or service fee amount. Used for cost and revenue calculation.",
+      "description": "Sharing Fee - Transaction or service fee amount. Used for cost and revenue calculation.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "qris_disbursement_status",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Current status or state. Indicates where entity is in process or lifecycle.",
+      "description": "Qris Disbursement - Current status or state. Indicates where entity is in process or lifecycle.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "beneficiaryid_ppob",
@@ -694,40 +694,40 @@
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Transaction or service fee amount. Used for cost and revenue calculation.",
+      "description": "Platform Fee - Transaction or service fee amount. Used for cost and revenue calculation.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "instant_discount",
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Numeric count of items or transactions. Aggregated volume metric.",
+      "description": "Instant discount. Numeric count of items or transactions. Aggregated volume metric.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "loyaltydiscountamount",
       "data_type": "NUMERIC",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Monetary or numeric amount. Used for financial tracking.",
+      "description": "Loyaltydiscountamount. Monetary or numeric amount. Used for financial tracking.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "loyaltytier",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Customer's loyalty tier level. Loyalty classification.",
+      "description": "Loyaltytier. Customer's loyalty tier level. Loyalty classification.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
@@ -768,29 +768,29 @@
       "data_type": "NUMERIC",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Transaction or service fee amount. Used for cost and revenue calculation.",
+      "description": "Fee Mdr - Transaction or service fee amount. Used for cost and revenue calculation.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "provider_sharing_fee_ppob",
       "data_type": "NUMERIC",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Transaction or service fee amount. Used for cost and revenue calculation.",
+      "description": "Provider sharing fee ppob. Transaction or service fee amount. Used for cost and revenue calculation.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "bw_wallet_share_ppob",
       "data_type": "NUMERIC",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "BukuWarung's margin on PPOB transaction. Internal revenue.",
+      "description": "Bw wallet share ppob. BukuWarung's margin on PPOB transaction. Internal revenue.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
@@ -812,22 +812,22 @@
       "data_type": "NUMERIC",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Monetary or numeric amount. Used for financial tracking.",
+      "description": "Saldo spend amount ppob. Monetary or numeric amount. Used for financial tracking.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "cashback_spend_amount_ppob",
       "data_type": "NUMERIC",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Monetary or numeric amount. Used for financial tracking.",
+      "description": "Cashback spend amount ppob. Monetary or numeric amount. Used for financial tracking.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "api_amount",
@@ -889,7 +889,7 @@
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Transaction or service fee amount. Used for cost and revenue calculation.",
+      "description": "Net Fee - Transaction or service fee amount. Used for cost and revenue calculation.",
       "business_context": "Required field - always populated",
       "example_values": [
         "0.0",
@@ -899,7 +899,7 @@
       "possible_values": [
         "0.0"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "status_v2",
@@ -923,11 +923,11 @@
       "data_type": "NUMERIC",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Transaction or service fee amount. Used for cost and revenue calculation.",
+      "description": "Bank Fee - Transaction or service fee amount. Used for cost and revenue calculation.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "money_in_fee",
@@ -945,11 +945,11 @@
       "data_type": "NUMERIC",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Transaction or service fee amount. Used for cost and revenue calculation.",
+      "description": "Money Out - Transaction or service fee amount. Used for cost and revenue calculation.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "type_of_transfer_core_payments",
@@ -978,7 +978,7 @@
       "data_type": "BOOL",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Boolean flag indicating state or condition. Used for status or attribute tracking.",
+      "description": "Is from edc. Boolean flag indicating state or condition. Used for status or attribute tracking.",
       "business_context": "Required field - always populated",
       "example_values": [
         "false",
@@ -988,7 +988,7 @@
       "possible_values": [
         "false"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "recon_cp_mo_cost",
@@ -1040,7 +1040,7 @@
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 26.0,
-      "description": "Income or profit amount. Used for financial performance tracking.",
+      "description": "Gross revenue. Income or profit amount. Used for financial performance tracking.",
       "business_context": "Common field - >50% populated",
       "example_values": [
         "0.0",
@@ -1050,14 +1050,14 @@
       "possible_values": [
         "0.0"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "net_revenue",
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 26.0,
-      "description": "Income or profit amount. Used for financial performance tracking.",
+      "description": "Net revenue. Income or profit amount. Used for financial performance tracking.",
       "business_context": "Common field - >50% populated",
       "example_values": [
         "0.0",
@@ -1067,7 +1067,7 @@
       "possible_values": [
         "0.0"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "cm1_before_saldo_cost",

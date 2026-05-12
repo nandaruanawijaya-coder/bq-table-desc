@@ -11,7 +11,7 @@
       "data_type": "TIMESTAMP",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Timestamp of last modification. Tracks when data was last changed.",
+      "description": "updated at. Timestamp of last modification. Tracks when data was last changed.",
       "business_context": "Required field - always populated",
       "example_values": [
         "2026-04-14 16:23:26",
@@ -19,7 +19,7 @@
         "2025-07-11 07:15:43"
       ],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "submission_date",
@@ -116,7 +116,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 8.0,
-      "description": "Name identifier. Used for display, lookup, and account tracking.",
+      "description": "Borrower Store - Name identifier. Used for display, lookup, and account tracking.",
       "business_context": "Core field - >90% populated",
       "example_values": [
         "Kios Mimi",
@@ -124,14 +124,14 @@
         "Toko Bu Laili"
       ],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "borrower_business_address",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 8.0,
-      "description": "Full street address. Used for location-based services and delivery.",
+      "description": "Borrower Business - Full street address. Used for location-based services and delivery.",
       "business_context": "Core field - >90% populated",
       "example_values": [
         "Blanak No 28",
@@ -139,7 +139,7 @@
         "Desa Landoh"
       ],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "borrower_city",
@@ -176,7 +176,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 12.0,
-      "description": "Category or type classification. Used for segmentation and grouping.",
+      "description": "Borrower Business - Category or type classification. Used for segmentation and grouping.",
       "business_context": "Common field - >50% populated",
       "example_values": [
         "FASHION CLOTHING",
@@ -192,7 +192,7 @@
         "RETAIL",
         "TELECOMMUNICATIONS"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "borrower_business_length",
@@ -226,7 +226,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 2.0,
-      "description": "Current status or state. Indicates where entity is in process or lifecycle.",
+      "description": "Borrower Ownership - Current status or state. Indicates where entity is in process or lifecycle.",
       "business_context": "Core field - >90% populated",
       "example_values": [
         "SELF OWNED",
@@ -237,7 +237,7 @@
         "RENT",
         "SELF OWNED"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "borrower_character",
@@ -322,7 +322,7 @@
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 9.0,
-      "description": "Number of transactions per month in borrower's business account. Indicator of transaction frequency.",
+      "description": "Income Monthly - Number of transactions per month in borrower's business account. Indicator of transaction frequency.",
       "business_context": "Core field - >90% populated",
       "example_values": [
         "150.0",
@@ -417,7 +417,7 @@
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Count of e-wallet transactions monthly. Metric for digital payment adoption.",
+      "description": "Income Ewallet - Count of e-wallet transactions monthly. Metric for digital payment adoption.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
@@ -547,7 +547,7 @@
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 13.0,
-      "description": "Total Payment Volume (Rp) for transaction type A. Cumulative monthly transaction value.",
+      "description": "income tpv a. Total Payment Volume (Rp) for transaction type A. Cumulative monthly transaction",
       "business_context": "Common field - >50% populated",
       "example_values": [
         "1.5E7",
@@ -562,7 +562,7 @@
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 13.0,
-      "description": "Total Payment Volume (Rp) for transaction type B. Cumulative monthly transaction value.",
+      "description": "income tpv b. Total Payment Volume (Rp) for transaction type B. Cumulative monthly transaction",
       "business_context": "Common field - >50% populated",
       "example_values": [
         "1.5E7",
@@ -577,7 +577,7 @@
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 13.0,
-      "description": "Total Payment Volume (Rp) for transaction type C. Cumulative monthly transaction value.",
+      "description": "income tpv c. Total Payment Volume (Rp) for transaction type C. Cumulative monthly transaction",
       "business_context": "Common field - >50% populated",
       "example_values": [
         "1.5E7",
@@ -592,7 +592,7 @@
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 13.0,
-      "description": "Total Payment Volume (Rp) for transaction type D. Cumulative monthly transaction value.",
+      "description": "income tpv d. Total Payment Volume (Rp) for transaction type D. Cumulative monthly transaction",
       "business_context": "Common field - >50% populated",
       "example_values": [
         "3000000.0",
@@ -622,7 +622,7 @@
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 7.0,
-      "description": "Income or profit amount. Used for financial performance tracking.",
+      "description": "Margin/profit amount for revenue type A. Gross profit component in income calculation.",
       "business_context": "Core field - >90% populated",
       "example_values": [
         "3500.0",
@@ -640,14 +640,14 @@
         "8000.0",
         "8500.0"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "income_margin_revenue_b",
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 9.0,
-      "description": "Income or profit amount. Used for financial performance tracking.",
+      "description": "Margin/profit amount for revenue type B. Gross profit component in income calculation.",
       "business_context": "Core field - >90% populated",
       "example_values": [
         "3500.0",
@@ -668,14 +668,14 @@
         "8000.0",
         "8500.0"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "income_margin_revenue_c",
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 7.0,
-      "description": "Income or profit amount. Used for financial performance tracking.",
+      "description": "Margin/profit amount for revenue type C. Gross profit component in income calculation.",
       "business_context": "Core field - >90% populated",
       "example_values": [
         "5000.0",
@@ -693,14 +693,14 @@
         "7500.0",
         "8000.0"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "income_margin_revenue_d",
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 8.0,
-      "description": "Income or profit amount. Used for financial performance tracking.",
+      "description": "Margin/profit amount for revenue type D. Gross profit component in income calculation.",
       "business_context": "Core field - >90% populated",
       "example_values": [
         "3000.0",
@@ -717,14 +717,14 @@
         "4000.0",
         "5000.0"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "income_net_revenue",
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 2.0,
-      "description": "Income or profit amount. Used for financial performance tracking.",
+      "description": "Income Net - Income or profit amount. Used for financial performance tracking.",
       "business_context": "Core field - >90% populated",
       "example_values": [
         "540000.0",
@@ -732,14 +732,14 @@
         "3000000.0"
       ],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "income_revenue_portion_pct",
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 15.0,
-      "description": "Income or profit amount. Used for financial performance tracking.",
+      "description": "Revenue contribution percentage. Portion of income type in total revenue.",
       "business_context": "Common field - >50% populated",
       "example_values": [
         "0.0113",
@@ -747,14 +747,14 @@
         "0.0167"
       ],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "other_income_margine_revenue_pct",
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 24.0,
-      "description": "Income or profit amount. Used for financial performance tracking.",
+      "description": "Margin percentage on other business income. Other income contribution.",
       "business_context": "Common field - >50% populated",
       "example_values": [
         "0.3",
@@ -775,7 +775,7 @@
         "0.8",
         "1.0"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "gross_sales",
@@ -812,7 +812,7 @@
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 2.0,
-      "description": "Monetary or numeric amount. Used for financial tracking.",
+      "description": "Applied Loan - Monetary or numeric amount. Used for financial tracking.",
       "business_context": "Core field - >90% populated",
       "example_values": [
         "5000000.0",
@@ -830,7 +830,7 @@
         "5000000.0",
         "7.5E7"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "loan_amount",
@@ -889,7 +889,7 @@
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 2.0,
-      "description": "Income or profit amount. Used for financial performance tracking.",
+      "description": "Projected net revenue after business expenses and loan repayment. Forward-looking income.",
       "business_context": "Core field - >90% populated",
       "example_values": [
         "3750000.0",
@@ -897,14 +897,14 @@
         "3750000.0"
       ],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "potential_net_revenue",
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 4.0,
-      "description": "Income or profit amount. Used for financial performance tracking.",
+      "description": "Potential net revenue based on stated capacity. Maximum income scenario.",
       "business_context": "Core field - >90% populated",
       "example_values": [
         "3575000.0",
@@ -912,7 +912,7 @@
         "3225000.0"
       ],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "pefindo_status",
@@ -1058,7 +1058,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 49.0,
-      "description": "Current status or state. Indicates where entity is in process or lifecycle.",
+      "description": "Fdc 24Month - Current status or state. Indicates where entity is in process or lifecycle.",
       "business_context": "Common field - >50% populated",
       "example_values": [
         "V",
@@ -1069,7 +1069,7 @@
         "TV",
         "V"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "approved_limit",
@@ -1175,7 +1175,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 57.0,
-      "description": "Current status or state. Indicates where entity is in process or lifecycle.",
+      "description": "Approval Pefindo - Current status or state. Indicates where entity is in process or lifecycle.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "E1",
@@ -1197,14 +1197,14 @@
         "E2",
         "E3"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "approval_lakupandai_certificate_status",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 53.0,
-      "description": "Current status or state. Indicates where entity is in process or lifecycle.",
+      "description": "Approval lakupandai certificate status. Current status or state. Indicates where entity is in process or lifecycle.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "YES",
@@ -1219,14 +1219,14 @@
         "Yes",
         "dok lp"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "approval_fs_record_status",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 68.0,
-      "description": "Current status or state. Indicates where entity is in process or lifecycle.",
+      "description": "Approval fs record status. Current status or state. Indicates where entity is in process or lifecycle.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "NO RECORD",
@@ -1242,7 +1242,7 @@
         "No Record",
         "blank"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "approval_credit_analyst_pct",
@@ -1305,7 +1305,7 @@
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 53.0,
-      "description": "Percentage weight of Pefindo status in final score. Scoring component.",
+      "description": "Approval Pefindo - Percentage weight of Pefindo status in final score. Scoring component.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "0.05",
@@ -1331,7 +1331,7 @@
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 53.0,
-      "description": "Percentage weight of 30-day FDC check in scoring. Scoring component.",
+      "description": "Approval Fdc - Percentage weight of 30-day FDC check in scoring. Scoring component.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "0.05",
@@ -1351,7 +1351,7 @@
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 53.0,
-      "description": "Percentage weight of 24-month FDC check in scoring. Scoring component.",
+      "description": "Approval Fdc - Percentage weight of 24-month FDC check in scoring. Scoring component.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "0.05",
@@ -1375,7 +1375,7 @@
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 57.0,
-      "description": "Percentage weight of Laku Pandai certificate in scoring. Scoring component.",
+      "description": "Approval lakupandai certificate pct. Percentage weight of Laku Pandai certificate in scoring. Scoring component.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "0.15",
@@ -1394,7 +1394,7 @@
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 67.0,
-      "description": "Percentage weight of FS record status in scoring. Scoring component.",
+      "description": "Approval Record - Percentage weight of FS record status in scoring. Scoring component.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "0.05",

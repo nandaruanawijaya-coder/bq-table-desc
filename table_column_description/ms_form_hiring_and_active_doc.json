@@ -132,7 +132,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 95.0,
-      "description": "Timeforce/HR system code for employee. HR system identifier.",
+      "description": "Tfcode. Timeforce/HR system code for employee. HR system identifier.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "TF04740",
@@ -198,7 +198,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Current status or state. Indicates where entity is in process or lifecycle.",
+      "description": "Current stage in MSE/RSE hiring pipeline. Shows where candidate is in process.",
       "business_context": "Required field - always populated",
       "example_values": [
         "(21)_BACKUP",
@@ -206,7 +206,7 @@
         "(2)_CV_REJECTED"
       ],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "created_at_jkt_ts",
@@ -228,7 +228,7 @@
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Timestamp when record was created. Indicates when entity entered the system.",
+      "description": "Created Jkt - Timestamp when record was created. Indicates when entity entered the system.",
       "business_context": "Required field - always populated",
       "example_values": [
         "2026-05-07",
@@ -241,7 +241,7 @@
         "2026-01-16",
         "2026-05-07"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "external_form_response_id",
@@ -263,7 +263,7 @@
       "data_type": "BOOL",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Boolean flag indicating state or condition. Used for status or attribute tracking.",
+      "description": "Is currently active. Boolean flag indicating state or condition. Used for status or attribute tracking.",
       "business_context": "Required field - always populated",
       "example_values": [
         "false",
@@ -274,7 +274,7 @@
         "false",
         "true"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "start_date_ms_active",
@@ -348,7 +348,7 @@
       "data_type": "INT64",
       "nullable": true,
       "null_percentage": 15.0,
-      "description": "Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "description": "Cv submitted first flag. Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
       "business_context": "Common field - >50% populated",
       "example_values": [
         "1",
@@ -358,14 +358,14 @@
       "possible_values": [
         "1"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "cv_submitted_jkt_date",
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 15.0,
-      "description": "Date of event or action. Indicates when transaction or process occurred.",
+      "description": "Cv submitted jkt date. Date of event or action. Indicates when transaction or process occurred.",
       "business_context": "Common field - >50% populated",
       "example_values": [
         "2026-05-07",
@@ -378,7 +378,7 @@
         "2026-01-16",
         "2026-05-07"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "cv_submitted_jkt_ts",
@@ -420,7 +420,7 @@
       "data_type": "INT64",
       "nullable": true,
       "null_percentage": 65.0,
-      "description": "Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "description": "Cv rejected first flag. Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "1",
@@ -430,14 +430,14 @@
       "possible_values": [
         "1"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "cv_rejected_jkt_date",
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 65.0,
-      "description": "Date of event or action. Indicates when transaction or process occurred.",
+      "description": "Cv rejected jkt date. Date of event or action. Indicates when transaction or process occurred.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "2026-05-07",
@@ -449,7 +449,7 @@
         "2025-07-09",
         "2026-05-07"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "cv_rejected_jkt_ts",
@@ -490,22 +490,22 @@
       "data_type": "INT64",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "description": "Ai interview first flag. Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "ai_interview_jkt_date",
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Date of event or action. Indicates when transaction or process occurred.",
+      "description": "Ai interview jkt date. Date of event or action. Indicates when transaction or process occurred.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "ai_interview_jkt_ts",
@@ -534,29 +534,29 @@
       "data_type": "INT64",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "description": "Ai interview rejected first flag. Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "ai_interview_rejected_jkt_date",
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Date of event or action. Indicates when transaction or process occurred.",
+      "description": "Ai interview rejected jkt date. Date of event or action. Indicates when transaction or process occurred.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "ai_interview_rejected_interview_jkt_ts",
       "data_type": "DATETIME",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Timestamp of AI rejection decision. Rejection timestamp.",
+      "description": "Ai interview rejected interview jkt ts. Timestamp of AI rejection decision. Rejection timestamp.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
@@ -567,7 +567,7 @@
       "data_type": "DATETIME",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Week identifier when AI assessment resulted in rejection. Tracks rejection timing.",
+      "description": "Interview Rejected - Week identifier when AI assessment resulted in rejection. Tracks rejection timing.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
@@ -578,7 +578,7 @@
       "data_type": "INT64",
       "nullable": true,
       "null_percentage": 54.0,
-      "description": "Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "description": "Interview Scheduled - Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "1",
@@ -588,14 +588,14 @@
       "possible_values": [
         "1"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "ta_interview_scheduled_jkt_date",
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 54.0,
-      "description": "Date of event or action. Indicates when transaction or process occurred.",
+      "description": "Ta interview scheduled jkt date. Date of event or action. Indicates when transaction or process occurred.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "2026-05-07",
@@ -611,7 +611,7 @@
         "2026-01-19",
         "2026-05-07"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "ta_interview_scheduled_jkt_ts",
@@ -654,7 +654,7 @@
       "data_type": "INT64",
       "nullable": true,
       "null_percentage": 97.0,
-      "description": "Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "description": "Interview Rejected - Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "1",
@@ -664,14 +664,14 @@
       "possible_values": [
         "1"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "ta_interview_rejected_jkt_date",
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 97.0,
-      "description": "Date of event or action. Indicates when transaction or process occurred.",
+      "description": "Ta interview rejected jkt date. Date of event or action. Indicates when transaction or process occurred.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "2026-05-07",
@@ -681,14 +681,14 @@
       "possible_values": [
         "2026-05-07"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "ta_interview_rejected_jkt_ts",
       "data_type": "DATETIME",
       "nullable": true,
       "null_percentage": 97.0,
-      "description": "Timestamp when rejected by team lead. Rejection time.",
+      "description": "Interview Rejected - Timestamp when rejected by team lead. Rejection time.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "2026-05-07T17:37:38.241000",
@@ -707,7 +707,7 @@
       "data_type": "DATETIME",
       "nullable": true,
       "null_percentage": 97.0,
-      "description": "Week of team lead rejection. Rejection week.",
+      "description": "Ta interview rejected first jkt week. Week of team lead rejection. Rejection week.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "2026-05-04T00:00:00",
@@ -724,7 +724,7 @@
       "data_type": "INT64",
       "nullable": true,
       "null_percentage": 98.0,
-      "description": "Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "description": "Interview Not - Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "1",
@@ -733,14 +733,14 @@
       "possible_values": [
         "1"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "ta_interview_not_join_jkt_date",
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 98.0,
-      "description": "Date of event or action. Indicates when transaction or process occurred.",
+      "description": "Ta interview not join jkt date. Date of event or action. Indicates when transaction or process occurred.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "2026-05-07",
@@ -749,14 +749,14 @@
       "possible_values": [
         "2026-05-07"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "ta_interview_not_join_jkt_ts",
       "data_type": "DATETIME",
       "nullable": true,
       "null_percentage": 98.0,
-      "description": "Timestamp when candidate no-showed for TL interview. No-show time.",
+      "description": "Interview Not - Timestamp when candidate no-showed for TL interview. No-show time.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "2026-05-07T17:38:35.180000",
@@ -789,7 +789,7 @@
       "data_type": "INT64",
       "nullable": true,
       "null_percentage": 60.0,
-      "description": "Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "description": "Assessment assigned first flag. Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "1",
@@ -799,14 +799,14 @@
       "possible_values": [
         "1"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "assessment_assigned_jkt_date",
       "data_type": "DATETIME",
       "nullable": true,
       "null_percentage": 60.0,
-      "description": "Date of event or action. Indicates when transaction or process occurred.",
+      "description": "Assessment assigned jkt date. Date of event or action. Indicates when transaction or process occurred.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "2025-07-09T18:51:34.657000",
@@ -814,7 +814,7 @@
         "2025-07-09T15:21:52.741000"
       ],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "assessment_assigned_jkt_ts",
@@ -851,7 +851,7 @@
       "data_type": "INT64",
       "nullable": true,
       "null_percentage": 91.0,
-      "description": "Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "description": "Assessment failed first flag. Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "1",
@@ -861,14 +861,14 @@
       "possible_values": [
         "1"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "assessment_failed_jkt_date",
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 91.0,
-      "description": "Date of event or action. Indicates when transaction or process occurred.",
+      "description": "Assessment failed jkt date. Date of event or action. Indicates when transaction or process occurred.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "2025-07-10",
@@ -878,7 +878,7 @@
       "possible_values": [
         "2025-07-10"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "assessment_failed_jkt_ts",
@@ -927,22 +927,22 @@
       "data_type": "INT64",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "description": "Assessment not doing first flag. Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "assessment_not_doing_jkt_date",
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Date of event or action. Indicates when transaction or process occurred.",
+      "description": "Assessment not doing jkt date. Date of event or action. Indicates when transaction or process occurred.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "assessment_not_doing_jkt_ts",
@@ -971,7 +971,7 @@
       "data_type": "INT64",
       "nullable": true,
       "null_percentage": 72.0,
-      "description": "Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "description": "Assessment passed first flag. Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "1",
@@ -981,14 +981,14 @@
       "possible_values": [
         "1"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "assessment_passed_jkt_date",
       "data_type": "DATETIME",
       "nullable": true,
       "null_percentage": 72.0,
-      "description": "Date of event or action. Indicates when transaction or process occurred.",
+      "description": "Assessment passed jkt date. Date of event or action. Indicates when transaction or process occurred.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "2025-07-10T10:29:52.472000",
@@ -996,7 +996,7 @@
         "2025-07-09T15:22:01.202000"
       ],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "assessment_passed_jkt_ts",
@@ -1035,7 +1035,7 @@
       "data_type": "INT64",
       "nullable": true,
       "null_percentage": 65.0,
-      "description": "Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "description": "User interview scheduled first flag. Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "1",
@@ -1045,14 +1045,14 @@
       "possible_values": [
         "1"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "user_interview_scheduled_jkt_date",
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 65.0,
-      "description": "Date of event or action. Indicates when transaction or process occurred.",
+      "description": "User interview scheduled jkt date. Date of event or action. Indicates when transaction or process occurred.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "2026-05-07",
@@ -1071,7 +1071,7 @@
         "2026-01-19",
         "2026-05-07"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "user_interview_scheduled_jkt_ts",
@@ -1117,7 +1117,7 @@
       "data_type": "INT64",
       "nullable": true,
       "null_percentage": 97.0,
-      "description": "Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "description": "User interview not join first flag. Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "1",
@@ -1127,14 +1127,14 @@
       "possible_values": [
         "1"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "user_interview_not_join_jkt_date",
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 97.0,
-      "description": "Date of event or action. Indicates when transaction or process occurred.",
+      "description": "User interview not join jkt date. Date of event or action. Indicates when transaction or process occurred.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "2025-09-30",
@@ -1146,7 +1146,7 @@
         "2025-07-22",
         "2025-09-30"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "user_interview_not_join_jkt_ts",
@@ -1191,7 +1191,7 @@
       "data_type": "INT64",
       "nullable": true,
       "null_percentage": 74.0,
-      "description": "Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "description": "User interview passed first flag. Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "1",
@@ -1201,14 +1201,14 @@
       "possible_values": [
         "1"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "user_interview_passed_jkt_date",
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 74.0,
-      "description": "Date of event or action. Indicates when transaction or process occurred.",
+      "description": "User interview passed jkt date. Date of event or action. Indicates when transaction or process occurred.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "2026-05-07",
@@ -1226,7 +1226,7 @@
         "2026-05-08",
         "2026-05-11"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "user_interview_passed_jkt_ts",
@@ -1269,7 +1269,7 @@
       "data_type": "INT64",
       "nullable": true,
       "null_percentage": 94.0,
-      "description": "Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "description": "User interview rejected first flag. Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "1",
@@ -1279,14 +1279,14 @@
       "possible_values": [
         "1"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "user_interview_rejected_jkt_date",
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 94.0,
-      "description": "Date of event or action. Indicates when transaction or process occurred.",
+      "description": "User interview rejected jkt date. Date of event or action. Indicates when transaction or process occurred.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "2026-05-07",
@@ -1300,7 +1300,7 @@
         "2026-05-07",
         "2026-05-08"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "user_interview_rejected_jkt_ts",
@@ -1348,7 +1348,7 @@
       "data_type": "INT64",
       "nullable": true,
       "null_percentage": 77.0,
-      "description": "Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "description": "Ojt scheduled first flag. Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "1",
@@ -1358,14 +1358,14 @@
       "possible_values": [
         "1"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "ojt_scheduled_jkt_date",
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 73.0,
-      "description": "Date of event or action. Indicates when transaction or process occurred.",
+      "description": "Ojt scheduled jkt date. Date of event or action. Indicates when transaction or process occurred.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "2026-05-07",
@@ -1385,7 +1385,7 @@
         "2026-05-11",
         "2026-05-12"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "ojt_scheduled_jkt_ts",
@@ -1429,7 +1429,7 @@
       "data_type": "INT64",
       "nullable": true,
       "null_percentage": 87.0,
-      "description": "Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "description": "Ojt Progress - Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "1",
@@ -1439,14 +1439,14 @@
       "possible_values": [
         "1"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "ojt_in_progress_jkt_date",
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 87.0,
-      "description": "Date of event or action. Indicates when transaction or process occurred.",
+      "description": "Ojt Progress - Date of event or action. Indicates when transaction or process occurred.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "2026-05-11",
@@ -1462,7 +1462,7 @@
         "2026-01-23",
         "2026-05-11"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "ojt_in_progress_jkt_ts",
@@ -1519,22 +1519,22 @@
       "data_type": "INT64",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "description": "Ojt not passed first flag. Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "ojt_not_passed_jkt_date",
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Date of event or action. Indicates when transaction or process occurred.",
+      "description": "Ojt not passed jkt date. Date of event or action. Indicates when transaction or process occurred.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "ojt_not_passed_jkt_ts",
@@ -1563,7 +1563,7 @@
       "data_type": "INT64",
       "nullable": true,
       "null_percentage": 97.0,
-      "description": "Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "description": "Ojt not join first flag. Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "1",
@@ -1573,14 +1573,14 @@
       "possible_values": [
         "1"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "ojt_not_join_jkt_date",
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 97.0,
-      "description": "Date of event or action. Indicates when transaction or process occurred.",
+      "description": "Ojt not join jkt date. Date of event or action. Indicates when transaction or process occurred.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "2025-07-16",
@@ -1592,7 +1592,7 @@
         "2025-07-16",
         "2025-07-21"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "ojt_not_join_jkt_ts",
@@ -1637,7 +1637,7 @@
       "data_type": "INT64",
       "nullable": true,
       "null_percentage": 96.0,
-      "description": "Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "description": "Ojt passed first flag. Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "1",
@@ -1647,14 +1647,14 @@
       "possible_values": [
         "1"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "ojt_passed_jkt_date",
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 96.0,
-      "description": "Date of event or action. Indicates when transaction or process occurred.",
+      "description": "Ojt passed jkt date. Date of event or action. Indicates when transaction or process occurred.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "2026-01-28",
@@ -1666,7 +1666,7 @@
         "2025-07-25",
         "2026-01-28"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "ojt_passed_jkt_ts",
@@ -1712,7 +1712,7 @@
       "data_type": "INT64",
       "nullable": true,
       "null_percentage": 96.0,
-      "description": "Timestamp when record was created. Indicates when entity entered the system.",
+      "description": "Pkwt Created - Timestamp when record was created. Indicates when entity entered the system.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "1",
@@ -1722,7 +1722,7 @@
       "possible_values": [
         "1"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     }
   ]
 }

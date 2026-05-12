@@ -58,7 +58,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Subdistrict (administrative division below district). Geographic unit for MEE route planning and coverage.",
+      "description": "Kecamatan. Subdistrict (administrative division below district). Geographic unit for MEE route planning and coverage.",
       "business_context": "Required field - always populated",
       "example_values": [
         "KUTALIMBARU",
@@ -80,7 +80,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "District/regency (administrative division). Geographic identifier for MEE assignment.",
+      "description": "Kabupaten. District/regency (administrative division). Geographic identifier for MEE assignment.",
       "business_context": "Required field - always populated",
       "example_values": [
         "KABUPATEN DELI SERDANG",
@@ -98,7 +98,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Category or type classification. Used for segmentation and grouping.",
+      "description": "First Edc - Category or type classification. Used for segmentation and grouping.",
       "business_context": "Required field - always populated",
       "example_values": [
         "Android - New",
@@ -110,14 +110,14 @@
         "Saku",
         "Saku - Insurance Bundle"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "last_edc_type",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Category or type classification. Used for segmentation and grouping.",
+      "description": "Last Edc - Category or type classification. Used for segmentation and grouping.",
       "business_context": "Required field - always populated",
       "example_values": [
         "Android - New",
@@ -129,14 +129,14 @@
         "Saku",
         "Saku - Insurance Bundle"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "first_edc_order_date",
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Date of event or action. Indicates when transaction or process occurred.",
+      "description": "First edc order date. Date of event or action. Indicates when transaction or process occurred.",
       "business_context": "Required field - always populated",
       "example_values": [
         "2025-02-20",
@@ -144,14 +144,14 @@
         "2025-02-20"
       ],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "last_edc_order_date",
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Date of event or action. Indicates when transaction or process occurred.",
+      "description": "Last edc order date. Date of event or action. Indicates when transaction or process occurred.",
       "business_context": "Required field - always populated",
       "example_values": [
         "2025-02-20",
@@ -159,7 +159,7 @@
         "2025-02-20"
       ],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "channel",
@@ -213,7 +213,7 @@
       "data_type": "NUMERIC",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Monetary or numeric amount. Used for financial tracking.",
+      "description": "Pm1 Edc - Monetary or numeric amount. Used for financial tracking.",
       "business_context": "Required field - always populated",
       "example_values": [
         "60643894",
@@ -221,7 +221,7 @@
         "36875575"
       ],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "pm2_edc_trx",
@@ -243,7 +243,7 @@
       "data_type": "NUMERIC",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Monetary or numeric amount. Used for financial tracking.",
+      "description": "Pm2 Edc - Monetary or numeric amount. Used for financial tracking.",
       "business_context": "Required field - always populated",
       "example_values": [
         "13033302",
@@ -251,7 +251,7 @@
         "60643894"
       ],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "pm3_edc_trx",
@@ -273,7 +273,7 @@
       "data_type": "NUMERIC",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Monetary or numeric amount. Used for financial tracking.",
+      "description": "Pm3 Edc - Monetary or numeric amount. Used for financial tracking.",
       "business_context": "Required field - always populated",
       "example_values": [
         "32156552",
@@ -281,7 +281,7 @@
         "13033302"
       ],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "pm1_edc_cw_trx",
@@ -333,7 +333,7 @@
       "data_type": "NUMERIC",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Monetary or numeric amount. Used for financial tracking.",
+      "description": "Pm1 edc cw amount. Monetary or numeric amount. Used for financial tracking.",
       "business_context": "Required field - always populated",
       "example_values": [
         "12425000",
@@ -341,14 +341,14 @@
         "7235000"
       ],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "pm2_edc_cw_amount",
       "data_type": "NUMERIC",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Monetary or numeric amount. Used for financial tracking.",
+      "description": "Pm2 edc cw amount. Monetary or numeric amount. Used for financial tracking.",
       "business_context": "Required field - always populated",
       "example_values": [
         "11240000",
@@ -356,14 +356,14 @@
         "12425000"
       ],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "pm3_edc_cw_amount",
       "data_type": "NUMERIC",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Monetary or numeric amount. Used for financial tracking.",
+      "description": "Pm3 edc cw amount. Monetary or numeric amount. Used for financial tracking.",
       "business_context": "Required field - always populated",
       "example_values": [
         "18725000",
@@ -371,7 +371,7 @@
         "11240000"
       ],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "total_edc",
@@ -448,7 +448,7 @@
       "data_type": "INT64",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Identity number (NIK) of merchant owner. Personal identifier for merchant.",
+      "description": "Nomor identitas. Identity number (NIK) of merchant owner. Personal identifier for merchant.",
       "business_context": "Required field - always populated",
       "example_values": [
         "1207045510860003",
@@ -497,7 +497,7 @@
       "data_type": "INT64",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Worst collectability status observed. Maximum DPD/delinquency indicator.",
+      "description": "Kolektabilitas terburuk. Worst collectability status observed. Maximum DPD/delinquency indicator.",
       "business_context": "Required field - always populated",
       "example_values": [
         "1",
@@ -577,7 +577,7 @@
       "data_type": "INT64",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Total EDC transactions in last 3 months. Recent transaction volume.",
+      "description": "Edc Trx - Total EDC transactions in last 3 months. Recent transaction volume.",
       "business_context": "Required field - always populated",
       "example_values": [
         "72",
@@ -592,7 +592,7 @@
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Timestamp when route. Indicates when event occurred or status changed.",
+      "description": "Date route plan was created/assigned to MEE. Route plan creation date.",
       "business_context": "Required field - always populated",
       "example_values": [
         "2026-03-23",
@@ -609,7 +609,7 @@
         "2026-04-18",
         "2026-04-25"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "lead_type",
@@ -652,7 +652,7 @@
       "data_type": "INT64",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Sequence/order of visit in route plan. Visit prioritization for MEE.",
+      "description": "Sequence position in MEE's daily visit route. Visit priority sequence.",
       "business_context": "Required field - always populated",
       "example_values": [
         "88",
