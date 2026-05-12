@@ -12,7 +12,13 @@
 Document all tables in table_list.md that don't have documentation 
 in table_column_description/ yet. 
 
-Follow CLAUDE_CODE_AUTOMATION.md for the complete workflow.
+Follow CLAUDE_CODE_AUTOMATION.md for the complete workflow and Obra Superpowers methodology.
+
+**Obra Superpowers Framework:**
+- Design: SQL definition is the priority source for descriptions (not column names)
+- Systematic Process: Apply 4-source logic in strict priority order
+- Data-Driven: Extract real patterns from 10,000 sample rows
+- Verification: Enforce validation rules on every column (no generic descriptions)
 
 **CRITICAL: Extract CREATE Query First**
 
