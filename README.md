@@ -22,11 +22,14 @@ Click the Claude Code icon in the sidebar
 ### 3️⃣ Ask Claude Code
 
 ```
-Document all tables in table_list.md that don't have
+Document all tables in table_list.md that don't have 
 documentation in table_column_description/ yet.
-Follow CLAUDE_CODE_AUTOMATION.md for complete workflow.
-You need to use [obra superpowers](https://github.com/obra/superpowers) framework to create a proper description.
+
+Follow CLAUDE_CODE_AUTOMATION.md for the complete workflow with 
+4-source semantic logic (SQL definition → format → context → data).
 ```
+
+Or use the full prompt from the **"Copy-Paste Prompt for Claude Code"** section below for complete validation steps.
 
 **Done!** ✅ Claude Code will:
 - Query 10,000 rows from each missing table
@@ -41,7 +44,8 @@ You need to use [obra superpowers](https://github.com/obra/superpowers) framewor
 
 | Tables | Columns | Sample Rows | Description Quality | Status |
 |--------|---------|-------------|---------------------|--------|
-| **8 documented** | **432** | **67,086+** | **4-source semantic** | ✅ **Production Ready** |
+| **8 documented** | **532** | **67,086+** | **4-source semantic** | ✅ **Production Ready** |
+| **1 undocumented** | **28+** | — | pending | 🔄 In Queue |
 
 **Tables with 4-Source Semantic Descriptions:**
 - `location_gmaps_static` (16 cols) — Geocoding data with coordinates and administrative divisions
@@ -53,7 +57,10 @@ You need to use [obra superpowers](https://github.com/obra/superpowers) framewor
 - `ms_form_hiring_and_active` (170 cols) — MSE/RSE hiring process and activity tracking
 - `retail_ph_visit_ssot` (78 cols) — Retail Sales Executive visit tracking in Philippines
 
-**Description Quality**: All 432 columns have 4-source semantic descriptions:
+**Table Pending Documentation:**
+- `payments_ssot` (28+ cols) — Payment products, transaction settlement, revenue tracking (queued)
+
+**Description Quality**: All 532 columns have 4-source semantic descriptions:
 - ✓ **Table Context** — Business meaning from table_list.md
 - ✓ **SQL Definition** — Transformation logic from BigQuery metadata
 - ✓ **Schema & Data** — Value formats (UUID, phone, enum, metric) from actual samples
@@ -171,90 +178,138 @@ Claude Code will:
 
 ## 📋 Copy-Paste Prompt for Claude Code
 
-Use this exact prompt when asking Claude Code to update documentation:
+Use this exact prompt when asking Claude Code to document tables:
 
 ```
 Document all tables in table_list.md that don't have documentation 
 in table_column_description/ yet. 
 
-Follow CLAUDE_CODE_AUTOMATION.md for complete workflow.
+Follow CLAUDE_CODE_AUTOMATION.md for the complete workflow.
 
-You need to use work superpowers methodology:
-- Design phase: Comprehensive analysis before implementation
-- Systematic process: Consistent application of semantic rules
-- Data-driven: Patterns from actual 10,000 row samples  
-- Verified: All descriptions explain business meaning
+**Apply the 4-Source Semantic Logic (Priority Order):**
 
-After completing documentation, verify these success criteria are met:
+1. **Source 1 (Priority 1): SQL Definition**
+   - Extract CASE statements → explain conditions and categories
+   - Extract aggregations (COUNT/SUM) → explain what's being counted and filters
+   - Extract joins/lookups → explain table references and relationships
+   - For raw columns → explain source table and business purpose
+   
+2. **Source 2 (Priority 2): Value Format Detection**
+   - _sdc_* columns → "Singer data connector pipeline metadata"
+   - UUID patterns → "Unique {entity} identifier in UUID v4 format"
+   - Phone numbers (8-13 digits, starts with 8) → "Phone number (10-11 digit Indonesian mobile)"
+   - Timestamps → "Timestamp when {action} occurred"
+   - Coordinates (lat,long) → "Latitude,longitude coordinate pair"
+   - Enumerations (≤20 unique values) → list all possible values
+   
+3. **Source 3 (Priority 3): Business Context**
+   - Apply table context from table_list.md
+   - Use domain: credit assessment → loan/risk, sales/route → merchant outreach, 
+     visits → engagement tracking, profiles → KYC/product adoption, payments → settlement
+   
+4. **Source 4 (Priority 4): Sample Data Analysis**
+   - Calculate null percentage → determine field importance (Required/Core/Common/Optional)
+   - Extract enumeration values → add to possible_values array if ≤20 unique
+   - Get example values from actual data
 
-✓ TESTING CHECKLIST
-  - [ ] All columns have descriptions (no [TODO] remaining)
-  - [ ] No bare "[ColumnName] field" patterns in any description
-  - [ ] All descriptions are ≥30 characters (meaningful, not generic)
-  - [ ] SDC metadata columns identified (_sdc_* with "pipeline" context)
-  - [ ] UUID columns identified ("UUID format" in description)
-  - [ ] Phone number columns identified ("10-11 digit Indonesian mobile")
-  - [ ] Low-cardinality columns have possible_values array (≤20 unique)
-  - [ ] JSON files are valid (use jq to verify)
-  - [ ] Sample data files exist in table_list/ folder
-  - [ ] Git commits created with descriptive messages
+**For JSON Output:**
+- Add `semantic_source` field (values: sql_definition, value_format, business_context, sample_data, or combination)
+- Include `possible_values` array for low-cardinality columns
+- Set `business_context` based on null percentage
+- Ensure all descriptions answer: "What is this and why does it exist?"
 
-✓ SUCCESS CRITERIA FOR EACH COLUMN
-  Description must answer: "What is this and why does it exist?"
-  
-  Examples of ✅ GOOD descriptions:
-  - "Unique order identifier in UUID format. Used for order tracking and joins"
-  - "Phone number (10-11 digit Indonesian mobile). Primary merchant identifier"
-  - "EDC order status (Active, Completed, Draft, Rejected, Unassigned). Indicates processing stage"
-  - "Merchant estimated daily customers. Indicates business volume and sales potential"
-  - "Timestamp when record was received by Singer data connector pipeline"
-  
-  Examples of ❌ BAD descriptions to avoid:
-  - "Order Id field"
-  - "Phone field"
-  - "Status field"
-  - "Estimated Customers Per Day field"
-  - "Timestamp field"
+**Scaling Optimizations (for 10+ tables):**
+- Use pattern caching to reuse UUID/phone/timestamp patterns across tables
+- Batch process in groups of 5 tables in parallel
+- Skip re-querying unchanged schemas (incremental updates)
+- Commit 1 per 5 tables (not per table)
 
-✓ VALIDATION COMMANDS
-After documentation, run these to verify quality:
+---
 
-Check for generic descriptions:
+**✓ TESTING CHECKLIST** (verify all before committing)
+
+- [ ] All columns have descriptions (no [TODO] or empty descriptions)
+- [ ] No generic patterns ("Field for X", "[ColumnName] field") remain
+- [ ] SQL definitions extracted for calculated columns (CASE, COUNT, SUM, joins)
+- [ ] Format detection worked: UUID, phone, timestamps, coordinates identified
+- [ ] Low-cardinality columns have possible_values arrays (≤20 unique)
+- [ ] All descriptions are ≥30 characters (meaningful, not generic)
+- [ ] semantic_source field present in all columns
+- [ ] JSON files are valid (use jq to verify)
+- [ ] Git commits created with descriptive messages
+- [ ] Pattern cache updated (.claude/pattern_cache.json) for reuse
+
+---
+
+**✓ SUCCESS CRITERIA FOR EACH COLUMN**
+
+Description must answer: **"What is this and why does it exist?"**
+
+Examples of ✅ **GOOD** descriptions:
+- "Unique order identifier in UUID format. Primary key for EDC orders. Used for order tracking and joins"
+- "Phone number (10-11 digit Indonesian mobile). Primary merchant identifier for order lookup"
+- "Order lifecycle status (Draft, Unassigned, Active, Completed, Cancelled). Indicates order processing stage"
+- "Estimated daily customer count for merchant. Indicates business volume and sales potential"
+- "Timestamp when Singer data connector batch was processed in the pipeline"
+- "Credit risk category from Pefindo score: High (≥80), Medium (≥50), Low (<50). Used for loan approval decisions"
+
+Examples of ❌ **BAD** descriptions to avoid:
+- "Order Id field"
+- "Phone field"
+- "Status field"
+- "Estimated Customers Per Day field"
+- "Timestamp field"
+- "Hasbriedc field"
+
+---
+
+**✓ VALIDATION COMMANDS**
+
+Run these after documentation to verify quality:
+
+Check for generic descriptions (should return nothing):
 \`\`\`bash
-jq '.columns[] | select(.description | test("^[A-Z][a-z]+ field$")) | .column_name' 
+jq '.columns[] | select(.description | test("^[A-Z][a-z]+ field$|field for")) | .column_name' \
   table_column_description/[table_name]_doc.json
 \`\`\`
-(Should return: nothing - no matches)
 
-Check description length:
+Check description length (should have few/none <30 chars):
 \`\`\`bash
-jq '.columns[] | select(.description | length < 30) | {name: .column_name, desc: .description}' 
+jq '.columns[] | select(.description | length < 30) | {name: .column_name, len: (.description | length)}' \
   table_column_description/[table_name]_doc.json
 \`\`\`
-(Should return: only very few, if any)
 
-Check for enumeration values:
+Verify semantic_source is present (should return nothing):
 \`\`\`bash
-jq '.columns[] | select(.possible_values != null) | {name: .column_name, values: .possible_values}' 
+jq '.columns[] | select(.semantic_source == null or .semantic_source == "") | .column_name' \
+  table_column_description/[table_name]_doc.json
+\`\`\`
+
+Check enumeration values:
+\`\`\`bash
+jq '.columns[] | select(.possible_values != null) | {name: .column_name, count: (.possible_values | length)}' \
   table_column_description/[table_name]_doc.json | head -20
 \`\`\`
-(Should show low-cardinality columns with their valid values)
 
 Verify JSON validity:
 \`\`\`bash
-jq '.' table_column_description/[table_name]_doc.json > /dev/null && echo "✅ Valid"
+jq '.' table_column_description/[table_name]_doc.json > /dev/null && echo "✅ Valid JSON"
 \`\`\`
 
-✓ QUALITY TO-DO LIST (Review After Documentation)
-  - [ ] Read 5 random column descriptions (ensure they explain business meaning)
-  - [ ] Check 3 status/enum columns have possible_values listed
-  - [ ] Verify 2 timestamp columns mention when/why the timestamp is recorded
-  - [ ] Check if any ID columns are described as UUID/phone/identifier
-  - [ ] Review git log to see commit messages are descriptive
-  - [ ] Git status is clean (all changes committed)
-  - [ ] Ready to push to GitHub for review
+---
 
-Report completion when all criteria are met!
+**✓ QUALITY REVIEW CHECKLIST** (before committing)
+
+- [ ] Read 5 random column descriptions (ensure they explain business meaning, not just naming)
+- [ ] Check 3 status/enum columns have possible_values listed
+- [ ] Verify 2 timestamp columns mention when/why the timestamp is recorded
+- [ ] Check if any ID columns are described as UUID/phone/identifier
+- [ ] Review git log to see commit messages include "4-source semantic" + sources combined
+- [ ] Verify pattern cache was updated (check .claude/pattern_cache.json exists)
+- [ ] Git status is clean (all changes committed)
+- [ ] Ready to push to GitHub for review
+
+Report completion when all criteria are met! 🎉
 ```
 
 ---
