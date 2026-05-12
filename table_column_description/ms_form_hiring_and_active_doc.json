@@ -1,0 +1,2468 @@
+{
+  "table_name": "ms_form_hiring_and_active",
+  "full_table_id": "ledger-fcc1e.merchant_success_analytics.ms_form_hiring_and_active",
+  "total_columns": 170,
+  "sample_rows_analyzed": 10000,
+  "documentation_generated": "2026-05-12T11:32:54.801105",
+  "columns": [
+    {
+      "column_name": "cv_link",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.82,
+      "description": "Cv Link field",
+      "business_context": "Core field - rarely empty (>90% populated)",
+      "example_values": [
+        "https://drive.google.com/open?id=1jfzfmceyiufxrwljwrwgjhbkl0exjjgu",
+        "https://drive.google.com/open?id=1z0cs1a1iyjvzxornph5b6av5cmch4mv1",
+        "https://drive.google.com/open?id=1hb0io-u4tnietq00duawy2ihgvpn0zwu"
+      ]
+    },
+    {
+      "column_name": "area_placement",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.15,
+      "description": "Area Placement field",
+      "business_context": "Core field - rarely empty (>90% populated)",
+      "example_values": [
+        "KALIMANTAN",
+        "SUMATERA_1",
+        "SUMATERA_1"
+      ]
+    },
+    {
+      "column_name": "city_or_regency_placement",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "City or regency location. Used for geographic detail",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": []
+    },
+    {
+      "column_name": "district_coverage",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 1.33,
+      "description": "District (kecamatan) administrative division. Used for neighborhood-level detail",
+      "business_context": "Core field - rarely empty (>90% populated)",
+      "example_values": [
+        "KOTA SAMARINDA",
+        "ACEH BESAR",
+        "KABUPATEN ACEH BESAR"
+      ]
+    },
+    {
+      "column_name": "vendor_type",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Vendor Type field",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "VENDOR",
+        "VENDOR",
+        "VENDOR"
+      ],
+      "possible_values": [
+        "ERP_PROGRAM",
+        "INTERNAL_SOURCES",
+        "TA_SOURCES",
+        "VENDOR"
+      ]
+    },
+    {
+      "column_name": "phone_number",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.02,
+      "description": "Phone number (10-11 digit Indonesian mobile). Primary identifier for merchant",
+      "business_context": "Core field - rarely empty (>90% populated)",
+      "example_values": [
+        "6285246348975",
+        "628116848844",
+        "085270725008"
+      ]
+    },
+    {
+      "column_name": "prospero_email",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 92.56,
+      "description": "Email address of merchant or contact person. Primary email contact",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "mse252@bukuwarung.id",
+        "mse191@bukuwarung.id",
+        "mse231@bukuwarung.id"
+      ]
+    },
+    {
+      "column_name": "tfcode",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 90.49,
+      "description": "Tfcode field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "TF05203",
+        "TF04608",
+        "TF04601"
+      ]
+    },
+    {
+      "column_name": "candidate_name",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Unique record identifier. Primary key for record tracking",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "JAROT WIDODO",
+        "MUHAJIR NABAWI",
+        "M RIZAL ANDIKA"
+      ]
+    },
+    {
+      "column_name": "role_type",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.11,
+      "description": "Role Type field",
+      "business_context": "Core field - rarely empty (>90% populated)",
+      "example_values": [
+        "MERCHANT_SALES_EXECUTIVE",
+        "MERCHANT_SALES_EXECUTIVE",
+        "MERCHANT_SALES_EXECUTIVE"
+      ],
+      "possible_values": [
+        "COLLECTION",
+        "HOST LIVE STREAMING",
+        "MERCHANT_ENGAGEMENT_EXECUTIVE",
+        "MERCHANT_SALES_EXECUTIVE",
+        "MERCHANT_SUCCESS_LEAD",
+        "MERCHANT_TEAM_LEADER",
+        "MRO",
+        "Not Defined",
+        "RETAIL_ACTIVATION_EXECUTIVE",
+        "RETAIL_ENGAGEMENT_EXECUTIVE",
+        "RETAIL_SALES_EXECUTIVE",
+        "RETAIL_SALES_LEAD",
+        "RETAIL_TEAM_LEADER",
+        "RSE",
+        "TELESALES",
+        "{{step.2.analysis_metadata.parsed_data.role_type}}"
+      ]
+    },
+    {
+      "column_name": "name_in_reporting",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 97.94,
+      "description": "Name In Reporting field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "column_name": "current_hiring_status",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Current Hiring Status field",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "(17)_OJT_NOT_JOIN",
+        " (3)_TA_INTERVIEW_SCHEDULED",
+        " (3)_TA_INTERVIEW_SCHEDULED"
+      ]
+    },
+    {
+      "column_name": "created_at_jkt_ts",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Timestamp when record was created. Indicates when entry was first recorded",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "2026-03-08T22:56:20.263000",
+        "2026-04-15T15:51:24.234000",
+        "2026-04-15T17:02:02.475000"
+      ]
+    },
+    {
+      "column_name": "created_at_jkt_date",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Timestamp when record was created. Indicates when entry was first recorded",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "2026-03-08",
+        "2026-04-15",
+        "2026-04-15"
+      ]
+    },
+    {
+      "column_name": "external_form_response_id",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Unique record identifier. Primary key for record tracking",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "ee3c4e62-a42c-4cb8-9e2a-1e97cfcbde22",
+        "e36e9bcd-385b-4446-b609-feede787c521",
+        "e6780722-e9fe-403f-9ea7-9f55ac27a711"
+      ]
+    },
+    {
+      "column_name": "is_currently_active",
+      "data_type": "BOOLEAN",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Is Currently Active field",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "False",
+        "False",
+        "False"
+      ],
+      "possible_values": [
+        "False",
+        "True"
+      ]
+    },
+    {
+      "column_name": "start_date_ms_active",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 89.75,
+      "description": "Start Date Ms Active field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-04-13",
+        "2026-04-14",
+        "2026-03-10"
+      ]
+    },
+    {
+      "column_name": "interview_notes",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 68.08,
+      "description": "Notes from lending officer interview. Contains qualitative assessment and observations",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "Feedback OJT: Ada urusan keluarga yang tidak bisa ditinggalkan",
+        "Dedy Priyanto - Tanjung Balai -- 16 April (Kobus)\nDomisili Tanjung Balai\nPT sumber rezeki bersama sebagai sales TO\n- Menawarkan produk food\n- Sales Target: Target 120/ bulan/ visit 25 dan achive 80%\n- Customer Acquisition: Business to Business (B2B) - Toko atau Perusahaan\n- Coverage Area: Tanjung balai",
+        "- tangerang (cisoka)\n- 29 tahun / single\n- alfamart 2015-2017 (crew store , balaraja)\n- sukun wartono 2020-2024 (sales motorist rokok sukun , tangerang+serang , 30 toko per-hari , 3-5 toko NOO , 175 bungkus per-hari , berdasarkan database)\n- Freelance narik angkot , ngojek dan bertani\n\nPengalaman kerja kurang , komunikasi jg kurang , 2 tahun terakhir tidak bekerja dan freelance "
+      ]
+    },
+    {
+      "column_name": "notes",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Notes from lending officer interview. Contains qualitative assessment and observations",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": []
+    },
+    {
+      "column_name": "cv_submitted_first_flag",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 2.73,
+      "description": "Cv Submitted First Flag field",
+      "business_context": "Core field - rarely empty (>90% populated)",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ]
+    },
+    {
+      "column_name": "cv_submitted_jkt_date",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 2.73,
+      "description": "Cv Submitted Jkt Date field",
+      "business_context": "Core field - rarely empty (>90% populated)",
+      "example_values": [
+        "2026-03-08",
+        "2026-04-15",
+        "2026-04-15"
+      ]
+    },
+    {
+      "column_name": "cv_submitted_jkt_ts",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 2.73,
+      "description": "Cv Submitted Jkt Ts field",
+      "business_context": "Core field - rarely empty (>90% populated)",
+      "example_values": [
+        "2026-03-08T22:56:20.263000",
+        "2026-04-15T15:51:24.234000",
+        "2026-04-15T17:02:02.475000"
+      ]
+    },
+    {
+      "column_name": "cv_submitted_first_jkt_week",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 2.73,
+      "description": "Week number or identifier. Used to group visits and targets by week for planning and tracking",
+      "business_context": "Core field - rarely empty (>90% populated)",
+      "example_values": [
+        "2026-03-02T00:00:00",
+        "2026-04-13T00:00:00",
+        "2026-04-13T00:00:00"
+      ]
+    },
+    {
+      "column_name": "cv_rejected_first_flag",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 76.29,
+      "description": "Cv Rejected First Flag field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ]
+    },
+    {
+      "column_name": "cv_rejected_jkt_date",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 76.29,
+      "description": "Cv Rejected Jkt Date field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-03-08",
+        "2026-04-29",
+        "2026-04-15"
+      ]
+    },
+    {
+      "column_name": "cv_rejected_jkt_ts",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 76.29,
+      "description": "Cv Rejected Jkt Ts field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-03-08T22:56:20.263000",
+        "2026-04-29T17:56:51.877000",
+        "2026-04-15T13:14:39.944000"
+      ]
+    },
+    {
+      "column_name": "cv_rejected_first_jkt_week",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 76.29,
+      "description": "Week number or identifier. Used to group visits and targets by week for planning and tracking",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-03-02T00:00:00",
+        "2026-04-27T00:00:00",
+        "2026-04-13T00:00:00"
+      ]
+    },
+    {
+      "column_name": "ai_interview_first_flag",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 97.43,
+      "description": "Ai Interview First Flag field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ]
+    },
+    {
+      "column_name": "ai_interview_jkt_date",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 97.43,
+      "description": "Ai Interview Jkt Date field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-04-20",
+        "2026-03-10",
+        "2026-03-11"
+      ]
+    },
+    {
+      "column_name": "ai_interview_jkt_ts",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 97.43,
+      "description": "Ai Interview Jkt Ts field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-04-20T11:13:54.469000",
+        "2026-03-10T17:23:05.304000",
+        "2026-03-11T17:25:03.258000"
+      ]
+    },
+    {
+      "column_name": "ai_interview_jkt_week",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 97.43,
+      "description": "Week number or identifier. Used to group visits and targets by week for planning and tracking",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-04-20T00:00:00",
+        "2026-03-09T00:00:00",
+        "2026-03-09T00:00:00"
+      ],
+      "possible_values": [
+        "2026-01-26 00:00:00",
+        "2026-02-02 00:00:00",
+        "2026-02-09 00:00:00",
+        "2026-02-16 00:00:00",
+        "2026-02-23 00:00:00",
+        "2026-03-02 00:00:00",
+        "2026-03-09 00:00:00",
+        "2026-03-16 00:00:00",
+        "2026-03-23 00:00:00",
+        "2026-03-30 00:00:00",
+        "2026-04-06 00:00:00",
+        "2026-04-20 00:00:00"
+      ]
+    },
+    {
+      "column_name": "ai_interview_rejected_first_flag",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 99.12,
+      "description": "Ai Interview Rejected First Flag field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ]
+    },
+    {
+      "column_name": "ai_interview_rejected_jkt_date",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 99.12,
+      "description": "Ai Interview Rejected Jkt Date field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-04-20",
+        "2026-03-12",
+        "2026-03-12"
+      ],
+      "possible_values": [
+        "2026-02-02",
+        "2026-02-06",
+        "2026-02-11",
+        "2026-02-19",
+        "2026-03-12",
+        "2026-03-15",
+        "2026-03-18",
+        "2026-03-30",
+        "2026-04-05",
+        "2026-04-06",
+        "2026-04-07",
+        "2026-04-20",
+        "2026-04-22",
+        "2026-05-05"
+      ]
+    },
+    {
+      "column_name": "ai_interview_rejected_interview_jkt_ts",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 99.12,
+      "description": "Ai Interview Rejected Interview Jkt Ts field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-04-20T11:14:14.417000",
+        "2026-03-12T11:44:52.790000",
+        "2026-03-12T11:59:11.195000"
+      ]
+    },
+    {
+      "column_name": "ai_interview_rejected_jkt_week",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 99.12,
+      "description": "Week number or identifier. Used to group visits and targets by week for planning and tracking",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-04-20T00:00:00",
+        "2026-03-09T00:00:00",
+        "2026-03-09T00:00:00"
+      ],
+      "possible_values": [
+        "2026-02-02 00:00:00",
+        "2026-02-09 00:00:00",
+        "2026-02-16 00:00:00",
+        "2026-03-09 00:00:00",
+        "2026-03-16 00:00:00",
+        "2026-03-30 00:00:00",
+        "2026-04-06 00:00:00",
+        "2026-04-20 00:00:00",
+        "2026-05-04 00:00:00"
+      ]
+    },
+    {
+      "column_name": "ta_interview_scheduled_first_flag",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 50.23,
+      "description": "Ta Interview Scheduled First Flag field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ]
+    },
+    {
+      "column_name": "ta_interview_scheduled_jkt_date",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 50.23,
+      "description": "Ta Interview Scheduled Jkt Date field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-03-11",
+        "2026-04-29",
+        "2026-04-29"
+      ]
+    },
+    {
+      "column_name": "ta_interview_scheduled_jkt_ts",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 50.23,
+      "description": "Ta Interview Scheduled Jkt Ts field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-03-11T09:29:11.708000",
+        "2026-04-29T17:57:40.465000",
+        "2026-04-29T18:09:05.902000"
+      ]
+    },
+    {
+      "column_name": "ta_interview_scheduled_first_jkt_week",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 50.23,
+      "description": "Week number or identifier. Used to group visits and targets by week for planning and tracking",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-03-09T00:00:00",
+        "2026-04-27T00:00:00",
+        "2026-04-27T00:00:00"
+      ]
+    },
+    {
+      "column_name": "ta_interview_rejected_first_flag",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 91.02,
+      "description": "Ta Interview Rejected First Flag field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ]
+    },
+    {
+      "column_name": "ta_interview_rejected_jkt_date",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 91.02,
+      "description": "Ta Interview Rejected Jkt Date field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-04-16",
+        "2026-04-16",
+        "2026-04-20"
+      ]
+    },
+    {
+      "column_name": "ta_interview_rejected_jkt_ts",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 91.02,
+      "description": "Ta Interview Rejected Jkt Ts field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-04-16T14:22:25.235000",
+        "2026-04-16T14:39:20.470000",
+        "2026-04-20T11:17:18.029000"
+      ]
+    },
+    {
+      "column_name": "ta_interview_rejected_first_jkt_week",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 91.02,
+      "description": "Week number or identifier. Used to group visits and targets by week for planning and tracking",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-04-13T00:00:00",
+        "2026-04-13T00:00:00",
+        "2026-04-20T00:00:00"
+      ]
+    },
+    {
+      "column_name": "ta_interview_not_join_first_flag",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 92.71,
+      "description": "Ta Interview Not Join First Flag field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ]
+    },
+    {
+      "column_name": "ta_interview_not_join_jkt_date",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 92.71,
+      "description": "Ta Interview Not Join Jkt Date field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-04-29",
+        "2026-04-29",
+        "2026-04-20"
+      ]
+    },
+    {
+      "column_name": "ta_interview_not_join_jkt_ts",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 92.71,
+      "description": "Ta Interview Not Join Jkt Ts field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-04-29T17:55:54.663000",
+        "2026-04-29T17:46:42.596000",
+        "2026-04-20T10:54:14.223000"
+      ]
+    },
+    {
+      "column_name": "ta_interview_not_join_first_jkt_week",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 92.71,
+      "description": "Week number or identifier. Used to group visits and targets by week for planning and tracking",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-04-27T00:00:00",
+        "2026-04-27T00:00:00",
+        "2026-04-20T00:00:00"
+      ]
+    },
+    {
+      "column_name": "assessment_assigned_first_flag",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 67.38,
+      "description": "Assessment Assigned First Flag field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ]
+    },
+    {
+      "column_name": "assessment_assigned_jkt_date",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 67.38,
+      "description": "Assessment Assigned Jkt Date field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2025-09-26T17:42:30.657000",
+        "2025-09-26T17:45:27.576000",
+        "2025-09-26T17:52:35.180000"
+      ]
+    },
+    {
+      "column_name": "assessment_assigned_jkt_ts",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 67.38,
+      "description": "Assessment Assigned Jkt Ts field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2025-09-26T17:42:30.657000",
+        "2025-09-26T17:45:27.576000",
+        "2025-09-26T17:52:35.180000"
+      ]
+    },
+    {
+      "column_name": "assessment_assigned_first_jkt_week",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 67.38,
+      "description": "Week number or identifier. Used to group visits and targets by week for planning and tracking",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2025-09-26T17:42:30.657000",
+        "2025-09-26T17:45:27.576000",
+        "2025-09-26T17:52:35.180000"
+      ]
+    },
+    {
+      "column_name": "assessment_failed_first_flag",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 96.15,
+      "description": "Assessment Failed First Flag field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ]
+    },
+    {
+      "column_name": "assessment_failed_jkt_date",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 96.15,
+      "description": "Assessment Failed Jkt Date field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2025-10-02",
+        "2025-09-29",
+        "2025-05-17"
+      ]
+    },
+    {
+      "column_name": "assessment_failed_jkt_ts",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 96.15,
+      "description": "Assessment Failed Jkt Ts field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2025-10-02T11:11:46.064000",
+        "2025-09-29T11:56:22.570000",
+        "2025-05-17T15:23:41.294000"
+      ]
+    },
+    {
+      "column_name": "assessment_failed_first_jkt_week",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 96.15,
+      "description": "Week number or identifier. Used to group visits and targets by week for planning and tracking",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2025-09-29T00:00:00",
+        "2025-09-29T00:00:00",
+        "2025-05-12T00:00:00"
+      ]
+    },
+    {
+      "column_name": "assessment_not_doing_first_flag",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 99.44,
+      "description": "Assessment Not Doing First Flag field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ]
+    },
+    {
+      "column_name": "assessment_not_doing_jkt_date",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 99.44,
+      "description": "Assessment Not Doing Jkt Date field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2025-06-22",
+        "2025-06-22",
+        "2025-06-22"
+      ],
+      "possible_values": [
+        "2025-05-24",
+        "2025-05-28",
+        "2025-06-02",
+        "2025-06-03",
+        "2025-06-22",
+        "2025-06-26",
+        "2025-07-05",
+        "2025-10-03"
+      ]
+    },
+    {
+      "column_name": "assessment_not_doing_jkt_ts",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 99.44,
+      "description": "Assessment Not Doing Jkt Ts field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2025-06-22T15:51:34.286000",
+        "2025-06-22T15:50:16.219000",
+        "2025-06-22T15:57:47.967000"
+      ]
+    },
+    {
+      "column_name": "assessment_not_doing_first_jkt_week",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 99.44,
+      "description": "Week number or identifier. Used to group visits and targets by week for planning and tracking",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2025-06-16T00:00:00",
+        "2025-06-16T00:00:00",
+        "2025-06-16T00:00:00"
+      ],
+      "possible_values": [
+        "2025-05-19 00:00:00",
+        "2025-05-26 00:00:00",
+        "2025-06-02 00:00:00",
+        "2025-06-16 00:00:00",
+        "2025-06-23 00:00:00",
+        "2025-06-30 00:00:00",
+        "2025-09-29 00:00:00"
+      ]
+    },
+    {
+      "column_name": "assessment_passed_first_flag",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 84.85,
+      "description": "Assessment Passed First Flag field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ]
+    },
+    {
+      "column_name": "assessment_passed_jkt_date",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 84.85,
+      "description": "Assessment Passed Jkt Date field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2025-09-30T17:15:41.338000",
+        "2025-10-02T10:02:27.988000",
+        "2025-09-26T15:58:40.251000"
+      ]
+    },
+    {
+      "column_name": "assessment_passed_jkt_ts",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 84.85,
+      "description": "Assessment Passed Jkt Ts field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2025-09-30T17:15:41.338000",
+        "2025-10-02T10:02:27.988000",
+        "2025-09-26T15:58:40.251000"
+      ]
+    },
+    {
+      "column_name": "assessment_passed_first_jkt_week",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 84.85,
+      "description": "Week number or identifier. Used to group visits and targets by week for planning and tracking",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2025-09-29T00:00:00",
+        "2025-09-29T00:00:00",
+        "2025-09-22T00:00:00"
+      ]
+    },
+    {
+      "column_name": "user_interview_scheduled_first_flag",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 70.66,
+      "description": "User Interview Scheduled First Flag field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ]
+    },
+    {
+      "column_name": "user_interview_scheduled_jkt_date",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 70.66,
+      "description": "User Interview Scheduled Jkt Date field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-03-11",
+        "2026-04-29",
+        "2026-04-29"
+      ]
+    },
+    {
+      "column_name": "user_interview_scheduled_jkt_ts",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 70.66,
+      "description": "User Interview Scheduled Jkt Ts field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-03-11T09:29:21.574000",
+        "2026-04-29T17:57:47.259000",
+        "2026-04-29T18:09:13.103000"
+      ]
+    },
+    {
+      "column_name": "user_interview_scheduled_first_jkt_week",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 70.66,
+      "description": "Week number or identifier. Used to group visits and targets by week for planning and tracking",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-03-09T00:00:00",
+        "2026-04-27T00:00:00",
+        "2026-04-27T00:00:00"
+      ]
+    },
+    {
+      "column_name": "user_interview_not_join_first_flag",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 97.68,
+      "description": "User Interview Not Join First Flag field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ]
+    },
+    {
+      "column_name": "user_interview_not_join_jkt_date",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 97.68,
+      "description": "User Interview Not Join Jkt Date field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-04-22",
+        "2025-11-20",
+        "2026-05-06"
+      ]
+    },
+    {
+      "column_name": "user_interview_not_join_jkt_ts",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 97.68,
+      "description": "User Interview Not Join Jkt Ts field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-04-22T09:52:25.661000",
+        "2025-11-20T10:19:22.450000",
+        "2026-05-06T15:00:03.647000"
+      ]
+    },
+    {
+      "column_name": "user_interview_not_join_first_jkt_week",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 97.68,
+      "description": "Week number or identifier. Used to group visits and targets by week for planning and tracking",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-04-20T00:00:00",
+        "2025-11-17T00:00:00",
+        "2026-05-04T00:00:00"
+      ]
+    },
+    {
+      "column_name": "user_interview_passed_first_flag",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 81.02,
+      "description": "User Interview Passed First Flag field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ]
+    },
+    {
+      "column_name": "user_interview_passed_jkt_date",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 81.02,
+      "description": "User Interview Passed Jkt Date field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-03-11",
+        "2026-04-15",
+        "2026-04-15"
+      ]
+    },
+    {
+      "column_name": "user_interview_passed_jkt_ts",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 81.02,
+      "description": "User Interview Passed Jkt Ts field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-03-11T09:29:32.024000",
+        "2026-04-15T15:10:40.685000",
+        "2026-04-15T15:15:59.916000"
+      ]
+    },
+    {
+      "column_name": "user_interview_passed_first_jkt_week",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 81.02,
+      "description": "Week number or identifier. Used to group visits and targets by week for planning and tracking",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-03-09T00:00:00",
+        "2026-04-13T00:00:00",
+        "2026-04-13T00:00:00"
+      ]
+    },
+    {
+      "column_name": "user_interview_rejected_first_flag",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 93.81,
+      "description": "User Interview Rejected First Flag field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ]
+    },
+    {
+      "column_name": "user_interview_rejected_jkt_date",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 93.81,
+      "description": "User Interview Rejected Jkt Date field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-05-11",
+        "2026-04-22",
+        "2026-04-21"
+      ]
+    },
+    {
+      "column_name": "user_interview_rejected_jkt_ts",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 93.81,
+      "description": "User Interview Rejected Jkt Ts field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-05-11T17:22:34.556000",
+        "2026-04-22T13:26:46.126000",
+        "2026-04-21T11:04:33.181000"
+      ]
+    },
+    {
+      "column_name": "user_interview_rejected_first_jkt_week",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 93.81,
+      "description": "Week number or identifier. Used to group visits and targets by week for planning and tracking",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-05-11T00:00:00",
+        "2026-04-20T00:00:00",
+        "2026-04-20T00:00:00"
+      ]
+    },
+    {
+      "column_name": "ojt_scheduled_first_flag",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 82.27,
+      "description": "Ojt Scheduled First Flag field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ]
+    },
+    {
+      "column_name": "ojt_scheduled_jkt_date",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 80.28,
+      "description": "Ojt Scheduled Jkt Date field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-03-11",
+        "2026-04-15",
+        "2026-04-15"
+      ]
+    },
+    {
+      "column_name": "ojt_scheduled_jkt_ts",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 80.28,
+      "description": "Ojt Scheduled Jkt Ts field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-03-11T16:08:48.755000",
+        "2026-04-15T15:10:57.621000",
+        "2026-04-15T15:16:13.982000"
+      ]
+    },
+    {
+      "column_name": "ojt_scheduled_first_jkt_week",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 80.28,
+      "description": "Week number or identifier. Used to group visits and targets by week for planning and tracking",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-03-09T00:00:00",
+        "2026-04-13T00:00:00",
+        "2026-04-13T00:00:00"
+      ]
+    },
+    {
+      "column_name": "ojt_in_progress_first_flag",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 85.87,
+      "description": "Ojt In Progress First Flag field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ]
+    },
+    {
+      "column_name": "ojt_in_progress_jkt_date",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 85.87,
+      "description": "Ojt In Progress Jkt Date field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-03-16",
+        "2026-04-15",
+        "2026-04-15"
+      ]
+    },
+    {
+      "column_name": "ojt_in_progress_jkt_ts",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 85.87,
+      "description": "Ojt In Progress Jkt Ts field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-03-16T00:48:02.242000",
+        "2026-04-15T15:11:04.088000",
+        "2026-04-15T15:16:19.440000"
+      ]
+    },
+    {
+      "column_name": "ojt_in_progress_first_jkt_week",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 85.87,
+      "description": "Week number or identifier. Used to group visits and targets by week for planning and tracking",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-03-16T00:00:00",
+        "2026-04-13T00:00:00",
+        "2026-04-13T00:00:00"
+      ]
+    },
+    {
+      "column_name": "ojt_not_passed_first_flag",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Ojt Not Passed First Flag field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": []
+    },
+    {
+      "column_name": "ojt_not_passed_jkt_date",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Ojt Not Passed Jkt Date field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": []
+    },
+    {
+      "column_name": "ojt_not_passed_jkt_ts",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Ojt Not Passed Jkt Ts field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": []
+    },
+    {
+      "column_name": "ojt_not_passed_first_jkt_week",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Week number or identifier. Used to group visits and targets by week for planning and tracking",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": []
+    },
+    {
+      "column_name": "ojt_not_join_first_flag",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 95.17,
+      "description": "Ojt Not Join First Flag field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ]
+    },
+    {
+      "column_name": "ojt_not_join_jkt_date",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 95.17,
+      "description": "Ojt Not Join Jkt Date field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-03-22",
+        "2026-04-25",
+        "2026-05-06"
+      ]
+    },
+    {
+      "column_name": "ojt_not_join_jkt_ts",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 95.17,
+      "description": "Ojt Not Join Jkt Ts field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-03-22T13:37:10.932000",
+        "2026-04-25T22:46:26.666000",
+        "2026-05-06T11:18:47.381000"
+      ]
+    },
+    {
+      "column_name": "ojt_not_join_first_jkt_week",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 95.17,
+      "description": "Week number or identifier. Used to group visits and targets by week for planning and tracking",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-03-16T00:00:00",
+        "2026-04-20T00:00:00",
+        "2026-05-04T00:00:00"
+      ]
+    },
+    {
+      "column_name": "ojt_passed_first_flag",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 92.1,
+      "description": "Ojt Passed First Flag field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ]
+    },
+    {
+      "column_name": "ojt_passed_jkt_date",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 92.1,
+      "description": "Ojt Passed Jkt Date field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-04-15",
+        "2026-04-15",
+        "2026-04-15"
+      ]
+    },
+    {
+      "column_name": "ojt_passed_jkt_ts",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 92.1,
+      "description": "Ojt Passed Jkt Ts field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-04-15T15:11:14.350000",
+        "2026-04-15T15:16:28",
+        "2026-04-15T18:21:51.555000"
+      ]
+    },
+    {
+      "column_name": "ojt_passed_first_jkt_week",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 92.1,
+      "description": "Week number or identifier. Used to group visits and targets by week for planning and tracking",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-04-13T00:00:00",
+        "2026-04-13T00:00:00",
+        "2026-04-13T00:00:00"
+      ]
+    },
+    {
+      "column_name": "pkwt_created_first_flag",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 91.37,
+      "description": "Pkwt Created First Flag field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ]
+    },
+    {
+      "column_name": "pkwt_created_jkt_date",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 91.37,
+      "description": "Pkwt Created Jkt Date field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-04-15",
+        "2026-04-15",
+        "2026-04-15"
+      ]
+    },
+    {
+      "column_name": "pkwt_created_jkt_ts",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 91.37,
+      "description": "Pkwt Created Jkt Ts field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-04-15T15:11:37.817000",
+        "2026-04-15T15:16:35.570000",
+        "2026-04-15T18:22:10.196000"
+      ]
+    },
+    {
+      "column_name": "pkwt_created_first_jkt_week",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 91.37,
+      "description": "Week number or identifier. Used to group visits and targets by week for planning and tracking",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-04-13T00:00:00",
+        "2026-04-13T00:00:00",
+        "2026-04-13T00:00:00"
+      ]
+    },
+    {
+      "column_name": "pkwt_signed_first_flag",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 92.4,
+      "description": "Pkwt Signed First Flag field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ]
+    },
+    {
+      "column_name": "pkwt_signed_jkt_date",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 92.4,
+      "description": "Pkwt Signed Jkt Date field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2025-05-30",
+        "2025-05-20",
+        "2025-05-15"
+      ]
+    },
+    {
+      "column_name": "pkwt_signed_jkt_ts",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 92.4,
+      "description": "Pkwt Signed Jkt Ts field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2025-05-30T18:06:59.882000",
+        "2025-05-20T23:04:53.300000",
+        "2025-05-15T11:37:44.135000"
+      ]
+    },
+    {
+      "column_name": "pkwt_signed_first_jkt_week",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 92.4,
+      "description": "Week number or identifier. Used to group visits and targets by week for planning and tracking",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2025-05-26T00:00:00",
+        "2025-05-19T00:00:00",
+        "2025-05-12T00:00:00"
+      ]
+    },
+    {
+      "column_name": "backup_first_flag",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 88.52,
+      "description": "Backup First Flag field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ]
+    },
+    {
+      "column_name": "backup_jkt_date",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 88.52,
+      "description": "Backup Jkt Date field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-04-29",
+        "2026-04-29",
+        "2026-04-29"
+      ]
+    },
+    {
+      "column_name": "backup_jkt_ts",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 88.52,
+      "description": "Backup Jkt Ts field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-04-29T18:10:04.127000",
+        "2026-04-29T18:09:40.557000",
+        "2026-04-29T17:56:33.034000"
+      ]
+    },
+    {
+      "column_name": "backup_first_jkt_week",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 88.52,
+      "description": "Week number or identifier. Used to group visits and targets by week for planning and tracking",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-04-27T00:00:00",
+        "2026-04-27T00:00:00",
+        "2026-04-27T00:00:00"
+      ]
+    },
+    {
+      "column_name": "currently_active_work_first_flag",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 90.88,
+      "description": "Currently Active Work First Flag field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ]
+    },
+    {
+      "column_name": "currently_active_work_jkt_date",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 90.88,
+      "description": "Currently Active Work Jkt Date field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2025-05-22",
+        "2025-06-15",
+        "2025-06-15"
+      ]
+    },
+    {
+      "column_name": "currently_active_work_jkt_ts",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 90.88,
+      "description": "Currently Active Work Jkt Ts field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2025-05-22T16:38:45.275000",
+        "2025-06-15T23:53:07.998000",
+        "2025-06-15T23:51:37.277000"
+      ]
+    },
+    {
+      "column_name": "currently_active_work_first_jkt_week",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 90.88,
+      "description": "Week number or identifier. Used to group visits and targets by week for planning and tracking",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2025-05-19T00:00:00",
+        "2025-06-09T00:00:00",
+        "2025-06-09T00:00:00"
+      ]
+    },
+    {
+      "column_name": "withdraw_join_first_flag",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 98.7,
+      "description": "Withdraw Join First Flag field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ]
+    },
+    {
+      "column_name": "withdraw_join_jkt_date",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 98.7,
+      "description": "Withdraw Join Jkt Date field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-04-15",
+        "2026-04-15",
+        "2026-04-15"
+      ]
+    },
+    {
+      "column_name": "withdraw_join_jkt_ts",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 98.7,
+      "description": "Withdraw Join Jkt Ts field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-04-15T15:12:38.546000",
+        "2026-04-15T15:17:13.161000",
+        "2026-04-15T18:22:33.060000"
+      ]
+    },
+    {
+      "column_name": "withdraw_join_first_jkt_week",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 98.7,
+      "description": "Week number or identifier. Used to group visits and targets by week for planning and tracking",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-04-13T00:00:00",
+        "2026-04-13T00:00:00",
+        "2026-04-13T00:00:00"
+      ]
+    },
+    {
+      "column_name": "onhold_first_flag",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 97.96,
+      "description": "Onhold First Flag field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ]
+    },
+    {
+      "column_name": "onhold_jkt_date",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 97.96,
+      "description": "Onhold Jkt Date field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-04-17",
+        "2025-06-03",
+        "2025-06-22"
+      ]
+    },
+    {
+      "column_name": "onhold_jkt_ts",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 97.96,
+      "description": "Onhold Jkt Ts field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-04-17T14:16:19.404000",
+        "2025-06-03T16:32:12.026000",
+        "2025-06-22T15:50:52.639000"
+      ]
+    },
+    {
+      "column_name": "onhold_first_jkt_week",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 97.96,
+      "description": "Week number or identifier. Used to group visits and targets by week for planning and tracking",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-04-13T00:00:00",
+        "2025-06-02T00:00:00",
+        "2025-06-16T00:00:00"
+      ]
+    },
+    {
+      "column_name": "resigned_first_flag",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 96.55,
+      "description": "Resigned First Flag field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ]
+    },
+    {
+      "column_name": "resigned_jkt_date",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 96.62,
+      "description": "Resigned Jkt Date field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-03-27",
+        "2026-01-16",
+        "2026-01-20"
+      ]
+    },
+    {
+      "column_name": "resigned_jkt_ts",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 96.62,
+      "description": "Resigned Jkt Ts field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-03-27T00:00:00",
+        "2026-01-16T00:00:00",
+        "2026-01-20T00:00:00"
+      ]
+    },
+    {
+      "column_name": "resigned_first_jkt_week",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 96.62,
+      "description": "Week number or identifier. Used to group visits and targets by week for planning and tracking",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-03-23",
+        "2026-01-12",
+        "2026-01-19"
+      ]
+    },
+    {
+      "column_name": "resigned_move_flag",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 96.53,
+      "description": "Resigned Move Flag field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ]
+    },
+    {
+      "column_name": "resigned_move_jkt_date",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 96.53,
+      "description": "Resigned Move Jkt Date field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-03-27",
+        "2026-01-18",
+        "2026-01-23"
+      ]
+    },
+    {
+      "column_name": "resigned_move_jkt_ts",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 96.53,
+      "description": "Resigned Move Jkt Ts field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-03-27T18:59:21.920000",
+        "2026-01-18T23:40:28.467000",
+        "2026-01-23T14:35:46.874000"
+      ]
+    },
+    {
+      "column_name": "resigned_move_jkt_week",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 96.53,
+      "description": "Week number or identifier. Used to group visits and targets by week for planning and tracking",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-03-23T00:00:00",
+        "2026-01-12T00:00:00",
+        "2026-01-19T00:00:00"
+      ]
+    },
+    {
+      "column_name": "terminated_first_flag",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 98.85,
+      "description": "Terminated First Flag field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ]
+    },
+    {
+      "column_name": "terminated_jkt_date",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 98.85,
+      "description": "Terminated Jkt Date field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-02-26",
+        "2026-04-12",
+        "2026-02-04"
+      ]
+    },
+    {
+      "column_name": "terminated_jkt_ts",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 98.85,
+      "description": "Terminated Jkt Ts field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-02-26T00:00:00",
+        "2026-04-12T00:00:00",
+        "2026-02-04T00:00:00"
+      ]
+    },
+    {
+      "column_name": "terminated_first_jkt_week",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 98.85,
+      "description": "Week number or identifier. Used to group visits and targets by week for planning and tracking",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-02-23T00:00:00",
+        "2026-04-06T00:00:00",
+        "2026-02-02T00:00:00"
+      ]
+    },
+    {
+      "column_name": "pre_ojt_assesment_first_flag",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 89.48,
+      "description": "Pre Ojt Assesment First Flag field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ]
+    },
+    {
+      "column_name": "pre_ojt_assesment_first_date",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 89.48,
+      "description": "Pre Ojt Assesment First Date field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-03-11",
+        "2026-04-15",
+        "2026-04-15"
+      ]
+    },
+    {
+      "column_name": "pre_ojt_assesment_first_jkt_ts",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 89.48,
+      "description": "Pre Ojt Assesment First Jkt Ts field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-03-11T09:44:42.208000",
+        "2026-04-15T15:10:47.798000",
+        "2026-04-15T15:16:07.787000"
+      ]
+    },
+    {
+      "column_name": "pre_ojt_assesment_first_jkt_week",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 89.48,
+      "description": "Week number or identifier. Used to group visits and targets by week for planning and tracking",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-03-09T00:00:00",
+        "2026-04-13T00:00:00",
+        "2026-04-13T00:00:00"
+      ]
+    },
+    {
+      "column_name": "pre_ojt_assesment_not_join_first_flag",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 98.83,
+      "description": "Pre Ojt Assesment Not Join First Flag field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ]
+    },
+    {
+      "column_name": "pre_ojt_assesment_not_join_first_date",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 98.83,
+      "description": "Pre Ojt Assesment Not Join First Date field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-04-22",
+        "2026-01-20",
+        "2026-01-13"
+      ]
+    },
+    {
+      "column_name": "pre_ojt_assesment_not_join_first_jkt_ts",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 98.83,
+      "description": "Pre Ojt Assesment Not Join First Jkt Ts field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-04-22T17:53:52.289000",
+        "2026-01-20T13:49:44.540000",
+        "2026-01-13T09:43:23.220000"
+      ]
+    },
+    {
+      "column_name": "pre_ojt_assesment_not_join_first_jkt_week",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 98.83,
+      "description": "Week number or identifier. Used to group visits and targets by week for planning and tracking",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-04-20T00:00:00",
+        "2026-01-19T00:00:00",
+        "2026-01-12T00:00:00"
+      ]
+    },
+    {
+      "column_name": "pre_ojt_assesment_failed_first_flag",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 99.99,
+      "description": "Pre Ojt Assesment Failed First Flag field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ]
+    },
+    {
+      "column_name": "pre_ojt_assesment_failed_first_date",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 99.99,
+      "description": "Pre Ojt Assesment Failed First Date field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2025-11-06"
+      ],
+      "possible_values": [
+        "2025-11-06"
+      ]
+    },
+    {
+      "column_name": "pre_ojt_assesment_failed_first_jkt_ts",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 99.99,
+      "description": "Pre Ojt Assesment Failed First Jkt Ts field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2025-11-06T10:11:50.680000"
+      ],
+      "possible_values": [
+        "2025-11-06 10:11:50.680000"
+      ]
+    },
+    {
+      "column_name": "pre_ojt_assesment_failed_first_jkt_week",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 99.99,
+      "description": "Week number or identifier. Used to group visits and targets by week for planning and tracking",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2025-11-03T00:00:00"
+      ],
+      "possible_values": [
+        "2025-11-03 00:00:00"
+      ]
+    },
+    {
+      "column_name": "actual_ojt_schedule_jkt_date",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 86.21,
+      "description": "Actual Ojt Schedule Jkt Date field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-03-16T00:00:00",
+        "2026-04-08T00:00:00",
+        "2026-04-09T00:00:00"
+      ]
+    },
+    {
+      "column_name": "actual_ojt_schedule_jkt_week",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 86.21,
+      "description": "Week number or identifier. Used to group visits and targets by week for planning and tracking",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2026-03-16T00:00:00",
+        "2026-04-06T00:00:00",
+        "2026-04-06T00:00:00"
+      ]
+    },
+    {
+      "column_name": "actual_pkwt_signed_jkt_date",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 93.1,
+      "description": "Actual Pkwt Signed Jkt Date field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2025-05-26T00:00:00",
+        "2025-05-19T00:00:00",
+        "2026-01-14T00:00:00"
+      ]
+    },
+    {
+      "column_name": "actual_pkwt_signed_jkt_week",
+      "data_type": "DATETIME",
+      "nullable": true,
+      "null_percentage": 93.1,
+      "description": "Week number or identifier. Used to group visits and targets by week for planning and tracking",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "2025-05-26T00:00:00",
+        "2025-05-19T00:00:00",
+        "2026-01-12T00:00:00"
+      ]
+    },
+    {
+      "column_name": "cv_analysis",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 12.02,
+      "description": "Score from CV analysis tool. Indicates resume quality and experience fit",
+      "business_context": "Common field - frequently populated (>50%)",
+      "example_values": [
+        "{\n  \"candidate_name\": \"Jarot Widodo\",\n  \"phone_number\": \"6285246348975\",\n  \"candidate_email\": \"jarotwidodo112@gmail.com\",\n  \"vendor\": \"SPC\",\n  \"role_type\": \"RETAIL_SALES_EXECUTIVE\",\n  \"area_placement\": \"KALIMANTAN\",\n  \"district_coverage\": \"KOTA BANDUNG\",\n  \"location_score\": 0,\n  \"relevant_industry_score\": 45,\n  \"employment_stability_score\": 15,\n  \"total_score\": 60,\n  \"recommendation\": \"(2)_CV_REJECTED\",\n  \"reasoning\": \"The candidate's domicile is Samarinda, which is in East Kalimantan, while the district coverage is Kota Bandung in West Java. These locations are far apart, so no location match or proximity score is given (0/20). The candidate has relevant experience primarily in banking and finance sectors (PT Bank Danamon Indonesia, KSP Sahabat Mitra Sejati, KSP Indosurya Cipta, PT Suzuki Finance Indonesia, PT Awan Tunai Indonesia), which are relevant industries for field sales in banking/finance. However, there are no explicit sales achievements or metrics provided, so a moderate score of 45/65 is assigned for relevant industry experience. Employment stability is good, with multiple roles lasting more than 6 months, no evidence of job hopping, so full 15/15 is given. The total score is 60/100, below the 70% threshold for submission. Therefore, the recommendation is to reject the CV. The file name indicates vendor as SPC, role type as RSE (Retail Sales Executive), area placement as Kalimantan, and district coverage as Region Jabar (West Java), which matches Kota Bandung district coverage. However, the candidate's location in Samarinda does not match the district coverage in West Java, leading to a low location score.\",\n  \"location_details\": {\n    \"matched_location\": \"No\",\n    \"candidate_location\": \"Samarinda\",\n    \"near_target_location\": false,\n    \"matches_target_locations\": false\n  },\n  \"industry_experience_details\": {\n    \"industries_worked\": [\n      \"Banking\",\n      \"Finance\"\n    ],\n    \"relevant_companies\": [\n      \"PT Bank Danamon Indonesia, Tbk\",\n      \"KSP Sahabat Mitra Sejati (Sampoerna Group)\",\n      \"KSP Indosurya Cipta\",\n      \"PT Suzuki Finance Indonesia\",\n      \"PT Awan Tunai Indonesia\"\n    ],\n    \"total_relevant_experience_months\": 130\n  },\n  \"employment_stability_details\": {\n    \"is_job_hopper\": false\n  }\n}",
+        "{\n  \"candidate_name\": \"MUHAJIR NABAWI\",\n  \"vendor\": \"SPC\",\n  \"role_type\": \"MERCHANT_SALES_EXECUTIVE\",\n  \"area_placement\": \"SUMATERA_1\",\n  \"district_coverage\": \"ACEH BESAR\",\n  \"phone_number\": \"628116848844\",\n  \"candidate_email\": \"ajir.nabawi@gmail.com\",\n  \"location_score\": 20,\n  \"relevant_industry_score\": 50,\n  \"employment_stability_score\": 15,\n  \"total_score\": 85,\n  \"recommendation\": \"(1)_CV_SUBMITTED\",\n  \"reasoning\": \"The candidate MUHAJIR NABAWI is domiciled in Banda Aceh, which is geographically close to the district coverage of Aceh Besar, earning a full location score of 20. The candidate has relevant sales experience in companies such as Pt Narasaka Utama (a distributor related to FMCG products like Unilever), Pt Autostar Mandiri Teknotama (automotive spare parts distributor, not directly FMCG, Telco, or Banking but sales experience is relevant), and Pt Trinanda Jaya Sinergi (retail supervisor role). The candidate consistently met sales targets and led teams, showing strong sales performance and achievement, which justifies a relevant industry score of 50 out of 65. Employment stability is strong with all jobs lasting more than 6 months, including the latest role lasting 1 year 8 months, earning full employment stability score of 15. Overall, the total score is 85, which is above the 70% threshold, leading to a recommendation to submit the CV.\",\n  \"location_details\": {\n    \"matched_location\": \"Aceh Besar\",\n    \"candidate_location\": \"Banda Aceh\",\n    \"near_target_location\": true,\n    \"matches_target_locations\": false\n  },\n  \"industry_experience_details\": {\n    \"industries_worked\": [\n      \"FMCG\",\n      \"Automotive Spare Parts Distribution\",\n      \"Retail\"\n    ],\n    \"relevant_companies\": [\n      \"Pt Narasaka Utama\",\n      \"Pt Autostar Mandiri Teknotama\",\n      \"Pt Trinanda Jaya Sinergi\"\n    ],\n    \"total_relevant_experience_months\": 52\n  },\n  \"employment_stability_details\": {\n    \"is_job_hopper\": false\n  }\n}",
+        "{\n  \"vendor\": \"SPC\",\n  \"candidate_name\": \"M Rizal Andika\",\n  \"phone_number\": \"085270725008\",\n  \"candidate_email\": \"rizalandika1802@gmail.com\",\n  \"area_placement\": \"SUMATERA_1\",\n  \"district_coverage\": \"KABUPATEN ACEH BESAR\",\n  \"location_score\": 20,\n  \"relevant_industry_score\": 60,\n  \"employment_stability_score\": 15,\n  \"total_score\": 95,\n  \"recommendation\": \"(1)_CV_SUBMITTED\",\n  \"reasoning\": \"The candidate's domicile is Aceh Besar, which exactly matches the district coverage of Aceh Besar and Banda Aceh, resulting in a full location score of 20. The candidate has relevant field sales experience as an Account Officer at two banks (Bank Bukopin and PT. Bank BPR Ingin Jaya) from 2018 to 2025, totaling approximately 7 years. Both roles involved sales-related activities such as seeking new customers, distributing brochures, and offering financing to SMEs, with clear sales targets and achievements (10%-70% and 30%-50% achievement rates). Banking is a relevant industry for the sales role, so the candidate scores 60 out of 65 for relevant industry experience. Employment stability is strong with two long tenures (2 years and 5 years), so the candidate scores full 15 points. Overall, the candidate scores 95 out of 100, well above the 70% threshold, making the recommendation to submit the CV. The candidate is not willing to relocate but is located within the target district, which is acceptable.\",\n  \"location_details\": {\n    \"matched_location\": \"Aceh Besar\",\n    \"candidate_location\": \"Aceh Besar\",\n    \"near_target_location\": true,\n    \"matches_target_locations\": true\n  },\n  \"industry_experience_details\": {\n    \"industries_worked\": [\n      \"Banking\"\n    ],\n    \"relevant_companies\": [\n      \"Bank Bukopin\",\n      \"PT. Bank BPR Ingin Jaya\"\n    ],\n    \"total_relevant_experience_months\": 84\n  },\n  \"employment_stability_details\": {\n    \"is_job_hopper\": false\n  },\n  \"role_type\": \"MERCHANT_SALES_EXECUTIVE\"\n}"
+      ]
+    },
+    {
+      "column_name": "screening_score",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 13.32,
+      "description": "Screening Score field",
+      "business_context": "Common field - frequently populated (>50%)",
+      "example_values": [
+        "60",
+        "85",
+        "95"
+      ]
+    },
+    {
+      "column_name": "screening_reasoning",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 12.01,
+      "description": "Screening Reasoning field",
+      "business_context": "Common field - frequently populated (>50%)",
+      "example_values": [
+        "The candidate's domicile is Samarinda, which is in East Kalimantan, while the district coverage is Kota Bandung in West Java. These locations are far apart, so no location match or proximity score is given (0/20). The candidate has relevant experience primarily in banking and finance sectors (PT Bank Danamon Indonesia, KSP Sahabat Mitra Sejati, KSP Indosurya Cipta, PT Suzuki Finance Indonesia, PT Awan Tunai Indonesia), which are relevant industries for field sales in banking/finance. However, there are no explicit sales achievements or metrics provided, so a moderate score of 45/65 is assigned for relevant industry experience. Employment stability is good, with multiple roles lasting more than 6 months, no evidence of job hopping, so full 15/15 is given. The total score is 60/100, below the 70% threshold for submission. Therefore, the recommendation is to reject the CV. The file name indicates vendor as SPC, role type as RSE (Retail Sales Executive), area placement as Kalimantan, and district coverage as Region Jabar (West Java), which matches Kota Bandung district coverage. However, the candidate's location in Samarinda does not match the district coverage in West Java, leading to a low location score.",
+        "The candidate MUHAJIR NABAWI is domiciled in Banda Aceh, which is geographically close to the district coverage of Aceh Besar, earning a full location score of 20. The candidate has relevant sales experience in companies such as Pt Narasaka Utama (a distributor related to FMCG products like Unilever), Pt Autostar Mandiri Teknotama (automotive spare parts distributor, not directly FMCG, Telco, or Banking but sales experience is relevant), and Pt Trinanda Jaya Sinergi (retail supervisor role). The candidate consistently met sales targets and led teams, showing strong sales performance and achievement, which justifies a relevant industry score of 50 out of 65. Employment stability is strong with all jobs lasting more than 6 months, including the latest role lasting 1 year 8 months, earning full employment stability score of 15. Overall, the total score is 85, which is above the 70% threshold, leading to a recommendation to submit the CV.",
+        "The candidate's domicile is Aceh Besar, which exactly matches the district coverage of Aceh Besar and Banda Aceh, resulting in a full location score of 20. The candidate has relevant field sales experience as an Account Officer at two banks (Bank Bukopin and PT. Bank BPR Ingin Jaya) from 2018 to 2025, totaling approximately 7 years. Both roles involved sales-related activities such as seeking new customers, distributing brochures, and offering financing to SMEs, with clear sales targets and achievements (10%-70% and 30%-50% achievement rates). Banking is a relevant industry for the sales role, so the candidate scores 60 out of 65 for relevant industry experience. Employment stability is strong with two long tenures (2 years and 5 years), so the candidate scores full 15 points. Overall, the candidate scores 95 out of 100, well above the 70% threshold, making the recommendation to submit the CV. The candidate is not willing to relocate but is located within the target district, which is acceptable."
+      ]
+    },
+    {
+      "column_name": "score",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 75.07,
+      "description": "Pefindo credit rating score. Third-party credit assessment for merchant creditworthiness",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "110",
+        "110",
+        "150"
+      ],
+      "possible_values": [
+        "0",
+        "10",
+        "100",
+        "110",
+        "120",
+        "130",
+        "140",
+        "150",
+        "160",
+        "170",
+        "180",
+        "190",
+        "20",
+        "30",
+        "40",
+        "50",
+        "60",
+        "70",
+        "80",
+        "90"
+      ]
+    },
+    {
+      "column_name": "reason_for_return",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Reason For Return field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": []
+    },
+    {
+      "column_name": "reason",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Reason field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": []
+    },
+    {
+      "column_name": "msl",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 49.98,
+      "description": "Msl field",
+      "business_context": "Common field - frequently populated (>50%)",
+      "example_values": [
+        "STEVEN",
+        "IMRON",
+        "ORYZA_SATIVA"
+      ]
+    },
+    {
+      "column_name": "ta_assigned",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 77.21,
+      "description": "Ta Assigned field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "AUDREYN_SUMANTRI",
+        "ISMA_IRIYANI",
+        "ISMA_IRIYANI"
+      ],
+      "possible_values": [
+        "AI_INTERVIEW",
+        "AUDREYN_SUMANTRI",
+        "DITA_RAHAYU",
+        "GRACEILLA_MELLANIA",
+        "ISMA_IRIYANI",
+        "NABILA_DIAN",
+        "SALVIA_MYRILLA",
+        "SAUSANA_PUTRI"
+      ]
+    },
+    {
+      "column_name": "notes_pre_ojt",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 97.77,
+      "description": "Notes Pre Ojt field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "Have not complete pre-OJT",
+        "",
+        ""
+      ]
+    },
+    {
+      "column_name": "reason_for_resignation_or_termination",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 94.5,
+      "description": "Reason For Resignation Or Termination field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "Cancel join due to unable to carry out her job responsibilities",
+        "Withdraw due to got offer from other company",
+        "Withdraw join"
+      ]
+    },
+    {
+      "column_name": "reason_type_for_resignation_or_termination",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 94.75,
+      "description": "Reason Type For Resignation Or Termination field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "",
+        "",
+        ""
+      ],
+      "possible_values": [
+        " NOT_FIT_WITH_LEADER",
+        "BETTER_OFFER",
+        "END_OF_CONTRACT",
+        "LOCATION_MISMATCH",
+        "NO_RESPONSE_CANDIDATE",
+        "PERFORMANCE_ISSUES",
+        "PERSONAL_REASON",
+        "TERMINATED"
+      ]
+    },
+    {
+      "column_name": "post_hiring_status_promotion",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 98.36,
+      "description": "Post Hiring Status Promotion field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "MS_ACCEPTED_TO_BE_PERMANENT",
+        "MS_ACCEPTED_TO_BE_PERMANENT",
+        "MS_ACCEPTED_TO_BE_PERMANENT"
+      ],
+      "possible_values": [
+        "MS_ACCEPTED_TO_BE_PERMANENT"
+      ]
+    },
+    {
+      "column_name": "candidate_email",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.22,
+      "description": "Email address of merchant or contact person. Primary email contact",
+      "business_context": "Core field - rarely empty (>90% populated)",
+      "example_values": [
+        "jarotwidodo112@gmail.com",
+        "ajir.nabawi@gmail.com",
+        "rizalandika1802@gmail.com"
+      ]
+    },
+    {
+      "column_name": "current_stage",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Current Stage field",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "11",
+        "4",
+        "4"
+      ],
+      "possible_values": [
+        "-1",
+        "1",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9"
+      ]
+    },
+    {
+      "column_name": "vendor_name",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.01,
+      "description": "Vendor Name field",
+      "business_context": "Core field - rarely empty (>90% populated)",
+      "example_values": [
+        "SPC",
+        "SPC",
+        "SPC"
+      ]
+    },
+    {
+      "column_name": "cv_source",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 8.71,
+      "description": "Cv Source field",
+      "business_context": "Core field - rarely empty (>90% populated)",
+      "example_values": [
+        "TELEGRAM",
+        "VENDOR",
+        "VENDOR"
+      ],
+      "possible_values": [
+        "ERP_PROGRAM",
+        "FACEBOOK",
+        "FRIENDS_RECOMMENDATION",
+        "GLINTS",
+        "INDEED",
+        "INTERNAL_SOURCE",
+        "JOBSTREET",
+        "KALIBRR",
+        "MANATAL",
+        "PINTARNYA",
+        "TELEGRAM",
+        "VENDOR",
+        "WALK-IN_INTERVIEW"
+      ]
+    },
+    {
+      "column_name": "cv_source_old",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 77.22,
+      "description": "Cv Source Old field",
+      "business_context": "Optional field - sparsely populated",
+      "example_values": [
+        "TELEGRAM",
+        "VENDOR",
+        "VENDOR"
+      ],
+      "possible_values": [
+        "FACEBOOK",
+        "FRIENDS_RECOMMENDATION",
+        "GLINTS",
+        "INDEED",
+        "INTERNAL_SOURCE",
+        "JOBSTREET",
+        "KALIBRR",
+        "MANATAL",
+        "PINTARNYA",
+        "TELEGRAM",
+        "VENDOR",
+        "WALK-IN_INTERVIEW"
+      ]
+    },
+    {
+      "column_name": "vendor_name_old",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.01,
+      "description": "Vendor Name Old field",
+      "business_context": "Core field - rarely empty (>90% populated)",
+      "example_values": [
+        "SPC",
+        "SPC",
+        "SPC"
+      ]
+    },
+    {
+      "column_name": "cv_source_category",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Cv Source Category field",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "TA Source",
+        "Vendor",
+        "Vendor"
+      ],
+      "possible_values": [
+        "Leader Referral",
+        "TA Source",
+        "Vendor",
+        "Walk-In Interview"
+      ]
+    }
+  ]
+}
