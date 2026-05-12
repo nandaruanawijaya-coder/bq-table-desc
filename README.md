@@ -20,44 +20,49 @@ Follow CLAUDE_CODE_AUTOMATION.md for the complete workflow and Obra Superpowers 
 - Data-Driven: Extract real patterns from 10,000 sample rows
 - Verification: Enforce validation rules on every column (no generic descriptions)
 
-**CRITICAL: Extract CREATE Query First**
+**CRITICAL: Extract SQL Definitions First**
 
 For each table:
-1. Run: bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '.type'
-2. If VIEW: Extract SQL with: bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '.view.query' -r
-3. If TABLE: Note it's raw source data (no SQL available)
-4. Use extracted query to explain HOW each column is formed
+```bash
+# Step 1: Check if table is VIEW or TABLE
+bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '.type'
+
+# Step 2: If VIEW, extract the SQL definition
+bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '.view.query' -r
+
+# Step 3: If TABLE, no SQL available - use column names + semantics
+```
+
+**TABLE vs VIEW Handling:**
+- **VIEW**: Extract SQL, analyze CASE/COUNT/SUM/JOIN/window functions to explain column formation
+- **TABLE**: Use column name semantics (has_*, is_*, *_at, *_count, etc) + format detection + business context
 
 **Apply 4-Source Semantic Logic (Priority Order):**
 
-1. **Source 1 (Priority 1): Analyze Column Formation in CREATE Query**
-   - CASE statements → explain ALL conditions and result categories
-   - Aggregations (COUNT/SUM) → explain what's counted and what filters applied
-   - Joins/lookups → explain table references
-   - Functions → explain when/how generated
-   - Raw columns → explain source table and purpose
-   - Description MUST explain formation logic, not just column name
+1. **Source 1 (Priority 1): SQL Definition (VIEWs Only)**
+   - CASE statements → explain ALL conditions and thresholds (e.g., "APPROVED if score ≥0.75, REJECTED if <0.75")
+   - Aggregations → explain what's counted and filters (e.g., "COUNT ONLY PM1_EDC products, others excluded")
+   - Priority logic → explain fallback order (e.g., "Priority: verification_date → submission_date → updated_at")
+   - Window functions → explain deduplication or ranking (e.g., "Latest record per merchant by date")
+   - Threshold derivation → explain score/value thresholds
+   - UNION ALL → note which data sources are combined
 
-2. **Source 2 (Priority 2): Value Format Detection**
-   - _sdc_* → "Singer data connector pipeline metadata"
-   - UUIDs → "Unique {entity} identifier in UUID v4 format"
-   - Phone (8-13 digits, starts 8) → "Phone number (10-11 digit Indonesian mobile)"
-   - Timestamps → "Timestamp when {action} occurred"
-   - Coordinates → "Latitude,longitude coordinate pair"
-   - Enumerations (≤20 unique) → list all possible values
+2. **Source 2 (Priority 2): Column Name Semantics + Value Format Detection**
+   - **Column patterns** (for TABLEs): has_*, is_* → "Boolean indicating...", *_name → "Name of...", *_at/*_date → "Timestamp when...", *_count/*_total → "Count of...", *_score → "Score for...", *_id/*_number → "Unique identifier...", *_status/*_type → "Classification of..."
+   - **Value formats**: _sdc_* → "Singer data connector...", UUIDs → "UUID v4 format", Phone → "10-11 digit Indonesian mobile", Timestamps → "Timestamp when...", Coordinates → "Latitude,longitude pair", Enumerations → list all ≤20 unique values
 
 3. **Source 3 (Priority 3): Business Context**
    - Use table context from table_list.md
-   - Credit assessment → loan/risk analysis
-   - Sales/route → merchant outreach
-   - Visits → engagement tracking
-   - Profiles → KYC/product adoption
-   - Payments → settlement/revenue
+   - Credit assessment → loan approval, risk analysis, KYC verification
+   - Sales/route → merchant outreach, territory assignment, targeting
+   - Visits → engagement tracking, sales activity
+   - Profiles → product adoption, KYC status, merchant verification
+   - Payments → settlement, revenue tracking, cash flow
 
 4. **Source 4 (Priority 4): Sample Data Analysis**
-   - Null % → field importance (Required/Core/Common/Optional)
-   - Unique values → possible_values array if ≤20
-   - Example values from actual data
+   - Null percentage → Set business_context (Required 0% null, Core >90%, Common >50%, Optional <50%)
+   - Enumeration → If ≤20 unique, add possible_values array with all values
+   - Example values → Extract 2-3 real values from actual data
 
 **JSON Requirements:**
 - `semantic_source`: sql_definition, value_format, business_context, sample_data (or combination)
@@ -65,13 +70,17 @@ For each table:
 - `business_context`: Required/Core/Common/Optional based on null %
 - `description`: Answer "What is this and why does it exist?"
 
-**Validation:**
-- All 10 success criteria from README (each column)
-- No generic "[Field]" patterns
-- SQL definitions extracted for calculated columns
-- Format detection: UUID, phone, timestamp, enum identified
-- Descriptions ≥40 characters (meaningful)
-- semantic_source and business_context present
+**Validation (All Columns MUST PASS):**
+- ✅ Explains WHAT: "Counts ONLY PM1_EDC, others excluded" (not "Count of transactions")
+- ✅ Formation logic: CASE/COUNT/SUM/FILTER details from SQL (VIEWs) or column name semantics (TABLEs)
+- ✅ Value format: "UUID v4", "Phone (10-11 digit)", "Timestamp when..." (not generic "Some identifier")
+- ✅ Business context: "Used for loan approval" (not "Score field")
+- ✅ Length: ≥40 characters (meaningful, not <40 too generic)
+- ✅ Enum values: possible_values array with all ≤20 unique values (e.g., ["APPROVED", "REJECTED"])
+- ✅ business_context field: "Required/Core/Common/Optional" (not null)
+- ✅ semantic_source field: "sql_definition + value_format + ..." (not null)
+- ✅ No data-type patterns: NOT "Text or string value", "Integer numeric", "Name or text identifier"
+- ✅ SDC columns: "Singer data connector: [purpose]" (not treated as regular fields)
 ```
 
 ---
@@ -193,7 +202,12 @@ jq '.columns[] | select(.semantic_source == null) | .column_name' FILE.json
 
 # Check 6: Enum columns without possible_values
 jq '.columns[] | select((.description | test("status|categories")) and (.possible_values == null)) | .column_name' FILE.json
+
+# Check 7: Generic data-type descriptions (NEW)
+jq '.columns[] | select(.description | test("^(Text or string|Integer numeric|Numeric value|Name or text) value")) | .column_name' FILE.json
 ```
+
+**All 7 checks should return EMPTY.** If check 7 catches columns, they need semantic descriptions (column meaning + business context), not just data types.
 
 ---
 

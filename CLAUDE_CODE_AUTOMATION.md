@@ -56,56 +56,194 @@ bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '.view.query' -r > /tmp/cr
 - VIEW: SQL shows exactly how columns are calculated (CASE, COUNT, SUM, JOIN, etc)
 - TABLE: Raw source columns — use column names + business context
 
-**Example: mee_weekly_route_plan (VIEW)**
+**Example: credit_memo (VIEW — Real SQL)**
 
 ```sql
-SELECT 
-  mee_id,
-  COUNT(CASE WHEN product = 'PM1_EDC' THEN transaction_id END) as pm1_edc_trx,
-  CASE WHEN merchant_has_edc = False THEN 'prospect' ELSE 'existing' END as edc_prospect
-FROM transactions
-GROUP BY mee_id
+-- 3-source UNION: Feb data + India data + Sync data
+WITH base AS (
+  SELECT * EXCEPT (verification_date, final_recommendation, notes),
+    -- Verification date logic: use actual if available, else submission, else updated_at
+    CASE 
+      WHEN verification_date IS NOT NULL THEN verification_date
+      WHEN submission_date IS NOT NULL THEN submission_date
+      ELSE DATE(updated_at)
+    END AS verification_date,
+    -- Loan approval: derive from score or use manual recommendation
+    CASE 
+      WHEN final_recommendation IS NULL AND final_score IS NULL THEN NULL 
+      WHEN final_recommendation IS NULL AND final_score >= 0.75 THEN 'APPROVED'
+      WHEN final_recommendation IS NULL AND final_score < 0.75 THEN 'REJECTED'
+      ELSE final_recommendation
+    END AS final_recommendation
+  FROM cremo_cleaned_feb
+  
+  UNION ALL
+  SELECT * ... FROM cremo_cleaned_indi
+  UNION ALL
+  SELECT * ... FROM cremo_cleaned_sync
+)
+SELECT * FROM base
+QUALIFY ROW_NUMBER() OVER (PARTITION BY phone_number ORDER BY verification_date DESC) = 1
 ```
 
-| Column | Formation | Meaning |
-|--------|-----------|---------|
-| `pm1_edc_trx` | `COUNT(CASE WHEN product='PM1_EDC'...)` | Counts ONLY PM1_EDC, excludes others |
-| `edc_prospect` | `CASE WHEN merchant_has_edc=False...` | 'prospect' (no EDC) or 'existing' (has EDC) |
+| Column | Formation Logic | Semantic Description |
+|--------|-----------------|----------------------|
+| `verification_date` | CASE with 3-level priority | Timestamp when loan verification occurred. Priority: actual verification_date → submission_date → updated_at |
+| `final_recommendation` | CASE deriving from final_score threshold | Loan approval decision. Auto-set to APPROVED (score ≥0.75) or REJECTED (score <0.75). User can override with manual. NULL if both missing |
+| Phone dedupe | ROW_NUMBER() window function | View deduplicates by phone_number, keeping latest verification date only |
 
 ---
 
 ## Step 2-5: Analyze Columns Using 4 Sources (Priority Order)
 
+### TABLE vs VIEW Strategy
+
+Before analyzing columns, determine table type:
+
+| Type | How to Handle | Source 1 | Source 2-4 |
+|------|---------------|----------|-----------|
+| **VIEW** | Extract SQL, analyze column formation | ✅ SQL definition — MANDATORY | Format detection + business context + sample data |
+| **TABLE** | Raw source data, no SQL available | ❌ Skip — no SQL | Column name + format detection + business context + sample data |
+
+**For this project (5 tables):**
+- ✅ `credit_memo` (VIEW) — Has SQL, extract and analyze
+- ❌ `ms_merchant_profiling_ssot` (TABLE) — No SQL, use name + format + context
+- ❌ `mee_weekly_route_plan` (TABLE) — No SQL, use name + format + context
+- ❌ `ms_form_hiring_and_active` (TABLE) — No SQL, use name + format + context
+- ❌ `payments_ssot` (TABLE) — No SQL, use name + format + context
+
+---
+
 For EACH column, apply these sources in order:
 
-### Source 1 (Priority 1): SQL Definition
+### Source 1 (Priority 1): SQL Definition (VIEWs Only)
 
-If column appears in SELECT clause with CASE/COUNT/SUM/JOIN/FUNCTION:
+For VIEW tables, parse the extracted SQL and explain column formation:
 
-- **CASE statement** → Explain all conditions and result categories
-- **COUNT/SUM/AVG** → Explain what's counted and which rows included (filters)
-- **JOIN/LOOKUP** → Explain what table is referenced
-- **FUNCTION** (CURRENT_TIMESTAMP, etc) → Explain when/how generated
-- **Raw column** → Explain source table and meaning
+#### Pattern 1: CASE Statements
+Analyze all WHEN branches and explain the logic:
 
-**Examples:**
-- `COUNT(CASE WHEN product='PM1_EDC' THEN trx_id)` → "Counts ONLY PM1_EDC products, other products excluded"
-- `CASE WHEN score >= 80 THEN 'High'...` → "Risk category: High (≥80), Medium (≥50), Low (<50)"
-- `CASE WHEN has_edc = False THEN 'prospect'...` → "EDC status: 'prospect' (no EDC) or 'existing' (has EDC)"
+```sql
+CASE 
+  WHEN score >= 80 THEN 'High'
+  WHEN score >= 50 THEN 'Medium'
+  ELSE 'Low'
+END
+```
 
-### Source 2 (Priority 2): Value Format Detection
+**Description:** "Risk category: High (score ≥80), Medium (score ≥50), Low (score <50). Used to segment merchants by loan risk level"
 
-From sample data, identify:
+#### Pattern 2: Aggregations (COUNT/SUM/AVG)
+Explain what's counted and which rows included:
 
-| Format | Detection | Description |
-|--------|-----------|-------------|
-| _sdc_* | Starts with _sdc_ | "Singer data connector: [pipeline tracking purpose]" |
-| UUID | 36-char pattern | "Unique [entity] identifier in UUID v4 format" |
-| Phone | 8-13 digits, starts 8 | "Phone number (10-11 digit Indonesian mobile)" |
-| Timestamp | ISO 8601 pattern | "Timestamp when [action] occurred" |
-| Coordinates | lat,long pattern | "Latitude,longitude coordinate pair" |
-| Bank account | 8-16 digits | "Bank account number" |
-| Enumeration | ≤20 unique values | List all possible values |
+```sql
+COUNT(CASE WHEN product = 'PM1_EDC' THEN transaction_id END)
+```
+
+**Description:** "Weekly count of PM1_EDC product transactions only. Other payment products excluded. Calculated as COUNT(CASE WHEN product='PM1_EDC' THEN transaction_id END) per MEE per week"
+
+#### Pattern 3: Priority Logic (Multi-level CASE)
+For fields with priority-based fallback logic:
+
+```sql
+CASE 
+  WHEN verification_date IS NOT NULL THEN verification_date
+  WHEN submission_date IS NOT NULL THEN submission_date
+  ELSE DATE(updated_at)
+END
+```
+
+**Description:** "Timestamp when loan verification occurred. Priority order: actual verification_date (if available) → submission_date (if available) → updated_at. Used to track assessment timing"
+
+#### Pattern 4: Threshold-based Derivation
+For columns derived from score thresholds:
+
+```sql
+CASE 
+  WHEN final_recommendation IS NULL AND final_score >= 0.75 THEN 'APPROVED'
+  WHEN final_recommendation IS NULL AND final_score < 0.75 THEN 'REJECTED'
+  ELSE final_recommendation
+END
+```
+
+**Description:** "Loan approval decision automatically derived from final_score with 0.75 threshold. Score ≥0.75 → APPROVED, <0.75 → REJECTED. User can override with manual recommendation. NULL if score and manual recommendation both missing"
+
+#### Pattern 5: Window Functions (Deduplication)
+For columns used in QUALIFY/WHERE with window functions:
+
+```sql
+QUALIFY ROW_NUMBER() OVER (PARTITION BY phone_number ORDER BY verification_date DESC) = 1
+```
+
+**Description:** "View deduplicates records by phone_number, keeping the latest verification_date. Each merchant appears only once with most recent assessment"
+
+#### Pattern 6: UNION ALL (Multi-source)
+If column comes from UNION ALL sources, note data sources:
+
+```sql
+SELECT ... FROM cremo_cleaned_feb
+UNION ALL
+SELECT ... FROM cremo_cleaned_indi
+UNION ALL
+SELECT ... FROM cremo_cleaned_sync
+```
+
+**Description:** "Combines credit assessments from 3 regional sources: Feb data (Philippines) + India data (India) + Sync data (Indonesia). De-duplicated by latest verification date"
+
+### Source 2 (Priority 2): Value Format Detection + Semantic Meaning
+
+For all tables (both VIEW and TABLE), identify column semantics from value patterns and column names:
+
+#### Pattern Detection (Sample Data Analysis)
+
+| Format | Detection | Example | Description |
+|--------|-----------|---------|-------------|
+| _sdc_* | Starts with _sdc_ | _sdc_batched_at | "Singer data connector: timestamp when batch was processed in pipeline" |
+| UUID | 36-char pattern | 85790576066 | "Unique [entity] identifier in UUID v4 format" |
+| Phone | 8-13 digits, starts 8 | 85790576066 | "Phone number (10-11 digit Indonesian mobile). Primary identifier for merchant lookup" |
+| Timestamp | ISO 8601 pattern | 2026-05-09 10:31:29 | "Timestamp when [action] occurred" |
+| Coordinates | lat,long pattern | -6.2,106.8 | "Latitude,longitude coordinate pair for precise location" |
+| Bank account | 8-16 digits | 1234567890 | "Bank account number for settlement and payout" |
+| Boolean (0/1) | Only 0, 1 values | 0,1 | "Boolean flag indicating [state]" |
+| Status/Enum | ≤20 unique | APPROVED, REJECTED | List all possible values in possible_values array |
+
+#### Column Name Semantics (For TABLE Columns Without SQL)
+
+When no SQL available (TABLE type), extract meaning from column names:
+
+| Pattern | Examples | Template |
+|---------|----------|----------|
+| `has_*`, `is_*` | has_bri_edc, is_active | "Boolean indicating if [entity] [state]. Used for [business purpose]" |
+| `*_name` | merchant_name, owner_name | "[Entity] name or registered identifier. Used for [business purpose]" |
+| `*_at`, `created_*` | createdAt, updatedAt | "Timestamp when [action] occurred. Indicates [business meaning]" |
+| `*_date`, `*_day` | submission_date, birth_date | "Date of [event]. Used for [business context]" |
+| `*_count`, `*_total` | transaction_count, total_sales | "Count/total of [metric]. Key metric for [business purpose]" |
+| `*_score`, `*_rank` | final_score, credit_rank | "[Type] score (0-1 scale). Used for [business purpose]" |
+| `*_id`, `*_number` | phone_number, order_id | "Unique [entity] identifier. Primary key/lookup field" |
+| `*_status`, `*_type` | order_status, business_type | "Classification of [entity]. Values: [list]" |
+| `area_*`, `province_*` | area_code, province_name | "Geographic [level] for merchant location and segmentation" |
+
+**Bad Template (Generic — DO NOT USE):**
+```
+"Text or string value. Merchant profile with product ownership"
+"Integer numeric value. Merchant profile with product ownership"
+"Name or text identifier. Weekly MEE route planning"
+```
+
+**Good Templates (Semantic — USE THESE):**
+```
+Column: businessName
+Template: "Official business name or registered trading name. Primary merchant identifier for account and reconciliation"
+
+Column: yearOfBirth
+Template: "Year merchant owner was born. Used for KYC demographic verification and age validation"
+
+Column: province
+Template: "State or province level administrative division. Used for geographic segmentation and MEE territory assignment"
+
+Column: createdAt
+Template: "Timestamp when merchant account was created. Indicates onboarding date and initial KYC completion"
+```
 
 ### Source 3 (Priority 3): Business Context
 
@@ -248,7 +386,12 @@ jq '.columns[] | select(.semantic_source == null) | .column_name' FILE.json
 
 # Check 6: Enum columns without possible_values
 jq '.columns[] | select((.description | test("status|categories")) and (.possible_values == null)) | .column_name' FILE.json
+
+# Check 7: Generic data-type descriptions (NEW)
+jq '.columns[] | select(.description | test("^(Text or string|Integer numeric|Numeric value|Name or text) value")) | .column_name' FILE.json
 ```
+
+**All 7 checks should return EMPTY.** If check 7 finds columns, they need semantic descriptions (column name meaning + business context), not just data types.
 
 ---
 
@@ -300,6 +443,12 @@ A: Yes. Add all to table_list.md and ask Claude Code once. It will process batch
 
 **Q: How much faster is batch processing?**
 A: Single table: 10 min. Five tables serial: 50 min. Five tables parallel: 12 min.
+
+**Q: How do I regenerate documentation for tables I've already documented?**
+A: Delete the JSON file from `table_column_description/` folder, keep the entry in `table_list.md`, and ask Claude Code to re-document. This is useful when: (1) you discover a table is actually a VIEW and need SQL analysis, (2) the methodology improves (like this guide), (3) the schema changes.
+
+**Q: What if I find bad descriptions in existing documentation?**
+A: You have 3 options: (1) Delete the JSON file and regenerate with updated Claude Code, (2) Manually edit specific descriptions in the JSON file, (3) Ask Claude Code to regenerate with notes about the patterns that need improvement.
 
 ---
 
