@@ -10,81 +10,87 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Phone number (10-11 digit Indonesian mobile). Primary identifier for EDC orders, merchant lookups, and customer contact",
+      "description": "Phone number identifier (10-11 digit Indonesian mobile). Primary identifier for EDC orders, merchant lookups, and customer contact.",
       "business_context": "Required field - always populated",
       "example_values": [
         "85314173200",
         "81237897255",
         "83116081741"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "lat_long",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Latitude,longitude coordinate pair for precise merchant location. Used for geographic mapping and device delivery routing",
+      "description": "Latitude,longitude coordinate pair for precise merchant location. Lat-long used for geographic mapping and device delivery routing.",
       "business_context": "Required field - always populated",
       "example_values": [
         "5.391094208,95.91785431",
         "-8.6740059,115.1728238",
         "-8.0965327,115.1569949"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "latitude",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Latitude coordinate for merchant location. Component of geographic coordinate for mapping and analysis",
+      "description": "Latitude coordinate for merchant location. Latitude component of geographic coordinate for mapping and analysis.",
       "business_context": "Required field - always populated",
       "example_values": [
         "5.391094208",
         "-8.6740059",
         "-8.0965327"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "longitude",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Longitude coordinate for merchant location. Component of geographic coordinate for mapping and analysis",
+      "description": "Longitude coordinate for merchant location. Longitude component of geographic coordinate for mapping and analysis.",
       "business_context": "Required field - always populated",
       "example_values": [
         "95.91785431",
         "115.1728238",
         "115.1569949"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "formatted_address",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Complete formatted address derived from geocoding API. Includes street address, district, regency, and province for merchant KYC",
+      "description": "Formatted address derived from geocoding API. Address includes street, district, regency, and province for merchant KYC.",
       "business_context": "Required field - always populated",
       "example_values": [
         "9WR9+C5J, Seukeumbrok, Kec. Pidie, Kabupaten Pidie, Aceh, Indonesia",
         "Jl. Gn. Tangkuban Perahu No.10a, Kerobokan Kelod, Kec. Kuta Utara, Kabupaten Badung, Bali 80361, Indonesia",
         "W534+9QG, Jl. Bungkulan, Bungkulan, Kec. Sawan, Kabupaten Buleleng, Bali 81171, Indonesia"
-      ]
+      ],
+      "semantic_source": "sql_definition + value_format"
     },
     {
       "column_name": "raw_response",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Raw API response data from geocoding service. Used for debugging and data quality assessment",
+      "description": "Raw API response data from geocoding service. Response used for debugging and data quality assessment.",
       "business_context": "Optional field - sparsely populated",
-      "example_values": []
+      "example_values": [],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "timestamp__",
       "data_type": "TIMESTAMP",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Timestamp associated with the record",
+      "description": "Timestamp associated with the record. Record timestamp indicates when data was retrieved.",
       "business_context": "Required field - always populated",
       "example_values": [
         "2026-03-06 06:00:06.308148+00:00",
@@ -95,7 +101,8 @@
         "2026-01-16 07:00:08.907528+00:00",
         "2026-02-27 03:50:29.076038+00:00",
         "2026-03-06 06:00:06.308148+00:00"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "source_flag",
@@ -113,46 +120,50 @@
         "Feb 2026",
         "Jan 2026",
         "Mar 2026"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "old_kecamatan_dont_use",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.04,
-      "description": "District (kecamatan) administrative division. Used for detailed merchant location hierarchy and territory management",
+      "description": "Old kecamatan (district) administrative division. Dont use - deprecated old district field.",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "SEUKEUMBROK",
         "KEC. KUTA UTARA",
         "KEC. SAWAN"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "old_kabupaten_dont_use",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Regency (kabupaten) administrative division. Used for merchant location detail and regional sales organization",
+      "description": "Old kabupaten (regency) administrative division. Dont use - deprecated old regency field.",
       "business_context": "Required field - always populated",
       "example_values": [
         "PIDIE",
         "KABUPATEN BADUNG",
         "KABUPATEN BULELENG"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "old_province_dont_use",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "State or province level administrative division for merchant location and geographic segmentation",
+      "description": "Old province administrative division. Dont use - deprecated old province field.",
       "business_context": "Required field - always populated",
       "example_values": [
         "ACEH",
         "BALI",
         "BALI"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "kabupaten",
@@ -165,7 +176,8 @@
         "KABUPATEN PIDIE",
         "KABUPATEN BADUNG",
         "KABUPATEN BULELENG"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "kecamatan",
@@ -178,7 +190,8 @@
         "PIDIE",
         "KUTA UTARA",
         "SAWAN"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "province",
@@ -191,7 +204,8 @@
         "NANGGROE ACEH DARUSSALAM",
         "BALI",
         "BALI"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "area",
@@ -216,7 +230,8 @@
         "SUMATERA 1",
         "SUMATERA 2",
         "SUMATERA 3"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "parsing_status",
@@ -234,7 +249,8 @@
         "COMPLETE_HIGH_CONFIDENCE",
         "COMPLETE_LOW_CONFIDENCE",
         "COMPLETE_MEDIUM_CONFIDENCE"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     }
   ]
 }

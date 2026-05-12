@@ -307,7 +307,7 @@
       "description": "Numeric or alphanumeric code indicating transaction processing status. Code identifying success or failure reason.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
-      "possible_values": null,
+      "possible_values": [],
       "semantic_source": "sql_definition + value_format + business_context + sample_data"
     },
     {
@@ -318,7 +318,7 @@
       "description": "Detailed message describing transaction status or error reason. Message providing status explanation details.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
-      "possible_values": null,
+      "possible_values": [],
       "semantic_source": "sql_definition + business_context"
     },
     {

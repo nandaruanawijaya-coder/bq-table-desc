@@ -16,20 +16,22 @@
         "MSE Demak",
         "MSE Banjarnegara",
         "MSE Banjarnegara"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "mse_name_updated",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 1.94,
-      "description": "Name of Merchant Success Executive assigned to merchant territory. Used for sales team assignment and accountability",
+      "description": "MSE (Merchant Service Executive) name updated. Updated MSE name for territory assignment.",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "Bambang Pujiyono",
         "Taufik Nugroho",
         "Taufik Nugroho"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "province",
@@ -42,7 +44,8 @@
         "JAWA TENGAH",
         "JAWA TENGAH",
         "JAWA TENGAH"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "regency_city",
@@ -55,7 +58,8 @@
         "KABUPATEN DEMAK",
         "KABUPATEN WONOSOBO",
         "KABUPATEN PURWOREJO"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "mse_lead",
@@ -68,7 +72,8 @@
         "TL-Agus",
         "Amzar Sapunda",
         "Amzar Sapunda"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "head_of_area",
@@ -93,14 +98,15 @@
         "Vacant Sum 1",
         "Vacant Sum 2",
         "Vacant Sum 3"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "area",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.4,
-      "description": "Geographic area region classification (Java 1-3, Sumatera 1-3, etc). Used for MSE organization and sales targets",
+      "description": "Geographic area code or region identifier. Area defines sales territory assignment.",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "Java 2",
@@ -118,7 +124,8 @@
         "Sumatera 1",
         "Sumatera 2",
         "Sumatera 3"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "head_of_region",
@@ -136,7 +143,8 @@
         "ROLLY",
         "TOMMY",
         "ZIKO"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "region",
@@ -154,7 +162,8 @@
         "EAST INDO",
         "JAVA",
         "SUMATERA"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "mse_join_date",
@@ -167,7 +176,8 @@
         "2026-03-02",
         "1999-12-30",
         "1999-12-30"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     }
   ]
 }
