@@ -1,0 +1,3871 @@
+{
+  "location_gmaps_static": {
+    "full_table_id": "ledger-fcc1e.trb_pymnts_derived.location_gmaps_static",
+    "table_name": "location_gmaps_static",
+    "dataset": "trb_pymnts_derived",
+    "description": null,
+    "columns": [
+      {
+        "name": "phone_number",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "lat_long",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "latitude",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "longitude",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "formatted_address",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "raw_response",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "timestamp__",
+        "type": "TIMESTAMP",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "source_flag",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "old_kecamatan_dont_use",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "old_kabupaten_dont_use",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "old_province_dont_use",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "kabupaten",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "kecamatan",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "province",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "area",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "parsing_status",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      }
+    ]
+  },
+  "mapping_area_mse_opentable": {
+    "full_table_id": "ledger-fcc1e.datamart_opentable.mapping_area_mse_opentable",
+    "table_name": "mapping_area_mse_opentable",
+    "dataset": "datamart_opentable",
+    "description": "Mapping of Merchant Success Executive to their assigned territory and their supervisor (MSL, HoA, HoR)",
+    "columns": [
+      {
+        "name": "new_mse_city_sep_24",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Updated MSE city/area assignment as of September 2024. Shows territory reorganization after restructuring",
+        "fields": []
+      },
+      {
+        "name": "mse_name_updated",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Name of Merchant Success Executive assigned to merchant territory. Used for sales team assignment and accountability",
+        "fields": []
+      },
+      {
+        "name": "province",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "State or province level administrative division for merchant location and geographic segmentation",
+        "fields": []
+      },
+      {
+        "name": "regency_city",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Regency or city name for geographic location classification and merchant territory mapping",
+        "fields": []
+      },
+      {
+        "name": "mse_lead",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Name of MSE Team Lead managing assigned MSE members. Shows organizational hierarchy for territory management",
+        "fields": []
+      },
+      {
+        "name": "head_of_area",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Name of Area Head supervising geographic area and MSE team. Top area management for performance accountability",
+        "fields": []
+      },
+      {
+        "name": "area",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Geographic area region classification (Java 1-3, Sumatera 1-3, etc). Used for MSE organization and sales targets",
+        "fields": []
+      },
+      {
+        "name": "head_of_region",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Name of Regional Head overseeing entire region. Regional management responsible for regional targets",
+        "fields": []
+      },
+      {
+        "name": "region",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Broad geographic region (JAVA, SUMATERA, EAST INDO). High-level geographic grouping for organizational hierarchy",
+        "fields": []
+      },
+      {
+        "name": "mse_join_date",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Date when the MSE joined or was assigned to this territory",
+        "fields": []
+      }
+    ]
+  },
+  "ms_merchant_profiling_ssot": {
+    "full_table_id": "ledger-fcc1e.merchant_success_analytics.ms_merchant_profiling_ssot",
+    "table_name": "ms_merchant_profiling_ssot",
+    "dataset": "merchant_success_analytics",
+    "description": "Single Source of Truth (SSOT) for merchant profiling data.Contains comprehensive merchant business details, transaction patterns, EDC/QRIS ownership.consolidated repository for all merchant profiling data across BukuWarung's sales (MSE/ RSE/ MSEE).",
+    "columns": [
+      {
+        "name": "phoneNumber",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Merchant's phone number without country code prefix (starting with 8). Primary key for the table.",
+        "fields": []
+      },
+      {
+        "name": "createdAt",
+        "type": "TIMESTAMP",
+        "mode": "NULLABLE",
+        "description": "Timestamp when the merchant profile was first created in the system.",
+        "fields": []
+      },
+      {
+        "name": "data_source_flag",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Source of merchant data: 'Prospero DB to BQ', 'Backfill BQ from Zoho', 'B2B Offline Typeform', or 'Onboard Data BW'.",
+        "fields": []
+      },
+      {
+        "name": "updatedAt",
+        "type": "TIMESTAMP",
+        "mode": "NULLABLE",
+        "description": "Timestamp when the merchant profile was last updated.",
+        "fields": []
+      },
+      {
+        "name": "businessName",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Name of the merchant's business (minimum 4 characters).",
+        "fields": []
+      },
+      {
+        "name": "ownerName",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Name of the business owner (minimum 4 characters).",
+        "fields": []
+      },
+      {
+        "name": "yearOfBirth",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "Birth year of the business owner.",
+        "fields": []
+      },
+      {
+        "name": "address",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Full address of the merchant's business location.",
+        "fields": []
+      },
+      {
+        "name": "yearFounded",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "Year when the business was established.",
+        "fields": []
+      },
+      {
+        "name": "shopPIC",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Person in charge (PIC) contact for the shop.",
+        "fields": []
+      },
+      {
+        "name": "numberOfBranches",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Number of business branches the merchant operates.",
+        "fields": []
+      },
+      {
+        "name": "numberOfEmployees",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Number of employees working in the business.",
+        "fields": []
+      },
+      {
+        "name": "surroundingArea",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Description of the area surrounding the business location.",
+        "fields": []
+      },
+      {
+        "name": "roadLocationType",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Type of road location where business is situated (e.g., main road, alley).",
+        "fields": []
+      },
+      {
+        "name": "estimatedCustomersPerDay",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Estimated number of customers visiting per day.",
+        "fields": []
+      },
+      {
+        "name": "totalDailyTransactions",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "Total number of daily transactions across all payment methods.",
+        "fields": []
+      },
+      {
+        "name": "cardTransactions",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "Number of card-based transactions per day.",
+        "fields": []
+      },
+      {
+        "name": "nonCardTransactions",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "Number of non-card transactions per day.",
+        "fields": []
+      },
+      {
+        "name": "briCardTransactions",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "Number of BRI card transactions per day.",
+        "fields": []
+      },
+      {
+        "name": "ppobTransactions",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "Number of PPOB (bill payment) transactions per day.",
+        "fields": []
+      },
+      {
+        "name": "bankTransferApps",
+        "type": "RECORD",
+        "mode": "REPEATED",
+        "description": "List of bank transfer applications used by merchant.",
+        "fields": [
+          "value"
+        ]
+      },
+      {
+        "name": "ppobApps",
+        "type": "RECORD",
+        "mode": "REPEATED",
+        "description": "List of PPOB applications used by merchant.",
+        "fields": [
+          "value"
+        ]
+      },
+      {
+        "name": "lakuPandaiCertificate",
+        "type": "BOOLEAN",
+        "mode": "NULLABLE",
+        "description": "Whether merchant has Laku Pandai certification.",
+        "fields": []
+      },
+      {
+        "name": "userId",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "User ID of the MSE (Merchant Success Executive) assigned to merchant's coverage area.",
+        "fields": []
+      },
+      {
+        "name": "businessTypes",
+        "type": "RECORD",
+        "mode": "REPEATED",
+        "description": "Array of business type classifications for the merchant.",
+        "fields": [
+          "value"
+        ]
+      },
+      {
+        "name": "completedLoanDate",
+        "type": "TIMESTAMP",
+        "mode": "NULLABLE",
+        "description": "Date when merchant completed their loan.",
+        "fields": []
+      },
+      {
+        "name": "edcOwnership",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "EDC machine ownership details (comma-separated list of providers).",
+        "fields": []
+      },
+      {
+        "name": "loanName",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Name or type of loan the merchant has.",
+        "fields": []
+      },
+      {
+        "name": "loanOwnership",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Current loan ownership status of the merchant.",
+        "fields": []
+      },
+      {
+        "name": "ownedLoanLimit",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": "Maximum loan limit owned by the merchant.",
+        "fields": []
+      },
+      {
+        "name": "retailEventPicContact",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Contact number of the person in charge for retail.",
+        "fields": []
+      },
+      {
+        "name": "retailTypePoi",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Type of Point of Interest where retail operates (e.g., Perumahan, traditionalMarket, Office).",
+        "fields": []
+      },
+      {
+        "name": "retailCommunityName",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Name of retail community or merchant group the merchant belongs to.",
+        "fields": []
+      },
+      {
+        "name": "retailCommunityAffiliation",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Whether merchant is affiliated with a retail community (Yes/No).",
+        "fields": []
+      },
+      {
+        "name": "retailQrisOwnership",
+        "type": "RECORD",
+        "mode": "REPEATED",
+        "description": "List of QRIS platforms used by retail merchant.",
+        "fields": [
+          "value"
+        ]
+      },
+      {
+        "name": "retailCreditCardPctTransaction",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "Percentage of transactions made via credit card.",
+        "fields": []
+      },
+      {
+        "name": "retailQrisPctTransaction",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "Percentage of transactions made via QRIS.",
+        "fields": []
+      },
+      {
+        "name": "retailContactPicPoi",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Contact number of the PIC at the Point of Interest.",
+        "fields": []
+      },
+      {
+        "name": "retailDebitCardPctTransaction",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "Percentage of transactions made via debit card.",
+        "fields": []
+      },
+      {
+        "name": "retailNamePicPoi",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Name of the person in charge at the Point of Interest.",
+        "fields": []
+      },
+      {
+        "name": "retailPosOwnership",
+        "type": "RECORD",
+        "mode": "REPEATED",
+        "description": "List of POS systems used by the retail merchant.",
+        "fields": [
+          "value"
+        ]
+      },
+      {
+        "name": "retailEstablishmentType",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Type of retail establishment (Permanent, semiPermanent, nonPermanent).",
+        "fields": []
+      },
+      {
+        "name": "retailLocatedInEvent",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Whether retail is located inside an event (Yes/No).",
+        "fields": []
+      },
+      {
+        "name": "retailLocatedInPoi",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Whether retail is located at a Point of Interest (Yes/No).",
+        "fields": []
+      },
+      {
+        "name": "retailEventPicName",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Name or description of event PIC or merchant notes about the event.",
+        "fields": []
+      },
+      {
+        "name": "retailEdcOwnership",
+        "type": "RECORD",
+        "mode": "REPEATED",
+        "description": "List of EDC machine providers used by retail merchant.",
+        "fields": [
+          "value"
+        ]
+      },
+      {
+        "name": "retailOfflineDailyTransaction",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "Average daily offline transaction amount in IDR.",
+        "fields": []
+      },
+      {
+        "name": "retailOnlineDailyTransaction",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "Average daily online transaction amount in IDR.",
+        "fields": []
+      },
+      {
+        "name": "retailDailyQrisVolume",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "Daily QRIS transaction volume in IDR.",
+        "fields": []
+      },
+      {
+        "name": "retailNamePoi",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Name of the Point of Interest location where retail operates.",
+        "fields": []
+      },
+      {
+        "name": "retailMerchantFlag",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "Flag indicating if merchant is profiled for retail payment (1=Yes, 0=No). Set to 1 if retailQrisOwnership, retailEstablishmentType, or retailLocatedInEvent is not null.",
+        "fields": []
+      },
+      {
+        "name": "notes",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Additional notes or comments about the merchant.",
+        "fields": []
+      },
+      {
+        "name": "storeType",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Store type classification from retail profiling.",
+        "fields": []
+      },
+      {
+        "name": "businessindustry",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Business industry segment classification.",
+        "fields": []
+      },
+      {
+        "name": "businesslocation",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Business location type classification.",
+        "fields": []
+      },
+      {
+        "name": "interestedinloan",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Whether merchant expressed interest in loans.",
+        "fields": []
+      },
+      {
+        "name": "desiredloanlimit",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "Desired loan limit amount indicated by merchant.",
+        "fields": []
+      },
+      {
+        "name": "mee_interested_sell_other_bw_products",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "MEE: Merchant's interest in selling other BukuWarung products (comma-separated values).",
+        "fields": []
+      },
+      {
+        "name": "mee_average_daily_profit_payment_agent",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "MEE: Average daily profit from payment agent activities (comma-separated values).",
+        "fields": []
+      },
+      {
+        "name": "mee_interested_build_other_business",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "MEE: Whether merchant is interested in building other businesses.",
+        "fields": []
+      },
+      {
+        "name": "mee_total_card_transaction",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "MEE: Total number of card transactions reported by merchant.",
+        "fields": []
+      },
+      {
+        "name": "mee_reason_why_not_use_bw_for_bri_on_us",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "MEE: Reasons why merchant doesn't use BukuWarung for BRI on-us transactions (comma-separated).",
+        "fields": []
+      },
+      {
+        "name": "mee_edc_ownership",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "MEE: EDC machine ownership details from MEE initiative (comma-separated values).",
+        "fields": []
+      },
+      {
+        "name": "mee_reason_why_not_use_bw_for_non_bri_card_edc_bri",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "MEE: Reasons for not using BukuWarung for non-BRI card EDC transactions (comma-separated).",
+        "fields": []
+      },
+      {
+        "name": "mee_loan_ownership_mee",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "MEE: Loan ownership status from MEE initiative perspective.",
+        "fields": []
+      },
+      {
+        "name": "mee_average_daily_omset_payment_agent",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "MEE: Average daily turnover from payment agent activities (comma-separated values).",
+        "fields": []
+      },
+      {
+        "name": "mee_motivation_to_switch_bri_on_us_to_bw",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "MEE: Merchant's motivation to switch BRI on-us transactions to BukuWarung (comma-separated).",
+        "fields": []
+      },
+      {
+        "name": "mee_current_tenor_loan",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "MEE: Current loan tenor period (comma-separated values).",
+        "fields": []
+      },
+      {
+        "name": "mee_average_daily_profit_non_payment_agent",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "MEE: Average daily profit from non-payment agent activities (comma-separated values).",
+        "fields": []
+      },
+      {
+        "name": "mee_current_loan_type",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "MEE: Type of current loan held by merchant.",
+        "fields": []
+      },
+      {
+        "name": "mee_average_daily_omset_non_payment_agent",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "MEE: Average daily turnover from non-payment agent activities (comma-separated values).",
+        "fields": []
+      },
+      {
+        "name": "mee_current_loan_interest",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "MEE: Current loan interest rate (comma-separated values).",
+        "fields": []
+      },
+      {
+        "name": "mee_reason_why_not_use_bw_full",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "MEE: Reasons why merchant doesn't use BukuWarung fully (comma-separated).",
+        "fields": []
+      },
+      {
+        "name": "mee_motivation_to_switch_all_edc_non_bri_to_bw",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "MEE: Motivation to switch all non-BRI EDC to BukuWarung (comma-separated).",
+        "fields": []
+      },
+      {
+        "name": "mee_kur_loan_due",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "MEE: KUR (People's Business Credit) loan due date.",
+        "fields": []
+      },
+      {
+        "name": "mee_bw_loan_reason_not_interested",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "MEE: Reasons merchant is not interested in BukuWarung loan (comma-separated).",
+        "fields": []
+      },
+      {
+        "name": "mee_kur_loan_bank",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "MEE: Bank providing KUR loan (comma-separated values).",
+        "fields": []
+      },
+      {
+        "name": "mee_kur_loan_limit",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "MEE: KUR loan limit amount.",
+        "fields": []
+      },
+      {
+        "name": "mee_bw_loan_purpose",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "MEE: Purpose for BukuWarung loan (comma-separated values).",
+        "fields": []
+      },
+      {
+        "name": "firstVisitBizType",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Business type classification from the first MSE visit.",
+        "fields": []
+      },
+      {
+        "name": "latestVisitDate",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": "Date of the most recent MSE visit to this merchant.",
+        "fields": []
+      },
+      {
+        "name": "createdDate",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": "Date when merchant profile was created (partition column).",
+        "fields": []
+      },
+      {
+        "name": "hasBRIEDC",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "Flag indicating if merchant has BRI EDC machine (1=Yes, 0=No). Derived from edcOwnership field using regex.",
+        "fields": []
+      },
+      {
+        "name": "hasBNIEDC",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "Flag indicating if merchant has BNI EDC machine (1=Yes, 0=No). Derived from edcOwnership field using regex.",
+        "fields": []
+      },
+      {
+        "name": "hasMandiriEDC",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "Flag indicating if merchant has Mandiri EDC machine (1=Yes, 0=No). Derived from edcOwnership field using regex.",
+        "fields": []
+      },
+      {
+        "name": "current_mse_hor",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Head of Region (HoR) assigned to merchant's area based on regency mapping.",
+        "fields": []
+      },
+      {
+        "name": "current_mse_hoa",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Head of Area (HoA) assigned to merchant's area based on regency mapping.",
+        "fields": []
+      },
+      {
+        "name": "current_mse_lead",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "MSE Lead assigned to merchant's area based on regency mapping.",
+        "fields": []
+      },
+      {
+        "name": "supreme_tier",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Supreme KYC tier level of the merchant (e.g., Bronze, Silver, Gold).",
+        "fields": []
+      },
+      {
+        "name": "supreme_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": "Date when merchant achieved Supreme tier status.",
+        "fields": []
+      },
+      {
+        "name": "hasAndroidEDC",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "Flag indicating if merchant purchased Android EDC from BukuWarung (1=Yes).",
+        "fields": []
+      },
+      {
+        "name": "totalAndroidMachine",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "Total number of Android EDC machines purchased by merchant.",
+        "fields": []
+      },
+      {
+        "name": "hasSakuEDC",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "Flag indicating if merchant purchased Saku EDC from BukuWarung (1=Yes).",
+        "fields": []
+      },
+      {
+        "name": "totalSakuMachine",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "Total number of Saku EDC machines purchased by merchant.",
+        "fields": []
+      },
+      {
+        "name": "prospero_merchant_profile_id",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Merchant profile ID from Prospero system for cross-reference.",
+        "fields": []
+      },
+      {
+        "name": "latest_latitude",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Latest latitude coordinate from high-quality location data (KYB prioritized, then high-quality visits).",
+        "fields": []
+      },
+      {
+        "name": "latest_longitude",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Latest longitude coordinate from high-quality location data (KYB prioritized, then high-quality visits).",
+        "fields": []
+      },
+      {
+        "name": "active_days_users_in_this_coordinate",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Description of coordinate quality: 'Supreme' for KYB data or 'Users in this coordinate for X days' for visit-based data.",
+        "fields": []
+      },
+      {
+        "name": "gsheet_ssot_documentation",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Google Sheets URL link to the SSOT documentation and data dictionary.",
+        "fields": []
+      },
+      {
+        "name": "nik",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "National Identity Number (NIK) from KYC verification in Janus system.",
+        "fields": []
+      },
+      {
+        "name": "kyc_name",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Account name from KYC verification in Janus system.",
+        "fields": []
+      },
+      {
+        "name": "district",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "District/Kecamatan of merchant location. Prioritizes GMaps API data, falls back to profiling data. Cleaned and standardized.",
+        "fields": []
+      },
+      {
+        "name": "regency",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Regency/Kabupaten of merchant location. Prioritizes GMaps API data, falls back to profiling data. Cleaned and standardized.",
+        "fields": []
+      },
+      {
+        "name": "province",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Province of merchant location. Prioritizes GMaps API data, falls back to profiling data. Cleaned and standardized.",
+        "fields": []
+      },
+      {
+        "name": "area",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Sales operational area. Prioritizes GMaps API data, falls back to profiling data. Cleaned and standardized.",
+        "fields": []
+      },
+      {
+        "name": "location_source",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Source of location data: '(a) District, Regency, Province and Area from GMaps API' or '(b) District, Regency, Province, and Area from Merchant Profiling'.",
+        "fields": []
+      },
+      {
+        "name": "visited_by_mee_flag",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "Flag indicating if merchant was visited by MEE (Merchant Engagement Executive) team (1=Yes). Derived from visit records with email starting with 'mee'.",
+        "fields": []
+      }
+    ]
+  },
+  "prod_edc_order": {
+    "full_table_id": "ledger-fcc1e.db_accounting.prod_edc_order",
+    "table_name": "prod_edc_order",
+    "dataset": "db_accounting",
+    "description": null,
+    "columns": [
+      {
+        "name": "user_id",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "user_id_uuid",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "referee_name",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "postal_code",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ecom_user_id",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "coordinates",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "name",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "bank_name",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "_sdc_table_version",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "bank_account",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "external_order_id",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "order_id",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMP",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "address",
+        "type": "RECORD",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": [
+          "store_address",
+          "delivery_address",
+          "delivery_address_same_as_store_address"
+        ]
+      },
+      {
+        "name": "status",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "delivery_address",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "kyc_tier",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "purchase_referral",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "metadata",
+        "type": "RECORD",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": [
+          "tfcode",
+          "devicemappingdetails",
+          "cartid",
+          "kybstatus",
+          "banknamesameasktpname",
+          "clientname",
+          "ktpname",
+          "checks",
+          "kycstatus",
+          "attributionchannel",
+          "tfcodevalidated",
+          "force_updated_note",
+          "updatecommand",
+          "orderprogress",
+          "useracknowledgement",
+          "kyctier",
+          "version",
+          "beneficiaryaccountdetails",
+          "orderamountdetails",
+          "otsflow",
+          "partnershipordercreatedby",
+          "progress",
+          "paymentlinkexpiredtime",
+          "paymentamount",
+          "paymentmethod",
+          "paidat",
+          "paymentaccountid",
+          "paymentlinkgeneratedtime"
+        ]
+      },
+      {
+        "name": "beneficiary_name",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "_sdc_received_at",
+        "type": "TIMESTAMP",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "_sdc_sequence",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "janus_account_id",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "phone",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "transaction_id",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "payment_metadata",
+        "type": "RECORD",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": [
+          "progress",
+          "paymentlinkexpiredtime",
+          "paymentamount",
+          "refundid",
+          "paymentmethod",
+          "paidat",
+          "paymentlink",
+          "paymentrefundorderid",
+          "paymentaccountid",
+          "paymentlinkgeneratedtime",
+          "paymentamount__it"
+        ]
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMP",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "delivery_metadata",
+        "type": "RECORD",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": [
+          "awb",
+          "vendor",
+          "pickupdate",
+          "couriername",
+          "serialnumber",
+          "expectedshipmenttime",
+          "shipperordercreatedtime"
+        ]
+      },
+      {
+        "name": "subdistrict",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ward",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "_sdc_batched_at",
+        "type": "TIMESTAMP",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "referee_phone",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "payment_status",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "attachments",
+        "type": "RECORD",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": [
+          "npwp",
+          "store_side",
+          "ktp",
+          "store_front",
+          "family_card",
+          "inventory",
+          "selfie",
+          "buku_bank",
+          "store"
+        ]
+      },
+      {
+        "name": "business_type",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "delivery_status",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      }
+    ]
+  },
+  "mee_weekly_route_plan": {
+    "full_table_id": "ledger-fcc1e.fs_datamart.mee_weekly_route_plan",
+    "table_name": "mee_weekly_route_plan",
+    "dataset": "fs_datamart",
+    "description": null,
+    "columns": [
+      {
+        "name": "user_id",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "merchant_name",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "province",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "kecamatan",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "kabupaten",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "first_edc_type",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "last_edc_type",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "first_edc_order_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "last_edc_order_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "channel",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "latest_visit",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "pm1_edc_trx",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "pm1_edc_amount",
+        "type": "NUMERIC",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "pm2_edc_trx",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "pm2_edc_amount",
+        "type": "NUMERIC",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "pm3_edc_trx",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "pm3_edc_amount",
+        "type": "NUMERIC",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "pm1_edc_cw_trx",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "pm2_edc_cw_trx",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "pm3_edc_cw_trx",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "pm1_edc_cw_amount",
+        "type": "NUMERIC",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "pm2_edc_cw_amount",
+        "type": "NUMERIC",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "pm3_edc_cw_amount",
+        "type": "NUMERIC",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "total_edc",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ever_submitted",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ever_rejected",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "flag_approved",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "nomor_identitas",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "risk_grade",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "risk_grade_group",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "kolektabilitas_terburuk",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "latitude",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "longitude",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "business_name",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "avg_monthly_edc_trx_3_months",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "edc_trx_l3m",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "route_at",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "lead_type",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "mee_name",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "route_order",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      }
+    ]
+  },
+  "credit_memo": {
+    "full_table_id": "ledger-fcc1e.fs_datamart.credit_memo",
+    "table_name": "credit_memo",
+    "dataset": "fs_datamart",
+    "description": null,
+    "columns": [
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMP",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "submission_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "phone_number",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "email",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ktp_number",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "full_name",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "borrower_name",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "borrower_store_name",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "borrower_business_address",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "borrower_city",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "cremo_email",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "borrower_business_type",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "borrower_business_length",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "borrower_ownership_status",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "borrower_character",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "borrower_business_knowledge",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "borrower_rent_period",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "income_payment_business_number_of_monthly_transaction",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "income_monthly_transactions",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "income_same_bank_transfers",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "income_inter_bank_transfers",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "income_cash_withdrawals",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "income_ppob_transactions",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "income_ewallet_transactions",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "income_average_value_a",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "income_average_value_b",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "income_average_value_c",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "income_average_value_d",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "income_tpv_a",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "income_tpv_b",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "income_tpv_c",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "income_tpv_d",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "income_monthly_tpv",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "income_margin_revenue_a",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "income_margin_revenue_b",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "income_margin_revenue_c",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "income_margin_revenue_d",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "income_net_revenue",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "income_revenue_portion_pct",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "other_income_margine_revenue_pct",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "gross_sales",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "net_income_other_business",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "applied_loan_amount",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "loan_amount",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "total_interest",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "projected_net_revenue",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "potential_net_revenue",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "pefindo_status",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "outstanding_loans",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "max_dpd",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "expenses_monthly_installment",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "expenses_houshold",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "expenses_other",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "expenses_total",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "fdc_24month_status",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "approved_limit",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "approval_credit_analyst",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "approval_edc_user_non_lp",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "approval_edc_users",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "approval_pefindo_status",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "approval_lakupandai_certificate_status",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "approval_fs_record_status",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "approval_credit_analyst_pct",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "approval_edc_users_non_lp_pct",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "approval_edc_users_pct",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "approval_pefindo_pct",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "approval_fdc_30days_pct",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "approval_fdc_24months_pct",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "approval_lakupandai_certificate_pct",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "approval_fs_record_pct",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "final_score",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "verification_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "final_recommendation",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "notes",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "cremo_link",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      }
+    ]
+  },
+  "ms_form_hiring_and_active": {
+    "full_table_id": "ledger-fcc1e.merchant_success_analytics.ms_form_hiring_and_active",
+    "table_name": "ms_form_hiring_and_active",
+    "dataset": "merchant_success_analytics",
+    "description": null,
+    "columns": [
+      {
+        "name": "cv_link",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "area_placement",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "city_or_regency_placement",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "district_coverage",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "vendor_type",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "phone_number",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "prospero_email",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "tfcode",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "candidate_name",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "role_type",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "name_in_reporting",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "current_hiring_status",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "created_at_jkt_ts",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "created_at_jkt_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "external_form_response_id",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "is_currently_active",
+        "type": "BOOLEAN",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "start_date_ms_active",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "interview_notes",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "notes",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "cv_submitted_first_flag",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "cv_submitted_jkt_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "cv_submitted_jkt_ts",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "cv_submitted_first_jkt_week",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "cv_rejected_first_flag",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "cv_rejected_jkt_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "cv_rejected_jkt_ts",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "cv_rejected_first_jkt_week",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ai_interview_first_flag",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ai_interview_jkt_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ai_interview_jkt_ts",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ai_interview_jkt_week",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ai_interview_rejected_first_flag",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ai_interview_rejected_jkt_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ai_interview_rejected_interview_jkt_ts",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ai_interview_rejected_jkt_week",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ta_interview_scheduled_first_flag",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ta_interview_scheduled_jkt_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ta_interview_scheduled_jkt_ts",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ta_interview_scheduled_first_jkt_week",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ta_interview_rejected_first_flag",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ta_interview_rejected_jkt_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ta_interview_rejected_jkt_ts",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ta_interview_rejected_first_jkt_week",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ta_interview_not_join_first_flag",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ta_interview_not_join_jkt_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ta_interview_not_join_jkt_ts",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ta_interview_not_join_first_jkt_week",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "assessment_assigned_first_flag",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "assessment_assigned_jkt_date",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "assessment_assigned_jkt_ts",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "assessment_assigned_first_jkt_week",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "assessment_failed_first_flag",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "assessment_failed_jkt_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "assessment_failed_jkt_ts",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "assessment_failed_first_jkt_week",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "assessment_not_doing_first_flag",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "assessment_not_doing_jkt_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "assessment_not_doing_jkt_ts",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "assessment_not_doing_first_jkt_week",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "assessment_passed_first_flag",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "assessment_passed_jkt_date",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "assessment_passed_jkt_ts",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "assessment_passed_first_jkt_week",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "user_interview_scheduled_first_flag",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "user_interview_scheduled_jkt_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "user_interview_scheduled_jkt_ts",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "user_interview_scheduled_first_jkt_week",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "user_interview_not_join_first_flag",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "user_interview_not_join_jkt_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "user_interview_not_join_jkt_ts",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "user_interview_not_join_first_jkt_week",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "user_interview_passed_first_flag",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "user_interview_passed_jkt_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "user_interview_passed_jkt_ts",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "user_interview_passed_first_jkt_week",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "user_interview_rejected_first_flag",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "user_interview_rejected_jkt_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "user_interview_rejected_jkt_ts",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "user_interview_rejected_first_jkt_week",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ojt_scheduled_first_flag",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ojt_scheduled_jkt_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ojt_scheduled_jkt_ts",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ojt_scheduled_first_jkt_week",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ojt_in_progress_first_flag",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ojt_in_progress_jkt_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ojt_in_progress_jkt_ts",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ojt_in_progress_first_jkt_week",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ojt_not_passed_first_flag",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ojt_not_passed_jkt_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ojt_not_passed_jkt_ts",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ojt_not_passed_first_jkt_week",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ojt_not_join_first_flag",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ojt_not_join_jkt_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ojt_not_join_jkt_ts",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ojt_not_join_first_jkt_week",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ojt_passed_first_flag",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ojt_passed_jkt_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ojt_passed_jkt_ts",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ojt_passed_first_jkt_week",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "pkwt_created_first_flag",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "pkwt_created_jkt_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "pkwt_created_jkt_ts",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "pkwt_created_first_jkt_week",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "pkwt_signed_first_flag",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "pkwt_signed_jkt_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "pkwt_signed_jkt_ts",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "pkwt_signed_first_jkt_week",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "backup_first_flag",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "backup_jkt_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "backup_jkt_ts",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "backup_first_jkt_week",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "currently_active_work_first_flag",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "currently_active_work_jkt_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "currently_active_work_jkt_ts",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "currently_active_work_first_jkt_week",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "withdraw_join_first_flag",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "withdraw_join_jkt_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "withdraw_join_jkt_ts",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "withdraw_join_first_jkt_week",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "onhold_first_flag",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "onhold_jkt_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "onhold_jkt_ts",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "onhold_first_jkt_week",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "resigned_first_flag",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "resigned_jkt_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "resigned_jkt_ts",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "resigned_first_jkt_week",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "resigned_move_flag",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "resigned_move_jkt_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "resigned_move_jkt_ts",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "resigned_move_jkt_week",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "terminated_first_flag",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "terminated_jkt_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "terminated_jkt_ts",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "terminated_first_jkt_week",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "pre_ojt_assesment_first_flag",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "pre_ojt_assesment_first_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "pre_ojt_assesment_first_jkt_ts",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "pre_ojt_assesment_first_jkt_week",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "pre_ojt_assesment_not_join_first_flag",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "pre_ojt_assesment_not_join_first_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "pre_ojt_assesment_not_join_first_jkt_ts",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "pre_ojt_assesment_not_join_first_jkt_week",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "pre_ojt_assesment_failed_first_flag",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "pre_ojt_assesment_failed_first_date",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "pre_ojt_assesment_failed_first_jkt_ts",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "pre_ojt_assesment_failed_first_jkt_week",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "actual_ojt_schedule_jkt_date",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "actual_ojt_schedule_jkt_week",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "actual_pkwt_signed_jkt_date",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "actual_pkwt_signed_jkt_week",
+        "type": "DATETIME",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "cv_analysis",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "screening_score",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "screening_reasoning",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "score",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "reason_for_return",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "reason",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "msl",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ta_assigned",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "notes_pre_ojt",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "reason_for_resignation_or_termination",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "reason_type_for_resignation_or_termination",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "post_hiring_status_promotion",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "candidate_email",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "current_stage",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "vendor_name",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "cv_source",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "cv_source_old",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "vendor_name_old",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "cv_source_category",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      }
+    ]
+  },
+  "retail_ph_visit_ssot": {
+    "full_table_id": "ledger-fcc1e.merchant_success_analytics.retail_ph_visit_ssot",
+    "table_name": "retail_ph_visit_ssot",
+    "dataset": "merchant_success_analytics",
+    "description": null,
+    "columns": [
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "activity_id",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "data_source",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "activity_type",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMP",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "submitted_at",
+        "type": "TIMESTAMP",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "visit_date",
+        "type": "TIMESTAMP",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "supreme_date",
+        "type": "TIMESTAMP",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "sales_agent_id",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "sales_name",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "sales_email_bw",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "role_type",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "sales_contry_code",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "area",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "current_mse_lead",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "start_journey_jkt",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "end_journey_jkt",
+        "type": "DATE",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "start_journey_jkt_hour",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "end_journey_jkt_hour",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "phone_number",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "business_name",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "profile_owner_name",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "profile_business_name",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "kyc_tier",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "is_new_merchant",
+        "type": "BOOLEAN",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "merchant_coordinates",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "regency",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "district",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "retail_province",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "retail_postal_code",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "retail_district",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "retail_street_name",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "retail_business_location",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "business_type",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "retail_store_type",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "retail_business_industry",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "retail_number_of_branches",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "retail_total_employee",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "retail_daily_customers",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "retail_daily_omset",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "has_pitched",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "selfie_url",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "is_anomaly",
+        "type": "BOOLEAN",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "anomaly_reason",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "anomaly_note",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "anomaly_note_clean",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ots_order_id",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "ots_serial_number",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "edc_interested",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "edc_rejection_reason",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "edc_prospect",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "retail_edc_ownership",
+        "type": "RECORD",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": [
+          "value"
+        ]
+      },
+      {
+        "name": "retail_edc_ownership_flag",
+        "type": "BOOLEAN",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "loan_interested",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "loan_rejection_reason",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "loan_prospect",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "retail_interested_loan",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "retail_loan_ownership",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "retail_loan_ownership_bo",
+        "type": "BOOLEAN",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "retail_loan_name",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "retail_loan_source",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "retail_loan_amount",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "retail_owned_loan_limit",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "retail_desired_loan_limit",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "retail_qris_ownership",
+        "type": "RECORD",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": [
+          "value"
+        ]
+      },
+      {
+        "name": "retail_pos_ownership",
+        "type": "RECORD",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": [
+          "value"
+        ]
+      },
+      {
+        "name": "retail_pos_ownership_bo",
+        "type": "BOOLEAN",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "retail_notes",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "msl_name",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "hoa_name",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "hor_name",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "order_flow",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "is_verified",
+        "type": "BOOLEAN",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "product_type",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "transaction_id",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "order_id",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "serial_number",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      },
+      {
+        "name": "vendor",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": null,
+        "fields": []
+      }
+    ]
+  }
+}

@@ -1076,7 +1076,7 @@
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 3.0,
-      "description": "Data field for tracking and analysis. Represents approved limit.",
+      "description": "Credit limit approved by lending team. Maximum loan amount merchant is eligible for.",
       "business_context": "Core field - >90% populated",
       "example_values": [
         "5000000.0",
@@ -1103,14 +1103,14 @@
         "6880000.0",
         "7400000.0"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "approval_credit_analyst",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 51.0,
-      "description": "Data field for tracking and analysis. Represents approval credit analyst.",
+      "description": "Credit analyst approval decision (APPROVE/REJECT). Initial loan recommendation.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "APPROVE",
@@ -1124,14 +1124,14 @@
         "REJECT",
         "Reject"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "approval_edc_user_non_lp",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 64.0,
-      "description": "Data field for tracking and analysis. Represents approval edc user non lp.",
+      "description": "Approval status for EDC users outside lending platform. Product eligibility flag.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "YES",
@@ -1145,14 +1145,14 @@
         "Yes",
         "no"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "approval_edc_users",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 53.0,
-      "description": "Data field for tracking and analysis. Represents approval edc users.",
+      "description": "Approval status for EDC users. Product eligibility determination.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "YES",
@@ -1168,7 +1168,7 @@
         "YES",
         "Yes"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "approval_pefindo_status",
@@ -1249,7 +1249,7 @@
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 60.0,
-      "description": "Data field for tracking and analysis. Represents approval credit analyst pct.",
+      "description": "Percentage weight of credit analyst approval in final score. Scoring component.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "0.25",
@@ -1260,14 +1260,14 @@
         "0.0",
         "0.25"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "approval_edc_users_non_lp_pct",
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 64.0,
-      "description": "Data field for tracking and analysis. Represents approval edc users non lp pct.",
+      "description": "Percentage weight of EDC non-LP approval in scoring. Scoring component.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "15.0",
@@ -1279,14 +1279,14 @@
         "0.15",
         "15.0"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "approval_edc_users_pct",
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 57.0,
-      "description": "Data field for tracking and analysis. Represents approval edc users pct.",
+      "description": "Percentage weight of EDC user approval in final score. Scoring component.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "0.1",
@@ -1298,14 +1298,14 @@
         "0.075",
         "0.1"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "approval_pefindo_pct",
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 53.0,
-      "description": "Data field for tracking and analysis. Represents approval pefindo pct.",
+      "description": "Percentage weight of Pefindo status in final score. Scoring component.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "0.05",
@@ -1324,14 +1324,14 @@
         "0.2",
         "0.3175"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "approval_fdc_30days_pct",
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 53.0,
-      "description": "Data field for tracking and analysis. Represents approval fdc 30days pct.",
+      "description": "Percentage weight of 30-day FDC check in scoring. Scoring component.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "0.05",
@@ -1344,14 +1344,14 @@
         "0.075",
         "0.15"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "approval_fdc_24months_pct",
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 53.0,
-      "description": "Data field for tracking and analysis. Represents approval fdc 24months pct.",
+      "description": "Percentage weight of 24-month FDC check in scoring. Scoring component.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "0.05",
@@ -1368,14 +1368,14 @@
         "0.06",
         "0.15"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "approval_lakupandai_certificate_pct",
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 57.0,
-      "description": "Data field for tracking and analysis. Represents approval lakupandai certificate pct.",
+      "description": "Percentage weight of Laku Pandai certificate in scoring. Scoring component.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "0.15",
@@ -1387,14 +1387,14 @@
         "0.015",
         "0.15"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "approval_fs_record_pct",
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 67.0,
-      "description": "Data field for tracking and analysis. Represents approval fs record pct.",
+      "description": "Percentage weight of FS record status in scoring. Scoring component.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "0.05",
@@ -1406,7 +1406,7 @@
         "0.05",
         "0.1"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "final_score",

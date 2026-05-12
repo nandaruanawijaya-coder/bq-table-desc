@@ -235,22 +235,22 @@
       "data_type": "TIMESTAMP",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Data field for tracking and analysis. Represents hold ts.",
+      "description": "Timestamp when payment was put on hold. Hold start time.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "unhold_ts",
       "data_type": "TIMESTAMP",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Data field for tracking and analysis. Represents unhold ts.",
+      "description": "Timestamp when payment hold was released. Hold release time.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "disbursement_created_at",
@@ -326,7 +326,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 26.0,
-      "description": "Data field for tracking and analysis. Represents description.",
+      "description": "Free-text description of payment/transaction. Transaction notes.",
       "business_context": "Common field - >50% populated",
       "example_values": [
         "-",
@@ -343,7 +343,7 @@
         "tf mak",
         "transfer"
       ],
-      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+      "semantic_source": "sql_definition + business_context"
     },
     {
       "column_name": "amount",
@@ -606,7 +606,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Product code for PPOB. Code identifier.",
+      "description": "Unique code identifying PPOB product. PPOB identifier.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
