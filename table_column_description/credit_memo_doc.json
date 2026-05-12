@@ -26,7 +26,7 @@
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 4.0,
-      "description": "Date when merchant submitted loan application. Indicates when assessment process initiated.",
+      "description": "Date when merchant submitted the loan application. Submission date marks the beginning of the lending process.",
       "business_context": "Core field - >90% populated",
       "example_values": [
         "2026-02-19",
@@ -86,7 +86,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 1.0,
-      "description": "Name identifier. Used for display, lookup, and account tracking.",
+      "description": "Full name of the applicant. Complete name identifier used for identification and documentation.",
       "business_context": "Core field - >90% populated",
       "example_values": [
         "TAMI SUYATMI",
@@ -101,7 +101,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Name identifier. Used for display, lookup, and account tracking.",
+      "description": "Full name of the borrower or applicant. Borrower name for identification and account tracking.",
       "business_context": "Required field - always populated",
       "example_values": [
         "TAMI SUYATMI",
@@ -283,7 +283,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 70.0,
-      "description": "Rental period or lease duration for business location. Used in expense calculation and stability assessment.",
+      "description": "Rental period or lease duration of borrower's business location. Borrower rent period affects income stability assessment.",
       "business_context": "Optional field - <50% populated",
       "example_values": [
         "> 2 years",
@@ -387,7 +387,7 @@
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 6.0,
-      "description": "Count of ATM/cash withdrawal transactions monthly. Indicator of cash management pattern.",
+      "description": "Income from cash withdrawals. Count of ATM/cash withdrawal transactions monthly, used as income indicator.",
       "business_context": "Core field - >90% populated",
       "example_values": [
         "30.0",
@@ -837,7 +837,7 @@
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 2.0,
-      "description": "Monetary or numeric amount. Used for financial tracking.",
+      "description": "Loan amount requested by merchant. Monetary amount of loan required for business expansion.",
       "business_context": "Core field - >90% populated",
       "example_values": [
         "5000000.0",
@@ -919,7 +919,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 11.0,
-      "description": "Current status or state. Indicates where entity is in process or lifecycle.",
+      "description": "Pefindo credit rating status. Current pefindo assessment status for borrower creditworthiness.",
       "business_context": "Common field - >50% populated",
       "example_values": [
         "C1",
@@ -965,7 +965,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 2.0,
-      "description": "Maximum Days Past Due observed in payment history. Key risk indicator for repayment capacity.",
+      "description": "Maximum days past due (DPD) in payment history. Max DPD is key risk indicator for loan approval.",
       "business_context": "Core field - >90% populated",
       "example_values": [
         "0",
@@ -1428,7 +1428,7 @@
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Date when merchant loan application was verified by lending team. Indicates assessment completion and approval timeline.",
+      "description": "Date when merchant loan application was verified. Verification date marks completion of due diligence process.",
       "business_context": "Required field - always populated",
       "example_values": [
         "2026-02-19",

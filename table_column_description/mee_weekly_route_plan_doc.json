@@ -26,7 +26,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Name identifier. Used for display, lookup, and account tracking.",
+      "description": "Merchant business name. Merchant name identifier for store location.",
       "business_context": "Required field - always populated",
       "example_values": [
         "SATRIA NOVA",
@@ -547,7 +547,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Name identifier. Used for display, lookup, and account tracking.",
+      "description": "Business legal name. Business name used for official documentation.",
       "business_context": "Required field - always populated",
       "example_values": [
         "SATRIA NOVA-EDC",
@@ -616,7 +616,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Category or type classification. Used for segmentation and grouping.",
+      "description": "Lead classification type. Lead type categorizes sales opportunity.",
       "business_context": "Required field - always populated",
       "example_values": [
         "Hot",
@@ -635,7 +635,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Name identifier. Used for display, lookup, and account tracking.",
+      "description": "MEE (Merchant Expansion Executive) assigned name. Mee name of assigned field officer.",
       "business_context": "Required field - always populated",
       "example_values": [
         "endy syahputra",
