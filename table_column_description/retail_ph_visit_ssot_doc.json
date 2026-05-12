@@ -10,33 +10,35 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Unique record identifier. Primary key for record tracking",
+      "description": "Unique record identifier (UUID). ID serves as primary key for all records.",
       "business_context": "Required field - always populated",
       "example_values": [
         "7807e841-fb63-4c90-9fa6-58499308f848",
         "5fa15010-c65e-40cf-b699-2019a67965bb",
         "b2c34b21-02a6-4938-90ce-edfa8d1f1c7f"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "activity_id",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Unique identifier for activity record. Links to specific activity",
+      "description": "Unique identifier for activity record (UUID). Links to specific field activity.",
       "business_context": "Required field - always populated",
       "example_values": [
         "75e1faf2-579f-40f2-8d23-775106a68619",
         "516a569c-5ef2-43aa-821d-a9dffc72c8d2",
         "75b3dcff-f274-4638-87c5-3f694b33c655"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "data_source",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Source system or method of data entry. Shows origin of data",
+      "description": "Data source system identifier. Shows origin of visit data entry method.",
       "business_context": "Required field - always populated",
       "example_values": [
         "New Prospero - VisitRecord",
@@ -45,14 +47,15 @@
       ],
       "possible_values": [
         "New Prospero - VisitRecord"
-      ]
+      ],
+      "semantic_source": "sql_definition + possible_values"
     },
     {
       "column_name": "activity_type",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Status or category field with values: offline, online",
+      "description": "Activity type classification (offline/online). Categorizes visit activity method.",
       "business_context": "Required field - always populated",
       "example_values": [
         "offline",
@@ -62,62 +65,67 @@
       "possible_values": [
         "offline",
         "online"
-      ]
+      ],
+      "semantic_source": "sql_definition + possible_values"
     },
     {
       "column_name": "created_at",
       "data_type": "TIMESTAMP",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Timestamp when record was created. Indicates when entry was first recorded",
+      "description": "Timestamp when record was created. Indicates when visit entry was first recorded.",
       "business_context": "Required field - always populated",
       "example_values": [
         "2026-05-11T16:57:08.877000+00:00",
         "2026-05-11T15:56:52.800000+00:00",
         "2026-05-11T15:46:33.354000+00:00"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "submitted_at",
       "data_type": "TIMESTAMP",
       "nullable": true,
       "null_percentage": 13.48,
-      "description": "Timestamp when visit form was submitted. Used for visit data tracking and compliance verification",
+      "description": "Submitted at timestamp. When visit form was submitted for processing.",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "2026-05-11T16:59:01.140000+00:00",
         "2026-05-11T16:19:56.273000+00:00",
         "2026-05-11T15:51:50.310000+00:00"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "visit_date",
       "data_type": "TIMESTAMP",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Date of retail sales executive visit. Records when visit occurred",
+      "description": "Visit date timestamp. Date when retail visit was conducted.",
       "business_context": "Required field - always populated",
       "example_values": [
         "2026-05-11T16:57:08.877000+00:00",
         "2026-05-11T15:56:52.800000+00:00",
         "2026-05-11T15:46:33.354000+00:00"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "supreme_date",
       "data_type": "TIMESTAMP",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Date or timestamp value",
+      "description": "Supreme date timestamp. Latest event date in visit record history.",
       "business_context": "Optional field - sparsely populated",
-      "example_values": []
+      "example_values": [],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "sales_agent_id",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Unique record identifier. Primary key for record tracking",
+      "description": "Sales agent unique identifier. UUID of field sales agent.",
       "business_context": "Required field - always populated",
       "example_values": [
         "9f328fe9-6f44-429c-89c9-16c9ab1f756d",
@@ -136,14 +144,15 @@
         "f0203f60-0c96-4740-9cb0-13cb27b72531",
         "f0a2cc48-e082-4c12-9cfb-d7a69ef20ba2",
         "f1c9b2c5-83eb-4563-89b9-b4d385b44cf4"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "sales_name",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Name or text identifier. Possible values: Angelica Hernale, Christian Lambino, Jerome Malquitar, Jonas Ivan Landig Limpin, Lilibeth Servano Arpon, Ma Theresa Cupcupin, Maki Cabije, Michael Valeriano, Richard Que, Romio Valeriano",
+      "description": "Sales agent name. Full name of field sales representative.",
       "business_context": "Required field - always populated",
       "example_values": [
         "Ma Theresa Cupcupin",
@@ -162,23 +171,25 @@
         "Richard Que",
         "Romio Valeriano",
         "ar-jay cruz samonte"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "sales_email_bw",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Email address of merchant or contact person. Primary email contact",
+      "description": "Sales email address. Email contact for sales agent.",
       "business_context": "Optional field - sparsely populated",
-      "example_values": []
+      "example_values": [],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "role_type",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Status or category field with values: HORS, RSE, TL_RSE",
+      "description": "Role type classification. Job role or function type.",
       "business_context": "Required field - always populated",
       "example_values": [
         "RSE",
@@ -189,14 +200,15 @@
         "HORS",
         "RSE",
         "TL_RSE"
-      ]
+      ],
+      "semantic_source": "value_format + possible_values"
     },
     {
       "column_name": "sales_contry_code",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.77,
-      "description": "Status or category field with values: PH",
+      "description": "Sales country code. Country code for sales region.",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "PH",
@@ -205,14 +217,15 @@
       ],
       "possible_values": [
         "PH"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "area",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.77,
-      "description": "Status or category field with values: MTR_MANILA. Used for sales visit and engagement tracking",
+      "description": "Geographic area or region. Area classification for location segmentation.",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "MTR_MANILA",
@@ -221,14 +234,15 @@
       ],
       "possible_values": [
         "MTR_MANILA"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "current_mse_lead",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Status or category field with values: Retail Basic PH, Team Richard",
+      "description": "Current MSE (Merchant Service Executive) assigned. Current field officer assignment.",
       "business_context": "Required field - always populated",
       "example_values": [
         "Team Richard",
@@ -238,40 +252,43 @@
       "possible_values": [
         "Retail Basic PH",
         "Team Richard"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "start_journey_jkt",
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Numeric value or metric",
+      "description": "Start time of visit journey in Jakarta timezone. Start timestamp of visit.",
       "business_context": "Required field - always populated",
       "example_values": [
         "2026-05-11",
         "2026-05-11",
         "2026-05-11"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "end_journey_jkt",
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Numeric value or metric",
+      "description": "End time of visit journey in Jakarta timezone. End timestamp of field visit.",
       "business_context": "Required field - always populated",
       "example_values": [
         "2026-05-11",
         "2026-05-11",
         "2026-05-11"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "start_journey_jkt_hour",
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Numeric value or metric. Possible values: 10, 12, 13, 14, 15, 16, 17, 20, 6, 7",
+      "description": "Hour component of start journey time (JKT). Hour when visit started.",
       "business_context": "Required field - always populated",
       "example_values": [
         "6",
@@ -291,14 +308,15 @@
         "7",
         "8",
         "9"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "end_journey_jkt_hour",
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Numeric value or metric. Possible values: 16, 17, 18, 19, 20, 21, 22, 23",
+      "description": "Hour component of end journey time (JKT). Hour when visit ended.",
       "business_context": "Required field - always populated",
       "example_values": [
         "18",
@@ -314,66 +332,71 @@
         "21",
         "22",
         "23"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "phone_number",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 13.48,
-      "description": "Phone number (10-11 digit Indonesian mobile). Primary identifier for merchant",
+      "description": "Contact phone number. Merchant or contact person phone for communication.",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "639154520688",
         "639611978133",
         "639626027214"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "business_name",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 13.48,
-      "description": "Official business name. Used for business registration and contracts",
+      "description": "Business or merchant name. Name of visited merchant location.",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "Le Francis store",
         "Rhooeys beverage shop ",
         "Rham Rham Budbod"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "profile_owner_name",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 13.48,
-      "description": "Name or text identifier",
+      "description": "Owner name from merchant profile. Owner of merchant business.",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "Melchor",
         "Maricel ",
         "Erica Joy Ignacio"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "profile_business_name",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 13.48,
-      "description": "Official business name. Used for business registration and contracts",
+      "description": "Business name from merchant profile. Official registered business name.",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "Le Francis store",
         "Rhooeys beverage shop ",
         "Rham Rham Budbod"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "kyc_tier",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Status or category field with values: (b) Haven't Supreme before visited",
+      "description": "KYC (Know Your Customer) tier classification. Merchant verification level.",
       "business_context": "Required field - always populated",
       "example_values": [
         "(b) Haven't Supreme before visited",
@@ -382,14 +405,15 @@
       ],
       "possible_values": [
         "(b) Haven't Supreme before visited"
-      ]
+      ],
+      "semantic_source": "value_format + possible_values"
     },
     {
       "column_name": "is_new_merchant",
       "data_type": "BOOLEAN",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Status or category field with values: True",
+      "description": "New merchant flag. Indicator if visited merchant is newly acquired.",
       "business_context": "Required field - always populated",
       "example_values": [
         "True",
@@ -398,89 +422,97 @@
       ],
       "possible_values": [
         "True"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "merchant_coordinates",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Geographic coordinates (latitude, longitude)",
+      "description": "Merchant location coordinates. Geographic coordinates of visit location.",
       "business_context": "Required field - always populated",
       "example_values": [
         "14.6060407,120.9900952",
         "14.6072015,120.9876955",
         "14.607118119103854,120.98770560465896"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "regency",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "City or administrative division",
+      "description": "Regency location classification. Administrative regency of merchant.",
       "business_context": "Optional field - sparsely populated",
-      "example_values": []
+      "example_values": [],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "district",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "District (kecamatan) administrative division. Used for neighborhood-level detail",
+      "description": "District location classification. Geographic district of visited merchant.",
       "business_context": "Required field - always populated",
       "example_values": [
         "",
         "",
         ""
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "retail_province",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "State or province administrative division. Used for geographic segmentation",
+      "description": "Retail location province. Province of retail merchant location.",
       "business_context": "Optional field - sparsely populated",
-      "example_values": []
+      "example_values": [],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "retail_postal_code",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Identifier or code",
+      "description": "Retail location postal code. Zip/postal code of retail location.",
       "business_context": "Optional field - sparsely populated",
-      "example_values": []
+      "example_values": [],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "retail_district",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 13.48,
-      "description": "District (kecamatan) administrative division. Used for neighborhood-level detail",
+      "description": "Retail location district. District of retail merchant location.",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "Barangay 397",
         "Barangay 467",
         "Barangay 467"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "retail_street_name",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Name or text identifier",
+      "description": "Retail street name. Street address of retail location.",
       "business_context": "Optional field - sparsely populated",
-      "example_values": []
+      "example_values": [],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "retail_business_location",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 13.48,
-      "description": "Status or category field with values: food_court, food_park, street, wet_market",
+      "description": "Retail business location type. Type of location setup (mall, street, etc).",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "street",
@@ -492,14 +524,15 @@
         "food_park",
         "street",
         "wet_market"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "business_type",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Status or category field with values: Others",
+      "description": "Business type classification. Category of merchant business (retail, etc).",
       "business_context": "Required field - always populated",
       "example_values": [
         "Others",
@@ -508,23 +541,26 @@
       ],
       "possible_values": [
         "Others"
-      ]
+      ],
+      "semantic_source": "value_format + possible_values"
     },
     {
       "column_name": "retail_store_type",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Type or category classification",
+      "description": "Retail store type classification. Type of retail store setup.",
       "business_context": "Optional field - sparsely populated",
-      "example_values": []
+      "example_values": [],
+      "semantic_source": "value_format + possible_values",
+      "possible_values": []
     },
     {
       "column_name": "retail_business_industry",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 13.48,
-      "description": "Status or category field with values: fmcg, fnb, fresh_market, others, phone_shops, sari_sari_store, services",
+      "description": "Retail business industry type. Industry sector of retail merchant.",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "fmcg",
@@ -539,14 +575,15 @@
         "phone_shops",
         "sari_sari_store",
         "services"
-      ]
+      ],
+      "semantic_source": "value_format + possible_values"
     },
     {
       "column_name": "retail_number_of_branches",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 13.48,
-      "description": "Status or category field with values: 0, 1-2, 10+, 3-5, 5-10",
+      "description": "Number of retail branches. Count of merchant business branches.",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "1-2",
@@ -559,14 +596,15 @@
         "10+",
         "3-5",
         "5-10"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "retail_total_employee",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 13.48,
-      "description": "Status or category field with values: 0, 1-2, 10+, 3-5, 5-10",
+      "description": "Retail total employee count. Number of employees in retail.",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "1-2",
@@ -579,14 +617,15 @@
         "10+",
         "3-5",
         "5-10"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "retail_daily_customers",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 34.56,
-      "description": "Status or category field with values: 1-10, 100+, 11-30, 31-50, 50-100",
+      "description": "Daily customer count estimate. Number of customers served daily.",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "1-10",
@@ -599,23 +638,25 @@
         "11-30",
         "31-50",
         "50-100"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "retail_daily_omset",
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Daily merchant revenue (omset) in IDR. Indicates daily transaction volume and business size",
+      "description": "Daily omset (revenue) estimate. Estimated daily revenue of retail.",
       "business_context": "Optional field - sparsely populated",
-      "example_values": []
+      "example_values": [],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "has_pitched",
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Numeric value or metric. Possible values: 1",
+      "description": "Has pitched indicator flag. Pitched indicates whether product pitch was given.",
       "business_context": "Required field - always populated",
       "example_values": [
         "1",
@@ -624,27 +665,29 @@
       ],
       "possible_values": [
         "1"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "selfie_url",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 1.03,
-      "description": "URL to visit verification selfie photo. Evidence of in-person merchant visit for compliance and quality assurance",
+      "description": "Selfie image URL. Photo evidence URL from field visit.",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "https://buku-crm.s3.ap-southeast-3.amazonaws.com/sales-agents/selfies/9f328fe9-6f44-429c-89c9-16c9ab1f756d/1778493539669_selfie_7807e841-fb63-4c90-9fa6-58499308f848_1778493537761_205.jpg",
         "https://buku-crm.s3.ap-southeast-3.amazonaws.com/sales-agents/selfies/9f328fe9-6f44-429c-89c9-16c9ab1f756d/1778491188588_selfie_5fa15010-c65e-40cf-b699-2019a67965bb_1778491185901_685.jpg",
         "https://buku-crm.s3.ap-southeast-3.amazonaws.com/sales-agents/selfies/9f328fe9-6f44-429c-89c9-16c9ab1f756d/1778489506343_selfie_b2c34b21-02a6-4938-90ce-edfa8d1f1c7f_1778489504465_398.jpg"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "is_anomaly",
       "data_type": "BOOLEAN",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Status or category field with values: False, True",
+      "description": "Anomaly detection flag. Indicator if visit contains data inconsistencies.",
       "business_context": "Required field - always populated",
       "example_values": [
         "False",
@@ -654,14 +697,15 @@
       "possible_values": [
         "False",
         "True"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "anomaly_reason",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 86.52,
-      "description": "Status or category field with values: other, owner_absent, refused, store_closed",
+      "description": "Reason for detected anomaly. Explanation of visit inconsistency or issue.",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "other",
@@ -673,27 +717,29 @@
         "owner_absent",
         "refused",
         "store_closed"
-      ]
+      ],
+      "semantic_source": "value_format + possible_values"
     },
     {
       "column_name": "anomaly_note",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 93.23,
-      "description": "Free-text notes explaining any anomalies or issues during visit. Used for visit quality control",
+      "description": "Anomaly note or comment. Text field documenting any visit anomalies detected.",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "The staff said I should come back tomorrow morning to offer the product to the owner.",
         "Technical\nissue",
         "Cash only"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "anomaly_note_clean",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Status or category field with values: Cash Only Preference, MDR Rate Concern, Not Interested, Other, Owner Busy or Unavailable, Refused to Share Info, Store Closing Soon, Testing / Trial",
+      "description": "Cleaned/processed anomaly note. Standardized anomaly notes for analysis.",
       "business_context": "Required field - always populated",
       "example_values": [
         "Other",
@@ -709,68 +755,77 @@
         "Refused to Share Info",
         "Store Closing Soon",
         "Testing / Trial"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "ots_order_id",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Unique record identifier. Primary key for record tracking",
+      "description": "OTS (Order Tracking System) order ID. Third-party system order reference.",
       "business_context": "Optional field - sparsely populated",
-      "example_values": []
+      "example_values": [],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "ots_serial_number",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Serial number of payment device equipment. Links to specific device in equipment inventory",
+      "description": "OTS serial number. Unique device serial in order tracking system.",
       "business_context": "Optional field - sparsely populated",
-      "example_values": []
+      "example_values": [],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "edc_interested",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Boolean flag indicating merchant expressed interest in EDC (electronic payment machine) during visit interview",
+      "description": "EDC machine interest indicator. Flag for merchant interest in EDC products.",
       "business_context": "Optional field - sparsely populated",
-      "example_values": []
+      "example_values": [],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "edc_rejection_reason",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Reason provided by merchant for rejecting EDC product. Captured for sales analysis and product improvement",
+      "description": "Reason for EDC product rejection. Explanation if merchant declined EDC.",
       "business_context": "Optional field - sparsely populated",
-      "example_values": []
+      "example_values": [],
+      "semantic_source": "value_format + possible_values"
     },
     {
       "column_name": "edc_prospect",
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "EDC sales qualification status after visit. Merchant classified as Prospect or Non-Prospect for sales follow-up",
+      "description": "EDC prospect status. Indicator of EDC sales opportunity potential.",
       "business_context": "Optional field - sparsely populated",
-      "example_values": []
+      "example_values": [],
+      "semantic_source": "value_format + business_context",
+      "possible_values": []
     },
     {
       "column_name": "retail_edc_ownership",
       "data_type": "RECORD",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Current EDC device ownership status. Indicates whether merchant actively owns and uses EDC device",
+      "description": "Retail EDC machine ownership status. Current EDC ownership indicator.",
       "business_context": "Optional field - sparsely populated",
-      "example_values": []
+      "example_values": [],
+      "semantic_source": "value_format + possible_values",
+      "possible_values": []
     },
     {
       "column_name": "retail_edc_ownership_flag",
       "data_type": "BOOLEAN",
       "nullable": true,
       "null_percentage": 22.31,
-      "description": "Status or category field with values: False",
+      "description": "Retail EDC ownership flag. Binary indicator of EDC possession.",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "False",
@@ -779,59 +834,67 @@
       ],
       "possible_values": [
         "False"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "loan_interested",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Boolean flag indicating merchant expressed interest in loan product during visit conversation",
+      "description": "Loan product interest flag. Indicator of merchant interest in loan products.",
       "business_context": "Optional field - sparsely populated",
-      "example_values": []
+      "example_values": [],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "loan_rejection_reason",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Reason merchant declined loan product. Used to understand market objections and customer needs",
+      "description": "Reason for loan product rejection. Explanation if merchant declined loan.",
       "business_context": "Optional field - sparsely populated",
-      "example_values": []
+      "example_values": [],
+      "semantic_source": "value_format + possible_values"
     },
     {
       "column_name": "loan_prospect",
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Loan sales qualification status. Merchant assessed as Prospect or Non-Prospect based on eligibility and interest",
+      "description": "Loan sales opportunity indicator. Prospect status for loan products.",
       "business_context": "Optional field - sparsely populated",
-      "example_values": []
+      "example_values": [],
+      "semantic_source": "value_format + business_context",
+      "possible_values": []
     },
     {
       "column_name": "retail_interested_loan",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Indicates when merchant showed loan product interest during visit. Used for sales pipeline tracking",
+      "description": "Retail merchant loan interest. Interest level in loan products.",
       "business_context": "Optional field - sparsely populated",
-      "example_values": []
+      "example_values": [],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "retail_loan_ownership",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Merchant loan facility ownership status. Indicates if merchant has active loan from BukuWarung Lending",
+      "description": "Retail loan ownership status. Current loan product ownership.",
       "business_context": "Optional field - sparsely populated",
-      "example_values": []
+      "example_values": [],
+      "semantic_source": "value_format + possible_values",
+      "possible_values": []
     },
     {
       "column_name": "retail_loan_ownership_bo",
       "data_type": "BOOLEAN",
       "nullable": true,
       "null_percentage": 22.57,
-      "description": "Status or category field with values: False, True",
+      "description": "Retail loan ownership BO status. Beneficial owner loan status.",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "False",
@@ -841,23 +904,25 @@
       "possible_values": [
         "False",
         "True"
-      ]
+      ],
+      "semantic_source": "value_format + possible_values"
     },
     {
       "column_name": "retail_loan_name",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Name or text identifier",
+      "description": "Retail loan product name. Name of loan product offered to retail.",
       "business_context": "Optional field - sparsely populated",
-      "example_values": []
+      "example_values": [],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "retail_loan_source",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 99.29,
-      "description": "Status or category field with values: BPI, Bank loan, COOF, Cooperative, G-Loan, GCash , Ggives by gcash loan, Lending corporation , Market lending corp, Palawan lending ",
+      "description": "Retail loan source identifier. Source or provider of retail loan.",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "GCash ",
@@ -875,14 +940,15 @@
         "Lending corporation ",
         "Market lending corp",
         "Palawan lending "
-      ]
+      ],
+      "semantic_source": "value_format + possible_values"
     },
     {
       "column_name": "retail_loan_amount",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 99.29,
-      "description": "Numeric value or metric. Possible values: 10000, 20000, 30000, 4000, 5000",
+      "description": "Retail loan amount. Current or requested loan amount for retail.",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "4000",
@@ -895,50 +961,57 @@
         "30000",
         "4000",
         "5000"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "retail_owned_loan_limit",
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Approved loan limit ceiling for merchant with active loan. In IDR currency units",
+      "description": "Retail owned loan limit. Current loan limit amount for retail.",
       "business_context": "Optional field - sparsely populated",
-      "example_values": []
+      "example_values": [],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "retail_desired_loan_limit",
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Loan amount merchant requested during visit. Merchant-stated need for future application",
+      "description": "Desired loan limit amount. Merchant requested loan amount.",
       "business_context": "Optional field - sparsely populated",
-      "example_values": []
+      "example_values": [],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "retail_qris_ownership",
       "data_type": "RECORD",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "QRIS payment system adoption status (Active/Pending/Not Adopted). Indicates merchant digital payment capability",
+      "description": "Retail QRIS payment ownership. QRIS payment method ownership status.",
       "business_context": "Optional field - sparsely populated",
-      "example_values": []
+      "example_values": [],
+      "semantic_source": "value_format + possible_values",
+      "possible_values": []
     },
     {
       "column_name": "retail_pos_ownership",
       "data_type": "RECORD",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "POS (Point of Sale) device ownership and operational status. Tracks merchant transaction processing capability",
+      "description": "Retail POS machine ownership. Current POS system ownership status.",
       "business_context": "Optional field - sparsely populated",
-      "example_values": []
+      "example_values": [],
+      "semantic_source": "value_format + possible_values",
+      "possible_values": []
     },
     {
       "column_name": "retail_pos_ownership_bo",
       "data_type": "BOOLEAN",
       "nullable": true,
       "null_percentage": 22.31,
-      "description": "Status or category field with values: False, True",
+      "description": "Retail POS ownership BO status. Beneficial owner POS status.",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "False",
@@ -948,27 +1021,29 @@
       "possible_values": [
         "False",
         "True"
-      ]
+      ],
+      "semantic_source": "value_format + possible_values"
     },
     {
       "column_name": "retail_notes",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 22.11,
-      "description": "Free-text notes from RSE visit. Contains interaction summary, merchant feedback, and recommended follow-up actions",
+      "description": "Retail visit notes. Detailed notes from retail visit interaction.",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "Done deal free device",
         "Done deal",
         "Done deal"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "msl_name",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 17.21,
-      "description": "Status or category field with values: Jonas Ivan Landig Limpin",
+      "description": "MSL (Merchant Support Lead) assigned name. Support lead responsibility.",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "Jonas Ivan Landig Limpin",
@@ -977,23 +1052,25 @@
       ],
       "possible_values": [
         "Jonas Ivan Landig Limpin"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "hoa_name",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Name or text identifier",
+      "description": "HOA (Head of Area) assigned name. Area manager responsible for territory.",
       "business_context": "Optional field - sparsely populated",
-      "example_values": []
+      "example_values": [],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "hor_name",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 16.44,
-      "description": "Status or category field with values: Maki Cabije",
+      "description": "HOR (Head of Region) assigned name. Regional manager responsibility.",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "Maki Cabije",
@@ -1002,14 +1079,15 @@
       ],
       "possible_values": [
         "Maki Cabije"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "order_flow",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 93.87,
-      "description": "Status or category field with values: PO",
+      "description": "Order or sales flow classification. Type of sales process followed.",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "PO",
@@ -1018,14 +1096,15 @@
       ],
       "possible_values": [
         "PO"
-      ]
+      ],
+      "semantic_source": "value_format + possible_values"
     },
     {
       "column_name": "is_verified",
       "data_type": "BOOLEAN",
       "nullable": true,
       "null_percentage": 93.87,
-      "description": "Status or category field with values: True",
+      "description": "Verification status flag. Indicator if visit data has been verified.",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "True",
@@ -1034,14 +1113,15 @@
       ],
       "possible_values": [
         "True"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "product_type",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 93.87,
-      "description": "Status or category field with values: sound_box",
+      "description": "Product type classification. Category of products discussed or offered.",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "sound_box",
@@ -1050,47 +1130,52 @@
       ],
       "possible_values": [
         "sound_box"
-      ]
+      ],
+      "semantic_source": "value_format + possible_values"
     },
     {
       "column_name": "transaction_id",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Unique record identifier. Primary key for record tracking",
+      "description": "Transaction identifier. Unique ID for associated transaction.",
       "business_context": "Optional field - sparsely populated",
-      "example_values": []
+      "example_values": [],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "order_id",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 93.87,
-      "description": "Unique record identifier. Primary key for record tracking",
+      "description": "Unique order identifier. Links to specific order or transaction record.",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "5fa69927-5e8e-426d-89dc-edd6ab282940",
         "eb2b994d-8d79-4e60-9d76-cf3c1b22b021",
         "67f0f94f-5eb0-44e0-8329-6facaf4f2ff0"
-      ]
+      ],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "serial_number",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "serial number",
+      "description": "Device serial number. Unique hardware device identifier.",
       "business_context": "Optional field - sparsely populated",
-      "example_values": []
+      "example_values": [],
+      "semantic_source": "value_format + business_context"
     },
     {
       "column_name": "vendor",
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Vendor or supplier identifier",
+      "description": "Vendor identifier or name. Third-party vendor information.",
       "business_context": "Optional field - sparsely populated",
-      "example_values": []
+      "example_values": [],
+      "semantic_source": "value_format + possible_values"
     }
   ]
 }
