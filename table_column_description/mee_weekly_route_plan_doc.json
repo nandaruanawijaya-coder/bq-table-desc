@@ -1,0 +1,666 @@
+{
+  "table_name": "mee_weekly_route_plan",
+  "full_table_id": "ledger-fcc1e.fs_datamart.mee_weekly_route_plan",
+  "total_columns": 40,
+  "sample_rows_analyzed": 100,
+  "table_type": "TABLE",
+  "documentation_generated": "2026-05-12T07:29:58.156439Z",
+  "columns": [
+    {
+      "column_name": "user_id",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Unique user or customer identifier. Primary key for person reference and account linking.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "83197478864",
+        "83197478864",
+        "83197478864"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "merchant_name",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Name identifier. Used for display, lookup, and account tracking.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "SATRIA NOVA",
+        "SATRIA NOVA",
+        "SATRIA NOVA"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "province",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "State or province administrative division. Used for geographic segmentation and regional analysis.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "SUMATERA UTARA",
+        "SUMATERA UTARA",
+        "SUMATERA UTARA"
+      ],
+      "possible_values": [
+        "SUMATERA UTARA"
+      ],
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "kecamatan",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Subdistrict (administrative division below district). Geographic unit for MEE route planning and coverage.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "KUTALIMBARU",
+        "KUTALIMBARU",
+        "KUTALIMBARU"
+      ],
+      "possible_values": [
+        "KUTALIMBARU",
+        "MEDAN KOTA",
+        "MEDAN TUNTUNGAN",
+        "NAMO RAMBE",
+        "PANCUR BATU",
+        "SUNGGAL"
+      ],
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "kabupaten",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "District/regency (administrative division). Geographic identifier for MEE assignment.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "KABUPATEN DELI SERDANG",
+        "KABUPATEN DELI SERDANG",
+        "KABUPATEN DELI SERDANG"
+      ],
+      "possible_values": [
+        "KABUPATEN DELI SERDANG",
+        "KOTA MEDAN"
+      ],
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "first_edc_type",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Category or type classification. Used for segmentation and grouping.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "Android - New",
+        "Android - New",
+        "Android - New"
+      ],
+      "possible_values": [
+        "Android - New",
+        "Saku",
+        "Saku - Insurance Bundle"
+      ],
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "last_edc_type",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Category or type classification. Used for segmentation and grouping.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "Android - New",
+        "Android - New",
+        "Android - New"
+      ],
+      "possible_values": [
+        "Android - New",
+        "Saku",
+        "Saku - Insurance Bundle"
+      ],
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "first_edc_order_date",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Date of event or action. Indicates when transaction or process occurred.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "2025-02-20",
+        "2025-02-20",
+        "2025-02-20"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "last_edc_order_date",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Date of event or action. Indicates when transaction or process occurred.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "2025-02-20",
+        "2025-02-20",
+        "2025-02-20"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "channel",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Distribution channel for MEE outreach. Identifies which team/channel manages merchant.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "MSE",
+        "MSE",
+        "MSE"
+      ],
+      "possible_values": [
+        "MSE"
+      ],
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "latest_visit",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 25.0,
+      "description": "Date of most recent visit by MEE to merchant. Tracks last engagement date.",
+      "business_context": "Common field - >50% populated",
+      "example_values": [
+        "2025-02-20",
+        "2025-02-20",
+        "2025-02-20"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "pm1_edc_trx",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Count of PM1 EDC product transactions. Metric for Electronic Data Capture PM1 product adoption.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "23",
+        "23",
+        "20"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "pm1_edc_amount",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Monetary or numeric amount. Used for financial tracking.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "60643894",
+        "60643894",
+        "36875575"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "pm2_edc_trx",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Count of PM2 EDC product transactions. Metric for Electronic Data Capture PM2 product adoption.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "18",
+        "18",
+        "23"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "pm2_edc_amount",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Monetary or numeric amount. Used for financial tracking.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "13033302",
+        "13033302",
+        "60643894"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "pm3_edc_trx",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Count of PM3 EDC product transactions. Metric for Electronic Data Capture PM3 product adoption.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "41",
+        "41",
+        "18"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "pm3_edc_amount",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Monetary or numeric amount. Used for financial tracking.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "32156552",
+        "32156552",
+        "13033302"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "pm1_edc_cw_trx",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Count of PM1 EDC cash withdrawal transactions. Cash out volume for PM1 EDC.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "14",
+        "14",
+        "9"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "pm2_edc_cw_trx",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Count of PM2 EDC cash withdrawal transactions. Cash out volume for PM2 EDC.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "14",
+        "14",
+        "14"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "pm3_edc_cw_trx",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Count of PM3 EDC cash withdrawal transactions. Cash out volume for PM3 EDC.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "24",
+        "24",
+        "14"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "pm1_edc_cw_amount",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Monetary or numeric amount. Used for financial tracking.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "12425000",
+        "12425000",
+        "7235000"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "pm2_edc_cw_amount",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Monetary or numeric amount. Used for financial tracking.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "11240000",
+        "11240000",
+        "12425000"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "pm3_edc_cw_amount",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Monetary or numeric amount. Used for financial tracking.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "18725000",
+        "18725000",
+        "11240000"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "total_edc",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Sum total of values. Aggregated financial or volume metric.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1",
+        "2"
+      ],
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "ever_submitted",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Flag (0/1) indicating if merchant ever submitted loan application. Historical engagement indicator.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "0",
+        "0",
+        "0"
+      ],
+      "possible_values": [
+        "0",
+        "1"
+      ],
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "ever_rejected",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Flag (0/1) indicating if merchant was ever rejected for loan. Risk/engagement indicator.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "0",
+        "0",
+        "0"
+      ],
+      "possible_values": [
+        "0"
+      ],
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "flag_approved",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Flag (0/1) indicating if merchant has approved loan. Product ownership indicator.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "0",
+        "0",
+        "0"
+      ],
+      "possible_values": [
+        "0"
+      ],
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "nomor_identitas",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Identity number (NIK) of merchant owner. Personal identifier for merchant.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "1207045510860003",
+        "1207045510860003",
+        "1207045510860003"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "risk_grade",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Risk grade score assigned to merchant. Used for loan approval and pricing.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "0",
+        "0",
+        "0"
+      ],
+      "possible_values": [
+        "0"
+      ],
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "risk_grade_group",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Grouped risk grade classification. Simplified risk category.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "0",
+        "0",
+        "0"
+      ],
+      "possible_values": [
+        "0"
+      ],
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "kolektabilitas_terburuk",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Worst collectability status observed. Maximum DPD/delinquency indicator.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "0",
+        "1",
+        "2",
+        "5"
+      ],
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "latitude",
+      "data_type": "FLOAT64",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Geographic latitude coordinate of merchant location. Used for mapping and visit planning.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "3.4562357",
+        "3.4562357",
+        "3.4562357"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "longitude",
+      "data_type": "FLOAT64",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Geographic longitude coordinate of merchant location. Used for mapping and visit planning.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "98.5471461",
+        "98.5471461",
+        "98.5471461"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "business_name",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Name identifier. Used for display, lookup, and account tracking.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "SATRIA NOVA-EDC",
+        "SATRIA NOVA-EDC",
+        "SATRIA NOVA-EDC"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "avg_monthly_edc_trx_3_months",
+      "data_type": "FLOAT64",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Average monthly EDC transactions over last 3 months. Smoothed transaction metric.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "27.3333333333",
+        "27.3333333333",
+        "20.3333333333"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "edc_trx_l3m",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Total EDC transactions in last 3 months. Recent transaction volume.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "72",
+        "64",
+        "54"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "route_at",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Timestamp when route. Indicates when event occurred or status changed.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "2026-03-23",
+        "2026-04-06",
+        "2026-04-25"
+      ],
+      "possible_values": [
+        "2026-03-09",
+        "2026-03-16",
+        "2026-03-23",
+        "2026-03-30",
+        "2026-04-06",
+        "2026-04-13",
+        "2026-04-18",
+        "2026-04-25"
+      ],
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "lead_type",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Category or type classification. Used for segmentation and grouping.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "Hot",
+        "Hot",
+        "Low"
+      ],
+      "possible_values": [
+        "Hot",
+        "Low",
+        "Warm"
+      ],
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "mee_name",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Name identifier. Used for display, lookup, and account tracking.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "endy syahputra",
+        "endy syahputra",
+        "endy syahputra"
+      ],
+      "possible_values": [
+        "endy syahputra"
+      ],
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "route_order",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Sequence/order of visit in route plan. Visit prioritization for MEE.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "88",
+        "72",
+        "25"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    }
+  ]
+}

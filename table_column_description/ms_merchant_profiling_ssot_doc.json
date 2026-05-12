@@ -1,0 +1,1360 @@
+{
+  "table_name": "ms_merchant_profiling_ssot",
+  "full_table_id": "ledger-fcc1e.merchant_success_analytics.ms_merchant_profiling_ssot",
+  "total_columns": 100,
+  "sample_rows_analyzed": 100,
+  "table_type": "TABLE",
+  "documentation_generated": "2026-05-12T07:29:54.587078Z",
+  "columns": [
+    {
+      "column_name": "phoneNumber",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Phone number (10-11 digit Indonesian mobile). Primary identifier for merchant account and contact lookup.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "85790576066",
+        "87821767000",
+        "85872937673"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "createdAt",
+      "data_type": "TIMESTAMP",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Timestamp when record was created. Indicates when entity entered the system.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "2022-11-04 00:00:00",
+        "2025-05-17 02:11:34",
+        "2026-02-04 01:35:45"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "data_source_flag",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "Backfill BQ from Zoho",
+        "Prospero CRM DB to BQ",
+        "Prospero CRM DB to BQ"
+      ],
+      "possible_values": [
+        "Backfill BQ from Zoho",
+        "Prospero CRM DB to BQ"
+      ],
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "updatedAt",
+      "data_type": "TIMESTAMP",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Timestamp of last modification. Tracks when data was last changed.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "2024-08-18 22:39:06",
+        "2026-04-25 15:45:26",
+        "2026-05-09 10:31:29"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "businessName",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 23.0,
+      "description": "Official registered business name or trading name. Primary identifier for merchant entity.",
+      "business_context": "Common field - >50% populated",
+      "example_values": [
+        "Taufik brilink",
+        "Toko kembar pom 46",
+        "Sarapan Mendoan Bu Toro"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "ownerName",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 27.0,
+      "description": "Name of business owner or authorized representative. Used for KYC identity verification.",
+      "business_context": "Common field - >50% populated",
+      "example_values": [
+        "Taufik",
+        "Sigit",
+        "Toro"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "yearOfBirth",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 23.0,
+      "description": "Year of birth of merchant owner. Used for KYC demographic verification and age validation.",
+      "business_context": "Common field - >50% populated",
+      "example_values": [
+        "0",
+        "0",
+        "0"
+      ],
+      "possible_values": [
+        "0"
+      ],
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "address",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 34.0,
+      "description": "Full merchant business address including street, city, province. Used for location-based services and delivery verification.",
+      "business_context": "Common field - >50% populated",
+      "example_values": [
+        "Jalan Cikalong, DUSUN 1, Mandalamukti, Bandung Barat, Jawa, 40115, Indonesia",
+        "Bumi Waringin Indah 1, Karangsambung, Kab Bekasi, Jawa Barat, Jawa, 17540, Indonesia",
+        "Cinunuk, Cileunyi, Kabupaten Bandung, Jawa Barat, Jawa, 40626, Indonesia"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "yearFounded",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Year the merchant's business was established. Used for business maturity assessment.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "shopPIC",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Person in charge at merchant shop. Contact for shop operations.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "numberOfBranches",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 77.0,
+      "description": "Number of business branches merchant operates. Business scale indicator.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [
+        "0",
+        "0",
+        "0"
+      ],
+      "possible_values": [
+        "0"
+      ],
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "numberOfEmployees",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Number of employees in merchant's business. Business size metric.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "surroundingArea",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Description of area surrounding merchant location. Context for business environment.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "roadLocationType",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Category or type classification. Used for segmentation and grouping.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "estimatedCustomersPerDay",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Estimated daily customer count for merchant business. Key metric for business volume assessment and sales targeting.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "totalDailyTransactions",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 23.0,
+      "description": "Sum total of values. Aggregated financial or volume metric.",
+      "business_context": "Common field - >50% populated",
+      "example_values": [
+        "0",
+        "0",
+        "0"
+      ],
+      "possible_values": [
+        "0"
+      ],
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "cardTransactions",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Data field for tracking and analysis. Represents cardTransactions.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "nonCardTransactions",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Data field for tracking and analysis. Represents nonCardTransactions.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "briCardTransactions",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Data field for tracking and analysis. Represents briCardTransactions.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "ppobTransactions",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Data field for tracking and analysis. Represents ppobTransactions.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "bankTransferApps",
+      "data_type": "ARRAY<STRUCT<value STRING>>",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "Data field for tracking and analysis. Represents bankTransferApps.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "[]",
+        "[]",
+        "[]"
+      ],
+      "possible_values": [
+        "[]"
+      ],
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "ppobApps",
+      "data_type": "ARRAY<STRUCT<value STRING>>",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "Data field for tracking and analysis. Represents ppobApps.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "[]",
+        "[]",
+        "[]"
+      ],
+      "possible_values": [
+        "[]"
+      ],
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "lakuPandaiCertificate",
+      "data_type": "BOOL",
+      "nullable": true,
+      "null_percentage": 77.0,
+      "description": "Data field for tracking and analysis. Represents lakuPandaiCertificate.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [
+        "false",
+        "false",
+        "false"
+      ],
+      "possible_values": [
+        "false"
+      ],
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "userId",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Data field for tracking and analysis. Represents userId.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "businessTypes",
+      "data_type": "ARRAY<STRUCT<value STRING>>",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "Data from related table lookup. Links to external reference data.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "[]",
+        "[]",
+        "[]"
+      ],
+      "possible_values": [
+        "[]"
+      ],
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "completedLoanDate",
+      "data_type": "TIMESTAMP",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Date of event or action. Indicates when transaction or process occurred.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "edcOwnership",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Data field for tracking and analysis. Represents edcOwnership.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "loanName",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Name identifier. Used for display, lookup, and account tracking.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "loanOwnership",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Data field for tracking and analysis. Represents loanOwnership.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "ownedLoanLimit",
+      "data_type": "FLOAT64",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Data field for tracking and analysis. Represents ownedLoanLimit.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "retailEventPicContact",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Data field for tracking and analysis. Represents retailEventPicContact.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "retailTypePoi",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Data field for tracking and analysis. Represents retailTypePoi.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "retailCommunityName",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Name identifier. Used for display, lookup, and account tracking.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "retailCommunityAffiliation",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Data field for tracking and analysis. Represents retailCommunityAffiliation.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "retailQrisOwnership",
+      "data_type": "ARRAY<STRUCT<value STRING>>",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "Data field for tracking and analysis. Represents retailQrisOwnership.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "[]",
+        "[]",
+        "[]"
+      ],
+      "possible_values": [
+        "[]"
+      ],
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "retailCreditCardPctTransaction",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Data field for tracking and analysis. Represents retailCreditCardPctTransaction.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "retailQrisPctTransaction",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Data field for tracking and analysis. Represents retailQrisPctTransaction.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "retailContactPicPoi",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Data field for tracking and analysis. Represents retailContactPicPoi.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "retailDebitCardPctTransaction",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Data field for tracking and analysis. Represents retailDebitCardPctTransaction.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "retailNamePicPoi",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Data field for tracking and analysis. Represents retailNamePicPoi.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "retailPosOwnership",
+      "data_type": "ARRAY<STRUCT<value STRING>>",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "Data field for tracking and analysis. Represents retailPosOwnership.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "[]",
+        "[]",
+        "[]"
+      ],
+      "possible_values": [
+        "[]"
+      ],
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "retailEstablishmentType",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Category or type classification. Used for segmentation and grouping.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "retailLocatedInEvent",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Data field for tracking and analysis. Represents retailLocatedInEvent.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "retailLocatedInPoi",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Data field for tracking and analysis. Represents retailLocatedInPoi.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "retailEventPicName",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Name identifier. Used for display, lookup, and account tracking.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "retailEdcOwnership",
+      "data_type": "ARRAY<STRUCT<value STRING>>",
+      "nullable": false,
+      "null_percentage": 0.0,
+      "description": "Data field for tracking and analysis. Represents retailEdcOwnership.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "[]",
+        "[]",
+        "[]"
+      ],
+      "possible_values": [
+        "[]"
+      ],
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "retailOfflineDailyTransaction",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Data field for tracking and analysis. Represents retailOfflineDailyTransaction.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "retailOnlineDailyTransaction",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Data field for tracking and analysis. Represents retailOnlineDailyTransaction.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "retailDailyQrisVolume",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Data field for tracking and analysis. Represents retailDailyQrisVolume.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "retailNamePoi",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Data field for tracking and analysis. Represents retailNamePoi.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "retailMerchantFlag",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "notes",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Assessment notes from credit evaluation team. Contains qualitative observations on borrower and business.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "storeType",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 52.0,
+      "description": "Category or type classification. Used for segmentation and grouping.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [
+        "all_type_payment_agent",
+        "kelontong_minimarket",
+        "warteg_warsun_padang"
+      ],
+      "possible_values": [
+        "all_type_payment_agent",
+        "cafe_only",
+        "fresh_product",
+        "kelontong_minimarket",
+        "others",
+        "snack_beverages",
+        "warteg_warsun_padang"
+      ],
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "businessindustry",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 52.0,
+      "description": "Business industry classification (FMCG, FnB, payment_agent). Sector categorization.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [
+        "payment_agent",
+        "fmcg",
+        "fnb"
+      ],
+      "possible_values": [
+        "fmcg",
+        "fnb",
+        "payment_agent"
+      ],
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "businesslocation",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 52.0,
+      "description": "Business location type (residential, commercial, office, etc). Area classification.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [
+        "residential",
+        "residential",
+        "residential"
+      ],
+      "possible_values": [
+        "commercial",
+        "office_work",
+        "public_service",
+        "residential",
+        "school_uni"
+      ],
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "interestedinloan",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 52.0,
+      "description": "Indicator if merchant is interested in loan products (yes/no). Product interest.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "possible_values": [
+        "yes"
+      ],
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "desiredloanlimit",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Loan amount merchant would like to apply for (Rp). Borrowing intent.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "mee_interested_sell_other_bw_products",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Whether MEE interested in selling other BukuWarung products. Sales opportunity indicator.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "mee_average_daily_profit_payment_agent",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Average daily profit from payment agent services. Income metric.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "mee_interested_build_other_business",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Whether merchant interested in building other business lines. Growth intention.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "mee_total_card_transaction",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Sum total of values. Aggregated financial or volume metric.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "mee_reason_why_not_use_bw_for_bri_on_us",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Reason merchant not using BW for BRI OnUs transfers. Objection reason.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "mee_edc_ownership",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Whether merchant owns EDC machine and which brand. Product ownership.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "mee_reason_why_not_use_bw_for_non_bri_card_edc_bri",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Reason merchant not using BW for non-BRI EDC. Objection reason.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "mee_loan_ownership_mee",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Type of loan merchant currently has. Product ownership.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "mee_average_daily_omset_payment_agent",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Average daily sales/omset from payment agent business. Revenue metric.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "mee_motivation_to_switch_bri_on_us_to_bw",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Merchant motivation to switch from BRI OnUs to BukuWarung. Switch motivation.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "mee_current_tenor_loan",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Current loan term/tenor in months. Product term.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "mee_average_daily_profit_non_payment_agent",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Average daily profit from non-agent businesses. Income metric.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "mee_current_loan_type",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Category or type classification. Used for segmentation and grouping.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "mee_average_daily_omset_non_payment_agent",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Average daily revenue from non-agent business. Revenue metric.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "mee_current_loan_interest",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Interest rate of current loan (%). Pricing information.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "mee_reason_why_not_use_bw_full",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Reason merchant not using full BukuWarung products. Adoption barrier.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "mee_motivation_to_switch_all_edc_non_bri_to_bw",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Motivation to switch all non-BRI EDC to BukuWarung. Product switching intent.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "mee_kur_loan_due",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Due date/expiry of KUR loan. Loan maturity.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "mee_bw_loan_reason_not_interested",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Reason merchant not interested in BukuWarung loan. Objection reason.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "mee_kur_loan_bank",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Bank providing KUR loan. Competitor information.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "mee_kur_loan_limit",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Loan limit of KUR loan (Rp). Competitor product info.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "mee_bw_loan_purpose",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Intended use/purpose of BukuWarung loan. Loan objective.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "firstVisitBizType",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Category or type classification. Used for segmentation and grouping.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "PAYMENT AGENT",
+        "Others",
+        "Others"
+      ],
+      "possible_values": [
+        "Others",
+        "PAYMENT AGENT",
+        "PPOB AGENT",
+        "RETAIL"
+      ],
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "latestVisitDate",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Date of event or action. Indicates when transaction or process occurred.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "2024-07-26",
+        "2026-04-25",
+        "2026-05-09"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "createdDate",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Timestamp when record was created. Indicates when entity entered the system.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "2022-11-04",
+        "2025-05-17",
+        "2026-02-04"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "hasBRIEDC",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Boolean flag indicating if merchant owns or operates BRI EDC machine. Used for product penetration analysis.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "0",
+        "0",
+        "0"
+      ],
+      "possible_values": [
+        "0"
+      ],
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "hasBNIEDC",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Boolean flag indicating possession of product/service. Used for product penetration analysis.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "0",
+        "0",
+        "0"
+      ],
+      "possible_values": [
+        "0"
+      ],
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "hasMandiriEDC",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Boolean flag indicating possession of product/service. Used for product penetration analysis.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "0",
+        "0",
+        "0"
+      ],
+      "possible_values": [
+        "0"
+      ],
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "current_mse_hor",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 77.0,
+      "description": "Name of current MSE Head of Region managing this merchant. Organizational assignment.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [
+        "ziko",
+        "rolly",
+        "tommy"
+      ],
+      "possible_values": [
+        "rolly",
+        "tommy",
+        "ziko"
+      ],
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "current_mse_hoa",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 77.0,
+      "description": "Name of current MSE Head of Area managing this merchant. Organizational assignment.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [
+        "eko",
+        "simon_purba",
+        "faizal_fahri"
+      ],
+      "possible_values": [
+        "eko",
+        "endang",
+        "faizal_fahri",
+        "mirzan",
+        "simon_purba",
+        "vacant_jakarta",
+        "vacant_kalimantan",
+        "vacant_sum_1",
+        "vacant_sum_2"
+      ],
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "current_mse_lead",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 77.0,
+      "description": "Name of current MSE Team Lead managing this merchant. Direct manager assignment.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [
+        "izzaad",
+        "tl-aditya_ramdhani",
+        "tl-deni"
+      ],
+      "possible_values": [
+        "amzar_sapunda",
+        "gumilar",
+        "heppy",
+        "izzaad",
+        "no_msl_java_1",
+        "oriza_sativa",
+        "purwanto",
+        "steven",
+        "tl-aditya_ramdhani",
+        "tl-agus",
+        "tl-deni",
+        "tl-gogo",
+        "tl-osep"
+      ],
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "supreme_tier",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 43.0,
+      "description": "SUPREME tier classification status. Premium merchant tier indicator.",
+      "business_context": "Common field - >50% populated",
+      "example_values": [
+        "SUPREME",
+        "SUPREME",
+        "SUPREME"
+      ],
+      "possible_values": [
+        "SUPREME"
+      ],
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "supreme_date",
+      "data_type": "DATE",
+      "nullable": true,
+      "null_percentage": 43.0,
+      "description": "Date of event or action. Indicates when transaction or process occurred.",
+      "business_context": "Common field - >50% populated",
+      "example_values": [
+        "2022-11-04",
+        "2022-12-06",
+        "2025-12-30"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "hasAndroidEDC",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Boolean flag indicating possession of product/service. Used for product penetration analysis.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "totalAndroidMachine",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Sum total of values. Aggregated financial or volume metric.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "hasSakuEDC",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Boolean flag indicating possession of product/service. Used for product penetration analysis.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "totalSakuMachine",
+      "data_type": "INT64",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Sum total of values. Aggregated financial or volume metric.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "prospero_merchant_profile_id",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 100.0,
+      "description": "Unique identifier for prospero merchant profile. Primary key or foreign key for data relationships.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [],
+      "possible_values": null,
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "latest_latitude",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 38.0,
+      "description": "Latitude of merchant's most recent location. Latest geographic coordinate.",
+      "business_context": "Common field - >50% populated",
+      "example_values": [
+        "-7.805085",
+        "-6.7460991",
+        "2.0901046402091588"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "latest_longitude",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 38.0,
+      "description": "Longitude of merchant's most recent location. Latest geographic coordinate.",
+      "business_context": "Common field - >50% populated",
+      "example_values": [
+        "112.269342",
+        "107.4463444",
+        "99.84268583357334"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    },
+    {
+      "column_name": "active_days_users_in_this_coordinate",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 81.0,
+      "description": "Boolean indicator of status or attribute. Used for segmentation and targeting.",
+      "business_context": "Optional field - <50% populated",
+      "example_values": [
+        "Users in this coordinate for 127 days",
+        "Supreme",
+        "Supreme"
+      ],
+      "possible_values": [
+        "Supreme",
+        "Users in this coordinate for 119 days",
+        "Users in this coordinate for 127 days",
+        "Users in this coordinate for 135 days",
+        "Users in this coordinate for 187 days",
+        "Users in this coordinate for 21 days",
+        "Users in this coordinate for 33 days",
+        "Users in this coordinate for 37 days",
+        "Users in this coordinate for 4 days",
+        "Users in this coordinate for 41 days",
+        "Users in this coordinate for 421 days",
+        "Users in this coordinate for 46 days",
+        "Users in this coordinate for 497 days",
+        "Users in this coordinate for 83 days",
+        "Users in this coordinate for 84 days"
+      ],
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "gsheet_ssot_documentation",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 0.0,
+      "description": "Data field for tracking and analysis. Represents gsheet ssot documentation.",
+      "business_context": "Required field - always populated",
+      "example_values": [
+        "https://docs.google.com/spreadsheets/d/1fi6jwHsn2O5A5RfbqxCwAeAdBhiaCq2GtF2GjnUFChw/edit?usp=sharing",
+        "https://docs.google.com/spreadsheets/d/1fi6jwHsn2O5A5RfbqxCwAeAdBhiaCq2GtF2GjnUFChw/edit?usp=sharing",
+        "https://docs.google.com/spreadsheets/d/1fi6jwHsn2O5A5RfbqxCwAeAdBhiaCq2GtF2GjnUFChw/edit?usp=sharing"
+      ],
+      "possible_values": [
+        "https://docs.google.com/spreadsheets/d/1fi6jwHsn2O5A5RfbqxCwAeAdBhiaCq2GtF2GjnUFChw/edit?usp=sharing"
+      ],
+      "semantic_source": "sql_definition + value_format + business_context + sample_data"
+    },
+    {
+      "column_name": "nik",
+      "data_type": "STRING",
+      "nullable": true,
+      "null_percentage": 40.0,
+      "description": "National ID number (NIK) of merchant owner. Personal identifier.",
+      "business_context": "Common field - >50% populated",
+      "example_values": [
+        "3506184207880002",
+        "1672016704860001",
+        "7308196811830001"
+      ],
+      "possible_values": null,
+      "semantic_source": "sql_definition + business_context"
+    }
+  ]
+}
