@@ -20,36 +20,63 @@ Follow CLAUDE_CODE_AUTOMATION.md for the complete workflow and Obra Superpowers 
 - Data-Driven: Extract real patterns from 10,000 sample rows
 - Verification: Enforce validation rules on every column (no generic descriptions)
 
-**CRITICAL: Extract SQL Definitions First**
+**CRITICAL: Extract Creation Query First (PRIMARY Source of Truth)**
 
-For each table:
+The creation query (CREATE TABLE or CREATE TABLE AS SELECT) is the authoritative source for understanding how columns were formed. It answers all questions about column origin, transformation, aggregation, and filtering.
+
+For each table, extract in this priority order:
+
 ```bash
-# Step 1: Check if table is VIEW or TABLE
-bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '.type'
-
-# Step 2: If VIEW, extract the SQL definition
+# Step 1: For VIEWs - Extract SQL definition
 bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '.view.query' -r
 
-# Step 3: If TABLE, no SQL available - use column names + semantics
+# Step 2: For TABLEs - Query INFORMATION_SCHEMA to find ORIGINAL creation query
+bq query --use_legacy_sql=false "
+  SELECT creation_time, query, statement_type
+  FROM \`ledger-fcc1e.region-us.INFORMATION_SCHEMA.JOBS_BY_PROJECT\`
+  WHERE statement_type IN ('CREATE_TABLE', 'CREATE_TABLE_AS_SELECT')
+    AND destination_table.table_id = 'TABLE_NAME'
+    AND destination_table.dataset_id = 'DATASET_NAME'
+  ORDER BY creation_time ASC LIMIT 1
+"
+
+# Step 3: If original creation query not found, find MOST RECENT transformation
+bq query --use_legacy_sql=false "
+  SELECT creation_time, query, statement_type
+  FROM \`ledger-fcc1e.region-us.INFORMATION_SCHEMA.JOBS_BY_PROJECT\`
+  WHERE referenced_tables LIKE '%DATASET_NAME.TABLE_NAME%'
+    AND statement_type IN ('INSERT', 'CREATE_TABLE_AS_SELECT', 'UPDATE')
+  ORDER BY creation_time DESC LIMIT 1
+"
+
+# Step 4: If no query found, check metadata for hints
+bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '{description, labels}' -r
 ```
 
-**TABLE vs VIEW Handling:**
-- **VIEW**: Extract SQL, analyze CASE/COUNT/SUM/JOIN/window functions to explain column formation
-- **TABLE**: Use column name semantics (has_*, is_*, *_at, *_count, etc) + format detection + business context
+**What the creation query reveals:**
+- **Base columns**: Passed through directly from source table
+- **Derived columns**: CASE statements with thresholds, COUNT/SUM aggregations, CAST/CONCAT transformations
+- **Source tables**: Which tables are joined or unioned
+- **Filters**: WHERE conditions that reduce row count
+- **Aggregations**: GROUP BY logic and what's counted/summed
+- **Deduplication**: DISTINCT, ROW_NUMBER partitioning, or duplicate handling
 
 **Apply 4-Source Semantic Logic (Priority Order):**
 
-1. **Source 1 (Priority 1): SQL Definition (VIEWs Only)**
-   - CASE statements → explain ALL conditions and thresholds (e.g., "APPROVED if score ≥0.75, REJECTED if <0.75")
-   - Aggregations → explain what's counted and filters (e.g., "COUNT ONLY PM1_EDC products, others excluded")
-   - Priority logic → explain fallback order (e.g., "Priority: verification_date → submission_date → updated_at")
-   - Window functions → explain deduplication or ranking (e.g., "Latest record per merchant by date")
-   - Threshold derivation → explain score/value thresholds
-   - UNION ALL → note which data sources are combined
+1. **Source 1 (Priority 1): SQL Definition (from creation query)**
+   - **CASE statements** → explain ALL conditions and thresholds (e.g., "APPROVED if score ≥0.75, REJECTED if <0.75")
+   - **Aggregations** → explain what's counted and filters (e.g., "COUNT ONLY PM1_EDC products, others excluded")
+   - **Priority logic** → explain fallback order (e.g., "Priority: verification_date → submission_date → updated_at")
+   - **Window functions** → explain deduplication or ranking (e.g., "Latest record per merchant by date")
+   - **Threshold derivation** → explain score/value thresholds
+   - **UNION ALL** → note which data sources are combined
+   - **Transformations** → CAST, CONCAT, string functions, date math
+   - **Joins** → explain which tables are combined and how
 
-2. **Source 2 (Priority 2): Column Name Semantics + Value Format Detection**
-   - **Column patterns** (for TABLEs): has_*, is_* → "Boolean indicating...", *_name → "Name of...", *_at/*_date → "Timestamp when...", *_count/*_total → "Count of...", *_score → "Score for...", *_id/*_number → "Unique identifier...", *_status/*_type → "Classification of..."
-   - **Value formats**: _sdc_* → "Singer data connector...", UUIDs → "UUID v4 format", Phone → "10-11 digit Indonesian mobile", Timestamps → "Timestamp when...", Coordinates → "Latitude,longitude pair", Enumerations → list all ≤20 unique values
+2. **Source 2 (Priority 2): Value Format Detection + Column Name Semantics**
+   - **Value formats** (from sample data): _sdc_* → "Singer data connector...", UUIDs → "UUID v4 format", Phone → "10-11 digit Indonesian mobile", Timestamps → "Timestamp when...", Coordinates → "Latitude,longitude pair"
+   - **Column name patterns** (if no SQL found): has_*, is_* → "Boolean indicating...", *_name → "Name of...", *_at/*_date → "Timestamp when...", *_count/*_total → "Count of...", *_score → "Score for...", *_id/*_number → "Unique identifier...", *_status/*_type → "Classification of..."
+   - **Enumerations**: If ≤20 unique values, list all in possible_values array
 
 3. **Source 3 (Priority 3): Business Context**
    - Use table context from table_list.md
@@ -72,15 +99,16 @@ bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '.view.query' -r
 
 **Validation (All Columns MUST PASS):**
 - ✅ Explains WHAT: "Counts ONLY PM1_EDC, others excluded" (not "Count of transactions")
-- ✅ Formation logic: CASE/COUNT/SUM/FILTER details from SQL (VIEWs) or column name semantics (TABLEs)
-- ✅ Value format: "UUID v4", "Phone (10-11 digit)", "Timestamp when..." (not generic "Some identifier")
-- ✅ Business context: "Used for loan approval" (not "Score field")
+- ✅ Formation logic: If SQL found → explain CASE/COUNT/JOIN/aggregation details. If no SQL → column semantics + business meaning
+- ✅ Value format: "UUID v4", "Phone (10-11 digit)", "Timestamp when..." (detected from sample data)
+- ✅ Business context: "Used for loan approval", "Tracks merchant volume" (not generic "Score field" or "field for...")
 - ✅ Length: ≥40 characters (meaningful, not <40 too generic)
 - ✅ Enum values: possible_values array with all ≤20 unique values (e.g., ["APPROVED", "REJECTED"])
 - ✅ business_context field: "Required/Core/Common/Optional" (not null)
-- ✅ semantic_source field: "sql_definition + value_format + ..." (not null)
+- ✅ semantic_source field: Show what sources were used (e.g., "sql_definition + value_format + business_context")
 - ✅ No data-type patterns: NOT "Text or string value", "Integer numeric", "Name or text identifier"
 - ✅ SDC columns: "Singer data connector: [purpose]" (not treated as regular fields)
+- ✅ Creation query analyzed: If SQL found, description must reference it (transformation logic, aggregation details, etc)
 ```
 
 ---
