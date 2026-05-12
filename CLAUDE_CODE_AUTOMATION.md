@@ -18,10 +18,10 @@ When asked to document tables, Claude Code will:
 
 This process follows the [obra superpowers](https://github.com/obra/superpowers) framework:
 
-- **Design Phase**: Clarify what makes documentation useful for AI SQL assistants. Discovered: SQL definition is priority #1 (not column names).
-- **Systematic Process**: 4-source extraction in priority order (SQL → format → context → data) with clear validation rules.
+- **Design Phase**: Clarify what makes documentation useful for AI SQL assistants. Discovered: SQL definition is priority #1 (not column names). BUT descriptions must explain what column names mean in the business context.
+- **Systematic Process**: 4-source extraction in priority order (SQL → format → context → data) with clear validation rules. Plus column name-to-definition mapping validation.
 - **Data-Driven**: Extract patterns from actual sample data; cache and reuse across tables for efficiency.
-- **Verification**: Automated quality checks for every column; no generic descriptions allowed; semantic_source attribution required.
+- **Verification**: Automated quality checks for every column; no generic descriptions allowed; semantic_source attribution required; **descriptions must explain column names (≥40% key term coverage)**.
 
 ---
 
@@ -481,9 +481,36 @@ jq '.columns[] | select((.description | test("status|categories")) and (.possibl
 
 # Check 7: Generic data-type descriptions (NEW)
 jq '.columns[] | select(.description | test("^(Text or string|Integer numeric|Numeric value|Name or text) value")) | .column_name' FILE.json
+
+# Check 8: Column name-to-definition mapping (CRITICAL)
+# Description must explain what the column NAME means, not just provide generic context
+# Run Python validation to check if key column name terms appear in descriptions:
+python3 << 'PYEOF'
+import json, re
+def get_key_terms(name):
+    name = re.sub(r'_(at|date|time|flag|id|count|amount|rate|pct|percentage|value|code|name|type|status)$', '', name, flags=re.IGNORECASE)
+    name = re.sub(r'([a-z])([A-Z])', r'\1_\2', name)
+    return set(re.sub(r'_+', ' ', name).lower().split())
+with open('FILE.json') as f:
+    data = json.load(f)
+failures = []
+for col in data['columns']:
+    key_terms = get_key_terms(col['column_name'])
+    if not key_terms: continue
+    desc_words = set(re.findall(r'\b\w+\b', col.get('description', '').lower()))
+    coverage = len(key_terms & desc_words) / len(key_terms) if key_terms else 0
+    if coverage < 0.4:
+        failures.append(f"{col['column_name']} ({coverage:.0%})")
+print(f"Pass: {len(data['columns'])-len(failures)}/{len(data['columns'])}")
+if failures: print("Fail:", ', '.join(failures[:5]))
+PYEOF
 ```
 
-**All 7 checks should return EMPTY.** If check 7 finds columns, they need semantic descriptions (column name meaning + business context), not just data types.
+**All 8 checks should return EMPTY or show 100% pass rate.** 
+- Checks 1-7: Data quality (format, completeness)
+- Check 8: Semantic quality (descriptions must explain column names, not just provide generic context)
+
+**Why Check 8 matters:** A description like "Name identifier" for column `borrower_name` fails because it doesn't explain what "borrower" means in context. Better: "Full name of the borrower or applicant. Borrower name is used for identification in loan processing."
 
 ---
 
