@@ -14,6 +14,17 @@ When asked to document tables, Claude Code will:
 
 ---
 
+## Superpowers Methodology Applied
+
+This process follows the [obra superpowers](https://github.com/obra/superpowers) framework:
+
+- **Design Phase**: Clarify what makes documentation useful for AI SQL assistants. Discovered: SQL definition is priority #1 (not column names).
+- **Systematic Process**: 4-source extraction in priority order (SQL → format → context → data) with clear validation rules.
+- **Data-Driven**: Extract patterns from actual sample data; cache and reuse across tables for efficiency.
+- **Verification**: Automated quality checks for every column; no generic descriptions allowed; semantic_source attribution required.
+
+---
+
 ## Workflow: 4-Source Semantic Logic
 
 For EACH undocumented table:
