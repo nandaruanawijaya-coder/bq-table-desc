@@ -200,7 +200,11 @@
       "description": "roadlocationtype. Type of road location (main road, side road, alley, etc). Used to classify merch",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
-      "possible_values": null,
+      "possible_values": [
+        "jalanlintasprovinsi",
+        "jalansekunder",
+        "jalangang"
+      ],
       "semantic_source": "sql_definition + business_context"
     },
     {
@@ -373,7 +377,15 @@
       "description": "edcownership. Status of EDC machine ownership (owned/not owned). Product ownership indicator.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
-      "possible_values": null,
+      "possible_values": [
+        "bnii",
+        "bri",
+        "bca",
+        "bsi",
+        "mandiri",
+        "lainnya",
+        "tidakpunya"
+      ],
       "semantic_source": "sql_definition + business_context"
     },
     {
@@ -395,7 +407,15 @@
       "description": "loanownership. Status of loan ownership and type. Loan product indicator.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
-      "possible_values": null,
+      "possible_values": [
+        "tidak punya",
+        "aktif",
+        "sudah lunas",
+        "tidakpunya",
+        "lainnya",
+        "kur",
+        "bankraya"
+      ],
       "semantic_source": "sql_definition + business_context"
     },
     {
@@ -428,7 +448,26 @@
       "description": "retailtypepoi. Type of point of interest for retail. Location classification.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
-      "possible_values": null,
+      "possible_values": [
+        "school",
+        "hypermarket/supermarket",
+        "apartment",
+        "lainnya",
+        "mall",
+        "tempat_wisata",
+        "traditionalMarket",
+        "pujasera",
+        "ruko",
+        "perumahan",
+        "rumah_sakit",
+        "office",
+        "kaki_lima",
+        "pelabuhan",
+        "spbu",
+        "tempat_ibadah",
+        "terminal",
+        "stasiun"
+      ],
       "semantic_source": "sql_definition + business_context"
     },
     {
@@ -450,7 +489,10 @@
       "description": "retailcommunityaffiliation. Community affiliation status. Group membership.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
-      "possible_values": null,
+      "possible_values": [
+        "yes",
+        "no"
+      ],
       "semantic_source": "sql_definition + business_context"
     },
     {
@@ -550,7 +592,11 @@
       "description": "retailestablishmenttype. Type of retail establishment (convenience store, supermarket, market stall, etc)",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
-      "possible_values": null,
+      "possible_values": [
+        "permanent",
+        "nonPermanent",
+        "semiPermanent"
+      ],
       "semantic_source": "sql_definition + business_context"
     },
     {
@@ -652,7 +698,7 @@
       "data_type": "INT64",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "retailmerchantflag. Flag (1/0) indicating merchant status in retail channel. Retail participation in",
+      "description": "Retail merchant flag indicator. Binary indicator (0/1) marking whether merchant is retail category.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
       "possible_values": null,
@@ -845,7 +891,10 @@
       "description": "Type of loan merchant currently has. Product ownership.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
-      "possible_values": null,
+      "possible_values": [
+        "yes",
+        "no"
+      ],
       "semantic_source": "sql_definition + business_context"
     },
     {
@@ -900,7 +949,11 @@
       "description": "Mee current loan type. Category or type classification. Used for segmentation and grouping.",
       "business_context": "Optional field - <50% populated",
       "example_values": [],
-      "possible_values": null,
+      "possible_values": [
+        "kur",
+        "non_kur",
+        "bw"
+      ],
       "semantic_source": "sql_definition + business_context"
     },
     {

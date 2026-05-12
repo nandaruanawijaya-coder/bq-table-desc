@@ -547,7 +547,7 @@
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 13.0,
-      "description": "income tpv a. Total Payment Volume (Rp) for transaction type A. Cumulative monthly transaction",
+      "description": "TPV (Total Payment Volume) from income source A. Amount of transactions processed through income source A.",
       "business_context": "Common field - >50% populated",
       "example_values": [
         "1.5E7",
@@ -562,7 +562,7 @@
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 13.0,
-      "description": "income tpv b. Total Payment Volume (Rp) for transaction type B. Cumulative monthly transaction",
+      "description": "TPV (Total Payment Volume) from income source B. Transaction volume from second income source.",
       "business_context": "Common field - >50% populated",
       "example_values": [
         "1.5E7",
@@ -577,7 +577,7 @@
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 13.0,
-      "description": "income tpv c. Total Payment Volume (Rp) for transaction type C. Cumulative monthly transaction",
+      "description": "TPV (Total Payment Volume) from income source C. Transaction volume from third income source.",
       "business_context": "Common field - >50% populated",
       "example_values": [
         "1.5E7",
@@ -592,7 +592,7 @@
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 13.0,
-      "description": "income tpv d. Total Payment Volume (Rp) for transaction type D. Cumulative monthly transaction",
+      "description": "TPV (Total Payment Volume) from income source D. Amount of transactions from fourth income source.",
       "business_context": "Common field - >50% populated",
       "example_values": [
         "3000000.0",
@@ -607,7 +607,7 @@
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 13.0,
-      "description": "Total monthly payment volume (Rp) across all transaction types. Key metric for income validation.",
+      "description": "Monthly total TPV (Total Payment Volume) from all income sources. Monthly transaction volume.",
       "business_context": "Common field - >50% populated",
       "example_values": [
         "4.8E7",
@@ -739,7 +739,7 @@
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 15.0,
-      "description": "Revenue contribution percentage. Portion of income type in total revenue.",
+      "description": "Percentage of revenue portion from income sources. Income revenue portion as percentage.",
       "business_context": "Common field - >50% populated",
       "example_values": [
         "0.0113",
@@ -1028,7 +1028,7 @@
       "data_type": "FLOAT64",
       "nullable": true,
       "null_percentage": 16.0,
-      "description": "Other business or personal expenses (Rp) not in main categories. Additional expense component.",
+      "description": "Other miscellaneous expense amounts. Additional expenses not categorized in main expense categories, used for income assessment.",
       "business_context": "Common field - >50% populated",
       "example_values": [
         "0.0",
