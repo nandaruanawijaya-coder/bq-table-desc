@@ -39,22 +39,27 @@ For EACH undocumented table:
 
 ## Step 1: Extract CREATE Query (Mandatory First Step)
 
-Every column's description comes FROM the SQL, not from guessing the column name.
+Every column's description comes FROM the SQL when available. For both VIEWs and TABLEs, attempt SQL extraction.
 
 ```bash
 # Check table type
 bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '.type'
 # Output: "VIEW" or "TABLE"
 
-# If VIEW: Extract the SQL
+# For VIEWs: Extract the SQL definition
 bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '.view.query' -r > /tmp/create_query.sql
 
-# If TABLE: Note it's raw source data (no SQL available)
+# For TABLEs: Check metadata for SQL hints (description, labels, or upstream dbt/ETL)
+bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '.description, .labels' -r
+
+# If SQL found: Use it to explain column formation
+# If NO SQL: Fall back to column name semantics + business context + format detection
 ```
 
 **Why this matters:**
-- VIEW: SQL shows exactly how columns are calculated (CASE, COUNT, SUM, JOIN, etc)
-- TABLE: Raw source columns — use column names + business context
+- **VIEW with SQL**: SQL shows exactly how columns are calculated (CASE, COUNT, SUM, JOIN, etc)
+- **TABLE with SQL** (e.g., dbt-generated): SQL explains transformation and source tables
+- **TABLE without SQL** (raw source): Use column names + business context + sample data patterns
 
 **Example: credit_memo (VIEW — Real SQL)**
 
@@ -98,27 +103,28 @@ QUALIFY ROW_NUMBER() OVER (PARTITION BY phone_number ORDER BY verification_date 
 
 ### TABLE vs VIEW Strategy
 
-Before analyzing columns, determine table type:
+For EVERY table, attempt to extract SQL. If found, use SQL definition as Source 1. If no SQL, fall back to column semantics.
 
-| Type | How to Handle | Source 1 | Source 2-4 |
-|------|---------------|----------|-----------|
-| **VIEW** | Extract SQL, analyze column formation | ✅ SQL definition — MANDATORY | Format detection + business context + sample data |
-| **TABLE** | Raw source data, no SQL available | ❌ Skip — no SQL | Column name + format detection + business context + sample data |
+| Type | SQL Available? | How to Handle | Source 1 | Source 2-4 |
+|------|---|---|----------|-----------|
+| **VIEW** | Usually ✅ YES | Extract `.view.query`, analyze column formation | ✅ SQL definition | Format + context + data |
+| **TABLE** (dbt/ETL) | Maybe ✅ | Check description/labels for SQL, or upstream dbt model | ✅ SQL if found | Format + context + data |
+| **TABLE** (raw) | ❌ NO | Use column name semantics + format detection | ❌ Skip | Column name + format + context + data |
 
-**For this project (5 tables):**
-- ✅ `credit_memo` (VIEW) — Has SQL, extract and analyze
-- ❌ `ms_merchant_profiling_ssot` (TABLE) — No SQL, use name + format + context
-- ❌ `mee_weekly_route_plan` (TABLE) — No SQL, use name + format + context
-- ❌ `ms_form_hiring_and_active` (TABLE) — No SQL, use name + format + context
-- ❌ `payments_ssot` (TABLE) — No SQL, use name + format + context
+**For this project (5 tables) — Attempt SQL extraction for all:**
+1. `credit_memo` (VIEW) — ✅ SQL available: CASE derivation + UNION ALL + window function
+2. `ms_merchant_profiling_ssot` (TABLE) — ⚠️ Try SQL extraction, fallback to column semantics
+3. `mee_weekly_route_plan` (TABLE) — ⚠️ Try SQL extraction, fallback to column semantics
+4. `ms_form_hiring_and_active` (TABLE) — ⚠️ Try SQL extraction, fallback to column semantics
+5. `payments_ssot` (TABLE) — ⚠️ Try SQL extraction, fallback to column semantics
 
 ---
 
 For EACH column, apply these sources in order:
 
-### Source 1 (Priority 1): SQL Definition (VIEWs Only)
+### Source 1 (Priority 1): SQL Definition (VIEWs + TABLEs with SQL)
 
-For VIEW tables, parse the extracted SQL and explain column formation:
+If SQL is available (VIEW or dbt-generated TABLE), parse it and explain column formation:
 
 #### Pattern 1: CASE Statements
 Analyze all WHEN branches and explain the logic:
@@ -427,10 +433,13 @@ in table_column_description/ yet. Follow CLAUDE_CODE_AUTOMATION.md.
 ## FAQ
 
 **Q: What if the table is a VIEW?**
-A: Extract the SQL using `bq show --format=json ... | jq '.view.query'`. Analyze how each column is formed in the SELECT clause.
+A: Extract the SQL using `bq show --format=json ... | jq '.view.query'`. Analyze how each column is formed in the SELECT clause. Use SQL definition as Source 1.
 
-**Q: What if it's a raw TABLE?**
-A: No SQL available. Use column names + business context from table_list.md + format detection from sample data.
+**Q: What if it's a TABLE?**
+A: First, check if SQL is available (dbt models, ETL, or description/labels). If SQL found, use it. If NO SQL: Use column names + business context from table_list.md + format detection from sample data.
+
+**Q: How do I know if a TABLE has SQL?**
+A: Use: `bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '.description, .labels'` — Look for dbt model names, ETL references, or transformation descriptions.
 
 **Q: How do I know if a description needs SQL context?**
 A: Check `semantic_source`. If it contains `sql_definition`, the description MUST explain CASE/COUNT/SUM/FILTER logic from the SQL.
