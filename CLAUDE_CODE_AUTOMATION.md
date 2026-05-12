@@ -47,31 +47,45 @@ For EACH undocumented table:
 # For VIEWs - Extract SQL definition (always available)
 bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '.view.query' -r > /tmp/create_query.sql
 
-# For TABLEs - Query INFORMATION_SCHEMA to find the ORIGINAL CREATE TABLE query
-# This is the PRIMARY source - it shows exactly how the table was built
+# For TABLEs - Query data_documentation.query_history (PRIMARY SOURCE - Most Complete)
+# This custom table tracks all transformation queries and has older history than INFORMATION_SCHEMA
 bq query --use_legacy_sql=false "
   SELECT 
-    job_id,
     creation_time,
-    query,
     statement_type,
+    query,
     user_email
-  FROM `ledger-fcc1e.region-us.INFORMATION_SCHEMA.JOBS_BY_PROJECT`
-  WHERE statement_type IN ('CREATE_TABLE', 'CREATE_TABLE_AS_SELECT')
-    AND destination_table.table_id = 'TABLE'
-    AND destination_table.dataset_id = 'DATASET'
-  ORDER BY creation_time ASC  -- Get ORIGINAL creation query
+  FROM \`ledger-fcc1e.data_documentation.query_history\`
+  WHERE query LIKE '%DATASET.TABLE%'
+    AND statement_type IN ('CREATE_TABLE', 'CREATE_TABLE_AS_SELECT', 'INSERT', 'UPDATE')
+  ORDER BY creation_time DESC
   LIMIT 1
 "
 
-# If ORIGINAL CREATE not found, look for RECENT transformation:
+# If query_history not available, fallback to INFORMATION_SCHEMA
+# For TABLEs - Query INFORMATION_SCHEMA to find ORIGINAL CREATE TABLE query
 bq query --use_legacy_sql=false "
   SELECT 
     job_id,
     creation_time,
     query,
     statement_type
-  FROM `ledger-fcc1e.region-us.INFORMATION_SCHEMA.JOBS_BY_PROJECT`
+  FROM \`ledger-fcc1e.region-us.INFORMATION_SCHEMA.JOBS_BY_PROJECT\`
+  WHERE statement_type IN ('CREATE_TABLE', 'CREATE_TABLE_AS_SELECT')
+    AND destination_table.table_id = 'TABLE'
+    AND destination_table.dataset_id = 'DATASET'
+  ORDER BY creation_time ASC
+  LIMIT 1
+"
+
+# If ORIGINAL CREATE not found, look for RECENT transformation in INFORMATION_SCHEMA
+bq query --use_legacy_sql=false "
+  SELECT 
+    job_id,
+    creation_time,
+    query,
+    statement_type
+  FROM \`ledger-fcc1e.region-us.INFORMATION_SCHEMA.JOBS_BY_PROJECT\`
   WHERE referenced_tables LIKE '%DATASET.TABLE%'
     AND statement_type IN ('INSERT', 'UPDATE', 'CREATE_TABLE_AS_SELECT')
   ORDER BY creation_time DESC
@@ -82,13 +96,20 @@ bq query --use_legacy_sql=false "
 # - Which columns are BASE/RAW (direct from source table)
 # - Which columns are DERIVED (CASE, COUNT, SUM, JOIN, CAST, CONCAT, etc)
 # - What source tables are used
-# - What filters are applied
-# - What transformations are performed
-# - What deduplication or aggregation happens
+# - What filters are applied (WHERE clauses)
+# - What transformations are performed (functions, string operations, date math)
+# - What deduplication or aggregation happens (DISTINCT, GROUP BY, ROW_NUMBER, UNION ALL)
 
-# Step 3: If no query found, check metadata for hints:
-bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '{description, labels}' -r
+# Step 3: If no query found in any source, check metadata for hints:
+bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '{description, labels, creationTime}' -r
 ```
+
+**Query History Table Details:**
+- **Table**: `ledger-fcc1e.data_documentation.query_history`
+- **Purpose**: Centralized log of all SQL transformations and data manipulations
+- **Scope**: Includes CREATE_TABLE, CREATE_TABLE_AS_SELECT, INSERT, UPDATE statements
+- **Advantage**: Has older history than INFORMATION_SCHEMA (which may only go back 90 days)
+- **Schema**: creation_time, statement_type, query, user_email, job_id, state, etc.
 
 **Why the CREATION QUERY is the SOURCE OF TRUTH:**
 - **CREATE TABLE AS SELECT**: Shows exact SQL transformation logic, source tables, filters
@@ -160,23 +181,28 @@ The creation query tells us exactly:
 - What source tables are used
 - What filters/deduplication happens
 
-| Type | Primary Source | How to Extract | Information Gained |
+| Type | Primary Source (Priority) | How to Extract | Information Gained |
 |------|---|---|-----------|
 | **VIEW** | `.view.query` | `bq show --format=json` + `jq '.view.query'` | Complete SQL transformation logic |
-| **TABLE** (created with SQL) | INFORMATION_SCHEMA job history | Query jobs_by_project for CREATE_TABLE_AS_SELECT | Original transformation: sources, joins, filters, aggregations |
-| **TABLE** (loaded with inserts) | INFORMATION_SCHEMA job history | Query jobs_by_project for INSERT statements | Shows source system and data mapping |
-| **TABLE** (no query available) | Description/labels then column semantics | `bq show` metadata + column analysis | Pipeline hints + format detection |
+| **TABLE** (with history) | `data_documentation.query_history` ← BEST | Query for CREATE_TABLE_AS_SELECT / INSERT | Full transformation: sources, joins, filters, aggregations |
+| **TABLE** (INFORMATION_SCHEMA) | Job history fallback | Query jobs_by_project | Original transformation metadata (if available) |
+| **TABLE** (no query available) | Description/labels → column semantics | `bq show` metadata | Pipeline hints + format detection |
+
+**Three-Level Query Search (for TABLEs):**
+1. **Level 1 - query_history table**: `SELECT query FROM ledger-fcc1e.data_documentation.query_history WHERE query LIKE '%TABLE%'` — Most complete, goes back further
+2. **Level 2 - INFORMATION_SCHEMA**: `SELECT query FROM JOBS_BY_PROJECT WHERE statement_type IN ('CREATE_TABLE', 'CREATE_TABLE_AS_SELECT')` — Fallback for recent queries
+3. **Level 3 - Metadata**: `bq show` description/labels — Last resort hints
 
 **Critical difference:**
-- With creation query: Describe how column is formed (`COUNT of X where Y = Z`, `CASE when score > threshold`, `Latest per customer`)
-- Without creation query: Describe what column represents (`Metric for tracking`, `Customer classification`, `Status indicator`)
+- **With creation query**: Describe HOW column is formed (`COUNT of X where Y = Z`, `CASE when score > threshold`, `Latest per customer`)
+- **Without creation query**: Describe WHAT column represents (`Metric for tracking`, `Customer classification`, `Status indicator`)
 
 **Investigation for this project (5 tables):**
-1. `credit_memo` (VIEW) — ✅ Extract: `.view.query` → Full SQL with CASE/UNION/window logic
-2. `ms_merchant_profiling_ssot` (TABLE) — 🔍 Check: INFORMATION_SCHEMA for CREATE AS SELECT
-3. `mee_weekly_route_plan` (TABLE) — 🔍 Check: INFORMATION_SCHEMA for CREATE AS SELECT
-4. `ms_form_hiring_and_active` (TABLE) — 🔍 Check: INFORMATION_SCHEMA for CREATE AS SELECT
-5. `payments_ssot` (TABLE) — 🔍 Check: INFORMATION_SCHEMA for CREATE AS SELECT
+1. `credit_memo` (VIEW) — ✅ Extract: `.view.query` (2,505 chars) → CASE/UNION/window logic
+2. `ms_merchant_profiling_ssot` (TABLE) — ✅ Found: `query_history` CREATE_TABLE_AS_SELECT (90,841 chars) → Detailed transformation
+3. `mee_weekly_route_plan` (TABLE) — ✅ Found: `query_history` CREATE_TABLE (109 chars) → Schema definition
+4. `ms_form_hiring_and_active` (TABLE) — ✅ Found: `query_history` CREATE_TABLE_AS_SELECT (5,510 chars) → Hiring process logic
+5. `payments_ssot` (TABLE) — ✅ Found: `query_history` INSERT (15,622 chars) → Data loading logic
 
 ---
 
@@ -499,40 +525,48 @@ A: Extract the SQL using `bq show --format=json ... | jq '.view.query'`. Analyze
 A: MUST query INFORMATION_SCHEMA to find the creation query. This is the authoritative source for understanding how columns were formed. The query will show: base columns, derived columns, transformations, source tables, filters, aggregations.
 
 **Q: How do I find the creation query for a TABLE?**
-A: Use INFORMATION_SCHEMA to find the ORIGINAL CREATE TABLE or CREATE TABLE AS SELECT:
+A: Use a THREE-level search strategy (in order):
 
+**Level 1 - query_history table (BEST - most complete history):**
+```sql
+SELECT creation_time, query, statement_type
+FROM `ledger-fcc1e.data_documentation.query_history`
+WHERE query LIKE '%TABLE_NAME%'
+  AND statement_type IN ('CREATE_TABLE', 'CREATE_TABLE_AS_SELECT', 'INSERT', 'UPDATE')
+ORDER BY creation_time DESC
+LIMIT 1
+```
+
+This table has older history than INFORMATION_SCHEMA and tracks all transformations.
+
+**Level 2 - INFORMATION_SCHEMA (if query_history not available):**
 ```sql
 SELECT creation_time, query, statement_type
 FROM `ledger-fcc1e.region-us.INFORMATION_SCHEMA.JOBS_BY_PROJECT`
 WHERE statement_type IN ('CREATE_TABLE', 'CREATE_TABLE_AS_SELECT')
   AND destination_table.table_id = 'TABLE_NAME'
   AND destination_table.dataset_id = 'DATASET_NAME'
-ORDER BY creation_time ASC  -- Get ORIGINAL creation
+ORDER BY creation_time ASC
 LIMIT 1
 ```
 
-This query reveals everything about column formation.
-
-**Q: What if the ORIGINAL creation query is not available?**
-A: The table may have been created long ago or loaded via a tool. Check the MOST RECENT transformation query:
-
+**Level 3 - INFORMATION_SCHEMA recent transformations (if original not found):**
 ```sql
 SELECT creation_time, query, statement_type
 FROM `ledger-fcc1e.region-us.INFORMATION_SCHEMA.JOBS_BY_PROJECT`
-WHERE referenced_tables LIKE '%DATASET.TABLE%'
+WHERE referenced_tables LIKE '%DATASET_NAME.TABLE_NAME%'
   AND statement_type IN ('INSERT', 'UPDATE', 'CREATE_TABLE_AS_SELECT')
 ORDER BY creation_time DESC
 LIMIT 1
 ```
 
-This shows how data is currently maintained/refreshed. Analyze this query instead.
-
-**Q: What if NO query is found in INFORMATION_SCHEMA?**
-A: This means the table was created before INFORMATION_SCHEMA history is available OR loaded via non-query methods. In this case:
-1. Check table description for pipeline hints
-2. Check labels for dbt/system tags
+**Q: What if NO query is found in any source?**
+A: The table may have been created before query history tracking. In this case:
+1. Check table metadata: `bq show --format=json` for description/labels
+2. Check labels for dbt/ETL pipeline tags
 3. Use column names + business context to infer purpose
-4. Document as "base table - no transformation SQL available"
+4. Document as "base/source table - no transformation SQL available"
+5. Fall back to column semantics + format detection for descriptions
 
 **Q: How do I know if a description needs SQL context?**
 A: Check `semantic_source`. If it contains `sql_definition`, the description MUST explain CASE/COUNT/SUM/FILTER logic from the SQL.
