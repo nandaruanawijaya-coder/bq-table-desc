@@ -311,48 +311,122 @@ Example:
 
 ---
 
-## Implementation: In-Memory Python Execution
+## Implementation: In-Memory Python Execution with SQL Source Extraction
 
-When documenting tables, Claude Code will:
+When documenting tables, Claude Code will use a **4-source approach**:
+
+### Source 1: Table Context (from table_list.md)
+- Business purpose and meaning
+- How the table is used in the system
+- Domain context (EDC, MEE, retail, credit, etc.)
+
+### Source 2: SQL Definition (from BigQuery metadata or query history)
+```
+For each table:
+  1. Check if it's a VIEW
+     → Retrieve view_query from BigQuery metadata
+  2. If TABLE, search query_history for:
+     → CREATE OR REPLACE TABLE `exact_table_id` ...
+     → CREATE TABLE `exact_table_id` ...
+  3. Parse SQL to extract:
+     → Column calculation formulas (CASE statements, SUM, COUNT, etc.)
+     → Data transformations (CAST, DATE_TRUNC, timezone conversions, etc.)
+     → Source tables and joins
+     → Aggregation logic
+```
+
+### Source 3: Schema & Sample Data (from BigQuery)
+```python
+# For each column:
+  - Column name, data type, mode (REQUIRED/NULLABLE)
+  - Collect 10,000 sample rows and analyze:
+    * Detect value formats (UUID, phone, coordinates, timestamps)
+    * Find all unique values (for enumeration if ≤20 unique)
+    * Calculate null percentage
+    * Extract first 3 example values
+```
+
+### Source 4: Description Generation (3-source combination)
+```python
+For each column:
+  1. Get business context from table_list.md
+  2. Extract formula/transformation from SQL (if available)
+  3. Detect format from actual sample data
+  
+  # Combine into semantic description:
+  description = f"{semantic_meaning} from {source_table}. {transformation_info}. {business_usage}"
+  
+  Example:
+  "final_score: Calculated credit score (0-1) from credit assessment data. 
+   Formula: >= 0.75 = APPROVED, < 0.75 = REJECTED. 
+   Used for loan approval decision making."
+```
+
+### Step-by-Step Process
 
 1. **Parse table_list.md** to extract:
    - Table IDs
-   - Business context for each table (used in all descriptions)
+   - Business context for each table
 
-2. **For each missing table**, fetch 10,000 rows and:
+2. **For each missing table**, execute in order:
    ```python
-   # Detect value formats from actual sample data
-   - Detect: UUID patterns, phone numbers (8-13 digits, starts with 8)
-   - Detect: bank accounts (8-16 digits), coordinates, timestamps
+   # Step 2a: Identify SQL source
+   if table.table_type == "VIEW":
+       sql_source = table.view_query
+       source_type = "VIEW"
+   else:
+       sql_source = search_query_history(table_id)  # Find CREATE statement with exact table_id
+       source_type = "SCHEDULED_QUERY" if found else "IMPORTED"
    
-   # Collect all values per column
-   - Collect ALL non-null values for enumeration (if ≤20 unique)
-   - Sample first 3 values for pattern detection
+   # Step 2b: Fetch 10,000 rows
+   rows = fetch_10k_rows(table_id)
    
-   # Generate semantic description
-   - Apply Priority Order rules (SDC → UUID → phone → coords → timestamps → metrics)
-   - Look up column name in comprehensive description map
-   - Combine: detected format + business purpose + table context
-   - NEVER fall back to bare "[ColumnName] field" descriptions
+   # Step 2c: Extract column information
+   for each column in schema:
+       - Collect all values per column
+       - Detect format from data (UUID, phone, coordinates, etc.)
+       - Extract formula from SQL (if available)
+       - Determine enumeration (if ≤20 unique)
    
-   # Build JSON documentation
-   - description: semantic explanation (1-2 sentences minimum)
-   - business_context: based on null_percentage
-   - example_values: first 3 non-null values
-   - possible_values: if ≤20 unique values
+   # Step 2d: Generate semantic descriptions using 4 sources
+   for each column:
+       table_context = get_from_table_list_md()
+       sql_formula = extract_from_sql_source()
+       data_format = detect_from_sample_data()
+       
+       description = combine_4_sources(
+           table_context, 
+           sql_formula, 
+           data_format,
+           semantic_category
+       )
+   
+   # Step 2e: Build JSON documentation
+   - description: Combined semantic explanation
+   - business_context: Based on null_percentage
+   - example_values: First 3 non-null values from actual data
+   - possible_values: If ≤20 unique values
+   - sql_source: URL/reference to view or scheduled query (if available)
+   - source_type: "VIEW", "SCHEDULED_QUERY", or "IMPORTED"
    
    - Save to table_column_description/[TABLE_NAME]_doc.json
    ```
 
-3. **Git commit** with comprehensive message:
+3. **Git commit** with comprehensive message documenting sources:
    ```
-   Enhance column descriptions with business context and semantic meaning
+   Document [TABLE] with 4-source semantic descriptions
    
-   - Replace generic naming with explanatory descriptions
-   - Add business purpose and usage context for each column
-   - Explain how fields relate to order lifecycle, merchant profiles, team hierarchy
-   - Include value semantics (product adoption, KYC verification, sales targeting)
-   - Improve enumeration for low-cardinality columns
+   Sources combined:
+   - Table context from table_list.md (business meaning)
+   - SQL definition from BigQuery metadata/query history (transformation logic)
+   - Schema and 10,000 sample rows (value formats and patterns)
+   - Comprehensive column mapping (semantic categories)
+   
+   Results:
+   - Explanatory descriptions explaining business purpose and usage
+   - Column formulas and calculations documented where available
+   - Value format detection (UUID, phone, coordinates, etc.)
+   - Enumeration for low-cardinality columns
    ```
 
 ---
