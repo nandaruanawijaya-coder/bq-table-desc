@@ -42,18 +42,27 @@ For EACH undocumented table:
 Every column's description comes FROM the SQL when available. For both VIEWs and TABLEs, attempt SQL extraction.
 
 ```bash
-# Check table type
+# Step 1: Check table type
 bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '.type'
 # Output: "VIEW" or "TABLE"
 
-# For VIEWs: Extract the SQL definition
+# Step 2: For VIEWs - Extract the SQL definition
 bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '.view.query' -r > /tmp/create_query.sql
 
-# For TABLEs: Check metadata for SQL hints (description, labels, or upstream dbt/ETL)
+# Step 3: For TABLEs - Check multiple sources for SQL:
+
+# 3a. Check metadata (description, labels for dbt/ETL hints)
 bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '.description, .labels' -r
 
-# If SQL found: Use it to explain column formation
-# If NO SQL: Fall back to column name semantics + business context + format detection
+# 3b. Check historical queries (how was this table populated/created)
+bq ls -j --project_id=ledger-fcc1e --max_results=100 | grep -i "TABLE.WRITE\|INSERT\|DATASET.TABLE"
+# Or use: bq query --use_legacy_sql=false "SELECT creation_time, query FROM `project.region-us.INFORMATION_SCHEMA.JOBS_BY_PROJECT` WHERE referenced_tables LIKE '%DATASET.TABLE%' ORDER BY creation_time DESC LIMIT 10"
+
+# 3c. Check for materialized view or snapshot source
+bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '.snapshots, .sourceTable' -r
+
+# Step 4: If SQL found (from View or ETL/historical query): Use it to explain column formation
+# If NO SQL found: Fall back to column name semantics + business context + format detection
 ```
 
 **Why this matters:**
@@ -103,20 +112,26 @@ QUALIFY ROW_NUMBER() OVER (PARTITION BY phone_number ORDER BY verification_date 
 
 ### TABLE vs VIEW Strategy
 
-For EVERY table, attempt to extract SQL. If found, use SQL definition as Source 1. If no SQL, fall back to column semantics.
+For EVERY table, attempt to extract SQL using THREE methods:
+1. **For VIEWs**: Extract `.view.query` (guaranteed to have SQL)
+2. **For TABLEs**: Check metadata (description/labels for dbt hints)
+3. **For TABLEs**: Check historical queries (see how table was populated via INSERT/CREATE AS SELECT)
 
-| Type | SQL Available? | How to Handle | Source 1 | Source 2-4 |
+If SQL found from ANY source, use it as Source 1. Otherwise, fall back to column semantics.
+
+| Type | SQL Method | How to Handle | Source 1 | Source 2-4 |
 |------|---|---|----------|-----------|
-| **VIEW** | Usually ✅ YES | Extract `.view.query`, analyze column formation | ✅ SQL definition | Format + context + data |
-| **TABLE** (dbt/ETL) | Maybe ✅ | Check description/labels for SQL, or upstream dbt model | ✅ SQL if found | Format + context + data |
-| **TABLE** (raw) | ❌ NO | Use column name semantics + format detection | ❌ Skip | Column name + format + context + data |
+| **VIEW** | `.view.query` | Extract definition, analyze column formation | ✅ SQL definition | Format + context + data |
+| **TABLE** (dbt/ETL) | Metadata OR historical query | Check description/labels OR `bq ls -j` job history | ✅ SQL if found | Format + context + data |
+| **TABLE** (raw/loaded) | Historical query | Query job history to find INSERT/CREATE AS SELECT | ✅ SQL if found | Format + context + data |
+| **TABLE** (no SQL) | None | Use column name semantics + format detection | ❌ Skip | Column name + format + context + data |
 
-**For this project (5 tables) — Attempt SQL extraction for all:**
-1. `credit_memo` (VIEW) — ✅ SQL available: CASE derivation + UNION ALL + window function
-2. `ms_merchant_profiling_ssot` (TABLE) — ⚠️ Try SQL extraction, fallback to column semantics
-3. `mee_weekly_route_plan` (TABLE) — ⚠️ Try SQL extraction, fallback to column semantics
-4. `ms_form_hiring_and_active` (TABLE) — ⚠️ Try SQL extraction, fallback to column semantics
-5. `payments_ssot` (TABLE) — ⚠️ Try SQL extraction, fallback to column semantics
+**For this project (5 tables) — Attempt 3-method SQL extraction:**
+1. `credit_memo` (VIEW) — ✅ Method 1: Extract `.view.query`
+2. `ms_merchant_profiling_ssot` (TABLE) — Try Methods 2-3 (metadata + historical), fallback to column semantics
+3. `mee_weekly_route_plan` (TABLE) — Try Methods 2-3 (metadata + historical), fallback to column semantics
+4. `ms_form_hiring_and_active` (TABLE) — Try Methods 2-3 (metadata + historical), fallback to column semantics
+5. `payments_ssot` (TABLE) — Try Methods 2-3 (metadata + historical), fallback to column semantics
 
 ---
 
@@ -436,10 +451,16 @@ in table_column_description/ yet. Follow CLAUDE_CODE_AUTOMATION.md.
 A: Extract the SQL using `bq show --format=json ... | jq '.view.query'`. Analyze how each column is formed in the SELECT clause. Use SQL definition as Source 1.
 
 **Q: What if it's a TABLE?**
-A: First, check if SQL is available (dbt models, ETL, or description/labels). If SQL found, use it. If NO SQL: Use column names + business context from table_list.md + format detection from sample data.
+A: Use THREE methods to find SQL: (1) Check metadata (description/labels), (2) Check historical queries (bq ls -j), (3) Check INFORMATION_SCHEMA. If SQL found, use it. If NO SQL: Use column names + business context from table_list.md + format detection from sample data.
 
-**Q: How do I know if a TABLE has SQL?**
-A: Use: `bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '.description, .labels'` — Look for dbt model names, ETL references, or transformation descriptions.
+**Q: How do I find SQL for a TABLE?**
+A: Three methods in order:
+1. **Metadata check**: `bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '.description, .labels'` — Look for dbt/ETL hints
+2. **Historical queries**: `bq ls -j --project_id=ledger-fcc1e --max_results=100` — Find recent INSERT/CREATE AS SELECT jobs
+3. **Job details**: `bq show -j <job_id>` — View the actual query that populated the table
+
+**Q: What if I find multiple queries in history?**
+A: Use the MOST RECENT query that wrote to the table (e.g., the latest CREATE AS SELECT or INSERT SELECT). That shows the current data pipeline.
 
 **Q: How do I know if a description needs SQL context?**
 A: Check `semantic_source`. If it contains `sql_definition`, the description MUST explain CASE/COUNT/SUM/FILTER logic from the SQL.
