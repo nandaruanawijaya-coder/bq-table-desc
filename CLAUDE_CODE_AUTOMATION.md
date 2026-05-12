@@ -37,38 +37,54 @@ For EACH undocumented table:
 
 ---
 
-## Step 1: Extract CREATE Query (Mandatory First Step)
+## Step 1: Extract CREATE Query (MANDATORY - Critical for Semantic Descriptions)
 
-Every column's description comes FROM the SQL when available. For both VIEWs and TABLEs, attempt SQL extraction.
+**Knowing HOW a table was created is essential for accurate column descriptions.** For both VIEWs and TABLEs, MUST actively investigate table creation/transformation logic.
 
 ```bash
-# Step 1: Check table type
-bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '.type'
-# Output: "VIEW" or "TABLE"
+# Step 1: Check table type and basic metadata
+bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '{type, description, labels, creationTime}' -r
 
-# Step 2: For VIEWs - Extract the SQL definition
+# Step 2: For VIEWs - ALWAYS Extract SQL (it defines how columns are formed)
 bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '.view.query' -r > /tmp/create_query.sql
 
-# Step 3: For TABLEs - Check multiple sources for SQL:
+# Step 3: For TABLEs - MUST check 4 sources for creation logic (in priority order):
 
-# 3a. Check metadata (description, labels for dbt/ETL hints)
-bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '.description, .labels' -r
+# 3a. CHECK DESCRIPTION - May contain transformation/source hints
+bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '.description' -r
 
-# 3b. Check historical queries (how was this table populated/created)
-bq ls -j --project_id=ledger-fcc1e --max_results=100 | grep -i "TABLE.WRITE\|INSERT\|DATASET.TABLE"
-# Or use: bq query --use_legacy_sql=false "SELECT creation_time, query FROM `project.region-us.INFORMATION_SCHEMA.JOBS_BY_PROJECT` WHERE referenced_tables LIKE '%DATASET.TABLE%' ORDER BY creation_time DESC LIMIT 10"
+# 3b. CHECK LABELS - May indicate dbt, Dataflow, or ETL pipeline
+bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '.labels' -r
 
-# 3c. Check for materialized view or snapshot source
-bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '.snapshots, .sourceTable' -r
+# 3c. CHECK HISTORICAL JOBS - Find INSERT/CREATE AS SELECT that created table
+bq query --use_legacy_sql=false "
+  SELECT job_id, user_email, creation_time, query, statement_type
+  FROM `ledger-fcc1e.region-us.INFORMATION_SCHEMA.JOBS_BY_PROJECT`
+  WHERE referenced_tables LIKE '%DATASET.TABLE%'
+    AND statement_type IN ('INSERT', 'CREATE_TABLE', 'CREATE_TABLE_AS_SELECT', 'UPDATE')
+  ORDER BY creation_time DESC LIMIT 10
+"
 
-# Step 4: If SQL found (from View or ETL/historical query): Use it to explain column formation
-# If NO SQL found: Fall back to column name semantics + business context + format detection
+# 3d. CHECK UPSTREAM TABLES - May reveal data pipeline
+bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '.definition' -r
+
+# Step 4: Analyze findings and extract transformation logic
+# If SQL found: MUST understand and document it
+# If NO SQL: Document the data source and pipeline from metadata
+# NEVER fall back to column-name-only descriptions without investigating creation
 ```
 
-**Why this matters:**
-- **VIEW with SQL**: SQL shows exactly how columns are calculated (CASE, COUNT, SUM, JOIN, etc)
-- **TABLE with SQL** (e.g., dbt-generated): SQL explains transformation and source tables
-- **TABLE without SQL** (raw source): Use column names + business context + sample data patterns
+**Why this is MANDATORY:**
+- **VIEW with SQL**: Defines how columns are calculated (CASE, COUNT, SUM, JOIN, deduplication, etc)
+- **TABLE with transformation SQL**: Explains data pipeline, source tables, filters, aggregations, joins
+- **TABLE without SQL but with description**: Description reveals pipeline (dbt, Dataflow, CRM sync, etc)
+- **TABLE raw source**: Even without SQL, metadata reveals data source and collection method
+
+**Column descriptions MUST explain:**
+- WHAT the column contains
+- HOW it was formed (transformation, aggregation, filter, join result, etc)
+- WHERE it comes from (source table, system, user input, calculation)
+- WHY it exists (business purpose)
 
 **Example: credit_memo (VIEW — Real SQL)**
 
@@ -110,28 +126,34 @@ QUALIFY ROW_NUMBER() OVER (PARTITION BY phone_number ORDER BY verification_date 
 
 ## Step 2-5: Analyze Columns Using 4 Sources (Priority Order)
 
-### TABLE vs VIEW Strategy
+### TABLE vs VIEW Strategy (MANDATORY Investigation)
 
-For EVERY table, attempt to extract SQL using THREE methods:
-1. **For VIEWs**: Extract `.view.query` (guaranteed to have SQL)
-2. **For TABLEs**: Check metadata (description/labels for dbt hints)
-3. **For TABLEs**: Check historical queries (see how table was populated via INSERT/CREATE AS SELECT)
+For EVERY table, MUST investigate how it was created using 4-method approach:
+1. **Check metadata** (description/labels for pipeline/dbt hints)
+2. **Check historical jobs** (INFORMATION_SCHEMA for INSERT/CREATE AS SELECT queries)
+3. **Check upstream tables** (to understand data flow)
+4. **Analyze column names** (use semantics as LAST resort, not first)
 
-If SQL found from ANY source, use it as Source 1. Otherwise, fall back to column semantics.
+**Do NOT skip investigation steps.** Descriptions require understanding the data pipeline.
 
-| Type | SQL Method | How to Handle | Source 1 | Source 2-4 |
-|------|---|---|----------|-----------|
-| **VIEW** | `.view.query` | Extract definition, analyze column formation | ✅ SQL definition | Format + context + data |
-| **TABLE** (dbt/ETL) | Metadata OR historical query | Check description/labels OR `bq ls -j` job history | ✅ SQL if found | Format + context + data |
-| **TABLE** (raw/loaded) | Historical query | Query job history to find INSERT/CREATE AS SELECT | ✅ SQL if found | Format + context + data |
-| **TABLE** (no SQL) | None | Use column name semantics + format detection | ❌ Skip | Column name + format + context + data |
+| Type | Investigation Steps | Possible Sources | Column Descriptions |
+|------|---|---|-----------|
+| **VIEW** | MUST extract `.view.query` | SQL definition | Explain CASE/COUNT/JOIN/window functions from SQL |
+| **TABLE** (dbt/ETL) | MUST check metadata + jobs | Description label, job history SQL | Explain transformation logic, source tables, filters |
+| **TABLE** (pipeline-loaded) | MUST check jobs + description | Job history with INSERT/SELECT, description | Explain data source, pipeline name, transformation |
+| **TABLE** (raw/source) | MUST check metadata | Description, labels, creation time | Explain data source system, collection method, business meaning |
 
-**For this project (5 tables) — Attempt 3-method SQL extraction:**
-1. `credit_memo` (VIEW) — ✅ Method 1: Extract `.view.query`
-2. `ms_merchant_profiling_ssot` (TABLE) — Try Methods 2-3 (metadata + historical), fallback to column semantics
-3. `mee_weekly_route_plan` (TABLE) — Try Methods 2-3 (metadata + historical), fallback to column semantics
-4. `ms_form_hiring_and_active` (TABLE) — Try Methods 2-3 (metadata + historical), fallback to column semantics
-5. `payments_ssot` (TABLE) — Try Methods 2-3 (metadata + historical), fallback to column semantics
+**Investigation for this project (5 tables):**
+1. `credit_memo` (VIEW) — ✅ SQL: `CASE (approval logic) + UNION ALL (3 sources) + window (dedup)`
+2. `ms_merchant_profiling_ssot` (TABLE) — ✅ Description: "SSOT consolidated from merchant_profiling sources"
+3. `mee_weekly_route_plan` (TABLE) — ? Check jobs, description, table_list context
+4. `ms_form_hiring_and_active` (TABLE) — ? Check jobs, description, table_list context
+5. `payments_ssot` (TABLE) — ? Check jobs, description, table_list context
+
+**For tables where SQL not found**, use available metadata to explain:
+- Data source system (CRM, ERP, manual entry, API, ETL pipeline name)
+- Collection/transformation method (daily sync, event-based, batch load, real-time)
+- Business domain context (merchant profiling, sales activity, payments, hiring)
 
 ---
 
