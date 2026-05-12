@@ -65,7 +65,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Kecamatan field",
+      "description": "kecamatan",
       "business_context": "Required field - always populated",
       "example_values": [
         "KUTALIMBARU",
@@ -78,7 +78,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Kabupaten field",
+      "description": "kabupaten",
       "business_context": "Required field - always populated",
       "example_values": [
         "KABUPATEN DELI SERDANG",
@@ -91,7 +91,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "First Edc Type field",
+      "description": "Status or category field with values: Android - Big Agent, Android - New, Android - Refurbished, Saku, Saku - Insurance Bundle, Saku - Printer Bundle",
       "business_context": "Required field - always populated",
       "example_values": [
         "Android - New",
@@ -112,7 +112,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Last Edc Type field",
+      "description": "Status or category field with values: Android - Big Agent, Android - New, Android - Refurbished, Saku, Saku - Insurance Bundle, Saku - Printer Bundle",
       "business_context": "Required field - always populated",
       "example_values": [
         "Android - New",
@@ -133,7 +133,7 @@
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "First Edc Order Date field",
+      "description": "Numeric value or metric",
       "business_context": "Required field - always populated",
       "example_values": [
         "2025-02-20",
@@ -146,7 +146,7 @@
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Last Edc Order Date field",
+      "description": "Numeric value or metric",
       "business_context": "Required field - always populated",
       "example_values": [
         "2025-02-20",
@@ -159,7 +159,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Channel field",
+      "description": "Status or category field with values: MSE, MSE-Big Agent, Other Channels",
       "business_context": "Required field - always populated",
       "example_values": [
         "MSE",
@@ -177,7 +177,7 @@
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 8.06,
-      "description": "Latest Visit field",
+      "description": "Numeric value or metric",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "2025-02-20",
@@ -190,7 +190,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Pm1 Edc Trx field",
+      "description": "Numeric value or metric",
       "business_context": "Required field - always populated",
       "example_values": [
         "23",
@@ -203,7 +203,7 @@
       "data_type": "NUMERIC",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Pm1 Edc Amount field",
+      "description": "Decimal or floating-point metric",
       "business_context": "Required field - always populated",
       "example_values": [
         60643894.0,
@@ -216,7 +216,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Pm2 Edc Trx field",
+      "description": "Numeric value or metric",
       "business_context": "Required field - always populated",
       "example_values": [
         "18",
@@ -229,7 +229,7 @@
       "data_type": "NUMERIC",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Pm2 Edc Amount field",
+      "description": "Decimal or floating-point metric",
       "business_context": "Required field - always populated",
       "example_values": [
         13033302.0,
@@ -242,7 +242,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Pm3 Edc Trx field",
+      "description": "Numeric value or metric",
       "business_context": "Required field - always populated",
       "example_values": [
         "41",
@@ -255,7 +255,7 @@
       "data_type": "NUMERIC",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Pm3 Edc Amount field",
+      "description": "Decimal or floating-point metric",
       "business_context": "Required field - always populated",
       "example_values": [
         32156552.0,
@@ -268,7 +268,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Pm1 Edc Cw Trx field",
+      "description": "Numeric value or metric",
       "business_context": "Required field - always populated",
       "example_values": [
         "14",
@@ -281,7 +281,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Pm2 Edc Cw Trx field",
+      "description": "Numeric value or metric",
       "business_context": "Required field - always populated",
       "example_values": [
         "14",
@@ -294,7 +294,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Pm3 Edc Cw Trx field",
+      "description": "Numeric value or metric",
       "business_context": "Required field - always populated",
       "example_values": [
         "24",
@@ -307,7 +307,7 @@
       "data_type": "NUMERIC",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Pm1 Edc Cw Amount field",
+      "description": "Decimal or floating-point metric",
       "business_context": "Required field - always populated",
       "example_values": [
         12425000.0,
@@ -320,7 +320,7 @@
       "data_type": "NUMERIC",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Pm2 Edc Cw Amount field",
+      "description": "Decimal or floating-point metric",
       "business_context": "Required field - always populated",
       "example_values": [
         11240000.0,
@@ -333,7 +333,7 @@
       "data_type": "NUMERIC",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Pm3 Edc Cw Amount field",
+      "description": "Decimal or floating-point metric",
       "business_context": "Required field - always populated",
       "example_values": [
         18725000.0,
@@ -346,7 +346,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Total Edc field",
+      "description": "Count or total metric. Possible values: 1, 13, 15, 2, 3, 4, 5, 7",
       "business_context": "Required field - always populated",
       "example_values": [
         "1",
@@ -369,7 +369,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Ever Submitted field",
+      "description": "Numeric value or metric. Possible values: 0, 1",
       "business_context": "Required field - always populated",
       "example_values": [
         "0",
@@ -386,7 +386,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Ever Rejected field",
+      "description": "Numeric value or metric. Possible values: 0, 1",
       "business_context": "Required field - always populated",
       "example_values": [
         "0",
@@ -403,7 +403,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Flag Approved field",
+      "description": "Numeric value or metric. Possible values: 0",
       "business_context": "Required field - always populated",
       "example_values": [
         "0",
@@ -432,7 +432,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Risk Grade field",
+      "description": "Numeric value or metric. Possible values: 0",
       "business_context": "Required field - always populated",
       "example_values": [
         "0",
@@ -448,7 +448,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Risk Grade Group field",
+      "description": "Numeric value or metric. Possible values: 0",
       "business_context": "Required field - always populated",
       "example_values": [
         "0",
@@ -464,7 +464,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Kolektabilitas Terburuk field",
+      "description": "Numeric value or metric. Possible values: 0, 1, 2, 3, 4, 5",
       "business_context": "Required field - always populated",
       "example_values": [
         "1",
@@ -485,7 +485,7 @@
       "data_type": "FLOAT",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Latitude field",
+      "description": "Decimal or floating-point metric",
       "business_context": "Required field - always populated",
       "example_values": [
         "3.4562357",
@@ -498,7 +498,7 @@
       "data_type": "FLOAT",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Longitude field",
+      "description": "Decimal or floating-point metric",
       "business_context": "Required field - always populated",
       "example_values": [
         "98.5471461",
@@ -524,7 +524,7 @@
       "data_type": "FLOAT",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Avg Monthly Edc Trx 3 Months field",
+      "description": "Decimal or floating-point metric",
       "business_context": "Required field - always populated",
       "example_values": [
         "27.3333333333",
@@ -537,7 +537,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Edc Trx L3M field",
+      "description": "Numeric value or metric",
       "business_context": "Required field - always populated",
       "example_values": [
         "72",
@@ -550,7 +550,7 @@
       "data_type": "DATE",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Route At field",
+      "description": "Numeric value or metric. Possible values: 2026-02-25, 2026-03-02, 2026-03-09, 2026-03-16, 2026-03-23, 2026-03-30, 2026-04-06, 2026-04-13, 2026-04-18, 2026-04-25",
       "business_context": "Required field - always populated",
       "example_values": [
         "2026-03-23",
@@ -575,7 +575,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Lead Type field",
+      "description": "Status or category field with values: Hot, Low, Warm",
       "business_context": "Required field - always populated",
       "example_values": [
         "Hot",
@@ -606,7 +606,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 4.32,
-      "description": "Route Order field",
+      "description": "Numeric value or metric",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "88",
