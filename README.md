@@ -22,9 +22,10 @@ Click the Claude Code icon in the sidebar
 ### 3️⃣ Ask Claude Code
 
 ```
-Document all tables in table_list.md that don't have 
+Document all tables in table_list.md that don't have
 documentation in table_column_description/ yet.
 Follow CLAUDE_CODE_AUTOMATION.md for complete workflow.
+You need to use [obra superpowers](https://github.com/obra/superpowers) framework to create a proper description.
 ```
 
 **Done!** ✅ Claude Code will:
