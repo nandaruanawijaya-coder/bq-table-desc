@@ -82,7 +82,7 @@
       "data_type": "TIMESTAMP",
       "nullable": true,
       "null_percentage": 13.48,
-      "description": "submitted at",
+      "description": "Timestamp when visit form was submitted. Used for visit data tracking and compliance verification",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "2026-05-11T16:59:01.140000+00:00",
@@ -606,7 +606,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "retail daily omset",
+      "description": "Daily merchant revenue (omset) in IDR. Indicates daily transaction volume and business size",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -631,7 +631,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 1.03,
-      "description": "selfie url",
+      "description": "URL to visit verification selfie photo. Evidence of in-person merchant visit for compliance and quality assurance",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "https://buku-crm.s3.ap-southeast-3.amazonaws.com/sales-agents/selfies/9f328fe9-6f44-429c-89c9-16c9ab1f756d/1778493539669_selfie_7807e841-fb63-4c90-9fa6-58499308f848_1778493537761_205.jpg",
@@ -680,7 +680,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 93.23,
-      "description": "anomaly note",
+      "description": "Free-text notes explaining any anomalies or issues during visit. Used for visit quality control",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "The staff said I should come back tomorrow morning to offer the product to the owner.",
@@ -725,7 +725,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "ots serial number",
+      "description": "Serial number of payment device equipment. Links to specific device in equipment inventory",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -734,7 +734,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "edc interested",
+      "description": "Boolean flag indicating merchant expressed interest in EDC (electronic payment machine) during visit interview",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -743,7 +743,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Reason or explanation field",
+      "description": "Reason provided by merchant for rejecting EDC product. Captured for sales analysis and product improvement",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -752,7 +752,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "edc prospect",
+      "description": "EDC sales qualification status after visit. Merchant classified as Prospect or Non-Prospect for sales follow-up",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -761,7 +761,7 @@
       "data_type": "RECORD",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "retail edc ownership",
+      "description": "Current EDC device ownership status. Indicates whether merchant actively owns and uses EDC device",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -786,7 +786,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "loan interested",
+      "description": "Boolean flag indicating merchant expressed interest in loan product during visit conversation",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -795,7 +795,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Reason or explanation field",
+      "description": "Reason merchant declined loan product. Used to understand market objections and customer needs",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -804,7 +804,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "loan prospect",
+      "description": "Loan sales qualification status. Merchant assessed as Prospect or Non-Prospect based on eligibility and interest",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -813,7 +813,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "retail interested loan",
+      "description": "Indicates when merchant showed loan product interest during visit. Used for sales pipeline tracking",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -822,7 +822,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "retail loan ownership",
+      "description": "Merchant loan facility ownership status. Indicates if merchant has active loan from BukuWarung Lending",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -902,7 +902,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "retail owned loan limit",
+      "description": "Approved loan limit ceiling for merchant with active loan. In IDR currency units",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -911,7 +911,7 @@
       "data_type": "INTEGER",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "retail desired loan limit",
+      "description": "Loan amount merchant requested during visit. Merchant-stated need for future application",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -920,7 +920,7 @@
       "data_type": "RECORD",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "retail qris ownership",
+      "description": "QRIS payment system adoption status (Active/Pending/Not Adopted). Indicates merchant digital payment capability",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -929,7 +929,7 @@
       "data_type": "RECORD",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "retail pos ownership",
+      "description": "POS (Point of Sale) device ownership and operational status. Tracks merchant transaction processing capability",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -955,7 +955,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 22.11,
-      "description": "retail notes",
+      "description": "Free-text notes from RSE visit. Contains interaction summary, merchant feedback, and recommended follow-up actions",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "Done deal free device",

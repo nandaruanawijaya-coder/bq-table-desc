@@ -10,7 +10,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.82,
-      "description": "cv link. Used for hiring and recruitment tracking",
+      "description": "URL link to candidate CV document. Source of application and resume materials",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "https://drive.google.com/open?id=1jfzfmceyiufxrwljwrwgjhbkl0exjjgu",
@@ -103,7 +103,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 90.49,
-      "description": "Identifier or code. Used for hiring and recruitment tracking",
+      "description": "Territory/Field code identifier. Unique code for field assignment territory",
       "business_context": "Optional field - sparsely populated",
       "example_values": [
         "TF05203",
@@ -2144,7 +2144,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 13.32,
-      "description": "screening score. Used for hiring and recruitment tracking",
+      "description": "Candidate screening assessment score. Numeric assessment from initial CV review and screening",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "60",
@@ -2157,7 +2157,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 12.01,
-      "description": "Reason or explanation field. Used for hiring and recruitment tracking",
+      "description": "Rationale for screening decision. Explanation of pass/fail decision during CV screening phase",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "The candidate's domicile is Samarinda, which is in East Kalimantan, while the district coverage is Kota Bandung in West Java. These locations are far apart, so no location match or proximity score is given (0/20). The candidate has relevant experience primarily in banking and finance sectors (PT Bank Danamon Indonesia, KSP Sahabat Mitra Sejati, KSP Indosurya Cipta, PT Suzuki Finance Indonesia, PT Awan Tunai Indonesia), which are relevant industries for field sales in banking/finance. However, there are no explicit sales achievements or metrics provided, so a moderate score of 45/65 is assigned for relevant industry experience. Employment stability is good, with multiple roles lasting more than 6 months, no evidence of job hopping, so full 15/15 is given. The total score is 60/100, below the 70% threshold for submission. Therefore, the recommendation is to reject the CV. The file name indicates vendor as SPC, role type as RSE (Retail Sales Executive), area placement as Kalimantan, and district coverage as Region Jabar (West Java), which matches Kota Bandung district coverage. However, the candidate's location in Samarinda does not match the district coverage in West Java, leading to a low location score.",
@@ -2214,7 +2214,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 100.0,
-      "description": "Reason or explanation field. Used for hiring and recruitment tracking",
+      "description": "Free-text reason field for status change or action. Documents rationale for employment decisions",
       "business_context": "Optional field - sparsely populated",
       "example_values": []
     },
@@ -2223,7 +2223,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 49.98,
-      "description": "msl. Used for hiring and recruitment tracking",
+      "description": "Merchant Success Leader identifier or assignment. Links employee to their MSL manager",
       "business_context": "Common field - frequently populated (>50%)",
       "example_values": [
         "STEVEN",
@@ -2382,7 +2382,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 8.71,
-      "description": "cv source. Used for hiring and recruitment tracking. Possible values: ERP_PROGRAM, FACEBOOK, FRIENDS_RECOMMENDATION, GLINTS, INDEED, INTERNAL_SOURCE, JOBSTREET, KALIBRR, MANATAL, PINTARNYA",
+      "description": "Source where CV was obtained (JobStreet, Indeed, LinkedIn, internal referral). Tracks recruitment channel effectiveness",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "TELEGRAM",

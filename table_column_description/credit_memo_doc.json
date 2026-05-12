@@ -75,7 +75,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.99,
-      "description": "Full Name field",
+      "description": "Full legal name of merchant owner. Used for KYC verification and loan agreement execution",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "TAMI SUYATMI",
@@ -88,7 +88,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Borrower Name field",
+      "description": "Primary borrower name on loan application. Official name for credit assessment",
       "business_context": "Required field - always populated",
       "example_values": [
         "TAMI SUYATMI",
@@ -101,7 +101,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 8.59,
-      "description": "Borrower Store Name field",
+      "description": "Merchant business store or trading name. Commercial entity name for business identification",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "Kios Mimi",
@@ -153,7 +153,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 8.01,
-      "description": "Borrower Business Type field",
+      "description": "Classification of merchant business type (retail, F&B, services, etc.). Used for credit risk assessment",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "FASHION CLOTHING",
@@ -1094,7 +1094,7 @@
       "data_type": "FLOAT",
       "nullable": true,
       "null_percentage": 3.32,
-      "description": "Final Score field",
+      "description": "Final credit score from assessment (0-1 scale). Determines loan approval status (\u22650.75 approved)",
       "business_context": "Core field - rarely empty (>90% populated)",
       "example_values": [
         "0.7725",

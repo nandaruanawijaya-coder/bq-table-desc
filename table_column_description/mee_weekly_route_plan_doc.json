@@ -65,7 +65,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "kecamatan",
+      "description": "Sub-district (kecamatan) administrative level. Geographic routing unit for merchant visit planning",
       "business_context": "Required field - always populated",
       "example_values": [
         "KUTALIMBARU",
@@ -78,7 +78,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "kabupaten",
+      "description": "District (kabupaten) administrative division. Used for geographic territory assignment to MEE",
       "business_context": "Required field - always populated",
       "example_values": [
         "KABUPATEN DELI SERDANG",
@@ -159,7 +159,7 @@
       "data_type": "STRING",
       "nullable": true,
       "null_percentage": 0.0,
-      "description": "Status or category field with values: MSE, MSE-Big Agent, Other Channels",
+      "description": "Sales channel classification (MSE, MSE-Big Agent, Other Channels). Indicates distributor or direct sales pathway",
       "business_context": "Required field - always populated",
       "example_values": [
         "MSE",
