@@ -32,8 +32,9 @@ For EACH undocumented table:
 1. **Extract CREATE Query** (mandatory) — Get SQL from BigQuery
 2. **Analyze Column Formation** (Sources 1-4) — Explain how each column is formed
 3. **Generate JSON** — Save to `table_column_description/[TABLE]_doc.json`
-4. **Validate** — Check all columns meet success criteria
-5. **Commit** — One commit per table or per 5 tables (batch)
+4. **Validate** — Check all columns meet success criteria (all 8 checks)
+5. **Improve** — If any fail, follow "Validation & Improvement Workflow" until 100% pass
+6. **Commit** — One commit per table or per 5 tables (batch)
 
 ---
 
@@ -514,6 +515,109 @@ PYEOF
 
 ---
 
+## Validation & Improvement Workflow (MANDATORY)
+
+If any validation checks fail, follow this **iterative improvement process** until all 539+ columns pass at 100%:
+
+### Step 1: Identify Failures
+```bash
+python3 << 'PYEOF'
+import json, re
+def validate(filepath):
+    with open(filepath) as f:
+        data = json.load(f)
+    failures = {}
+    for col in data['columns']:
+        desc = col.get('description', '')
+        if not desc or len(desc) < 40: failures[col['column_name']] = 'too_short'
+        elif col.get('semantic_source') is None: failures[col['column_name']] = 'no_source'
+        elif col.get('business_context') is None: failures[col['column_name']] = 'no_context'
+    return len(data['columns']) - len(failures), len(data['columns']), failures
+p, t, f = validate('FILE.json')
+print(f"{p}/{t} pass ({100*p/t:.1f}%)")
+for name, issue in list(f.items())[:10]:
+    print(f"  {name}: {issue}")
+PYEOF
+```
+
+### Step 2: Fix Failures by Category
+
+**For Check 1-7 failures (format/completeness):**
+- Add missing `semantic_source`: Use pattern "sql_definition + value_format" or "value_format + business_context"
+- Extend short descriptions to ≥40 chars by adding column context (what the field represents)
+- Ensure all columns have `business_context` (Required/Core/Common/Optional)
+
+**For Check 8 failures (column name-to-definition):**
+- Extract key terms from column name (remove suffixes like _at, _id, _date, _flag)
+- Ensure description mentions ≥40% of those key terms
+- **DO NOT write**: "Name identifier" for `borrower_name`
+- **DO write**: "Full name of borrower. Borrower name used for KYC identification."
+
+### Step 3: Multi-Pass Improvement (If >5% fail Check 8)
+
+If many columns fail name-mapping:
+
+**Pass 1 — Direct fixes:**
+```python
+# For each failing column, enhance description to include column name context
+improvements = {
+    'borrower_name': 'Full name of borrower. Borrower name for identification in loan processing.',
+    'transaction_id': 'Unique transaction identifier. Transaction ID links to specific payment record.',
+    'edc_ownership': 'EDC machine ownership status. EDC ownership indicator for device assignment.'
+}
+```
+
+**Pass 2 — Smart algorithm (if needed):**
+```python
+# If >10% still fail after direct fixes, use intelligent name-mapping:
+# 1. Extract 2-3 key terms from column name
+# 2. Check if current description covers them
+# 3. Prepend column concept naturally: "[Concept] [existing description]"
+# Example: "lead_type" → "Lead type classification. Lead indicates sales opportunity category."
+```
+
+### Step 4: Validate Again
+```bash
+# Re-run all 8 checks until 100% pass
+jq '.columns[] | select(.description == null or .description == "") | .column_name' FILE.json
+jq '.columns[] | select((.description | length) < 40) | .column_name' FILE.json
+# ... (run all 8 checks again)
+```
+
+### Step 5: Commit When 100% Pass
+```bash
+git add table_column_description/*.json
+git commit -m "Complete semantic documentation - all NNN columns pass validation
+
+Updated descriptions to ensure:
+✓ All ≥40 chars with meaningful context
+✓ All explain what column names mean (≥40% key term coverage)
+✓ All have semantic_source attributed
+✓ All have business_context defined
+✓ 100% pass all 8 validation criteria
+
+Co-Authored-By: Claude Haiku 4.5 <noreply@anthropic.com>"
+```
+
+### Quality Metrics (Track These)
+- **Coverage**: Pass rate per check (target: 100% on all 8)
+- **Description length**: Avg should be 75-90 chars
+- **Enum fields**: All status/type columns should have possible_values
+- **Name mapping**: All columns should mention key terms from their names
+
+### Real Example: From Failure to 100%
+```
+BEFORE: edc_prospect: "Current status or state. Indicates where entity is in progress"
+  - Issue: 0% name coverage (no "edc" or "prospect")
+  - Pass: ❌
+
+AFTER: edc_prospect: "EDC sales prospect status. Prospect potential for EDC product sales opportunity"
+  - Coverage: 100% (mentions "edc" and "prospect")
+  - Pass: ✓
+```
+
+---
+
 ## Instructions for Data Team
 
 ### Add Tables to table_list.md
@@ -535,11 +639,13 @@ in table_column_description/ yet. Follow CLAUDE_CODE_AUTOMATION.md.
    - Query 10,000 sample rows
    - Analyze each column using 4 sources
    - Generate JSON documentation
-   - Validate all columns
+   - Validate all columns (all 8 checks must pass at 100%)
+   - **If failures**: Improve descriptions following "Validation & Improvement Workflow"
+   - Re-validate until 100% pass
    - Commit to git
-3. Report completion
+3. Report completion with validation metrics
 
-**Time: ~10 minutes per table**
+**Time: ~15 minutes per table (includes validation + improvement iterations)**
 
 ---
 
