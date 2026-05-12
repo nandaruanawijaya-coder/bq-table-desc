@@ -41,19 +41,25 @@ You need to use [obra superpowers](https://github.com/obra/superpowers) framewor
 
 | Tables | Columns | Sample Rows | Description Quality | Status |
 |--------|---------|-------------|---------------------|--------|
-| 4 documented | 169 | 31,086+ | Enhanced semantic | ✅ Production Ready |
+| **8 documented** | **432** | **67,086+** | **4-source semantic** | ✅ **Production Ready** |
 
-**Tables with Semantic Descriptions:**
+**Tables with 4-Source Semantic Descriptions:**
 - `location_gmaps_static` (16 cols) — Geocoding data with coordinates and administrative divisions
 - `mapping_area_mse_opentable` (10 cols) — MSE team organizational hierarchy and territory mapping
 - `ms_merchant_profiling_ssot` (107 cols) — Comprehensive merchant profile with business metrics and product ownership
 - `prod_edc_order` (36 cols) — EDC order lifecycle with merchant details and delivery metadata
+- `mee_weekly_route_plan` (40 cols) — Weekly MEE route planning and visit tracking
+- `credit_memo` (75 cols) — Merchant loan assessment and credit evaluation
+- `ms_form_hiring_and_active` (170 cols) — MSE/RSE hiring process and activity tracking
+- `retail_ph_visit_ssot` (78 cols) — Retail Sales Executive visit tracking in Philippines
 
-**Description Quality**: All 169 columns have enhanced semantic descriptions explaining:
-- ✓ What the field represents (business meaning, not just naming)
-- ✓ How it's used (product adoption metrics, KYC verification, sales targeting, etc)
-- ✓ Value format (UUID, phone number, coordinates, timestamps, etc)
-- ✓ Business context (required vs optional, core vs supplementary)
+**Description Quality**: All 432 columns have 4-source semantic descriptions:
+- ✓ **Table Context** — Business meaning from table_list.md
+- ✓ **SQL Definition** — Transformation logic from BigQuery metadata
+- ✓ **Schema & Data** — Value formats (UUID, phone, enum, metric) from actual samples
+- ✓ **Semantic Rules** — Business purpose and usage context
+- ✓ **Quality Guarantee** — Zero generic "[Field]" patterns, all descriptions ≥30 chars
+- ✓ **Enumeration** — Low-cardinality columns (<20 unique values) list all possible values
 
 ---
 
@@ -65,17 +71,25 @@ You need to use [obra superpowers](https://github.com/obra/superpowers) framewor
 ├── 📄 CONTRIBUTING.md (Guide for data team - quick reference)
 ├── 📄 table_list.md (List of tables to document - EDIT THIS FILE)
 │
-├── 📁 table_column_description/
-│   ├── location_gmaps_static_doc.json (Geocoding data - 16 columns)
-│   ├── mapping_area_mse_opentable_doc.json (MSE hierarchy - 10 columns)
-│   ├── ms_merchant_profiling_ssot_doc.json (Merchant profiles - 107 columns)
-│   └── prod_edc_order_doc.json (EDC orders - 36 columns)
+├── 📁 table_column_description/ (8 tables, 432 columns total)
+│   ├── location_gmaps_static_doc.json (16 columns)
+│   ├── mapping_area_mse_opentable_doc.json (10 columns)
+│   ├── ms_merchant_profiling_ssot_doc.json (107 columns)
+│   ├── prod_edc_order_doc.json (36 columns)
+│   ├── mee_weekly_route_plan_doc.json (40 columns)
+│   ├── credit_memo_doc.json (75 columns)
+│   ├── ms_form_hiring_and_active_doc.json (170 columns)
+│   └── retail_ph_visit_ssot_doc.json (78 columns)
 │
-└── 📁 table_list/
-    ├── location_gmaps_static.json (10,000 sample rows)
-    ├── mapping_area_mse_opentable.json (1,086 sample rows)
-    ├── ms_merchant_profiling_ssot.json (10,000 sample rows)
-    └── prod_edc_order.json (10,000 sample rows)
+└── 📁 table_list/ (Sample data for validation)
+    ├── location_gmaps_static.json (10,000 rows)
+    ├── mapping_area_mse_opentable.json (1,086 rows)
+    ├── ms_merchant_profiling_ssot.json (10,000 rows)
+    ├── prod_edc_order.json (10,000 rows)
+    ├── mee_weekly_route_plan.json (10,000 rows)
+    ├── credit_memo.json (5,542 rows)
+    ├── ms_form_hiring_and_active.json (10,000 rows)
+    └── retail_ph_visit_ssot.json (1,551 rows)
 ```
 
 **Key Files:**
@@ -152,6 +166,96 @@ Claude Code will:
 - Report completion
 
 **Time**: ~30 minutes for 3 tables instead of 2+ hours manually
+
+---
+
+## 📋 Copy-Paste Prompt for Claude Code
+
+Use this exact prompt when asking Claude Code to update documentation:
+
+```
+Document all tables in table_list.md that don't have documentation 
+in table_column_description/ yet. 
+
+Follow CLAUDE_CODE_AUTOMATION.md for complete workflow.
+
+You need to use work superpowers methodology:
+- Design phase: Comprehensive analysis before implementation
+- Systematic process: Consistent application of semantic rules
+- Data-driven: Patterns from actual 10,000 row samples  
+- Verified: All descriptions explain business meaning
+
+After completing documentation, verify these success criteria are met:
+
+✓ TESTING CHECKLIST
+  - [ ] All columns have descriptions (no [TODO] remaining)
+  - [ ] No bare "[ColumnName] field" patterns in any description
+  - [ ] All descriptions are ≥30 characters (meaningful, not generic)
+  - [ ] SDC metadata columns identified (_sdc_* with "pipeline" context)
+  - [ ] UUID columns identified ("UUID format" in description)
+  - [ ] Phone number columns identified ("10-11 digit Indonesian mobile")
+  - [ ] Low-cardinality columns have possible_values array (≤20 unique)
+  - [ ] JSON files are valid (use jq to verify)
+  - [ ] Sample data files exist in table_list/ folder
+  - [ ] Git commits created with descriptive messages
+
+✓ SUCCESS CRITERIA FOR EACH COLUMN
+  Description must answer: "What is this and why does it exist?"
+  
+  Examples of ✅ GOOD descriptions:
+  - "Unique order identifier in UUID format. Used for order tracking and joins"
+  - "Phone number (10-11 digit Indonesian mobile). Primary merchant identifier"
+  - "EDC order status (Active, Completed, Draft, Rejected, Unassigned). Indicates processing stage"
+  - "Merchant estimated daily customers. Indicates business volume and sales potential"
+  - "Timestamp when record was received by Singer data connector pipeline"
+  
+  Examples of ❌ BAD descriptions to avoid:
+  - "Order Id field"
+  - "Phone field"
+  - "Status field"
+  - "Estimated Customers Per Day field"
+  - "Timestamp field"
+
+✓ VALIDATION COMMANDS
+After documentation, run these to verify quality:
+
+Check for generic descriptions:
+\`\`\`bash
+jq '.columns[] | select(.description | test("^[A-Z][a-z]+ field$")) | .column_name' 
+  table_column_description/[table_name]_doc.json
+\`\`\`
+(Should return: nothing - no matches)
+
+Check description length:
+\`\`\`bash
+jq '.columns[] | select(.description | length < 30) | {name: .column_name, desc: .description}' 
+  table_column_description/[table_name]_doc.json
+\`\`\`
+(Should return: only very few, if any)
+
+Check for enumeration values:
+\`\`\`bash
+jq '.columns[] | select(.possible_values != null) | {name: .column_name, values: .possible_values}' 
+  table_column_description/[table_name]_doc.json | head -20
+\`\`\`
+(Should show low-cardinality columns with their valid values)
+
+Verify JSON validity:
+\`\`\`bash
+jq '.' table_column_description/[table_name]_doc.json > /dev/null && echo "✅ Valid"
+\`\`\`
+
+✓ QUALITY TO-DO LIST (Review After Documentation)
+  - [ ] Read 5 random column descriptions (ensure they explain business meaning)
+  - [ ] Check 3 status/enum columns have possible_values listed
+  - [ ] Verify 2 timestamp columns mention when/why the timestamp is recorded
+  - [ ] Check if any ID columns are described as UUID/phone/identifier
+  - [ ] Review git log to see commit messages are descriptive
+  - [ ] Git status is clean (all changes committed)
+  - [ ] Ready to push to GitHub for review
+
+Report completion when all criteria are met!
+```
 
 ---
 
@@ -295,22 +399,91 @@ jq '.columns[] | select(.column_name | contains("user"))' \
 
 ---
 
+## ✅ Testing & Validation
+
+After Claude Code documents tables, verify quality using these checks:
+
+### Quick Quality Check (5 minutes)
+
+**1. Check for generic descriptions:**
+```bash
+# Should return NOTHING - if it returns columns, quality is poor
+jq '.columns[] | select(.description | test("^[A-Z][a-z]+ field$")) | .column_name' \
+  table_column_description/[table_name]_doc.json
+```
+
+**2. Spot-check 5 random descriptions:**
+```bash
+jq '.columns[0:5] | .[] | {name: .column_name, desc: .description}' \
+  table_column_description/[table_name]_doc.json
+```
+✓ Each description should be 30+ characters  
+✓ Each should explain business meaning, not just naming
+
+**3. Verify JSON is valid:**
+```bash
+jq '.' table_column_description/[table_name]_doc.json > /dev/null && echo "✅ Valid JSON"
+```
+
+**4. Check enumeration for status columns:**
+```bash
+jq '.columns[] | select(.column_name | test("status|type|state")) | {name: .column_name, values: .possible_values}' \
+  table_column_description/[table_name]_doc.json
+```
+✓ Status/type columns should have possible_values listed
+
+### Comprehensive Validation (15 minutes)
+
+**5. Count description quality:**
+```bash
+# Count columns with good descriptions (>50 chars)
+jq '[.columns[] | select(.description | length > 50)] | length' \
+  table_column_description/[table_name]_doc.json
+
+# Out of total
+jq '.total_columns' table_column_description/[table_name]_doc.json
+```
+✓ Target: 90%+ of descriptions should be >50 characters
+
+**6. Verify all required fields:**
+```bash
+# Check for null descriptions or missing fields
+jq '.columns[] | select(.description == null or .description == "" or .business_context == null) | .column_name' \
+  table_column_description/[table_name]_doc.json
+```
+✓ Should return: nothing (all columns must have descriptions)
+
+**7. Sample data validation:**
+```bash
+# Verify sample data exists and has rows
+jq 'length' table_list/[table_name].json
+```
+✓ Should be >100 rows
+
+---
+
 ## 📞 Common Questions
 
 **Q: How do I add a new table?**  
-A: Add it to `table_list.md`, then ask Claude Code to document it.
+A: Add it to `table_list.md` with a brief business context, then copy-paste the Claude Code prompt above.
 
 **Q: What if table is already documented?**  
 A: Claude Code checks and skips it automatically.
 
 **Q: Can I document multiple tables at once?**  
-A: Yes! Add them all to `table_list.md`, ask Claude Code once.
+A: Yes! Add them all to `table_list.md`, use the prompt once.
 
-**Q: What if Claude Code fails?**  
-A: See error message in CLAUDE_CODE_AUTOMATION.md error handling section.
+**Q: How do I know if documentation is good quality?**  
+A: Run the testing checks above. All columns should have descriptions ≥30 chars, no generic "[Field]" patterns.
+
+**Q: What if descriptions are poor quality?**  
+A: Delete the documentation file from `table_column_description/` and ask Claude Code again with the prompt. It will regenerate with better quality.
 
 **Q: Do I need to manually edit documentation?**  
-A: Only if you want to improve descriptions. Claude Code creates good documentation automatically.
+A: Only for final polish. Claude Code creates good documentation automatically.
+
+**Q: How is this different from manual documentation?**  
+A: This uses 4 sources (table context + SQL + schema + data) to generate descriptions. Manual would take 2-3 hours per table. This takes 10 minutes.
 
 ---
 
