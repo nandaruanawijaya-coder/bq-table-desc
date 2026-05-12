@@ -27,10 +27,21 @@ The creation query (CREATE TABLE or CREATE TABLE AS SELECT) is the authoritative
 For each table, extract in this priority order:
 
 ```bash
-# Step 1: For VIEWs - Extract SQL definition
+# Step 1: For VIEWs - Extract SQL definition (always available)
 bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '.view.query' -r
 
-# Step 2: For TABLEs - Query INFORMATION_SCHEMA to find ORIGINAL creation query
+# Step 2: For TABLEs - THREE-level search for creation query
+
+# Level 1 (PRIMARY) - Query history table (most complete, goes furthest back)
+bq query --use_legacy_sql=false "
+  SELECT creation_time, query, statement_type
+  FROM \`ledger-fcc1e.data_documentation.query_history\`
+  WHERE query LIKE '%TABLE_NAME%'
+    AND statement_type IN ('CREATE_TABLE', 'CREATE_TABLE_AS_SELECT', 'INSERT', 'UPDATE')
+  ORDER BY creation_time DESC LIMIT 1
+"
+
+# Level 2 (Fallback) - INFORMATION_SCHEMA for ORIGINAL creation query
 bq query --use_legacy_sql=false "
   SELECT creation_time, query, statement_type
   FROM \`ledger-fcc1e.region-us.INFORMATION_SCHEMA.JOBS_BY_PROJECT\`
@@ -40,7 +51,7 @@ bq query --use_legacy_sql=false "
   ORDER BY creation_time ASC LIMIT 1
 "
 
-# Step 3: If original creation query not found, find MOST RECENT transformation
+# Level 3 (Last resort) - INFORMATION_SCHEMA for RECENT transformation
 bq query --use_legacy_sql=false "
   SELECT creation_time, query, statement_type
   FROM \`ledger-fcc1e.region-us.INFORMATION_SCHEMA.JOBS_BY_PROJECT\`
@@ -49,9 +60,15 @@ bq query --use_legacy_sql=false "
   ORDER BY creation_time DESC LIMIT 1
 "
 
-# Step 4: If no query found, check metadata for hints
-bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '{description, labels}' -r
+# Step 3: If no query found in any source, check metadata for hints
+bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '{description, labels, creationTime}' -r
 ```
+
+**Query History Table (Level 1 - BEST):**
+- **Table**: `ledger-fcc1e.data_documentation.query_history`
+- **Tracks**: All CREATE_TABLE, CREATE_TABLE_AS_SELECT, INSERT, UPDATE statements
+- **Advantage**: Older history than INFORMATION_SCHEMA (goes back further than 90 days)
+- **Use when**: Looking for how a table was originally created or transformed
 
 **What the creation query reveals:**
 - **Base columns**: Passed through directly from source table
@@ -108,7 +125,8 @@ bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '{description, labels}' -r
 - ✅ semantic_source field: Show what sources were used (e.g., "sql_definition + value_format + business_context")
 - ✅ No data-type patterns: NOT "Text or string value", "Integer numeric", "Name or text identifier"
 - ✅ SDC columns: "Singer data connector: [purpose]" (not treated as regular fields)
-- ✅ Creation query analyzed: If SQL found, description must reference it (transformation logic, aggregation details, etc)
+- ✅ Creation query analyzed: MANDATORY - if SQL found, description MUST reference it (transformation logic, aggregation details, JOIN sources, CASE thresholds, etc)
+- ✅ Three-level query search: For TABLEs, must try query_history → INFORMATION_SCHEMA → metadata before accepting "no SQL"
 ```
 
 ---
