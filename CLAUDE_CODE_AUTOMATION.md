@@ -37,54 +37,75 @@ For EACH undocumented table:
 
 ---
 
-## Step 1: Extract CREATE Query (MANDATORY - Critical for Semantic Descriptions)
+## Step 1: Extract CREATE Query (MANDATORY - The Source of Truth)
 
-**Knowing HOW a table was created is essential for accurate column descriptions.** For both VIEWs and TABLEs, MUST actively investigate table creation/transformation logic.
+**The CREATE TABLE or CREATE TABLE AS SELECT query is the authoritative source for understanding column formation.** This query answers all questions about transformation, filtering, aggregations, and source data.
 
 ```bash
-# Step 1: Check table type and basic metadata
-bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '{type, description, labels, creationTime}' -r
+# Step 1: For ALL tables, MUST extract the creation query
 
-# Step 2: For VIEWs - ALWAYS Extract SQL (it defines how columns are formed)
+# For VIEWs - Extract SQL definition (always available)
 bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '.view.query' -r > /tmp/create_query.sql
 
-# Step 3: For TABLEs - MUST check 4 sources for creation logic (in priority order):
-
-# 3a. CHECK DESCRIPTION - May contain transformation/source hints
-bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '.description' -r
-
-# 3b. CHECK LABELS - May indicate dbt, Dataflow, or ETL pipeline
-bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '.labels' -r
-
-# 3c. CHECK HISTORICAL JOBS - Find INSERT/CREATE AS SELECT that created table
+# For TABLEs - Query INFORMATION_SCHEMA to find the ORIGINAL CREATE TABLE query
+# This is the PRIMARY source - it shows exactly how the table was built
 bq query --use_legacy_sql=false "
-  SELECT job_id, user_email, creation_time, query, statement_type
+  SELECT 
+    job_id,
+    creation_time,
+    query,
+    statement_type,
+    user_email
   FROM `ledger-fcc1e.region-us.INFORMATION_SCHEMA.JOBS_BY_PROJECT`
-  WHERE referenced_tables LIKE '%DATASET.TABLE%'
-    AND statement_type IN ('INSERT', 'CREATE_TABLE', 'CREATE_TABLE_AS_SELECT', 'UPDATE')
-  ORDER BY creation_time DESC LIMIT 10
+  WHERE statement_type IN ('CREATE_TABLE', 'CREATE_TABLE_AS_SELECT')
+    AND destination_table.table_id = 'TABLE'
+    AND destination_table.dataset_id = 'DATASET'
+  ORDER BY creation_time ASC  -- Get ORIGINAL creation query
+  LIMIT 1
 "
 
-# 3d. CHECK UPSTREAM TABLES - May reveal data pipeline
-bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '.definition' -r
+# If ORIGINAL CREATE not found, look for RECENT transformation:
+bq query --use_legacy_sql=false "
+  SELECT 
+    job_id,
+    creation_time,
+    query,
+    statement_type
+  FROM `ledger-fcc1e.region-us.INFORMATION_SCHEMA.JOBS_BY_PROJECT`
+  WHERE referenced_tables LIKE '%DATASET.TABLE%'
+    AND statement_type IN ('INSERT', 'UPDATE', 'CREATE_TABLE_AS_SELECT')
+  ORDER BY creation_time DESC
+  LIMIT 1
+"
 
-# Step 4: Analyze findings and extract transformation logic
-# If SQL found: MUST understand and document it
-# If NO SQL: Document the data source and pipeline from metadata
-# NEVER fall back to column-name-only descriptions without investigating creation
+# Step 2: Analyze the creation query to understand:
+# - Which columns are BASE/RAW (direct from source table)
+# - Which columns are DERIVED (CASE, COUNT, SUM, JOIN, CAST, CONCAT, etc)
+# - What source tables are used
+# - What filters are applied
+# - What transformations are performed
+# - What deduplication or aggregation happens
+
+# Step 3: If no query found, check metadata for hints:
+bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '{description, labels}' -r
 ```
 
-**Why this is MANDATORY:**
-- **VIEW with SQL**: Defines how columns are calculated (CASE, COUNT, SUM, JOIN, deduplication, etc)
-- **TABLE with transformation SQL**: Explains data pipeline, source tables, filters, aggregations, joins
-- **TABLE without SQL but with description**: Description reveals pipeline (dbt, Dataflow, CRM sync, etc)
-- **TABLE raw source**: Even without SQL, metadata reveals data source and collection method
+**Why the CREATION QUERY is the SOURCE OF TRUTH:**
+- **CREATE TABLE AS SELECT**: Shows exact SQL transformation logic, source tables, filters
+- **CREATE TABLE with schema**: Combined with INSERT queries shows complete data lineage
+- **Answers all semantic questions**:
+  - Which columns are aggregations (COUNT, SUM, GROUP BY)?
+  - Which are CASE derivations with thresholds?
+  - Which are joins with other tables?
+  - Which are raw columns passed through?
+  - What filters reduce the row count?
+  - What deduplication happens (DISTINCT, ROW_NUMBER)?
 
-**Column descriptions MUST explain:**
-- WHAT the column contains
-- HOW it was formed (transformation, aggregation, filter, join result, etc)
-- WHERE it comes from (source table, system, user input, calculation)
-- WHY it exists (business purpose)
+**Column descriptions MUST explain (from creation query):**
+- **WHAT**: Column name and type
+- **HOW**: Formation logic from SQL (raw, aggregated, derived, filtered, joined)
+- **WHERE**: Source table or calculation (e.g., "SUM of order amounts", "Latest record per customer")
+- **WHY**: Business purpose from context
 
 **Example: credit_memo (VIEW — Real SQL)**
 
@@ -126,34 +147,36 @@ QUALIFY ROW_NUMBER() OVER (PARTITION BY phone_number ORDER BY verification_date 
 
 ## Step 2-5: Analyze Columns Using 4 Sources (Priority Order)
 
-### TABLE vs VIEW Strategy (MANDATORY Investigation)
+### TABLE vs VIEW Strategy (MANDATORY: Always Extract Creation Query)
 
-For EVERY table, MUST investigate how it was created using 4-method approach:
-1. **Check metadata** (description/labels for pipeline/dbt hints)
-2. **Check historical jobs** (INFORMATION_SCHEMA for INSERT/CREATE AS SELECT queries)
-3. **Check upstream tables** (to understand data flow)
-4. **Analyze column names** (use semantics as LAST resort, not first)
+For EVERY table, extraction priority is:
+1. **PRIMARY: Extract the creation query** (CREATE TABLE AS SELECT or CREATE TABLE) — Source of truth
+2. **SECONDARY: If creation query not found, check metadata** (description/labels) — Hints about pipeline
+3. **FALLBACK: Use column names + business context** — Only if query not available
 
-**Do NOT skip investigation steps.** Descriptions require understanding the data pipeline.
+The creation query tells us exactly:
+- Which columns are base/raw vs derived
+- What transformations/aggregations were applied
+- What source tables are used
+- What filters/deduplication happens
 
-| Type | Investigation Steps | Possible Sources | Column Descriptions |
+| Type | Primary Source | How to Extract | Information Gained |
 |------|---|---|-----------|
-| **VIEW** | MUST extract `.view.query` | SQL definition | Explain CASE/COUNT/JOIN/window functions from SQL |
-| **TABLE** (dbt/ETL) | MUST check metadata + jobs | Description label, job history SQL | Explain transformation logic, source tables, filters |
-| **TABLE** (pipeline-loaded) | MUST check jobs + description | Job history with INSERT/SELECT, description | Explain data source, pipeline name, transformation |
-| **TABLE** (raw/source) | MUST check metadata | Description, labels, creation time | Explain data source system, collection method, business meaning |
+| **VIEW** | `.view.query` | `bq show --format=json` + `jq '.view.query'` | Complete SQL transformation logic |
+| **TABLE** (created with SQL) | INFORMATION_SCHEMA job history | Query jobs_by_project for CREATE_TABLE_AS_SELECT | Original transformation: sources, joins, filters, aggregations |
+| **TABLE** (loaded with inserts) | INFORMATION_SCHEMA job history | Query jobs_by_project for INSERT statements | Shows source system and data mapping |
+| **TABLE** (no query available) | Description/labels then column semantics | `bq show` metadata + column analysis | Pipeline hints + format detection |
+
+**Critical difference:**
+- With creation query: Describe how column is formed (`COUNT of X where Y = Z`, `CASE when score > threshold`, `Latest per customer`)
+- Without creation query: Describe what column represents (`Metric for tracking`, `Customer classification`, `Status indicator`)
 
 **Investigation for this project (5 tables):**
-1. `credit_memo` (VIEW) — ✅ SQL: `CASE (approval logic) + UNION ALL (3 sources) + window (dedup)`
-2. `ms_merchant_profiling_ssot` (TABLE) — ✅ Description: "SSOT consolidated from merchant_profiling sources"
-3. `mee_weekly_route_plan` (TABLE) — ? Check jobs, description, table_list context
-4. `ms_form_hiring_and_active` (TABLE) — ? Check jobs, description, table_list context
-5. `payments_ssot` (TABLE) — ? Check jobs, description, table_list context
-
-**For tables where SQL not found**, use available metadata to explain:
-- Data source system (CRM, ERP, manual entry, API, ETL pipeline name)
-- Collection/transformation method (daily sync, event-based, batch load, real-time)
-- Business domain context (merchant profiling, sales activity, payments, hiring)
+1. `credit_memo` (VIEW) — ✅ Extract: `.view.query` → Full SQL with CASE/UNION/window logic
+2. `ms_merchant_profiling_ssot` (TABLE) — 🔍 Check: INFORMATION_SCHEMA for CREATE AS SELECT
+3. `mee_weekly_route_plan` (TABLE) — 🔍 Check: INFORMATION_SCHEMA for CREATE AS SELECT
+4. `ms_form_hiring_and_active` (TABLE) — 🔍 Check: INFORMATION_SCHEMA for CREATE AS SELECT
+5. `payments_ssot` (TABLE) — 🔍 Check: INFORMATION_SCHEMA for CREATE AS SELECT
 
 ---
 
@@ -473,16 +496,43 @@ in table_column_description/ yet. Follow CLAUDE_CODE_AUTOMATION.md.
 A: Extract the SQL using `bq show --format=json ... | jq '.view.query'`. Analyze how each column is formed in the SELECT clause. Use SQL definition as Source 1.
 
 **Q: What if it's a TABLE?**
-A: Use THREE methods to find SQL: (1) Check metadata (description/labels), (2) Check historical queries (bq ls -j), (3) Check INFORMATION_SCHEMA. If SQL found, use it. If NO SQL: Use column names + business context from table_list.md + format detection from sample data.
+A: MUST query INFORMATION_SCHEMA to find the creation query. This is the authoritative source for understanding how columns were formed. The query will show: base columns, derived columns, transformations, source tables, filters, aggregations.
 
-**Q: How do I find SQL for a TABLE?**
-A: Three methods in order:
-1. **Metadata check**: `bq show --format=json ledger-fcc1e:DATASET.TABLE | jq '.description, .labels'` — Look for dbt/ETL hints
-2. **Historical queries**: `bq ls -j --project_id=ledger-fcc1e --max_results=100` — Find recent INSERT/CREATE AS SELECT jobs
-3. **Job details**: `bq show -j <job_id>` — View the actual query that populated the table
+**Q: How do I find the creation query for a TABLE?**
+A: Use INFORMATION_SCHEMA to find the ORIGINAL CREATE TABLE or CREATE TABLE AS SELECT:
 
-**Q: What if I find multiple queries in history?**
-A: Use the MOST RECENT query that wrote to the table (e.g., the latest CREATE AS SELECT or INSERT SELECT). That shows the current data pipeline.
+```sql
+SELECT creation_time, query, statement_type
+FROM `ledger-fcc1e.region-us.INFORMATION_SCHEMA.JOBS_BY_PROJECT`
+WHERE statement_type IN ('CREATE_TABLE', 'CREATE_TABLE_AS_SELECT')
+  AND destination_table.table_id = 'TABLE_NAME'
+  AND destination_table.dataset_id = 'DATASET_NAME'
+ORDER BY creation_time ASC  -- Get ORIGINAL creation
+LIMIT 1
+```
+
+This query reveals everything about column formation.
+
+**Q: What if the ORIGINAL creation query is not available?**
+A: The table may have been created long ago or loaded via a tool. Check the MOST RECENT transformation query:
+
+```sql
+SELECT creation_time, query, statement_type
+FROM `ledger-fcc1e.region-us.INFORMATION_SCHEMA.JOBS_BY_PROJECT`
+WHERE referenced_tables LIKE '%DATASET.TABLE%'
+  AND statement_type IN ('INSERT', 'UPDATE', 'CREATE_TABLE_AS_SELECT')
+ORDER BY creation_time DESC
+LIMIT 1
+```
+
+This shows how data is currently maintained/refreshed. Analyze this query instead.
+
+**Q: What if NO query is found in INFORMATION_SCHEMA?**
+A: This means the table was created before INFORMATION_SCHEMA history is available OR loaded via non-query methods. In this case:
+1. Check table description for pipeline hints
+2. Check labels for dbt/system tags
+3. Use column names + business context to infer purpose
+4. Document as "base table - no transformation SQL available"
 
 **Q: How do I know if a description needs SQL context?**
 A: Check `semantic_source`. If it contains `sql_definition`, the description MUST explain CASE/COUNT/SUM/FILTER logic from the SQL.
