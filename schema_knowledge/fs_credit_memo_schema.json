@@ -1,0 +1,486 @@
+{
+  "full_table_id": "ledger-fcc1e.datamart_opentable.fs_credit_memo",
+  "dataset": "datamart_opentable",
+  "table_name": "fs_credit_memo",
+  "discovered_at": "2026-05-26T11:02:05.016283",
+  "metadata": {
+    "table_name": "fs_credit_memo",
+    "table_type": "TABLE",
+    "creation_time": "2026-05-25 08:00:24.036000+00:00",
+    "modified_time": "2026-05-25 08:00:24.037000+00:00",
+    "description": "Detailed credit memo table containing borrower business analysis, revenue projections, and multi-factor credit scoring for loan approval.",
+    "column_count": 75,
+    "has_bq_description": true
+  },
+  "table_type": "TABLE",
+  "table_description": "Detailed credit memo table containing borrower business analysis, revenue projections, and multi-factor credit scoring for loan approval.",
+  "table_description_source": "bigquery_table_description",
+  "table_description_auto_generated": false,
+  "is_derived": true,
+  "creation_query": {
+    "creation_time": "2026-05-05 08:00:08.031000+00:00",
+    "statement_type": "CREATE_TABLE_AS_SELECT",
+    "query": "CREATE OR REPLACE TABLE\n  `ledger-fcc1e.datamart_opentable.fs_credit_memo` AS\nSELECT \n  * \nFROM `ledger-fcc1e.fs_datamart.credit_memo`"
+  },
+  "transformation_type": {
+    "type": "derived",
+    "transformation": null,
+    "source_tables": [
+      "LEDGER-FCC1E.FS_DATAMART.CREDIT_MEMO"
+    ]
+  },
+  "column_count": 75,
+  "columns": [
+    {
+      "column_name": "updated_at",
+      "data_type": "TIMESTAMP",
+      "is_nullable": "YES",
+      "ordinal_position": 1
+    },
+    {
+      "column_name": "submission_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 2
+    },
+    {
+      "column_name": "cremo_email",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 3
+    },
+    {
+      "column_name": "cremo_link",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 4
+    },
+    {
+      "column_name": "verification_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 5
+    },
+    {
+      "column_name": "ktp_number",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 6
+    },
+    {
+      "column_name": "full_name",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 7
+    },
+    {
+      "column_name": "phone_number",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 8
+    },
+    {
+      "column_name": "email",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 9
+    },
+    {
+      "column_name": "borrower_name",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 10
+    },
+    {
+      "column_name": "borrower_store_name",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 11
+    },
+    {
+      "column_name": "borrower_business_address",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 12
+    },
+    {
+      "column_name": "borrower_city",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 13
+    },
+    {
+      "column_name": "borrower_business_type",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 14
+    },
+    {
+      "column_name": "borrower_business_length",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 15
+    },
+    {
+      "column_name": "borrower_ownership_status",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 16
+    },
+    {
+      "column_name": "borrower_character",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 17
+    },
+    {
+      "column_name": "borrower_business_knowledge",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 18
+    },
+    {
+      "column_name": "borrower_rent_period",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 19
+    },
+    {
+      "column_name": "income_payment_business_number_of_monthly_transaction",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 20
+    },
+    {
+      "column_name": "income_monthly_transactions",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 21
+    },
+    {
+      "column_name": "income_same_bank_transfers",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 22
+    },
+    {
+      "column_name": "income_inter_bank_transfers",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 23
+    },
+    {
+      "column_name": "income_cash_withdrawals",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 24
+    },
+    {
+      "column_name": "income_ppob_transactions",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 25
+    },
+    {
+      "column_name": "income_ewallet_transactions",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 26
+    },
+    {
+      "column_name": "income_average_value_a",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 27
+    },
+    {
+      "column_name": "income_average_value_b",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 28
+    },
+    {
+      "column_name": "income_average_value_c",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 29
+    },
+    {
+      "column_name": "income_average_value_d",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 30
+    },
+    {
+      "column_name": "income_tpv_a",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 31
+    },
+    {
+      "column_name": "income_tpv_b",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 32
+    },
+    {
+      "column_name": "income_tpv_c",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 33
+    },
+    {
+      "column_name": "income_tpv_d",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 34
+    },
+    {
+      "column_name": "income_monthly_tpv",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 35
+    },
+    {
+      "column_name": "income_margin_revenue_a",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 36
+    },
+    {
+      "column_name": "income_margin_revenue_b",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 37
+    },
+    {
+      "column_name": "income_margin_revenue_c",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 38
+    },
+    {
+      "column_name": "income_margin_revenue_d",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 39
+    },
+    {
+      "column_name": "income_net_revenue",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 40
+    },
+    {
+      "column_name": "income_revenue_portion_pct",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 41
+    },
+    {
+      "column_name": "other_income_margine_revenue_pct",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 42
+    },
+    {
+      "column_name": "gross_sales",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 43
+    },
+    {
+      "column_name": "net_income_other_business",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 44
+    },
+    {
+      "column_name": "applied_loan_amount",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 45
+    },
+    {
+      "column_name": "loan_amount",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 46
+    },
+    {
+      "column_name": "total_interest",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 47
+    },
+    {
+      "column_name": "projected_net_revenue",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 48
+    },
+    {
+      "column_name": "potential_net_revenue",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 49
+    },
+    {
+      "column_name": "pefindo_status",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 50
+    },
+    {
+      "column_name": "outstanding_loans",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 51
+    },
+    {
+      "column_name": "max_dpd",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 52
+    },
+    {
+      "column_name": "fdc_24month_status",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 53
+    },
+    {
+      "column_name": "expenses_monthly_installment",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 54
+    },
+    {
+      "column_name": "expenses_houshold",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 55
+    },
+    {
+      "column_name": "expenses_other",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 56
+    },
+    {
+      "column_name": "expenses_total",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 57
+    },
+    {
+      "column_name": "approved_limit",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 58
+    },
+    {
+      "column_name": "approval_credit_analyst",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 59
+    },
+    {
+      "column_name": "approval_edc_user_non_lp",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 60
+    },
+    {
+      "column_name": "approval_edc_users",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 61
+    },
+    {
+      "column_name": "approval_pefindo_status",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 62
+    },
+    {
+      "column_name": "approval_lakupandai_certificate_status",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 63
+    },
+    {
+      "column_name": "approval_fs_record_status",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 64
+    },
+    {
+      "column_name": "approval_credit_analyst_pct",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 65
+    },
+    {
+      "column_name": "approval_edc_users_non_lp_pct",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 66
+    },
+    {
+      "column_name": "approval_edc_users_pct",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 67
+    },
+    {
+      "column_name": "approval_pefindo_pct",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 68
+    },
+    {
+      "column_name": "approval_fdc_30days_pct",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 69
+    },
+    {
+      "column_name": "approval_fdc_24months_pct",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 70
+    },
+    {
+      "column_name": "approval_lakupandai_certificate_pct",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 71
+    },
+    {
+      "column_name": "approval_fs_record_pct",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 72
+    },
+    {
+      "column_name": "final_score",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 73
+    },
+    {
+      "column_name": "final_recommendation",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 74
+    },
+    {
+      "column_name": "notes",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 75
+    }
+  ],
+  "has_semantic_docs": false
+}

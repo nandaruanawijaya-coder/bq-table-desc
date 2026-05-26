@@ -25,4 +25,16 @@ Table explaining merchant sales executive (MSE) and retail sales executive (RSE)
 Table explaining payment product in bukuwarung such as Core Payment (CP) and Bill Payment (PPOB). Also showing money in and money out. Contains several value like money in and out, fee, revenue in gross and net, etc.
 
 - ledger-fcc1e.merchant_success_analytics.retail_ph_visit_ssot
-Table explaining retail sales executive (RSE) visit in philipine country. Contains both offline and online visit activity. Also contains several column, such as merchant information, merchant identifier by phone_number, area visit, visit coordinates and other visit informations 
+Table explaining retail sales executive (RSE) visit in philipine country. Contains both offline and online visit activity. Also contains several column, such as merchant information, merchant identifier by phone_number, area visit, visit coordinates and other visit informations
+
+- ledger-fcc1e.datamart_opentable.fs_credit_memo
+Table containing credit memo information for loan assessment. Financial snapshot of merchant creditworthiness and loan eligibility.
+
+- ledger-fcc1e.datamart_opentable.fs_loan_users
+Table mapping users to their loan relationships. Tracks which merchants have taken loans and their loan lifecycle status.
+
+- ledger-fcc1e.datamart_opentable.fs_loans
+Table containing loan transaction records. Each row represents a unique loan with terms, amounts, status, and repayment information.
+
+- ledger-fcc1e.datamart_opentable.fs_submissions
+Table containing merchant loan application submissions. Tracks initial application data, status, and submission timeline.

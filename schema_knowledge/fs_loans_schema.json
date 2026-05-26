@@ -1,0 +1,208 @@
+{
+  "full_table_id": "ledger-fcc1e.datamart_opentable.fs_loans",
+  "dataset": "datamart_opentable",
+  "table_name": "fs_loans",
+  "discovered_at": "2026-05-26T11:02:11.754651",
+  "metadata": {
+    "table_name": "fs_loans",
+    "table_type": "TABLE",
+    "creation_time": "2026-05-26 01:20:24.061000+00:00",
+    "modified_time": "2026-05-26 01:20:24.062000+00:00",
+    "description": "All loan disbursals & repayments since Apr 2023; includes disbursal, due, repayment, status, and delinquency (DPD)",
+    "column_count": 29,
+    "has_bq_description": true
+  },
+  "table_type": "TABLE",
+  "table_description": "All loan disbursals & repayments since Apr 2023; includes disbursal, due, repayment, status, and delinquency (DPD)",
+  "table_description_source": "bigquery_table_description",
+  "table_description_auto_generated": false,
+  "is_derived": false,
+  "creation_query": {
+    "creation_time": "2026-05-05 09:20:07.848000+00:00",
+    "statement_type": "CREATE_TABLE",
+    "query": "CREATE OR REPLACE TABLE\n  `ledger-fcc1e.datamart_opentable.fs_loans` CLONE `ledger-fcc1e.fs_datamart.loans`"
+  },
+  "transformation_type": {
+    "type": "base",
+    "transformation": null,
+    "source_tables": []
+  },
+  "column_count": 29,
+  "columns": [
+    {
+      "column_name": "loan_id",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 1
+    },
+    {
+      "column_name": "loan_type",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 2
+    },
+    {
+      "column_name": "lender",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 3
+    },
+    {
+      "column_name": "user_id",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 4
+    },
+    {
+      "column_name": "disbursal_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 5
+    },
+    {
+      "column_name": "disbursal_timestamp",
+      "data_type": "TIMESTAMP",
+      "is_nullable": "YES",
+      "ordinal_position": 6
+    },
+    {
+      "column_name": "disbursal_amount",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 7
+    },
+    {
+      "column_name": "max_disbursement_limit",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 8
+    },
+    {
+      "column_name": "remaining_balance_limit_after_disbursement",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 9
+    },
+    {
+      "column_name": "max_potential_limit",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 10
+    },
+    {
+      "column_name": "limit_created_at",
+      "data_type": "TIMESTAMP",
+      "is_nullable": "YES",
+      "ordinal_position": 11
+    },
+    {
+      "column_name": "interest_pct",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 12
+    },
+    {
+      "column_name": "platform_fee_pct",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 13
+    },
+    {
+      "column_name": "due_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 14
+    },
+    {
+      "column_name": "due_amount",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 15
+    },
+    {
+      "column_name": "repayment_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 16
+    },
+    {
+      "column_name": "repayment_time",
+      "data_type": "TIMESTAMP",
+      "is_nullable": "YES",
+      "ordinal_position": 17
+    },
+    {
+      "column_name": "loan_status",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 18
+    },
+    {
+      "column_name": "dpd_days",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 19
+    },
+    {
+      "column_name": "communication_media",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 20
+    },
+    {
+      "column_name": "date_of_action",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 21
+    },
+    {
+      "column_name": "connected_status",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 22
+    },
+    {
+      "column_name": "is_ptp",
+      "data_type": "BOOL",
+      "is_nullable": "YES",
+      "ordinal_position": 23
+    },
+    {
+      "column_name": "remarks",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 24
+    },
+    {
+      "column_name": "dpd_bucket",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 25
+    },
+    {
+      "column_name": "virtual_account",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 26
+    },
+    {
+      "column_name": "source_data",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 27
+    },
+    {
+      "column_name": "loan_cycle_all",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 28
+    },
+    {
+      "column_name": "loan_cycle_type",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 29
+    }
+  ],
+  "has_semantic_docs": false
+}

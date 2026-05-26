@@ -1,0 +1,508 @@
+{
+  "full_table_id": "ledger-fcc1e.datamart_opentable.fs_loan_users",
+  "dataset": "datamart_opentable",
+  "table_name": "fs_loan_users",
+  "discovered_at": "2026-05-26T11:02:08.725506",
+  "metadata": {
+    "table_name": "fs_loan_users",
+    "table_type": "TABLE",
+    "creation_time": "2026-05-26 01:35:01.907000+00:00",
+    "modified_time": "2026-05-26 01:35:01.908000+00:00",
+    "description": "Complete loan user profile since Apr 2023: identity, addresses, loan history, limits, DPD/outstanding, channels & SLA, and EDC/CP behavior (CM, -1m to -3m).",
+    "column_count": 79,
+    "has_bq_description": true
+  },
+  "table_type": "TABLE",
+  "table_description": "Complete loan user profile since Apr 2023: identity, addresses, loan history, limits, DPD/outstanding, channels & SLA, and EDC/CP behavior (CM, -1m to -3m).",
+  "table_description_source": "bigquery_table_description",
+  "table_description_auto_generated": false,
+  "is_derived": false,
+  "creation_query": {
+    "creation_time": "2026-05-05 05:39:02.672000+00:00",
+    "statement_type": "CREATE_TABLE_AS_SELECT",
+    "query": "-- [2025-08-22] Al Mira: Add category for product_type\n-- [2025-09-01] Al Mira: Add activation_date and sla_buy_edc_to_submit\n-- [2025-09-23] Al Mira: Correct sla_submit_to_disbursed\n-- [2025-10-01] Al Mira: Add latest_edc_trx_date and all description of the fields\n-- [2025-12-16] Al Mira: Add flag_from_mee\n\nCREATE OR REPLACE TABLE `ledger-fcc1e.fs_datamart.loan_users`\n(\n  -- User Identity\n  user_id                 STRING  OPTIONS(description=\"Unique identifier or phone number of the loan user\"),\n  nik                     STRING  OPTIONS(description=\"User\u2019s national identification number\"),\n  full_name               STRING  OPTIONS(description=\"User\u2019s full legal name\"),\n  gender                  STRING  OPTIONS(description=\"User\u2019s gender\"),\n  email                   STRING  OPTIONS(description=\"User\u2019s email address\"),\n\n  -- Business Address\n  store_area              STRING  OPTIONS(description=\"Business area\"),\n  store_province          STRING  OPTIONS(description=\"Business province\"),"
+  },
+  "transformation_type": {
+    "type": "base",
+    "transformation": null,
+    "source_tables": []
+  },
+  "column_count": 79,
+  "columns": [
+    {
+      "column_name": "user_id",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 1
+    },
+    {
+      "column_name": "nik",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 2
+    },
+    {
+      "column_name": "full_name",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 3
+    },
+    {
+      "column_name": "gender",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 4
+    },
+    {
+      "column_name": "email",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 5
+    },
+    {
+      "column_name": "store_area",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 6
+    },
+    {
+      "column_name": "store_province",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 7
+    },
+    {
+      "column_name": "store_city_regency",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 8
+    },
+    {
+      "column_name": "store_district",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 9
+    },
+    {
+      "column_name": "store_ward",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 10
+    },
+    {
+      "column_name": "store_rw",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 11
+    },
+    {
+      "column_name": "store_rt",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 12
+    },
+    {
+      "column_name": "store_address",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 13
+    },
+    {
+      "column_name": "store_postal_code",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 14
+    },
+    {
+      "column_name": "domicile_province",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 15
+    },
+    {
+      "column_name": "domicile_city_regency",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 16
+    },
+    {
+      "column_name": "domicile_district",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 17
+    },
+    {
+      "column_name": "domicile_ward",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 18
+    },
+    {
+      "column_name": "domicile_rw",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 19
+    },
+    {
+      "column_name": "domicile_rt",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 20
+    },
+    {
+      "column_name": "domicile_address",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 21
+    },
+    {
+      "column_name": "domicile_postal_code",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 22
+    },
+    {
+      "column_name": "latest_status",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 23
+    },
+    {
+      "column_name": "ever_disbursed_flag",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 24
+    },
+    {
+      "column_name": "ever_rejected_flag",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 25
+    },
+    {
+      "column_name": "max_limit",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 26
+    },
+    {
+      "column_name": "disbursement_limit",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 27
+    },
+    {
+      "column_name": "submission_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 28
+    },
+    {
+      "column_name": "first_loan_id",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 29
+    },
+    {
+      "column_name": "first_loan_type",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 30
+    },
+    {
+      "column_name": "first_lender",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 31
+    },
+    {
+      "column_name": "first_disbursal_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 32
+    },
+    {
+      "column_name": "first_disbursal_amount",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 33
+    },
+    {
+      "column_name": "first_full_interest",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 34
+    },
+    {
+      "column_name": "first_interest_pct",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 35
+    },
+    {
+      "column_name": "first_platform_fee_pct",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 36
+    },
+    {
+      "column_name": "latest_loan_id",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 37
+    },
+    {
+      "column_name": "latest_loan_type",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 38
+    },
+    {
+      "column_name": "latest_lender",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 39
+    },
+    {
+      "column_name": "latest_disbursal_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 40
+    },
+    {
+      "column_name": "latest_disbursal_amount",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 41
+    },
+    {
+      "column_name": "latest_full_interest",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 42
+    },
+    {
+      "column_name": "latest_interest_pct",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 43
+    },
+    {
+      "column_name": "latest_platform_fee_pct",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 44
+    },
+    {
+      "column_name": "number_of_disbursal",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 45
+    },
+    {
+      "column_name": "total_disbursal_amount",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 46
+    },
+    {
+      "column_name": "ever_dpd_flag",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 47
+    },
+    {
+      "column_name": "number_of_dpd_loans",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 48
+    },
+    {
+      "column_name": "max_dpd_days",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 49
+    },
+    {
+      "column_name": "latest_dpd_days",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 50
+    },
+    {
+      "column_name": "latest_dpd_bucket",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 51
+    },
+    {
+      "column_name": "outstanding_amount",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 52
+    },
+    {
+      "column_name": "outstanding_amount_in_dpd",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 53
+    },
+    {
+      "column_name": "saku",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 54
+    },
+    {
+      "column_name": "android",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 55
+    },
+    {
+      "column_name": "final_channel",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 56
+    },
+    {
+      "column_name": "flag_from_mee",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 57
+    },
+    {
+      "column_name": "first_edc_trx_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 58
+    },
+    {
+      "column_name": "latest_edc_trx_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 59
+    },
+    {
+      "column_name": "sla_buy_edc_to_submit",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 60
+    },
+    {
+      "column_name": "sla_first_trx_to_submit",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 61
+    },
+    {
+      "column_name": "sla_submit_to_disbursed",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 62
+    },
+    {
+      "column_name": "initial_edc_user_type",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 63
+    },
+    {
+      "column_name": "current_edc_user_type",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 64
+    },
+    {
+      "column_name": "product_type",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 65
+    },
+    {
+      "column_name": "user_profile",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 66
+    },
+    {
+      "column_name": "loan_channel",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 67
+    },
+    {
+      "column_name": "cp_cm",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 68
+    },
+    {
+      "column_name": "edc_cm",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 69
+    },
+    {
+      "column_name": "cp_minus_1m",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 70
+    },
+    {
+      "column_name": "edc_minus_1m",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 71
+    },
+    {
+      "column_name": "cp_minus_2m",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 72
+    },
+    {
+      "column_name": "edc_minus_2m",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 73
+    },
+    {
+      "column_name": "cp_minus_3m",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 74
+    },
+    {
+      "column_name": "edc_minus_3m",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 75
+    },
+    {
+      "column_name": "bank_name",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 76
+    },
+    {
+      "column_name": "bank_account_name",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 77
+    },
+    {
+      "column_name": "bank_account_number",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 78
+    },
+    {
+      "column_name": "is_eligible",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 79
+    }
+  ],
+  "has_semantic_docs": false
+}

@@ -1,0 +1,118 @@
+{
+  "full_table_id": "ledger-fcc1e.datamart_opentable.fs_submissions",
+  "dataset": "datamart_opentable",
+  "table_name": "fs_submissions",
+  "discovered_at": "2026-05-26T11:02:15.417811",
+  "metadata": {
+    "table_name": "fs_submissions",
+    "table_type": "TABLE",
+    "creation_time": "2026-05-26 01:05:01.892000+00:00",
+    "modified_time": "2026-05-26 01:05:01.893000+00:00",
+    "description": "All loan application submissions since Apr 2023",
+    "column_count": 14,
+    "has_bq_description": true
+  },
+  "table_type": "TABLE",
+  "table_description": "All loan application submissions since Apr 2023",
+  "table_description_source": "bigquery_table_description",
+  "table_description_auto_generated": false,
+  "is_derived": false,
+  "creation_query": {
+    "creation_time": "2026-05-05 09:05:04.552000+00:00",
+    "statement_type": "CREATE_TABLE",
+    "query": "CREATE OR REPLACE TABLE\n  `ledger-fcc1e.datamart_opentable.fs_submissions` CLONE `ledger-fcc1e.fs_datamart.submissions`"
+  },
+  "transformation_type": {
+    "type": "base",
+    "transformation": null,
+    "source_tables": []
+  },
+  "column_count": 14,
+  "columns": [
+    {
+      "column_name": "user_id",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 1
+    },
+    {
+      "column_name": "submission_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 2
+    },
+    {
+      "column_name": "approved_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 3
+    },
+    {
+      "column_name": "disbursal_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 4
+    },
+    {
+      "column_name": "requested_loan_limit",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 5
+    },
+    {
+      "column_name": "result",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 6
+    },
+    {
+      "column_name": "result_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 7
+    },
+    {
+      "column_name": "limit_activated",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 8
+    },
+    {
+      "column_name": "limit_activation_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 9
+    },
+    {
+      "column_name": "rejection_reason",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 10
+    },
+    {
+      "column_name": "reason_type",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 11
+    },
+    {
+      "column_name": "flag_from_mee",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 12
+    },
+    {
+      "column_name": "sla_submit_to_approve",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 13
+    },
+    {
+      "column_name": "sla_approve_to_disburse",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 14
+    }
+  ],
+  "has_semantic_docs": false
+}
