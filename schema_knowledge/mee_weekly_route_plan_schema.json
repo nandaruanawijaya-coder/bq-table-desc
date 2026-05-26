@@ -1,0 +1,269 @@
+{
+  "full_table_id": "ledger-fcc1e.fs_datamart.mee_weekly_route_plan",
+  "dataset": "fs_datamart",
+  "table_name": "mee_weekly_route_plan",
+  "discovered_at": "2026-05-26T10:47:08.074724",
+  "metadata": {
+    "table_name": "mee_weekly_route_plan",
+    "table_type": "TABLE",
+    "creation_time": "2026-03-03 06:50:33.921000+00:00",
+    "modified_time": "2026-05-23 01:55:30.715000+00:00",
+    "description": "",
+    "column_count": 40
+  },
+  "table_type": "TABLE",
+  "is_derived": false,
+  "creation_query": {
+    "creation_time": "2026-05-05 09:00:08.170000+00:00",
+    "statement_type": "CREATE_TABLE",
+    "query": "CREATE OR REPLACE TABLE `datamart_opentable.mee_weekly_route_plan` \nCLONE `fs_datamart.mee_weekly_route_plan`"
+  },
+  "transformation_type": {
+    "type": "base",
+    "transformation": null,
+    "source_tables": []
+  },
+  "column_count": 40,
+  "columns": [
+    {
+      "column_name": "user_id",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 1
+    },
+    {
+      "column_name": "merchant_name",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 2
+    },
+    {
+      "column_name": "province",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 3
+    },
+    {
+      "column_name": "kecamatan",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 4
+    },
+    {
+      "column_name": "kabupaten",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 5
+    },
+    {
+      "column_name": "first_edc_type",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 6
+    },
+    {
+      "column_name": "last_edc_type",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 7
+    },
+    {
+      "column_name": "first_edc_order_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 8
+    },
+    {
+      "column_name": "last_edc_order_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 9
+    },
+    {
+      "column_name": "channel",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 10
+    },
+    {
+      "column_name": "latest_visit",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 11
+    },
+    {
+      "column_name": "pm1_edc_trx",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 12
+    },
+    {
+      "column_name": "pm1_edc_amount",
+      "data_type": "NUMERIC",
+      "is_nullable": "YES",
+      "ordinal_position": 13
+    },
+    {
+      "column_name": "pm2_edc_trx",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 14
+    },
+    {
+      "column_name": "pm2_edc_amount",
+      "data_type": "NUMERIC",
+      "is_nullable": "YES",
+      "ordinal_position": 15
+    },
+    {
+      "column_name": "pm3_edc_trx",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 16
+    },
+    {
+      "column_name": "pm3_edc_amount",
+      "data_type": "NUMERIC",
+      "is_nullable": "YES",
+      "ordinal_position": 17
+    },
+    {
+      "column_name": "pm1_edc_cw_trx",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 18
+    },
+    {
+      "column_name": "pm2_edc_cw_trx",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 19
+    },
+    {
+      "column_name": "pm3_edc_cw_trx",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 20
+    },
+    {
+      "column_name": "pm1_edc_cw_amount",
+      "data_type": "NUMERIC",
+      "is_nullable": "YES",
+      "ordinal_position": 21
+    },
+    {
+      "column_name": "pm2_edc_cw_amount",
+      "data_type": "NUMERIC",
+      "is_nullable": "YES",
+      "ordinal_position": 22
+    },
+    {
+      "column_name": "pm3_edc_cw_amount",
+      "data_type": "NUMERIC",
+      "is_nullable": "YES",
+      "ordinal_position": 23
+    },
+    {
+      "column_name": "total_edc",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 24
+    },
+    {
+      "column_name": "ever_submitted",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 25
+    },
+    {
+      "column_name": "ever_rejected",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 26
+    },
+    {
+      "column_name": "flag_approved",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 27
+    },
+    {
+      "column_name": "nomor_identitas",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 28
+    },
+    {
+      "column_name": "risk_grade",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 29
+    },
+    {
+      "column_name": "risk_grade_group",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 30
+    },
+    {
+      "column_name": "kolektabilitas_terburuk",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 31
+    },
+    {
+      "column_name": "latitude",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 32
+    },
+    {
+      "column_name": "longitude",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 33
+    },
+    {
+      "column_name": "business_name",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 34
+    },
+    {
+      "column_name": "avg_monthly_edc_trx_3_months",
+      "data_type": "FLOAT64",
+      "is_nullable": "YES",
+      "ordinal_position": 35
+    },
+    {
+      "column_name": "edc_trx_l3m",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 36
+    },
+    {
+      "column_name": "route_at",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 37
+    },
+    {
+      "column_name": "lead_type",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 38
+    },
+    {
+      "column_name": "mee_name",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 39
+    },
+    {
+      "column_name": "route_order",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 40
+    }
+  ]
+}

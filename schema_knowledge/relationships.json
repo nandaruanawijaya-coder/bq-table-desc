@@ -1,0 +1,10 @@
+{
+  "tables": {
+    "ledger-fcc1e.fs_datamart.mee_weekly_route_plan": {
+      "type": "TABLE",
+      "is_derived": false,
+      "depends_on": []
+    }
+  },
+  "dependencies": []
+}

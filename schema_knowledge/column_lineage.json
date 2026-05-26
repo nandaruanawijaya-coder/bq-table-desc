@@ -1,0 +1,51 @@
+{
+  "tables": {
+    "ledger-fcc1e.fs_datamart.mee_weekly_route_plan": {
+      "columns": [
+        "user_id",
+        "merchant_name",
+        "province",
+        "kecamatan",
+        "kabupaten",
+        "first_edc_type",
+        "last_edc_type",
+        "first_edc_order_date",
+        "last_edc_order_date",
+        "channel",
+        "latest_visit",
+        "pm1_edc_trx",
+        "pm1_edc_amount",
+        "pm2_edc_trx",
+        "pm2_edc_amount",
+        "pm3_edc_trx",
+        "pm3_edc_amount",
+        "pm1_edc_cw_trx",
+        "pm2_edc_cw_trx",
+        "pm3_edc_cw_trx",
+        "pm1_edc_cw_amount",
+        "pm2_edc_cw_amount",
+        "pm3_edc_cw_amount",
+        "total_edc",
+        "ever_submitted",
+        "ever_rejected",
+        "flag_approved",
+        "nomor_identitas",
+        "risk_grade",
+        "risk_grade_group",
+        "kolektabilitas_terburuk",
+        "latitude",
+        "longitude",
+        "business_name",
+        "avg_monthly_edc_trx_3_months",
+        "edc_trx_l3m",
+        "route_at",
+        "lead_type",
+        "mee_name",
+        "route_order"
+      ],
+      "is_derived": false,
+      "source_tables": []
+    }
+  },
+  "lineage_map": {}
+}

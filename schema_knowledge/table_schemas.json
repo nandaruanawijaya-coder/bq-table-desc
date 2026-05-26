@@ -1,0 +1,14 @@
+{
+  "discovered_at": "2026-05-26T10:47:08.077753",
+  "total_tables": 1,
+  "base_tables": 1,
+  "derived_tables": 0,
+  "tables": {
+    "ledger-fcc1e.fs_datamart.mee_weekly_route_plan": {
+      "name": "mee_weekly_route_plan",
+      "type": "TABLE",
+      "columns": 40,
+      "is_derived": false
+    }
+  }
+}

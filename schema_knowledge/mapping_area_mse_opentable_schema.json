@@ -1,0 +1,21 @@
+{
+  "full_table_id": "ledger-fcc1e.datamart_opentable.mapping_area_mse_opentable",
+  "dataset": "datamart_opentable",
+  "table_name": "mapping_area_mse_opentable",
+  "discovered_at": "2026-05-26T10:46:10.081665",
+  "metadata": {},
+  "table_type": "UNKNOWN",
+  "is_derived": false,
+  "creation_query": {
+    "creation_time": "2026-05-05 00:00:06.541000+00:00",
+    "statement_type": "CREATE_TABLE_AS_SELECT",
+    "query": "CREATE OR REPLACE TABLE `ledger-fcc1e.datamart_opentable.mapping_area_mse_opentable` AS \nSELECT * FROM `ledger-fcc1e.merchant_success_analytics.mapping_area_mse`"
+  },
+  "transformation_type": {
+    "type": "base",
+    "transformation": null,
+    "source_tables": []
+  },
+  "column_count": 0,
+  "columns": []
+}
