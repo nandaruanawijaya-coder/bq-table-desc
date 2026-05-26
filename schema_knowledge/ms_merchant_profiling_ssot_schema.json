@@ -2,16 +2,20 @@
   "full_table_id": "ledger-fcc1e.merchant_success_analytics.ms_merchant_profiling_ssot",
   "dataset": "merchant_success_analytics",
   "table_name": "ms_merchant_profiling_ssot",
-  "discovered_at": "2026-05-26T10:50:59.525096",
+  "discovered_at": "2026-05-26T10:54:06.104791",
   "metadata": {
     "table_name": "ms_merchant_profiling_ssot",
     "table_type": "TABLE",
     "creation_time": "2026-05-25 22:03:29.878000+00:00",
     "modified_time": "2026-05-25 22:03:29.879000+00:00",
     "description": "Single Source of Truth (SSOT) for merchant profiling data.Contains comprehensive merchant business details, transaction patterns, EDC/QRIS ownership.consolidated repository for all merchant profiling data across BukuWarung's sales (MSE/ RSE/ MSEE).",
-    "column_count": 107
+    "column_count": 107,
+    "has_bq_description": true
   },
   "table_type": "TABLE",
+  "table_description": "Single Source of Truth (SSOT) for merchant profiling data.Contains comprehensive merchant business details, transaction patterns, EDC/QRIS ownership.consolidated repository for all merchant profiling data across BukuWarung's sales (MSE/ RSE/ MSEE).",
+  "table_description_source": "bigquery_table_description",
+  "table_description_auto_generated": false,
   "is_derived": false,
   "creation_query": {
     "creation_time": "2026-05-05 08:50:04.485000+00:00",

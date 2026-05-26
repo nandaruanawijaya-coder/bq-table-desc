@@ -153,7 +153,8 @@ class SchemaDiscoveryAgent:
                 "creation_time": str(table.created),
                 "modified_time": str(table.modified),
                 "description": table.description or "",
-                "column_count": len(table.schema) if table.schema else 0
+                "column_count": len(table.schema) if table.schema else 0,
+                "has_bq_description": bool(table.description)
             }
         except Exception as e:
             print(f"⚠️  Could not get metadata for {table_id}: {e}")
@@ -171,6 +172,65 @@ class SchemaDiscoveryAgent:
         except Exception as e:
             print(f"⚠️  Could not load column descriptions for {table_id}: {e}")
             return None
+
+    def get_table_description_with_priority(
+        self,
+        table_id: str,
+        bq_description: str,
+        col_docs: Optional[Dict]
+    ) -> Dict:
+        """
+        Get table description with priority hierarchy:
+        1. BigQuery table description (if exists)
+        2. From table_column_description (if exists)
+        3. Auto-generated (fallback)
+        """
+        # Priority 1: BigQuery description
+        if bq_description and bq_description.strip():
+            return {
+                "description": bq_description.strip(),
+                "source": "bigquery_table_description",
+                "auto_generated": False
+            }
+
+        # Priority 2: From semantic documentation
+        if col_docs and col_docs.get("table_purpose"):
+            return {
+                "description": col_docs["table_purpose"],
+                "source": "table_column_description",
+                "auto_generated": False
+            }
+
+        # Priority 3: Auto-generated from table name and column info
+        auto_desc = self.generate_table_description(table_id, col_docs)
+        return {
+            "description": auto_desc,
+            "source": "auto_generated",
+            "auto_generated": True
+        }
+
+    def generate_table_description(self, table_id: str, col_docs: Optional[Dict]) -> str:
+        """Generate table description from table name and columns."""
+        # Convert table_id from snake_case to readable format
+        readable_name = " ".join(word.capitalize() for word in table_id.split("_"))
+
+        # Get column info if available
+        col_count = 0
+        key_columns = []
+        if col_docs and "columns" in col_docs:
+            col_count = len(col_docs["columns"])
+            # Get first 3 key columns
+            for col in col_docs["columns"][:3]:
+                key_columns.append(col.get("column_name", ""))
+
+        # Build description
+        if key_columns:
+            cols_str = ", ".join(key_columns)
+            return f"{readable_name} table containing {col_count} columns including {cols_str} and others. Used for data tracking and analysis."
+        elif col_count > 0:
+            return f"{readable_name} table with {col_count} columns. Used for data tracking and analysis."
+        else:
+            return f"{readable_name} table. Used for data tracking and analysis."
 
     def merge_column_descriptions(self, columns: List[Dict], col_docs: Optional[Dict]) -> List[Dict]:
         """Merge semantic descriptions into schema columns."""
@@ -212,6 +272,10 @@ class SchemaDiscoveryAgent:
         col_docs = self.load_column_descriptions(table_id)
         columns = self.merge_column_descriptions(columns, col_docs)
 
+        # Get table description with priority hierarchy
+        bq_desc = metadata.get("description", "")
+        desc_info = self.get_table_description_with_priority(table_id, bq_desc, col_docs)
+
         # Get CREATE query
         create_query = self.get_create_query(dataset_id, table_id)
 
@@ -225,6 +289,9 @@ class SchemaDiscoveryAgent:
             "discovered_at": datetime.now().isoformat(),
             "metadata": metadata,
             "table_type": metadata.get("table_type", "UNKNOWN"),
+            "table_description": desc_info["description"],
+            "table_description_source": desc_info["source"],
+            "table_description_auto_generated": desc_info["auto_generated"],
             "is_derived": transformation["type"] == "derived",
             "creation_query": create_query,
             "transformation_type": transformation,

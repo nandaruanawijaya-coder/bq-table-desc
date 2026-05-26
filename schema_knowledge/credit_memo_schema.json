@@ -2,16 +2,20 @@
   "full_table_id": "ledger-fcc1e.fs_datamart.credit_memo",
   "dataset": "fs_datamart",
   "table_name": "credit_memo",
-  "discovered_at": "2026-05-26T10:51:07.584733",
+  "discovered_at": "2026-05-26T10:54:10.488595",
   "metadata": {
     "table_name": "credit_memo",
     "table_type": "VIEW",
     "creation_time": "2025-07-15 08:02:40.690000+00:00",
     "modified_time": "2026-04-14 10:59:16.288000+00:00",
     "description": "",
-    "column_count": 75
+    "column_count": 75,
+    "has_bq_description": false
   },
   "table_type": "VIEW",
+  "table_description": "Credit Memo table containing 75 columns including updated_at, submission_date, phone_number and others. Used for data tracking and analysis.",
+  "table_description_source": "auto_generated",
+  "table_description_auto_generated": true,
   "is_derived": true,
   "creation_query": {
     "creation_time": "2026-05-05 08:00:08.031000+00:00",

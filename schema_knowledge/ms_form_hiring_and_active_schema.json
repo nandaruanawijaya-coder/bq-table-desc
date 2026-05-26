@@ -2,16 +2,20 @@
   "full_table_id": "ledger-fcc1e.merchant_success_analytics.ms_form_hiring_and_active",
   "dataset": "merchant_success_analytics",
   "table_name": "ms_form_hiring_and_active",
-  "discovered_at": "2026-05-26T10:51:09.471338",
+  "discovered_at": "2026-05-26T10:54:12.053338",
   "metadata": {
     "table_name": "ms_form_hiring_and_active",
     "table_type": "TABLE",
     "creation_time": "2026-05-26 03:48:53.783000+00:00",
     "modified_time": "2026-05-26 03:48:53.784000+00:00",
     "description": "",
-    "column_count": 170
+    "column_count": 170,
+    "has_bq_description": false
   },
   "table_type": "TABLE",
+  "table_description": "Ms Form Hiring And Active table containing 100 columns including cv_link, area_placement, city_or_regency_placement and others. Used for data tracking and analysis.",
+  "table_description_source": "auto_generated",
+  "table_description_auto_generated": true,
   "is_derived": true,
   "creation_query": {
     "creation_time": "2026-05-05 09:05:02.908000+00:00",

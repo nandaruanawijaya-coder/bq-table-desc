@@ -2,16 +2,20 @@
   "full_table_id": "ledger-fcc1e.datamart_opentable.mapping_area_mse_opentable",
   "dataset": "datamart_opentable",
   "table_name": "mapping_area_mse_opentable",
-  "discovered_at": "2026-05-26T10:50:57.733868",
+  "discovered_at": "2026-05-26T10:54:04.603764",
   "metadata": {
     "table_name": "mapping_area_mse_opentable",
     "table_type": "TABLE",
     "creation_time": "2026-05-26 00:00:12.457000+00:00",
     "modified_time": "2026-05-26 00:00:12.458000+00:00",
     "description": "",
-    "column_count": 10
+    "column_count": 10,
+    "has_bq_description": false
   },
   "table_type": "TABLE",
+  "table_description": "Mapping Area Mse Opentable table containing 10 columns including new_mse_city_sep_24, mse_name_updated, province and others. Used for data tracking and analysis.",
+  "table_description_source": "auto_generated",
+  "table_description_auto_generated": true,
   "is_derived": true,
   "creation_query": {
     "creation_time": "2026-05-05 00:00:06.541000+00:00",

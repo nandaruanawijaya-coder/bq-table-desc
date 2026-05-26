@@ -2,16 +2,20 @@
   "full_table_id": "ledger-fcc1e.merchant_success_analytics.retail_ph_visit_ssot",
   "dataset": "merchant_success_analytics",
   "table_name": "retail_ph_visit_ssot",
-  "discovered_at": "2026-05-26T10:51:12.583320",
+  "discovered_at": "2026-05-26T10:54:14.999746",
   "metadata": {
     "table_name": "retail_ph_visit_ssot",
     "table_type": "TABLE",
     "creation_time": "2026-05-26 03:40:09.475000+00:00",
     "modified_time": "2026-05-26 03:40:09.476000+00:00",
     "description": "",
-    "column_count": 93
+    "column_count": 93,
+    "has_bq_description": false
   },
   "table_type": "TABLE",
+  "table_description": "Retail Ph Visit Ssot table containing 78 columns including id, activity_id, data_source and others. Used for data tracking and analysis.",
+  "table_description_source": "auto_generated",
+  "table_description_auto_generated": true,
   "is_derived": true,
   "creation_query": {
     "creation_time": "2026-05-05 09:17:01.486000+00:00",

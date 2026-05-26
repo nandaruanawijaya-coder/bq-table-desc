@@ -2,16 +2,20 @@
   "full_table_id": "ledger-fcc1e.fs_datamart.mee_weekly_route_plan",
   "dataset": "fs_datamart",
   "table_name": "mee_weekly_route_plan",
-  "discovered_at": "2026-05-26T10:51:04.033517",
+  "discovered_at": "2026-05-26T10:54:09.003287",
   "metadata": {
     "table_name": "mee_weekly_route_plan",
     "table_type": "TABLE",
     "creation_time": "2026-03-03 06:50:33.921000+00:00",
     "modified_time": "2026-05-23 01:55:30.715000+00:00",
     "description": "",
-    "column_count": 40
+    "column_count": 40,
+    "has_bq_description": false
   },
   "table_type": "TABLE",
+  "table_description": "Mee Weekly Route Plan table containing 40 columns including avg_monthly_edc_trx_3_months, business_name, channel and others. Used for data tracking and analysis.",
+  "table_description_source": "auto_generated",
+  "table_description_auto_generated": true,
   "is_derived": false,
   "creation_query": {
     "creation_time": "2026-05-05 09:00:08.170000+00:00",

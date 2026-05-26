@@ -2,16 +2,20 @@
   "full_table_id": "ledger-fcc1e.db_accounting.prod_edc_order",
   "dataset": "db_accounting",
   "table_name": "prod_edc_order",
-  "discovered_at": "2026-05-26T10:51:01.433336",
+  "discovered_at": "2026-05-26T10:54:07.525497",
   "metadata": {
     "table_name": "prod_edc_order",
     "table_type": "TABLE",
     "creation_time": "2024-05-17 12:20:27.898000+00:00",
     "modified_time": "2026-05-26 03:42:15.015000+00:00",
     "description": "",
-    "column_count": 36
+    "column_count": 36,
+    "has_bq_description": false
   },
   "table_type": "TABLE",
+  "table_description": "Prod Edc Order table containing 36 columns including user_id, user_id_uuid, referee_name and others. Used for data tracking and analysis.",
+  "table_description_source": "auto_generated",
+  "table_description_auto_generated": true,
   "is_derived": false,
   "creation_query": {
     "creation_time": "2026-05-05 09:21:01.785000+00:00",

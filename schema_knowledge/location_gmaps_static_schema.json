@@ -2,16 +2,20 @@
   "full_table_id": "ledger-fcc1e.trb_pymnts_derived.location_gmaps_static",
   "dataset": "trb_pymnts_derived",
   "table_name": "location_gmaps_static",
-  "discovered_at": "2026-05-26T10:50:55.856018",
+  "discovered_at": "2026-05-26T10:54:02.921452",
   "metadata": {
     "table_name": "location_gmaps_static",
     "table_type": "TABLE",
     "creation_time": "2025-12-21 16:26:39.405000+00:00",
     "modified_time": "2026-05-22 19:06:07.408000+00:00",
     "description": "",
-    "column_count": 16
+    "column_count": 16,
+    "has_bq_description": false
   },
   "table_type": "TABLE",
+  "table_description": "Location Gmaps Static table containing 16 columns including phone_number, lat_long, latitude and others. Used for data tracking and analysis.",
+  "table_description_source": "auto_generated",
+  "table_description_auto_generated": true,
   "is_derived": false,
   "creation_query": {
     "creation_time": "2026-05-05 08:50:04.485000+00:00",

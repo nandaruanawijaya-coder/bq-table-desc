@@ -2,16 +2,20 @@
   "full_table_id": "ledger-fcc1e.payment_reports.payments_ssot",
   "dataset": "payment_reports",
   "table_name": "payments_ssot",
-  "discovered_at": "2026-05-26T10:51:11.160329",
+  "discovered_at": "2026-05-26T10:54:13.478699",
   "metadata": {
     "table_name": "payments_ssot",
     "table_type": "TABLE",
     "creation_time": "2026-05-12 07:59:58.582000+00:00",
     "modified_time": "2026-05-26 01:02:40.118000+00:00",
     "description": "Single Source of Truth (SSOT) for all BukuWarung payment transactions. Consolidates Payment In, Payment Out, PPOB, QRIS, QRIS-Retail, and SALDO. Each row = one payment attempt (bw_order_id). product_type determines populated columns; status_v2 encodes full lifecycle; transaction_date (WIB) is partition key.",
-    "column_count": 85
+    "column_count": 85,
+    "has_bq_description": true
   },
   "table_type": "TABLE",
+  "table_description": "Single Source of Truth (SSOT) for all BukuWarung payment transactions. Consolidates Payment In, Payment Out, PPOB, QRIS, QRIS-Retail, and SALDO. Each row = one payment attempt (bw_order_id). product_type determines populated columns; status_v2 encodes full lifecycle; transaction_date (WIB) is partition key.",
+  "table_description_source": "bigquery_table_description",
+  "table_description_auto_generated": false,
   "is_derived": true,
   "creation_query": {
     "creation_time": "2026-05-05 08:00:07.517000+00:00",
