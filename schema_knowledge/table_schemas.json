@@ -1,14 +1,62 @@
 {
-  "discovered_at": "2026-05-26T10:47:08.077753",
-  "total_tables": 1,
-  "base_tables": 1,
-  "derived_tables": 0,
+  "discovered_at": "2026-05-26T10:51:12.611347",
+  "total_tables": 9,
+  "base_tables": 4,
+  "derived_tables": 5,
   "tables": {
+    "ledger-fcc1e.trb_pymnts_derived.location_gmaps_static": {
+      "name": "location_gmaps_static",
+      "type": "TABLE",
+      "columns": 16,
+      "is_derived": false
+    },
+    "ledger-fcc1e.datamart_opentable.mapping_area_mse_opentable": {
+      "name": "mapping_area_mse_opentable",
+      "type": "TABLE",
+      "columns": 10,
+      "is_derived": true
+    },
+    "ledger-fcc1e.merchant_success_analytics.ms_merchant_profiling_ssot": {
+      "name": "ms_merchant_profiling_ssot",
+      "type": "TABLE",
+      "columns": 107,
+      "is_derived": false
+    },
+    "ledger-fcc1e.db_accounting.prod_edc_order": {
+      "name": "prod_edc_order",
+      "type": "TABLE",
+      "columns": 36,
+      "is_derived": false
+    },
     "ledger-fcc1e.fs_datamart.mee_weekly_route_plan": {
       "name": "mee_weekly_route_plan",
       "type": "TABLE",
       "columns": 40,
       "is_derived": false
+    },
+    "ledger-fcc1e.fs_datamart.credit_memo": {
+      "name": "credit_memo",
+      "type": "VIEW",
+      "columns": 75,
+      "is_derived": true
+    },
+    "ledger-fcc1e.merchant_success_analytics.ms_form_hiring_and_active": {
+      "name": "ms_form_hiring_and_active",
+      "type": "TABLE",
+      "columns": 170,
+      "is_derived": true
+    },
+    "ledger-fcc1e.payment_reports.payments_ssot": {
+      "name": "payments_ssot",
+      "type": "TABLE",
+      "columns": 85,
+      "is_derived": true
+    },
+    "ledger-fcc1e.merchant_success_analytics.retail_ph_visit_ssot": {
+      "name": "retail_ph_visit_ssot",
+      "type": "TABLE",
+      "columns": 93,
+      "is_derived": true
     }
   }
 }

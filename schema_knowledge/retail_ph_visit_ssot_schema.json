@@ -2,20 +2,1341 @@
   "full_table_id": "ledger-fcc1e.merchant_success_analytics.retail_ph_visit_ssot",
   "dataset": "merchant_success_analytics",
   "table_name": "retail_ph_visit_ssot",
-  "discovered_at": "2026-05-26T10:46:22.514072",
-  "metadata": {},
-  "table_type": "UNKNOWN",
-  "is_derived": false,
+  "discovered_at": "2026-05-26T10:51:12.583320",
+  "metadata": {
+    "table_name": "retail_ph_visit_ssot",
+    "table_type": "TABLE",
+    "creation_time": "2026-05-26 03:40:09.475000+00:00",
+    "modified_time": "2026-05-26 03:40:09.476000+00:00",
+    "description": "",
+    "column_count": 93
+  },
+  "table_type": "TABLE",
+  "is_derived": true,
   "creation_query": {
     "creation_time": "2026-05-05 09:17:01.486000+00:00",
     "statement_type": "CREATE_TABLE_AS_SELECT",
-    "query": "-- Version Control\n-- (2026-04-09) --> Amalia Init\n-- (2026-04-09) --> Amalia exclude order testing\n\nCREATE OR REPLACE TABLE `ledger-fcc1e.retail_payment_base.retail_ph_order_data`\nAS\n\nWITH \nretail_external_business_mapping AS (\nSELECT order_id,\n\n  DATE(TIMESTAMP_ADD(\n    TIMESTAMP(\n      CONCAT(\n        REGEXP_EXTRACT(progress, r'\"COMPLETED\"=>\"(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2})'),\n        '.',\n        REGEXP_EXTRACT(progress, r'\"COMPLETED\"=>\"[^\"]*(\\d{6,7})')\n      )\n    ), \n    INTERVAL 8 HOUR\n  )) AS qris_accepted_date,\n  external_business_mapping_id\nFROM `ledger-fcc1e.db_retail_backend_ph.external_business_mapping`\n)\n\n\n,\n order_history AS (\n SELECT \n    order_id,\n    transaction_number,\n    DATE(DATETIME_ADD(orders.created_at, INTERVAL 8 HOUR)) AS order_date_pht,\n    DATETIME_ADD(orders.created_at, INTERVAL 8 HOUR) AS created_at_pht,\n    orders.business_id,\n    orders.bw_user_id AS bw_uuid,\n    orders.status AS order_status,\n    orders.progress,\n    orders.order_details,\n    price,\n    orders.voucher_code AS voucher_code, \n    UPPER(orders.delivery_address.city) AS orders_regency,\n    UPPER(orders.delivery_address.name) AS orders_delivery_name,\n    UPPER(orders.delivery_address.region) AS orders_delivery_phone_number,\n    UPPER(orders.delivery_address.address) AS orders_address,\n    UPPER(orders.delivery_address.province) AS orders_province,\n    UPPER(orders.delivery_address.postal_code) AS orders_zip_code\n  FROM `ledger-fcc1e.db_retail_backend_ph.orders` AS orders\n  WHERE order_id <> \"48bd2a73-d8d3-4d52-97ec-1d3fba2a9716\" -- order testing\n\n)\n, parsed_statuses AS (\n  SELECT \n    *,\n    -- CONFIRMED\n    COALESCE(\n      TIMESTAMP_ADD(TIMESTAMP(SUBSTR(REGEXP_EXTRACT(progress, r'\"CONFIRMED\"=>\"([^\"]+)\"'), 1, 26)), INTERVAL 8 HOUR),\n      (SELECT TIMESTAMP_ADD(TIMESTAMP(h.value.timestamp), INTERVAL 8 HOUR)\n       FROM UNNEST(order_details.history) AS h\n       WHERE h.value.status = 'CONFIRMED'\n       ORDER BY h.value.timestamp DESC LIMIT 1)\n    ) AS confirmed_datetime,\n\n    -- PAID\n    COALESCE(\n      TIMESTAMP_ADD(TIMESTAMP(SUBSTR(REGEXP_EXTRACT(progress, r'\"PAID\"=>\"([^\"]+)\"'), 1, 26)), INTERVAL 8 HOUR),\n      (SELECT TIMESTAMP_ADD(TIMESTAMP(h.value.timestamp), INTERVAL 8 HOUR)\n       FROM UNNEST(order_details.history) AS h\n       WHERE h.value.status = 'PAID'\n       ORDER BY h.value.timestamp DESC LIMIT 1)\n    ) AS paid_datetime,\n\n\n    -- WAITING_FOR_DOCUMENT\n    COALESCE(\n      TIMESTAMP_ADD(TIMESTAMP(SUBSTR(REGEXP_EXTRACT(progress, r'\"WAITING_FOR_DOCUMENT\"=>\"([^\"]+)\"'), 1, 26)), INTERVAL 8 HOUR),\n      (SELECT TIMESTAMP_ADD(TIMESTAMP(h.value.timestamp), INTERVAL 8 HOUR)\n       FROM UNNEST(order_details.history) AS h\n       WHERE h.value.status = 'WAITING_FOR_DOCUMENT'\n       ORDER BY h.value.timestamp DESC LIMIT 1)\n    ) AS waiting_for_document_datetime,\n\n\n    -- DOCUMENT_COMPLETED\n    COALESCE(\n      TIMESTAMP_ADD(TIMESTAMP(SUBSTR(REGEXP_EXTRACT(progress, r'\"DOCUMENT_COMPLETED\"=>\"([^\"]+)\"'), 1, 26)), INTERVAL 8 HOUR),\n      (SELECT TIMESTAMP_ADD(TIMESTAMP(h.value.timestamp), INTERVAL 8 HOUR)\n       FROM UNNEST(order_details.history) AS h\n       WHERE h.value.status = 'DOCUMENT_COMPLETED'\n       ORDER BY h.value.timestamp DESC LIMIT 1)\n    ) AS document_completed_datetime,\n\n    -- OPS_APPROVED\n    COALESCE(\n      TIMESTAMP_ADD(TIMESTAMP(SUBSTR(REGEXP_EXTRACT(progress, r'\"OPS_APPROVED\"=>\"([^\"]+)\"'), 1, 26)), INTERVAL 8 HOUR),\n      (SELECT TIMESTAMP_ADD(TIMESTAMP(h.value.timestamp), INTERVAL 8 HOUR)\n       FROM UNNEST(order_details.history) AS h\n       WHERE h.value.status = 'OPS_APPROVED'\n       ORDER BY h.value.timestamp DESC LIMIT 1)\n    ) AS ops_approved_datetime,\n\n        -- OPS_REJECTED\n    COALESCE(\n      TIMESTAMP_ADD(TIMESTAMP(SUBSTR(REGEXP_EXTRACT(progress, r'\"OPS_REJECTED\"=>\"([^\"]+)\"'), 1, 26)), INTERVAL 8 HOUR),\n      (SELECT TIMESTAMP_ADD(TIMESTAMP(h.value.timestamp), INTERVAL 8 HOUR)\n       FROM UNNEST(order_details.history) AS h\n       WHERE h.value.status = 'OPS_REJECTED'\n       ORDER BY h.value.timestamp DESC LIMIT 1)\n    ) AS ops_rejected_datetime,\n\n\n    -- QRIS_PENDING (latest)\n    COALESCE(\n      TIMESTAMP_ADD(TIMESTAMP(SUBSTR(REGEXP_EXTRACT(progress, r'\"QR_PENDING\"=>\"([^\"]+)\"'), 1, 26)), INTERVAL 8 HOUR),\n      (SELECT TIMESTAMP_ADD(TIMESTAMP(h.value.timestamp), INTERVAL 8 HOUR)\n       FROM UNNEST(order_details.history) AS h\n       WHERE h.value.status = 'QR_PENDING'\n       ORDER BY h.value.timestamp DESC LIMIT 1)\n    ) AS qris_pending_datetime,\n\n    -- QRIS_ACCEPTED\n    COALESCE(\n      TIMESTAMP_ADD(TIMESTAMP(SUBSTR(REGEXP_EXTRACT(progress, r'\"QR_ACCEPTED\"=>\"([^\"]+)\"'), 1, 26)), INTERVAL 8 HOUR),\n      (SELECT TIMESTAMP_ADD(TIMESTAMP(h.value.timestamp), INTERVAL 8 HOUR)\n       FROM UNNEST(order_details.history) AS h\n       WHERE h.value.status = 'QR_ACCEPTED'\n       ORDER BY h.value.timestamp DESC LIMIT 1)\n    ) AS qris_accepted_datetime,\n\n    -- QRIS_REJECTED - Attempt 1 (first rejection)\n    COALESCE(\n      TIMESTAMP_ADD(TIMESTAMP(SUBSTR(REGEXP_EXTRACT(progress, r'\"QR_REJECTED\"=>\"([^\"]+)\"'), 1, 26)), INTERVAL 8 HOUR),\n      (SELECT TIMESTAMP_ADD(TIMESTAMP(h.value.timestamp), INTERVAL 8 HOUR)\n       FROM UNNEST(order_details.history) AS h\n       WHERE h.value.status = 'QR_REJECTED'\n       ORDER BY h.value.timestamp ASC LIMIT 1 OFFSET 0)\n    ) AS qris_rejected_datetime,\n\n\n    -- PICK UP (will be added by mas Brilian because currentlty not stored in orders.progress)\n    -- IN DELIVERY\n      COALESCE(\n      TIMESTAMP_ADD(TIMESTAMP(SUBSTR(REGEXP_EXTRACT(progress, r'\"IN_DELIVERY\"=>\"([^\"]+)\"'), 1, 26)), INTERVAL 8 HOUR),\n      (SELECT TIMESTAMP_ADD(TIMESTAMP(h.value.timestamp), INTERVAL 8 HOUR)\n       FROM UNNEST(order_details.history) AS h\n       WHERE h.value.status = 'IN_DELIVERY'\n       ORDER BY h.value.timestamp ASC LIMIT 1 OFFSET 0)\n    ) AS in_delivery_datetime,\n\n     -- EXPIRED\n    COALESCE(\n      TIMESTAMP_ADD(TIMESTAMP(SUBSTR(REGEXP_EXTRACT(progress, r'\"EXPIRED\"=>\"([^\"]+)\"'), 1, 26)), INTERVAL 8 HOUR),\n      (SELECT TIMESTAMP_ADD(TIMESTAMP(h.value.timestamp), INTERVAL 8 HOUR)\n       FROM UNNEST(order_details.history) AS h\n       WHERE h.value.status = 'EXPIRED'\n       ORDER BY h.value.timestamp DESC LIMIT 1)\n    ) AS expired_datetime,\n\n      -- DELIVERED\n      COALESCE(\n      TIMESTAMP_ADD(TIMESTAMP(SUBSTR(REGEXP_EXTRACT(progress, r'\"DELIVERED\"=>\"([^\"]+)\"'), 1, 26)), INTERVAL 8 HOUR),\n      (SELECT TIMESTAMP_ADD(TIMESTAMP(h.value.timestamp), INTERVAL 8 HOUR)\n       FROM UNNEST(order_details.history) AS h\n       WHERE h.value.status = 'DELIVERED'\n       ORDER BY h.value.timestamp ASC LIMIT 1 OFFSET 0)\n    ) AS delivered_datetime,\n\n      -- COMPLETED\n      COALESCE(\n      TIMESTAMP_ADD(TIMESTAMP(SUBSTR(REGEXP_EXTRACT(progress, r'\"COMPLETED\"=>\"([^\"]+)\"'), 1, 26)), INTERVAL 8 HOUR),\n      (SELECT TIMESTAMP_ADD(TIMESTAMP(h.value.timestamp), INTERVAL 8 HOUR)\n       FROM UNNEST(order_details.history) AS h\n       WHERE h.value.status = 'COMPLETED'\n       ORDER BY h.value.timestamp ASC LIMIT 1 OFFSET 0)\n    ) AS completed_datetime,\n\n\n\n    -- RESUBMISSION_AVAILABLE\n    COALESCE(\n      TIMESTAMP_ADD(TIMESTAMP(SUBSTR(REGEXP_EXTRACT(progress, r'\"RESUBMISSION_AVAILABLE\"=>\"([^\"]+)\"'), 1, 26)), INTERVAL 8 HOUR),\n      (SELECT TIMESTAMP_ADD(TIMESTAMP(h.value.timestamp), INTERVAL 8 HOUR)\n       FROM UNNEST(order_details.history) AS h\n       WHERE h.value.status = 'RESUBMISSION_AVAILABLE'\n       ORDER BY h.value.timestamp DESC LIMIT 1)\n    ) AS resubmission_available_datetime,\n\n    -- REFUND_AVAILABLE\n    COALESCE(\n      TIMESTAMP_ADD(TIMESTAMP(SUBSTR(REGEXP_EXTRACT(progress, r'\"REFUND_AVAILABLE\"=>\"([^\"]+)\"'), 1, 26)), INTERVAL 8 HOUR),\n      (SELECT TIMESTAMP_ADD(TIMESTAMP(h.value.timestamp), INTERVAL 8 HOUR)\n       FROM UNNEST(order_details.history) AS h\n       WHERE h.value.status = 'REFUND_AVAILABLE'\n       ORDER BY h.value.timestamp DESC LIMIT 1)\n    ) AS refund_available_datetime,\n\n    -- REFUND_IN_PROGRESS\n    COALESCE(\n      TIMESTAMP_ADD(TIMESTAMP(SUBSTR(REGEXP_EXTRACT(progress, r'\"REFUND_IN_PROGRESS\"=>\"([^\"]+)\"'), 1, 26)), INTERVAL 8 HOUR),\n      (SELECT TIMESTAMP_ADD(TIMESTAMP(h.value.timestamp), INTERVAL 8 HOUR)\n       FROM UNNEST(order_details.history) AS h\n       WHERE h.value.status = 'REFUND_IN_PROGRESS'\n       ORDER BY h.value.timestamp DESC LIMIT 1)\n    ) AS refund_in_progress_datetime,\n\n    -- REFUNDED\n    COALESCE(\n      TIMESTAMP_ADD(TIMESTAMP(SUBSTR(REGEXP_EXTRACT(progress, r'\"REFUNDED\"=>\"([^\"]+)\"'), 1, 26)), INTERVAL 8 HOUR),\n      (SELECT TIMESTAMP_ADD(TIMESTAMP(h.value.timestamp), INTERVAL 8 HOUR)\n       FROM UNNEST(order_details.history) AS h\n       WHERE h.value.status = 'REFUNDED'\n       ORDER BY h.value.timestamp DESC LIMIT 1)\n    ) AS refunded_datetime,\n\n     order_details. resubmission_count AS qris_resubmission_count, \n  FROM order_history\n)\n, orders_base AS (\nSELECT\n  order_id,\n  transaction_number,\n  order_date_pht,\n  created_at_pht,\n  business.phone_number phone_number,\n  UPPER(business.business_name) AS business_name,\n  orders.business_id,\n  orders.bw_uuid,\n  orders.order_status  AS order_status,\n  CASE WHEN voucher_code IS NULL THEN \"NOT INPUT TFCODE\" WHEN UPPER(voucher_code) LIKE \"%TEST%\" THEN \"ORDER TESTING\" ELSE voucher_code END voucher_code,\n  -- Single occurrence dates\n  DATE(confirmed_datetime)                      AS confirmed_date,\n  DATE(paid_datetime)                           AS paid_date,\n  DATE(document_completed_datetime)             AS document_completed_date,\n  DATE(waiting_for_document_datetime)           AS waiting_for_document_date,\n  DATE(ops_approved_datetime)                   AS ops_approved_date,\n  DATE(ops_rejected_datetime)                   AS ops_rejected_date,\n\n  \n  -- QRIS summary dates\n  DATE(qris_pending_datetime)                   AS qris_pending_date, \n  DATE(qris_accepted_datetime)                  AS qris_accepted_date,\n  DATE(qris_rejected_datetime)                  AS qris_rejected_date,\n  DATE(COALESCE(qris_accepted_datetime, qris_rejected_datetime)) AS qris_final_date,\n  DATE(in_delivery_datetime)                    AS in_delivery_date,   \n  DATE(delivered_datetime)                      AS delivered_date, \n  DATE(completed_datetime)                      AS completed_date,   \n  DATE(expired_datetime)                        AS expired_date,      \n  qris_resubmission_count                       AS qris_resubmission_count,\n\n\n  DATE(resubmission_available_datetime)         AS resubmission_available_datet ,\n  DATE(refund_available_datetime)               AS refund_available_date,\n  DATE(refund_in_progress_datetime)             AS refund_in_progress_date,\n  DATE(refunded_datetime)                       AS refunded_date,\n  \n  CASE\n      WHEN qris_accepted_datetime IS NOT NULL THEN \"(1)_QRIS_ACCEPTED\"\n      WHEN qris_rejected_datetime IS NOT NULL THEN \"(2)_QRIS_REJECTED\"\n      WHEN qris_accepted_datetime IS NULL AND qris_rejected_datetime IS NULL AND qris_pending_datetime IS NOT NULL THEN \"(3)_STILL_PENDING\"\n  END AS qris_final_status,\n\n\n  price,\n  orders_regency,\n  orders_delivery_name,\n  orders_delivery_phone_number,\n  orders_address,\n  orders_province,\n  orders_zip_code,\n  external_business_mapping_id\n\n FROM parsed_statuses orders\n LEFT JOIN `db_retail_backend_ph.businesses` AS business ON orders.business_id = business.business_id\n LEFT JOIN retail_external_business_mapping USING (order_id)\n)\n\n, retail_visit AS (\n  SELECT \n  id, \n  created_at created_at_pht, \n  phone_number, \n  UPPER(sales_name) AS rse_name,\n  LOWER(sales_email_bw) AS rse_email,\n  sales_agent_id AS sales_agent_id,\n  -- retailLeadStage,\n  ots_serial_number,\n  ots_order_id \n  FROM `merchant_success_analytics.retail_ph_visit_ssot`\n\n)\n\n,sales_info AS (\nSELECT\n    users.sales_agent_id sales_agent_id,\n    users.id user_id,\n    users.name user_name,\n    users.designation,\n    users.vendor_name,\n    users.phone_number,\n    users.migration_metadata.oldemail,\n    users.email,\n    users.employee_code,\n    users.joining_date joining_date,\n    end_date,\n    bukuagen_voucher_code,\n    bukupay_voucher_code,\n    reporting_manager_id,\n    assigned_area_id,\n    areas.name area,\n    teams.id AS team_id,\n    teams.name AS team_leader_name,\n    teams.is_active is_active_sales,\n    areas.code area_code,\n    teams.dept_code,\n    teams.description,\n    teams.category category,\n    areas.is_active is_active_area,\n    region.code region_code,\n    region.name region_name,\n    region.country_code country_code\n\nFROM `db_retail_crm.users` users\n\nLEFT JOIN `db_retail_crm.user_teams` user_teams\n    ON users.id = user_teams.user_id\n\nLEFT JOIN `db_retail_crm.teams` teams\n    ON user_teams.team_id = teams.id\n\nLEFT JOIN `db_retail_crm.sales_agents` sa\n    ON users.sales_agent_id = sa.id\n\nLEFT JOIN `db_retail_crm.sales_areas` areas\n    ON teams.sales_area_id = areas.id\n\nLEFT JOIN `db_retail_crm.sales_regions` region\n    ON areas.sales_region_id = region.id\n\nQUALIFY ROW_NUMBER() OVER (\n    PARTITION BY users.sales_agent_id\n    ORDER BY teams.updated_at DESC\n) = 1\n)\n\n, created_account AS (\n  SELECT business_id,\n  phone_number,\n  nmid\n  FROM `retail_payment_base.retail_ph_created_account_app`\n)\n, order_success_failed AS(\n  SELECT\n  order_id,\n  business_id,\n  -- area,\n  channel,\n  product_id,\n  payment_correlation_id,\n  original_price,\n  discount,\n  final_price,\n  product_sku,\n  product_name,\n  product_description,\n  FROM `retail_payment_base.retail_ph_order_data_success_failed`\n)\n\n,regency_coverage_db AS(\nSELECT \n  u.sales_agent_id,\n  u.name AS sales_name,\n  u.designation AS role_type,\n  u.employee_Code AS sales_agent_code,\n  -- Find MSL in hierarchy (check u itself too)\n  COALESCE(\n    CASE WHEN u.designation  = 'MSL'    THEN u.name  END,\n    CASE WHEN u.designation  = 'TL_RSE' THEN u.name  END,\n    CASE WHEN m1.designation = 'MSL'    THEN m1.name END,\n    CASE WHEN m1.designation = 'TL_RSE' THEN m1.name END\n  ) AS msl_name,\n  \n  -- Find HOA in hierarchy (check u itself too)\n  COALESCE(\n    CASE WHEN u.designation  = 'HOA' THEN u.name  END,\n    CASE WHEN m1.designation = 'HOA' THEN m1.name END,\n    CASE WHEN m2.designation = 'HOA' THEN m2.name END\n  ) AS hoa_name,\n  \n  -- Find HOR in hierarchy (check u itself too)\n  COALESCE(\n    CASE WHEN u.designation  IN ('HOR', 'HORS') THEN u.name  END,\n    CASE WHEN m1.designation IN ('HOR', 'HORS') THEN m1.name END,\n    CASE WHEN m2.designation IN ('HOR', 'HORS') THEN m2.name END,\n    CASE WHEN m3.designation IN ('HOR', 'HORS') THEN m3.name END\n  ) AS hor_name\n\nFROM `db_retail_crm.users` u\nLEFT JOIN `db_retail_crm.users` m1 ON u.reporting_manager_id  = m1.id\nLEFT JOIN `db_retail_crm.users` m2 ON m1.reporting_manager_id = m2.id\nLEFT JOIN `db_retail_crm.users` m3 ON m2.reporting_manager_id = m3.id\n\nWHERE u.is_Deleted = FALSE\n\nORDER BY u.name\n\n)\n\n\nSELECT \norder_id,\ntransaction_number,\norder_date_pht,\norders_base.created_at_pht AS created_at_pht,\norders_base.phone_number,\nbusiness_name,\norders_base.business_id,\nbw_uuid,\norder_status,\nconfirmed_date,\npaid_date,\ndocument_completed_date,\nwaiting_for_document_date,\nops_approved_date,\nops_rejected_date,\nprice,\n-- rejection_reason,\nvoucher_code,\norders_address,\n-- orders_district,\norders_regency,\norders_province,\norders_zip_code,\nin_delivery_date,\ndelivered_date,\ncompleted_date,\nexpired_date,\nsales_info.area area,\nsales_info.user_name agent_name,\nsales_info.email rse_email,\ndesignation,\nmsl_name,\nhoa_name,\nhor_name,\nCASE WHEN retail_visit.ots_order_id IS NOT NULL THEN 1 ELSE 0 END AS ots_flag,\nsales_info.sales_agent_id,\nqris_pending_date,\nqris_accepted_date,\n-- qris_rejected_attempt_1_date,\n-- qris_rejected_attempt_1_reason,\n-- qris_rejected_attempt_2_date,\n-- qris_rejected_attempt_2_reason,\n-- qris_rejected_attempt_3_date,\n-- qris_rejected_attempt_3_reason,\nqris_rejected_date,\n-- qris_rejected_attempt_count,\nqris_final_date,\nqris_final_status,             \n-- resubmission_available_date,\nrefund_available_date,\nrefund_in_progress_date,\nrefunded_date,\nnmid,\nexternal_business_mapping_id,\nproduct_id,\npayment_correlation_id,\noriginal_price,\ndiscount,\nfinal_price,\nproduct_sku,\nproduct_name,\nproduct_description,\n\n\nFROM orders_base\nLEFT JOIN created_account USING (business_id)\nLEFT JOIN order_success_failed USING (order_id)\nLEFT JOIN sales_info ON orders_base.voucher_code = sales_info.bukupay_voucher_code\nLEFT JOIN retail_visit ON orders_base.order_id = retail_visit.ots_order_id\nLEFT JOIN  regency_coverage_db\nON sales_info.sales_agent_id = regency_coverage_db.sales_agent_id\n\n"
+    "query": "-- Version Control\n-- (2026-04-09) --> Amalia Init\n-- (2026-04-09) --> Amalia exclude order testing\n\nCREATE OR REPLACE TABLE `ledger-fcc1e.retail_payment_base.retail_ph_order_data`\nAS\n\nWITH \nretail_external_business_mapping AS (\nSELECT order_id,\n\n  DATE(TIMESTAMP_ADD(\n    TIMESTAMP(\n      CONCAT(\n        REGEXP_EXTRACT(progress, r'\"COMPLETED\"=>\"(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2})'),\n        '.',\n        REGEXP_EXTRACT(progress, r'\"COMPLETED\"=>\"[^\"]*(\\d{6,7})')\n      )\n    ), \n    INTERVAL 8 HOUR\n  )) AS qris_accepted_date,\n  external_business_mapping_id\nFROM `ledger-fcc1e.db_retail_backend_ph.external_business_mapping`\n)\n\n\n,\n order_history AS (\n SELECT \n    order_id,\n    transaction_number,\n    DATE(DATETIME_ADD(orders.created_at, INTERVAL 8 HOUR)) AS order_date_pht,\n    DATETIME_ADD(orders.created_at, INTERVAL 8 HOUR) AS created_at_pht,\n    orders.business_id,\n    orders.bw_user_id AS bw_uuid,\n    orders.status AS order_status,\n    orders.progress,\n    orders.order_details,\n    pric"
   },
   "transformation_type": {
-    "type": "base",
-    "transformation": null,
-    "source_tables": []
+    "type": "derived",
+    "transformation": [
+      "string_manipulation",
+      "date_transformation"
+    ],
+    "source_tables": [
+      "LEDGER-FCC1E.DB_RETAIL_BACKEND_PH.EXTERNAL_BUSINESS_MAPPING"
+    ]
   },
-  "column_count": 0,
-  "columns": []
+  "column_count": 93,
+  "columns": [
+    {
+      "column_name": "id",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 1,
+      "description": "Unique record identifier (UUID). ID serves as primary key for all records.",
+      "business_context": "Required field - always populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "7807e841-fb63-4c90-9fa6-58499308f848",
+        "5fa15010-c65e-40cf-b699-2019a67965bb",
+        "b2c34b21-02a6-4938-90ce-edfa8d1f1c7f"
+      ],
+      "possible_values": null,
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "activity_id",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 2,
+      "description": "Unique identifier for activity record (UUID). Links to specific field activity.",
+      "business_context": "Required field - always populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "75e1faf2-579f-40f2-8d23-775106a68619",
+        "516a569c-5ef2-43aa-821d-a9dffc72c8d2",
+        "75b3dcff-f274-4638-87c5-3f694b33c655"
+      ],
+      "possible_values": null,
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "data_source",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 3,
+      "description": "Data source system identifier. Shows origin of visit data entry method.",
+      "business_context": "Required field - always populated",
+      "semantic_source": "sql_definition + possible_values",
+      "example_values": [
+        "New Prospero - VisitRecord",
+        "New Prospero - VisitRecord",
+        "New Prospero - VisitRecord"
+      ],
+      "possible_values": [
+        "New Prospero - VisitRecord"
+      ],
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "activity_type",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 4,
+      "description": "Activity type classification (offline/online). Categorizes visit activity method.",
+      "business_context": "Required field - always populated",
+      "semantic_source": "sql_definition + possible_values",
+      "example_values": [
+        "offline",
+        "offline",
+        "offline"
+      ],
+      "possible_values": [
+        "offline",
+        "online"
+      ],
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "created_at",
+      "data_type": "TIMESTAMP",
+      "is_nullable": "YES",
+      "ordinal_position": 5,
+      "description": "Timestamp when record was created. Indicates when visit entry was first recorded.",
+      "business_context": "Required field - always populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "2026-05-11T16:57:08.877000+00:00",
+        "2026-05-11T15:56:52.800000+00:00",
+        "2026-05-11T15:46:33.354000+00:00"
+      ],
+      "possible_values": null,
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "submitted_at",
+      "data_type": "TIMESTAMP",
+      "is_nullable": "YES",
+      "ordinal_position": 6,
+      "description": "Submitted at timestamp. When visit form was submitted for processing.",
+      "business_context": "Common field - frequently populated (>50%)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "2026-05-11T16:59:01.140000+00:00",
+        "2026-05-11T16:19:56.273000+00:00",
+        "2026-05-11T15:51:50.310000+00:00"
+      ],
+      "possible_values": null,
+      "null_percentage": 13.48
+    },
+    {
+      "column_name": "visit_date",
+      "data_type": "TIMESTAMP",
+      "is_nullable": "YES",
+      "ordinal_position": 7,
+      "description": "Visit date timestamp. Date when retail visit was conducted.",
+      "business_context": "Required field - always populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "2026-05-11T16:57:08.877000+00:00",
+        "2026-05-11T15:56:52.800000+00:00",
+        "2026-05-11T15:46:33.354000+00:00"
+      ],
+      "possible_values": null,
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "supreme_date",
+      "data_type": "TIMESTAMP",
+      "is_nullable": "YES",
+      "ordinal_position": 8,
+      "description": "Supreme date timestamp. Latest event date in visit record history.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "sales_agent_id",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 9,
+      "description": "Sales agent unique identifier. UUID of field sales agent.",
+      "business_context": "Required field - always populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "9f328fe9-6f44-429c-89c9-16c9ab1f756d",
+        "9f328fe9-6f44-429c-89c9-16c9ab1f756d",
+        "9f328fe9-6f44-429c-89c9-16c9ab1f756d"
+      ],
+      "possible_values": [
+        "08a556ce-e321-4967-9f15-1118ff3fb1c6",
+        "31b65a9c-5967-4829-8b44-7d57c73d0f1e",
+        "5a9613e6-2ad5-4fb6-bc91-4e8ece870e08",
+        "78549770-487c-4571-9fed-1d7c8a917729",
+        "9f328fe9-6f44-429c-89c9-16c9ab1f756d",
+        "a2c858e6-9c92-48b7-8587-254280aad557",
+        "b49eba06-9f38-4f0a-9303-c8f7533e09a3",
+        "e83b8658-1a47-4058-949c-58bf4c0e3cd4",
+        "f0203f60-0c96-4740-9cb0-13cb27b72531",
+        "f0a2cc48-e082-4c12-9cfb-d7a69ef20ba2",
+        "f1c9b2c5-83eb-4563-89b9-b4d385b44cf4"
+      ],
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "sales_name",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 10,
+      "description": "Sales agent name. Full name of field sales representative.",
+      "business_context": "Required field - always populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "Ma Theresa Cupcupin",
+        "Ma Theresa Cupcupin",
+        "Ma Theresa Cupcupin"
+      ],
+      "possible_values": [
+        "Angelica Hernale",
+        "Christian Lambino",
+        "Jerome Malquitar",
+        "Jonas Ivan Landig Limpin",
+        "Lilibeth Servano Arpon",
+        "Ma Theresa Cupcupin",
+        "Maki Cabije",
+        "Michael Valeriano",
+        "Richard Que",
+        "Romio Valeriano",
+        "ar-jay cruz samonte"
+      ],
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "sales_email_bw",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 11,
+      "description": "Sales email address. Email contact for sales agent.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "role_type",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 12,
+      "description": "Role type classification. Job role or function type.",
+      "business_context": "Required field - always populated",
+      "semantic_source": "value_format + possible_values",
+      "example_values": [
+        "RSE",
+        "RSE",
+        "RSE"
+      ],
+      "possible_values": [
+        "HORS",
+        "RSE",
+        "TL_RSE"
+      ],
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "sales_contry_code",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 13,
+      "description": "Sales country code. Country code for sales region.",
+      "business_context": "Core field - rarely empty (>90% populated)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "PH",
+        "PH",
+        "PH"
+      ],
+      "possible_values": [
+        "PH"
+      ],
+      "null_percentage": 0.77
+    },
+    {
+      "column_name": "area",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 14,
+      "description": "Geographic area or region. Area classification for location segmentation.",
+      "business_context": "Core field - rarely empty (>90% populated)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "MTR_MANILA",
+        "MTR_MANILA",
+        "MTR_MANILA"
+      ],
+      "possible_values": [
+        "MTR_MANILA"
+      ],
+      "null_percentage": 0.77
+    },
+    {
+      "column_name": "current_mse_lead",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 15,
+      "description": "Current MSE (Merchant Service Executive) assigned. Current field officer assignment.",
+      "business_context": "Required field - always populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "Team Richard",
+        "Team Richard",
+        "Team Richard"
+      ],
+      "possible_values": [
+        "Retail Basic PH",
+        "Team Richard"
+      ],
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "start_journey_pht",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 16
+    },
+    {
+      "column_name": "end_journey_pht",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 17
+    },
+    {
+      "column_name": "start_journey_pht_hour",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 18
+    },
+    {
+      "column_name": "end_journey_pht_hour",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 19
+    },
+    {
+      "column_name": "phone_number",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 20,
+      "description": "Contact phone number. Merchant or contact person phone for communication.",
+      "business_context": "Common field - frequently populated (>50%)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "639154520688",
+        "639611978133",
+        "639626027214"
+      ],
+      "possible_values": null,
+      "null_percentage": 13.48
+    },
+    {
+      "column_name": "business_name",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 21,
+      "description": "Business or merchant name. Name of visited merchant location.",
+      "business_context": "Common field - frequently populated (>50%)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "Le Francis store",
+        "Rhooeys beverage shop ",
+        "Rham Rham Budbod"
+      ],
+      "possible_values": null,
+      "null_percentage": 13.48
+    },
+    {
+      "column_name": "profile_owner_name",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 22,
+      "description": "Owner name from merchant profile. Owner of merchant business.",
+      "business_context": "Common field - frequently populated (>50%)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "Melchor",
+        "Maricel ",
+        "Erica Joy Ignacio"
+      ],
+      "possible_values": null,
+      "null_percentage": 13.48
+    },
+    {
+      "column_name": "merchant_business_name",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 23
+    },
+    {
+      "column_name": "kyc_tier",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 24,
+      "description": "KYC (Know Your Customer) tier classification. Merchant verification level.",
+      "business_context": "Required field - always populated",
+      "semantic_source": "value_format + possible_values",
+      "example_values": [
+        "(b) Haven't Supreme before visited",
+        "(b) Haven't Supreme before visited",
+        "(b) Haven't Supreme before visited"
+      ],
+      "possible_values": [
+        "(b) Haven't Supreme before visited"
+      ],
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "is_new_merchant",
+      "data_type": "BOOL",
+      "is_nullable": "YES",
+      "ordinal_position": 25,
+      "description": "New merchant flag. Indicator if visited merchant is newly acquired.",
+      "business_context": "Required field - always populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "True",
+        "True",
+        "True"
+      ],
+      "possible_values": [
+        "True"
+      ],
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "merchant_coordinates",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 26,
+      "description": "Merchant location coordinates. Geographic coordinates of visit location.",
+      "business_context": "Required field - always populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "14.6060407,120.9900952",
+        "14.6072015,120.9876955",
+        "14.607118119103854,120.98770560465896"
+      ],
+      "possible_values": null,
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "regency",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 27,
+      "description": "Regency location classification. Administrative regency of merchant.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "district",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 28,
+      "description": "District location classification. Geographic district of visited merchant.",
+      "business_context": "Required field - always populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "",
+        "",
+        ""
+      ],
+      "possible_values": null,
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "retail_province",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 29,
+      "description": "Retail location province. Province of retail merchant location.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "retail_postal_code",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 30,
+      "description": "Retail location postal code. Zip/postal code of retail location.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "retail_district",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 31,
+      "description": "Retail location district. District of retail merchant location.",
+      "business_context": "Common field - frequently populated (>50%)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "Barangay 397",
+        "Barangay 467",
+        "Barangay 467"
+      ],
+      "possible_values": null,
+      "null_percentage": 13.48
+    },
+    {
+      "column_name": "retail_street_name",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 32,
+      "description": "Retail street name. Street address of retail location.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "retail_business_location",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 33,
+      "description": "Retail business location type. Type of location setup (mall, street, etc).",
+      "business_context": "Common field - frequently populated (>50%)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "street",
+        "food_park",
+        "food_park"
+      ],
+      "possible_values": [
+        "food_court",
+        "food_park",
+        "street",
+        "wet_market"
+      ],
+      "null_percentage": 13.48
+    },
+    {
+      "column_name": "business_type",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 34,
+      "description": "Business type classification. Category of merchant business (retail, etc).",
+      "business_context": "Required field - always populated",
+      "semantic_source": "value_format + possible_values",
+      "example_values": [
+        "Others",
+        "Others",
+        "Others"
+      ],
+      "possible_values": [
+        "Others"
+      ],
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "retail_store_type",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 35,
+      "description": "Retail store type classification. Type of retail store setup.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + possible_values",
+      "example_values": [],
+      "possible_values": [],
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "retail_business_industry",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 36,
+      "description": "Retail business industry type. Industry sector of retail merchant.",
+      "business_context": "Common field - frequently populated (>50%)",
+      "semantic_source": "value_format + possible_values",
+      "example_values": [
+        "fmcg",
+        "fnb",
+        "fnb"
+      ],
+      "possible_values": [
+        "fmcg",
+        "fnb",
+        "fresh_market",
+        "others",
+        "phone_shops",
+        "sari_sari_store",
+        "services"
+      ],
+      "null_percentage": 13.48
+    },
+    {
+      "column_name": "retail_number_of_branches",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 37,
+      "description": "Number of retail branches. Count of merchant business branches.",
+      "business_context": "Common field - frequently populated (>50%)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "1-2",
+        "1-2",
+        "1-2"
+      ],
+      "possible_values": [
+        "0",
+        "1-2",
+        "10+",
+        "3-5",
+        "5-10"
+      ],
+      "null_percentage": 13.48
+    },
+    {
+      "column_name": "retail_total_employee",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 38,
+      "description": "Retail total employee count. Number of employees in retail.",
+      "business_context": "Common field - frequently populated (>50%)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "1-2",
+        "1-2",
+        "1-2"
+      ],
+      "possible_values": [
+        "0",
+        "1-2",
+        "10+",
+        "3-5",
+        "5-10"
+      ],
+      "null_percentage": 13.48
+    },
+    {
+      "column_name": "retail_daily_customers",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 39,
+      "description": "Daily customer count estimate. Number of customers served daily.",
+      "business_context": "Common field - frequently populated (>50%)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "1-10",
+        "1-10",
+        "1-10"
+      ],
+      "possible_values": [
+        "1-10",
+        "100+",
+        "11-30",
+        "31-50",
+        "50-100"
+      ],
+      "null_percentage": 34.56
+    },
+    {
+      "column_name": "retail_daily_omset",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 40,
+      "description": "Daily omset (revenue) estimate. Estimated daily revenue of retail.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "has_pitched",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 41,
+      "description": "Has pitched indicator flag. Pitched indicates whether product pitch was given.",
+      "business_context": "Required field - always populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ],
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "selfie_url",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 42,
+      "description": "Selfie image URL. Photo evidence URL from field visit.",
+      "business_context": "Core field - rarely empty (>90% populated)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "https://buku-crm.s3.ap-southeast-3.amazonaws.com/sales-agents/selfies/9f328fe9-6f44-429c-89c9-16c9ab1f756d/1778493539669_selfie_7807e841-fb63-4c90-9fa6-58499308f848_1778493537761_205.jpg",
+        "https://buku-crm.s3.ap-southeast-3.amazonaws.com/sales-agents/selfies/9f328fe9-6f44-429c-89c9-16c9ab1f756d/1778491188588_selfie_5fa15010-c65e-40cf-b699-2019a67965bb_1778491185901_685.jpg",
+        "https://buku-crm.s3.ap-southeast-3.amazonaws.com/sales-agents/selfies/9f328fe9-6f44-429c-89c9-16c9ab1f756d/1778489506343_selfie_b2c34b21-02a6-4938-90ce-edfa8d1f1c7f_1778489504465_398.jpg"
+      ],
+      "possible_values": null,
+      "null_percentage": 1.03
+    },
+    {
+      "column_name": "is_anomaly",
+      "data_type": "BOOL",
+      "is_nullable": "YES",
+      "ordinal_position": 43,
+      "description": "Anomaly detection flag. Indicator if visit contains data inconsistencies.",
+      "business_context": "Required field - always populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "False",
+        "False",
+        "False"
+      ],
+      "possible_values": [
+        "False",
+        "True"
+      ],
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "anomaly_reason",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 44,
+      "description": "Reason for detected anomaly. Explanation of visit inconsistency or issue.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + possible_values",
+      "example_values": [
+        "other",
+        "other",
+        "store_closed"
+      ],
+      "possible_values": [
+        "other",
+        "owner_absent",
+        "refused",
+        "store_closed"
+      ],
+      "null_percentage": 86.52
+    },
+    {
+      "column_name": "anomaly_note",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 45,
+      "description": "Anomaly note or comment. Text field documenting any visit anomalies detected.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "The staff said I should come back tomorrow morning to offer the product to the owner.",
+        "Technical\nissue",
+        "Cash only"
+      ],
+      "possible_values": null,
+      "null_percentage": 93.23
+    },
+    {
+      "column_name": "anomaly_note_clean",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 46,
+      "description": "Cleaned/processed anomaly note. Standardized anomaly notes for analysis.",
+      "business_context": "Required field - always populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "Other",
+        "Other",
+        "Other"
+      ],
+      "possible_values": [
+        "Cash Only Preference",
+        "MDR Rate Concern",
+        "Not Interested",
+        "Other",
+        "Owner Busy or Unavailable",
+        "Refused to Share Info",
+        "Store Closing Soon",
+        "Testing / Trial"
+      ],
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "ots_order_id",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 47,
+      "description": "OTS (Order Tracking System) order ID. Third-party system order reference.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "ots_serial_number",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 48,
+      "description": "OTS serial number. Unique device serial in order tracking system.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "edc_interested",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 49,
+      "description": "EDC machine interest indicator. Flag for merchant interest in EDC products.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "edc_rejection_reason",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 50,
+      "description": "Reason for EDC product rejection. Explanation if merchant declined EDC.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + possible_values",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "edc_prospect",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 51,
+      "description": "EDC prospect status. Indicator of EDC sales opportunity potential.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [],
+      "possible_values": [],
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "retail_edc_ownership",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 52,
+      "description": "Retail EDC machine ownership status. Current EDC ownership indicator.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + possible_values",
+      "example_values": [],
+      "possible_values": [],
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "retail_edc_ownership_flag",
+      "data_type": "BOOL",
+      "is_nullable": "YES",
+      "ordinal_position": 53,
+      "description": "Retail EDC ownership flag. Binary indicator of EDC possession.",
+      "business_context": "Common field - frequently populated (>50%)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "False",
+        "False",
+        "False"
+      ],
+      "possible_values": [
+        "False"
+      ],
+      "null_percentage": 22.31
+    },
+    {
+      "column_name": "loan_interested",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 54,
+      "description": "Loan product interest flag. Indicator of merchant interest in loan products.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "loan_rejection_reason",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 55,
+      "description": "Reason for loan product rejection. Explanation if merchant declined loan.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + possible_values",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "loan_prospect",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 56,
+      "description": "Loan sales opportunity indicator. Prospect status for loan products.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [],
+      "possible_values": [],
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "retail_interested_loan",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 57,
+      "description": "Retail merchant loan interest. Interest level in loan products.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "retail_loan_ownership",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 58,
+      "description": "Retail loan ownership status. Current loan product ownership.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + possible_values",
+      "example_values": [],
+      "possible_values": [],
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "retail_loan_ownership_bo",
+      "data_type": "BOOL",
+      "is_nullable": "YES",
+      "ordinal_position": 59,
+      "description": "Retail loan ownership BO status. Beneficial owner loan status.",
+      "business_context": "Common field - frequently populated (>50%)",
+      "semantic_source": "value_format + possible_values",
+      "example_values": [
+        "False",
+        "False",
+        "False"
+      ],
+      "possible_values": [
+        "False",
+        "True"
+      ],
+      "null_percentage": 22.57
+    },
+    {
+      "column_name": "retail_loan_name",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 60,
+      "description": "Retail loan product name. Name of loan product offered to retail.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "retail_loan_source",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 61,
+      "description": "Retail loan source identifier. Source or provider of retail loan.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + possible_values",
+      "example_values": [
+        "GCash ",
+        "G-Loan",
+        "Lending corporation "
+      ],
+      "possible_values": [
+        "BPI",
+        "Bank loan",
+        "COOF",
+        "Cooperative",
+        "G-Loan",
+        "GCash ",
+        "Ggives by gcash loan",
+        "Lending corporation ",
+        "Market lending corp",
+        "Palawan lending "
+      ],
+      "null_percentage": 99.29
+    },
+    {
+      "column_name": "retail_loan_amount",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 62,
+      "description": "Retail loan amount. Current or requested loan amount for retail.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "4000",
+        "5000",
+        "5000"
+      ],
+      "possible_values": [
+        "10000",
+        "20000",
+        "30000",
+        "4000",
+        "5000"
+      ],
+      "null_percentage": 99.29
+    },
+    {
+      "column_name": "retail_owned_loan_limit",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 63,
+      "description": "Retail owned loan limit. Current loan limit amount for retail.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "retail_desired_loan_limit",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 64,
+      "description": "Desired loan limit amount. Merchant requested loan amount.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "retail_qris_ownership",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 65,
+      "description": "Retail QRIS payment ownership. QRIS payment method ownership status.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + possible_values",
+      "example_values": [],
+      "possible_values": [],
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "retail_pos_ownership",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 66,
+      "description": "Retail POS machine ownership. Current POS system ownership status.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + possible_values",
+      "example_values": [],
+      "possible_values": [],
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "retail_pos_ownership_bo",
+      "data_type": "BOOL",
+      "is_nullable": "YES",
+      "ordinal_position": 67,
+      "description": "Retail POS ownership BO status. Beneficial owner POS status.",
+      "business_context": "Common field - frequently populated (>50%)",
+      "semantic_source": "value_format + possible_values",
+      "example_values": [
+        "False",
+        "False",
+        "False"
+      ],
+      "possible_values": [
+        "False",
+        "True"
+      ],
+      "null_percentage": 22.31
+    },
+    {
+      "column_name": "retail_notes",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 68,
+      "description": "Retail visit notes. Detailed notes from retail visit interaction.",
+      "business_context": "Common field - frequently populated (>50%)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "Done deal free device",
+        "Done deal",
+        "Done deal"
+      ],
+      "possible_values": null,
+      "null_percentage": 22.11
+    },
+    {
+      "column_name": "msl_name",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 69,
+      "description": "MSL (Merchant Support Lead) assigned name. Support lead responsibility.",
+      "business_context": "Common field - frequently populated (>50%)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "Jonas Ivan Landig Limpin",
+        "Jonas Ivan Landig Limpin",
+        "Jonas Ivan Landig Limpin"
+      ],
+      "possible_values": [
+        "Jonas Ivan Landig Limpin"
+      ],
+      "null_percentage": 17.21
+    },
+    {
+      "column_name": "hoa_name",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 70,
+      "description": "HOA (Head of Area) assigned name. Area manager responsible for territory.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "hor_name",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 71,
+      "description": "HOR (Head of Region) assigned name. Regional manager responsibility.",
+      "business_context": "Common field - frequently populated (>50%)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "Maki Cabije",
+        "Maki Cabije",
+        "Maki Cabije"
+      ],
+      "possible_values": [
+        "Maki Cabije"
+      ],
+      "null_percentage": 16.44
+    },
+    {
+      "column_name": "order_flow",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 72,
+      "description": "Order or sales flow classification. Type of sales process followed.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + possible_values",
+      "example_values": [
+        "PO",
+        "PO",
+        "PO"
+      ],
+      "possible_values": [
+        "PO"
+      ],
+      "null_percentage": 93.87
+    },
+    {
+      "column_name": "is_verified",
+      "data_type": "BOOL",
+      "is_nullable": "YES",
+      "ordinal_position": 73,
+      "description": "Verification status flag. Indicator if visit data has been verified.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "True",
+        "True",
+        "True"
+      ],
+      "possible_values": [
+        "True"
+      ],
+      "null_percentage": 93.87
+    },
+    {
+      "column_name": "product_type",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 74,
+      "description": "Product type classification. Category of products discussed or offered.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + possible_values",
+      "example_values": [
+        "sound_box",
+        "sound_box",
+        "sound_box"
+      ],
+      "possible_values": [
+        "sound_box"
+      ],
+      "null_percentage": 93.87
+    },
+    {
+      "column_name": "transaction_id",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 75,
+      "description": "Transaction identifier. Unique ID for associated transaction.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "order_id",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 76,
+      "description": "Unique order identifier. Links to specific order or transaction record.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "5fa69927-5e8e-426d-89dc-edd6ab282940",
+        "eb2b994d-8d79-4e60-9d76-cf3c1b22b021",
+        "67f0f94f-5eb0-44e0-8329-6facaf4f2ff0"
+      ],
+      "possible_values": null,
+      "null_percentage": 93.87
+    },
+    {
+      "column_name": "serial_number",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 77,
+      "description": "Device serial number. Unique hardware device identifier.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "vendor",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 78,
+      "description": "Vendor identifier or name. Third-party vendor information.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + possible_values",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "retail_lead_stage",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 79
+    },
+    {
+      "column_name": "retail_lead_sub_option",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 80
+    },
+    {
+      "column_name": "retail_visit_type",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 81
+    },
+    {
+      "column_name": "retail_met_with_pic",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 82
+    },
+    {
+      "column_name": "pitching_start_pht",
+      "data_type": "TIMESTAMP",
+      "is_nullable": "YES",
+      "ordinal_position": 83
+    },
+    {
+      "column_name": "pitching_end_pht",
+      "data_type": "TIMESTAMP",
+      "is_nullable": "YES",
+      "ordinal_position": 84
+    },
+    {
+      "column_name": "pitching_is_submitted",
+      "data_type": "BOOL",
+      "is_nullable": "YES",
+      "ordinal_position": 85
+    },
+    {
+      "column_name": "merchant_longitude",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 86
+    },
+    {
+      "column_name": "merchant_latitude",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 87
+    },
+    {
+      "column_name": "merchant_address",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 88
+    },
+    {
+      "column_name": "area_id",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 89
+    },
+    {
+      "column_name": "merchant_area",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 90
+    },
+    {
+      "column_name": "region_id",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 91
+    },
+    {
+      "column_name": "merchant_region",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 92
+    },
+    {
+      "column_name": "duration_seconds",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 93
+    }
+  ],
+  "has_semantic_docs": true
 }

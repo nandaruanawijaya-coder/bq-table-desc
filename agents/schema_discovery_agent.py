@@ -28,6 +28,7 @@ class SchemaDiscoveryAgent:
         self.output_dir = Path("schema_knowledge")
         self.output_dir.mkdir(exist_ok=True)
         self.table_list_path = Path("table_list.md")
+        self.column_doc_dir = Path("table_column_description")
 
     def get_tables_from_list(self) -> Dict[str, Tuple[str, str, str]]:
         """Parse table_list.md to get all documented tables."""
@@ -158,6 +159,45 @@ class SchemaDiscoveryAgent:
             print(f"⚠️  Could not get metadata for {table_id}: {e}")
             return {}
 
+    def load_column_descriptions(self, table_id: str) -> Optional[Dict]:
+        """Load existing column descriptions from table_column_description."""
+        doc_file = self.column_doc_dir / f"{table_id}_doc.json"
+        if not doc_file.exists():
+            return None
+
+        try:
+            with open(doc_file) as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"⚠️  Could not load column descriptions for {table_id}: {e}")
+            return None
+
+    def merge_column_descriptions(self, columns: List[Dict], col_docs: Optional[Dict]) -> List[Dict]:
+        """Merge semantic descriptions into schema columns."""
+        if not col_docs or "columns" not in col_docs:
+            return columns
+
+        # Create lookup map for descriptions
+        desc_map = {col["column_name"]: col for col in col_docs["columns"]}
+
+        # Merge descriptions into columns
+        enriched = []
+        for col in columns:
+            col_name = col["column_name"]
+            if col_name in desc_map:
+                desc_col = desc_map[col_name]
+                col.update({
+                    "description": desc_col.get("description"),
+                    "business_context": desc_col.get("business_context"),
+                    "semantic_source": desc_col.get("semantic_source"),
+                    "example_values": desc_col.get("example_values"),
+                    "possible_values": desc_col.get("possible_values"),
+                    "null_percentage": desc_col.get("null_percentage")
+                })
+            enriched.append(col)
+
+        return enriched
+
     def discover_table(self, dataset_id: str, table_id: str, full_table_id: str) -> Dict:
         """Discover complete schema and metadata for a single table."""
         print(f"📊 Discovering: {full_table_id}")
@@ -167,6 +207,10 @@ class SchemaDiscoveryAgent:
 
         # Get columns
         columns = self.get_table_schema(dataset_id, table_id)
+
+        # Load and merge column descriptions (semantic documentation)
+        col_docs = self.load_column_descriptions(table_id)
+        columns = self.merge_column_descriptions(columns, col_docs)
 
         # Get CREATE query
         create_query = self.get_create_query(dataset_id, table_id)
@@ -185,7 +229,8 @@ class SchemaDiscoveryAgent:
             "creation_query": create_query,
             "transformation_type": transformation,
             "column_count": len(columns),
-            "columns": columns
+            "columns": columns,
+            "has_semantic_docs": col_docs is not None
         }
 
     def discover_all(self) -> Dict[str, Dict]:

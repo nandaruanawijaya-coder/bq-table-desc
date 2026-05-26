@@ -2,20 +2,689 @@
   "full_table_id": "ledger-fcc1e.db_accounting.prod_edc_order",
   "dataset": "db_accounting",
   "table_name": "prod_edc_order",
-  "discovered_at": "2026-05-26T10:46:14.187265",
-  "metadata": {},
-  "table_type": "UNKNOWN",
+  "discovered_at": "2026-05-26T10:51:01.433336",
+  "metadata": {
+    "table_name": "prod_edc_order",
+    "table_type": "TABLE",
+    "creation_time": "2024-05-17 12:20:27.898000+00:00",
+    "modified_time": "2026-05-26 03:42:15.015000+00:00",
+    "description": "",
+    "column_count": 36
+  },
+  "table_type": "TABLE",
   "is_derived": false,
   "creation_query": {
     "creation_time": "2026-05-05 09:21:01.785000+00:00",
     "statement_type": "CREATE_TABLE_AS_SELECT",
-    "query": "\n-- Version Control\n-- (2024-09-09) - (Erald) adding clean_data.clean_version AS agent_name, in the order_date CTE for getting MS name clean version\n-- (2024-09-24) - V1.0: (Hasna) adding EZA data\n-- (2024-10-01) - V1.1: (Hasna) adding Tiktok Shop data\n-- (2024-10-04) - V1.2: (Hasna) Exclude tiktok shop data price 0 (sample for marketing), adding tfcode \"STF\" as order form MSE (big merchant)\n-- (2024-10-07) - V1.3: (Erald) Added mse_flag by adding mse_name_from_ms_static CTE\n-- (2024-10-23) - V1.4: (Hasna) Added Rental to Purcahase data\n-- (2025-01-13) - V1.5 : (Hasna) Added rejected and big merchant data\n-- (2025-01-22) - V1.6 : (Erald) added new SKU in nama_produk and edc_type column for 'EDC_MOREFUN_BUNDLE_INSURANCE' and 'EDC_MOREFUN_INSURANCE'\n-- (2025-01-24) - V1.7 : (Erald) changed \"gsheet_ssot_documentation\" to \"gdocs_ssot_documentation\", removed the GSheet and put the document\n-- (2025-02-21)- v1.8: (Hasna) Add column related to OTS\n-- (2025-06-26) - v1.9 : (Amalia) Change logic to define OTS in edc new ops flow\n-- (2025-07-28) - v1.10 : (Amalia) change subquery ots from visit_ssot_opentable to visit_ssot\n-- (2025-08-12) - v1.11 : (Amalia) fix payment metadata date type\n-- (2025-10-14) - v1.12 : (Amalia) change field name based on edc_order_delivery\n-- (2026-01-05) - v1.13 : (Amalia) added order platform (old data, apps, website)\n\n# DOCUMENTATION\n# https://docs.google.com/spreadsheets/d/1BhibNbDor68toaQN5KE73KHxUGwuRknlxeIr-qhkpOc/edit?gid=1652564871#gid=1652564871\n# https://docs.google.com/document/d/1mjYH4iYlHoAP6AjQWXD_dANndxzSO3rsrfb7c9SY_4o/edit?usp=sharing\n\nCREATE OR REPLACE TABLE `ledger-fcc1e.trb_pymnt_temp.edc_purchase_data` \n-- (\n--   -- Order / event times\n--   order_date                    DATE     OPTIONS(description=\"Timestamp when user created the payment link\"),\n--   payment_date                  DATE     OPTIONS(description=\"Date when user paid the order\"),\n\n--   -- Order identifiers\n--   order_id                     STRING    OPTIONS(description=\"Original order ID (kept as STRING to preserve any non-numeric/long IDs)\"),\n--   no_order_2                   STRING    OPTIONS(description=\"Invoice number (STRING)\"),\n--   children_orderid             STRING    OPTIONS(description=\"Unique child order id (primary key). If an original order has multiple machines, each child has its own id)\"),\n--   bw_user_id                   STRING    OPTIONS(description=\"User ID or phone number used by merchants\"),\n\n--   -- Product / price / quantity\n--   nama_produk                  STRING    OPTIONS(description=\"Product name on cart at checkout\"),\n--   product_name_standardize     STRING    OPTIONS(description=\"Standardized product/brand name\"),\n--   edc_type                     STRING    OPTIONS(description=\"EDC type (e.g., EDC Android, EDC Saku, Bundle, Refurbished)\"),\n--   total_barang                 INT64     OPTIONS(description=\"Total quantity of machines in the order\"),\n--   harga_produk                 STRING     OPTIONS(description=\"Price of EDC machine in smallest currency unit (IDR) as integer\"),\n\n--   -- -- Order status & workflow\n--   order_status                 STRING    OPTIONS(description=\"Status of order:- Waiting for doc: users need complete the document like KYC/KYB/Bank account- Waiting for ops: users already complete the document, waiting for ops team to assign serial number and tid- Completed: users already assign to serial number and tid, machine will be dispatch - Rejected: users cannot complete the documents within 15 days after paid date\"),\n--   final_action                 STRING    OPTIONS(description=\"Final action/decision for the order (e.g., COMPLETED, REJECTED)\"),\n--   final_action_date            STRING    OPTIONS(description=\"Timestamp when final action was applied\"),\n--   reject_reason                STRING    OPTIONS(description=\"Rejection reason if order_status = 'Rejected'\"),\n\n--   -- -- Channel / agent / source\n--   channel                      STRING    OPTIONS(description=\"Channel where users paid (e.g., MSE, Other Channels, MSE-Big Agent)\"),\n--   subchannel                   STRING    OPTIONS(description=\"Subchannel when user paid (e.g., Organic, Ambassador, MRO)\"),\n--   tfcode                       STRING    OPTIONS(description=\"TF code entered at checkout\"),\n--   agent_name                   STRING    OPTIONS(description=\"Agent name based on tfcode\"),\n--   flag_sheet                   STRING    OPTIONS(description=\"Source of data (e.g., EDC Order Data, Verifikasi Order, EDC New Ops)\"),\n--   mvt_checking                 STRING    OPTIONS(description=\"status of MVT team checking, this is only from old source\"),\n\n--   -- -- Verification / flags (normalized to BOOL)\n--   kyc_flag                     INT64     OPTIONS(description=\"Whether the users done kyc or not. if 1= yes, 0= no\"),\n--   kyb_flag                     INT64      OPTIONS(description=\"Whether the users done kyb or not. if 1= yes, 0= no\"),\n--   bank_account_flag            INT64      OPTIONS(description=\"Whether the users done add bank account information or not. if 1= yes, 0= no\"),\n--   mse_flag                     INT64      OPTIONS(description=\"Flag indicating MSE association (TRUE/FALSE)\"),\n--   ots_flag                     STRING     OPTIONS(description=\"OTS-related flag (TRUE/FALSE)\"),\n\n--   -- -- Status timestamps (standardized to TIMESTAMP)\n--   waiting_for_additional_doc_at STRING OPTIONS(description=\"Timestamp when status changed to waiting for additional documents\"),\n--   waiting_for_ops_at           STRING OPTIONS(description=\"Timestamp when status changed to waiting for ops\"),\n--   completed_at                 STRING OPTIONS(description=\"Timestamp when status changed to completed\"),\n\n--   -- -- Payment & bank details\n--   payment_status               STRING    OPTIONS(description=\"Payment status for the order (PAID, REFUNDED)\"),\n--   bank_account_name            STRING    OPTIONS(description=\"Bank account name provided by user for their BW account\"),\n--   bank_name                    STRING    OPTIONS(description=\"Bank name\"),\n--   bank_account_number          STRING    OPTIONS(description=\"Bank account number\"),\n\n--   -- -- Documentation reference\n--   gdocs_ssot_documentation     STRING    OPTIONS(description=\"Reference/link to Google Docs SSOT documentation\")\n-- )\n-- OPTIONS(\n--   description=\"EDC Purchase Data since Aug 2023: order details, channel, product type, verification flags, payment status, and process timestamps. Primary key = children_orderid.\",\n--   labels=[(\"domain\",\"retail\"),(\"owner\",\"data_team\"),(\"table\",\"edc_purchase_data\")]\n-- )\n\n(\n  -- Order / event times\n  order_date                          DATE     OPTIONS(description=\"The date the order or transaction was first initiated or recorded in the source system. This field's logic varies by the 'flag_sheet' source; for example, in 'EDC New Ops Flow' it represents the 'paymentlinkgeneratedtime'.\"),\n  payment_date                        DATE     OPTIONS(description=\"The date the customer's payment for the order was successfully completed. This is a key event timestamp used for tracking sales revenue and initiating the operational fulfillment process (KYC, KYB, shipping).\"),\n\n  -- Order identifiers\n  order_id                            STRING   OPTIONS(description=\"The parent order identifier from the source system (e.g., Blibli 'no_order', new ops 'order_id', TikTok 'parent_order_id'). This ID groups all items purchased in a single transaction. For a unique key per machine, use 'children_orderid'.\"),\n  no_order_2                          STRING   OPTIONS(description=\"A secondary identifier related to the order, often representing the invoice number (e.g., 'INV-PL-20250120154406483') or a source-specific transaction ID (e.g., '577317556875921084'). Its content and purpose vary depending on the 'flag_sheet' (data source).\"),\n  children_orderid                    STRING   OPTIONS(description=\"The **unique primary key** for this table, representing a single purchased machine. If a parent 'order_id' included multiple machines, this field is synthetically generated (e.g., 'ORDERID001', 'ORDERID002') to ensure one row per machine.\"),\n  bw_user_id                          STRING   OPTIONS(description=\"The unique BukuWarung User ID of the purchasing merchant, typically their registered phone number (e.g., '85270333427'). This ID links the transaction to the merchant's account.\"),\n\n  -- Product / price / quantity\n  nama_produk                         STRING   OPTIONS(description=\"The raw, original product name as it appeared in the source system (e.g., checkout cart, TikTok listing). This field is often unstandardized and descriptive (e.g., 'Mesin EDC Saku BukuAgen...'). For a cleaned version, use 'product_name_standardize'.\"),\n  product_name_standardize            STRING   OPTIONS(description=\"A cleaned, standardized category for the product brand or model. This field is derived using mapping logic (e.g., 'CASE' statements on 'nama_produk' or plan names) to group various raw product names into consistent categories. Examples: 'Pax', 'MoreFun', 'Verifone', 'MoreFun - Bundle'.\"),\n  edc_type                            STRING   OPTIONS(description=\"A standardized business category for the EDC hardware type. It is derived from the product or plan name and classifies items into groups like 'Saku' (pocket-sized), 'Android - New', 'Android - Refurbished', or bundles like 'Saku - Insurance Bundle'.\"),\n  total_barang                        INT64    OPTIONS(description=\"The quantity of machines represented by this specific row. As this table is normalized to the individual machine level (by 'children_orderid'), this value is **always 1**.\"),\n  harga_produk                        STRING   OPTIONS(description=\"The price of the single EDC machine (per-unit price) for this row, stored as a STRING (e.g., '649000', '1999000'). In cases of multi-quantity orders, this value is calculated by dividing the total amount by the number of units. Represents IDR amount.\"),\n\n  -- Order status & workflow\n  order_status                        STRING   OPTIONS(description=\"The standardized operational status of the order. This field tracks the order's progression through the fulfillment funnel. <br> \u2022 **Waiting_for_additional_doc**: User needs to complete documentation (KYC, KYB, bank account). <br> \u2022 **Waiting_for_ops**: User documents are complete; awaiting Ops team to assign serial number/TID. <br> \u2022 **Completed**: Machine is assigned and ready for dispatch. <br> \u2022 **Rejected**: User failed to complete documents within the required timeframe. <br> \u2022 **Cancelled**: Order was cancelled.\"),\n  final_action                        STRING   OPTIONS(description=\"The final, settled status of the order. This is often the same as 'order_status' but represents the definitive outcome (e.g., 'Completed', 'Rejected', 'Cancelled').\"),\n  final_action_date                   STRING   OPTIONS(description=\"The date (stored as a STRING) on which the 'final_action' (e.g., 'Completed', 'Rejected') was recorded for the order. This marks the end of the order's operational workflow.\"),\n  reject_reason                       STRING   OPTIONS(description=\"A free-text or semi-structured reason explaining why an order was put on hold ('Waiting_for_additional_doc') or set to 'Rejected'. Examples: 'User is not registered,Bank Account Not Submitted', 'NON_KYC,Bank Account Not Submitted'.\"),\n\n  -- Channel / agent / source\n  channel                             STRING   OPTIONS(description=\"The high-level acquisition channel through which the order was placed. This is derived from source data or 'tfcode' logic. <br> \u2022 **MSE**: Merchant Success Executive (sales-assisted). <br> \u2022 **MSE-Big Agent**: A specific tier of sales agent. <br> \u2022 **Other Channels**: Non-sales-assisted channels (e.g., organic, TikTok).\"),\n  subchannel                          STRING   OPTIONS(description=\"A more granular acquisition sub-channel providing a detailed breakdown of the 'channel' field. Examples: 'MS Channel' (for MSE), 'Organic', 'Live Streaming', 'TikTok Shop', 'Influencer', 'MRO'.\"),\n  tfcode                              STRING   OPTIONS(description=\"The raw tracking or referral code (e.g., agent code, campaign code) entered by the user during checkout (e.g., 'TFORGANIC', 'TIKTOKBW', 'TF04286'). This code is used to derive the 'channel', 'subchannel', and 'agent_name'.\"),\n  agent_name                          STRING   OPTIONS(description=\"The standardized name of the sales agent, influencer, or acquisition entity associated with the order (e.g., 'MROWINDA', 'agus', 'TFORGANIC'). This is derived by mapping the 'tfcode' or cleaning the raw agent name from the source system.\"),\n  flag_sheet                          STRING   OPTIONS(description=\"Indicates the original data source from which this row was loaded. This is critical for understanding which business process generated the record. Examples: 'EDC New Ops Flow' (modern system), 'Verifikasi Order' (old form), 'Tiktokshop Order Data', 'Master Sheet Rental'.\"),\n  mvt_checking                        STRING   OPTIONS(description=\"A legacy status field from older data sources ('Verifikasi Order', 'Tiktokshop Order Data') indicating the Merchant Verification Team's (MVT) check status (e.g., 'Verified', 'On hold'). This field is blank for modern sources like 'EDC New Ops Flow'.\"),\n\n  -- Verification / flags\n  kyc_flag                            INT64    OPTIONS(description=\"A flag (**1** = Yes, **0** = No) indicating if the merchant has successfully completed the 'Know Your Customer' (KYC) verification step. This is a critical step in the operational funnel.\"),\n  kyb_flag                            INT64    OPTIONS(description=\"A flag (**1** = Yes, **0** = No) indicating if the merchant has successfully completed the 'Know Your Business' (KYB) verification step. This is a critical step in the operational funnel.\"),\n  bank_account_flag                   INT64    OPTIONS(description=\"A flag (**1** = Yes, **0** = No) indicating if the merchant has successfully added their bank account information. This is a critical step in the operational funnel.\"),\n  mse_flag                            INT64    OPTIONS(description=\"A flag (**1** = Yes, **NULL/0** = No) indicating if the 'agent_name' for the order is recognized as an official Merchant Success Executive (MSE) based on an internal mapping table.\"),\n  ots_flag                            STRING   OPTIONS(description=\"A flag indicating if the order was an 'OTS' (On-The-Spot) activation, derived from a join with the 'ms_visit_ssot' table. Values are **'OTS'** or **'Non OTS'**.\"),\n\n  -- Status timestamps\n  waiting_for_additional_doc_at       STRING   OPTIONS(description=\"The date (stored as STRING) when the order status first changed to 'Waiting_for_additional_doc'. This marks the start of the period where the user needs to provide more information. Populated for 'EDC New Ops Flow' source.\"),\n  waiting_for_ops_at                  STRING   OPTIONS(description=\"The date (stored as STRING) when the order status first changed to 'Waiting_for_ops'. This marks the start of the operational team's fulfillment work (e.g., device assignment). Populated for 'EDC New Ops Flow' source.\"),\n  completed_at                        STRING   OPTIONS(description=\"The date (stored as STRING) when the order status first changed to 'Completed'. This is equivalent to the 'final_action_date' for completed orders. Populated for 'EDC New Ops Flow' source.\"),\n\n  -- Payment & bank details\n  payment_status                      STRING   OPTIONS(description=\"The financial status of the transaction. <br> \u2022 **PAID**: Payment was successful. <br> \u2022 **REFUNDED**: The payment was successfully refunded to the customer. <br> \u2022 **REFUNDING_FAILED**: An attempt to refund the payment failed.\"),\n  bank_account_name                   STRING   OPTIONS(description=\"The beneficiary name (in UPPERCASE) associated with the merchant's bank account, as provided during the verification process (e.g., 'SRI WAHYUNI'). This field is populated primarily from the 'EDC New Ops Flow' source.\"),\n  bank_name                           STRING   OPTIONS(description=\"The name of the merchant's bank (in UPPERCASE), as provided during the verification process. Examples: 'BRI', 'BCA', 'MANDIRI'. This field is populated primarily from the 'EDC New Ops Flow' source.\"),\n  bank_account_number                 STRING   OPTIONS(description=\"The merchant's bank account number, as provided during the verification process. This field is populated primarily from the 'EDC New Ops Flow' source.\"),\n  order_platform                      STRING OPTIONS(description= \"Order Platform source, start 24th Dec merchants no longer need to download the BukuAgen app to purchase BukuAgen EDC. Examples: 'Old ', 'old forms', 'TikTok Shop', 'EZA', 'Rental'\"),\n  -- Documentation reference\n  gdocs_ssot_documentation            STRING   OPTIONS(description=\"A static URL linking to the official Google Docs Single Source of Truth (SSOT) documentation that defines the logic and business rules for this table.\")\n)\nOPTIONS(\n  description=\"SSOT for all EDC machine purchase transactions since Aug 2023. Consolidates multiple sources (New Ops, old forms, TikTok, EZA, Rental) into one unified view. Keyed by 'children_orderid' (one row per machine). Tracks sales/fulfillment funnel, channel performance, and verification milestones (KYC/KYB).\",\n  labels=[(\"domain\",\"retail\"),(\"owner\",\"data_team\"),(\"table\",\"edc_purchase_data\")]\n)\n\nAS\n### EDC ORDER DATA FORM\nWITH order_data AS(\n  SELECT  DISTINCT\n    DATE(tanggal_order) AS input_time_data,\n    no_order,\n    no_order as no_order_2,\n    user_id_manual AS bw_user_id,\n    DATE(tanggal_order) AS tanggal_order,\n    nama_produk,\n    CAST(total_barang AS INT) AS total_barang,\n    harga_produk,\n    CASE WHEN order_status = \"Accept Order\" THEN \"Completed\" END AS order_status,\n    CASE WHEN final_action = \"Accept Order\" THEN \"Completed\" END AS final_action,\n    final_action_date,\n    reject_reason,\n    CASE WHEN channel = \"MSE\" THEN \"MSE\"\n      WHEN channel != \"MSE\" THEN \"Other Channels\"\n      END AS channel,\n    mvt_checking,\n    -- TRIM(LOWER(agent_name)) AS agent_name,\n    clean_data.clean_version AS agent_name,\n    \"\" AS tfcode,\n    CASE WHEN nama_produk LIKE \"EDC A920 Pro%\" THEN \"Pax\"\n      WHEN nama_produk LIKE \"%VeriFone%\" THEN \"Verifone\"\n      ELSE nama_produk\n      END AS product_name_standardize,\n    CASE WHEN nama_produk LIKE \"EDC A920 Pro%\" THEN \"Android - New\"\n      WHEN nama_produk LIKE \"%VeriFone%\" THEN \"Android - New\"\n      END AS edc_type,\n    \"EDC Order Data\" AS flag_sheet,\n    1 AS kyc_flag,\n    1 AS kyb_flag,\n    1 AS bank_account_flag,\n    \"\" AS waiting_for_additional_doc_at,\n    \"\" AS waiting_for_ops_at,\n    \"\" AS completed_at,\n    CASE WHEN channel = \"MSE\"THEN 'MS Channel'\n      WHEN channel != \"MSE\" THEN \"Others\"\n      END AS SubChannel,\n    \"PAID\" AS payment_status,\n    \"Non OTS\" AS ots_flag,\n    CAST(no_order AS STRING) AS children_orderid,\n    \"\" bank_account_name,\n    \"\" bank_name,\n    \"\" bank_account_number,\n    \"Old Manual Data\" order_platform\n\n  FROM `ledger-fcc1e.trb_pymnt_temp.edc_order_blibli_data_v2_static` AS blibli_data_v2\n  LEFT JOIN `ledger-fcc1e.trb_pymnts_derived.ms_name_cleaning_version` clean_data\n  ON TRIM(LOWER(blibli_data_v2.agent_name)) = clean_data.agent_name\n  --WHERE user_id_manual IS NOT NULL\n  WHERE final_action IN (\"Accept Order\",\"On Progress Cheking\")\n  AND note = \"New Order\"\n)\n\n\n\n### VERIFICATION FORM\n, verification_data AS(\n  SELECT  DISTINCT\n    DATE(FORMAT_TIMESTAMP('%Y-%m-%d', PARSE_TIMESTAMP('%m/%d/%Y %H:%M:%S', timestamp))) AS input_time_data,\n    CASE WHEN order_id IS NULL THEN invoice_number_doku\n      ELSE order_id \n      END AS no_order,\n    CASE WHEN order_id IS NULL THEN invoice_number_doku\n      ELSE order_id \n      END AS no_order_2,\n    uid_pembeli_bukuwarung AS bw_user_id,\n    DATE(paid_date) AS tanggal_order,\n    product_selected AS nama_produk,\n    1 AS total_barang, --this will cover by unique id/ children order id\n    CAST(total_pcs_confirmed AS INT) AS unique_id,\n    CAST(CAST(amount_doku AS INT)/ CAST(total_pcs_confirmed AS INT) AS STRING) AS harga_produk,\n    CASE WHEN final_order_status = \"Accept Order\" THEN \"Completed\" \n      WHEN final_order_status = \"On Hold Order\" THEN \"Waiting_for_additional_doc\"\n      END AS order_status,\n    CASE WHEN action_1 = \"Accept Order\" THEN \"Completed\" \n      WHEN action_1 = \"On Hold Order\" THEN \"Waiting_for_additional_doc\"\n      END AS final_action,\n    action_1_date as final_action_date,\n    reject_or_on_hold_reason AS reject_reason,\n    CASE WHEN acquisition_channel = \"MSE\" THEN \"MSE\"\n      ELSE \"Other Channels\"\n      END AS channel,\n    mvt_verification_status AS mvt_checking,\n    -- mse_name AS agent_name,\n    TRIM(LOWER(clean_data.clean_version)) AS agent_name,\n    \"\" as tfcode,\n    CASE WHEN product_selected LIKE \"%EDC PAX A920%\" THEN \"Pax\"\n      WHEN product_selected LIKE \"%VeriFone%\" THEN \"Verifone\"\n      WHEN product_selected LIKE \"%EDC Saku%\" THEN \"Tianyu\"\n      END AS product_name_standardize,\n    CASE WHEN product_selected LIKE \"%EDC PAX A920%\" THEN \"Android - New\"\n      WHEN product_selected LIKE \"%VeriFone%\" THEN \"Android - New\"\n      WHEN product_selected LIKE \"%EDC Saku%\" THEN \"Saku\"\n      END AS edc_type,\n    \"Verifikasi Order\" AS flag_sheet,\n    CASE WHEN action_1 = \"Accept Order\" THEN 1 \n      WHEN action_1 = \"On Hold Order\" AND LOWER(reject_or_on_hold_reason) NOT LIKE \"%kyc%\" THEN 1\n      ELSE 0 END AS kyc_flag,\n    CASE WHEN action_1 = \"Accept Order\" THEN 1 \n      WHEN action_1 = \"On Hold Order\" AND LOWER(reject_or_on_hold_reason) NOT LIKE \"%kyb%\" THEN 1\n      ELSE 0 END AS kyb_flag,\n    CASE WHEN action_1 = \"Accept Order\" THEN 1 \n      WHEN action_1 = \"On Hold Order\" AND LOWER(reject_or_on_hold_reason) NOT LIKE \"%bank account%\" AND LOWER(reject_or_on_hold_reason) NOT LIKE \"%form not%\" AND LOWER(reject_or_on_hold_reason) NOT LIKE \"%user id not%\" THEN 1\n      ELSE 0 END AS bank_account_flag,\n      \"\" AS waiting_for_additional_doc_at,\n      \"\" AS waiting_for_ops_at,\n      \"\" AS completed_at,\n    CASE WHEN acquisition_channel = \"MSE\"THEN 'MS Channel'\n      WHEN acquisition_channel != \"MSE\" THEN \"Others\"\n      END AS SubChannel,\n    \"PAID\" AS payment_status,\n    \"Non OTS\" AS ots_flag,\n    \"\" bankcode,\n    \"\" account_number,\n    \"\" beneficiary_name,\n    \"Old Manual Data\"  order_platform\n  -- FROM `ledger-fcc1e.trb_pymnt_temp.verifikasi_order_edc_bukuwarung` verifikasi\n  FROM `ledger-fcc1e.trb_pymnt_temp.verifikasi_order_edc_bukuwarung_static`  verifikasi\n  LEFT JOIN `ledger-fcc1e.trb_pymnts_derived.ms_name_cleaning_version` clean_data\n  ON TRIM(LOWER(verifikasi.mse_name)) = clean_data.agent_name\n  WHERE uid_pembeli_bukuwarung IS NOT NULL\n    AND product_selected IN (\"Pembelian - EDC PAX A920 Pro\", \"Pembelian - EDC Saku\")\n    AND inv_status_number = \"New Submission\"\n    AND payment_status_doku = \"SUCCESS\"\n    AND action_1 IN (\"Accept Order\", \"On Hold Order\")\n    AND uid_pembeli_bukuwarung =\"82276211002\"\n      \n)\n\n, verification_one_machine AS(\n  SELECT * EXCEPT(unique_id, order_platform), CAST(no_order AS STRING) AS children_orderid, order_platform\n  FROM verification_data\n  WHERE unique_id = 1\n)\n\n, verification_multiple_machine AS(\n  SELECT \n    verification_data.* EXCEPT(unique_id),\n    CAST(CONCAT(no_order, \"00\", CAST(offset AS STRING)) AS STRING) AS children_orderid,\n  FROM verification_data\n  CROSS JOIN UNNEST (GENERATE_ARRAY(1,unique_id)) AS offset\n  WHERE unique_id != 1\n)\n\n, verification_data_final AS(\n  SELECT * FROM verification_one_machine\n  UNION ALL\n  SELECT * FROM verification_multiple_machine\n)\n\n ,ots_visit AS(\n  SELECT * EXCEPT (rn)\n  FROM\n (SELECT\n    CASE\n    WHEN phoneNumber LIKE '62%' THEN SUBSTR(phoneNumber, 3)\n    WHEN phoneNumber LIKE '0%' THEN SUBSTR(phoneNumber, 2)\n    ELSE phoneNumber END phoneNumber,\n    ots_serial_number,\n    ots_order_id,\n    visitDate,\n    ROW_NUMBER () OVER (PARTITION BY ots_order_id) rn\n  FROM `merchant_success_analytics.ms_visit_ssot`\n  WHERE ots_order_id IS NOT NULL \n  AND ots_order_id <> \"\"\n ) WHERE rn=1\n)\n\n###  EDC NEW OPS FLOW\n, new_ops_flow_data AS(\n  SELECT * EXCEPT(rnk_)\n  FROM(\n  SELECT DISTINCT\n     DATE(TIMESTAMP_ADD(CAST(payment_metadata.paymentlinkgeneratedtime AS TIMESTAMP), INTERVAL 7 HOUR)) AS input_time_data,\n    edc_order.order_id AS no_order,\n    transaction_id as no_order_2,\n    user_id AS bw_user_id,\n    DATE(TIMESTAMP_ADD(CAST(\n      REPLACE(\n      REPLACE(payment_metadata.paidat, '{', ''),\n      '}',\n      ''\n       ) AS TIMESTAMP), INTERVAL 7 HOUR)) AS tanggal_order,\n    prod.name AS nama_produk,\n    1 AS total_barang,\n    CAST(payment_metadata.paymentamount AS STRING) AS harga_produk,\n    edc_order.status AS order_status,\n    edc_order.status AS final_action,\n    CAST(DATE(TIMESTAMP_ADD(CAST(edc_order.updated_at AS TIMESTAMP), INTERVAL 7 HOUR)) AS STRING) AS final_action_date,\n    \"\" AS reject_reason,\n    CASE \n        WHEN partnership.sn_list IS NOT NULL THEN \"Other Channels\"\n    WHEN metadata.tfcode LIKE 'STF%' THEN \"MSE-Big Agent\"\n\t    WHEN metadata.tfcode LIKE 'TF0%' OR metadata.tfcode LIKE 'STF%' OR metadata.tfcode LIKE 'XTF%' THEN 'MSE'\n      WHEN metadata.tfcode IS NULL THEN 'Other Channels'\n      WHEN metadata.tfcode LIKE \"JTI%\" THEN \"MSE\"\n\t    WHEN metadata.tfcode NOT LIKE 'TF0%' THEN 'Other Channels'\n    END as channel,\n    \"\" AS mvt_checking,\n    CASE \n      WHEN metadata.tfcode LIKE 'TF0%' OR metadata.tfcode LIKE 'STF%' THEN TRIM(LOWER(ms_data.name))\n      ELSE metadata.tfcode\n    END AS agent_name,\n    metadata.tfcode AS tfcode,\n    -- CASE WHEN payment_metadata.paymentamount = 749000 THEN \"Tianyu\"\n    --   WHEN payment_metadata.paymentamount = 3499000 THEN \"Pax\"\n    --   END  AS product_name_standardize,\n\n    -- CASE WHEN payment_metadata.paymentamount = 2499000 THEN \"Pax - Refurbished\"\n    --   ELSE prod.name \n    --   END AS product_name_standardize,\n    CASE \n    -- WHEN payment_metadata.paymentamount = 15000 THEN \"Android - Big Agent\"\n      WHEN edc_plan.name IN (\"EDC_MOREFUN\") THEN \"MoreFun\"\n      WHEN edc_plan.name IN (\"EDC_MOREFUN_BUNDLE\") THEN \"MoreFun - Bundle\"\n      WHEN edc_plan.name IN (\"EDC_TIYANU\") THEN \"Tianyu\"\n      WHEN edc_plan.name IN (\"EDC_PAX\") THEN \"Pax\"\n      WHEN edc_plan.name IN (\"EDC_PAX_REFURBISHED\") THEN \"Pax - Refurbished\"\n      WHEN edc_plan.name IN (\"EDC_VERIFONE\") THEN \"Verifone\"\n      WHEN edc_plan.name IN (\"EDC_VERIFONE_REFURBISHED\") THEN \"Verifone - Refurbished\"\n      WHEN edc_plan.name IN (\"EDC_MOREFUN_BUNDLE_INSURANCE\") THEN \"MoreFun - Bundle Insurance\"\n      WHEN edc_plan.name IN (\"EDC_MOREFUN_INSURANCE\") THEN \"MoreFun - Insurance Only\"\n      WHEN edc_plan.name IN (\"EDC_ANDROID_MOREFUN_PREORDER\",\"EDC_MOREFUN_ANDROID\") THEN \"MoreFun - Android\"\n      WHEN edc_plan.name IS NULL AND edc_order.metadata.tfcode = 'SHOPEE' THEN edc_order.metadata.devicemappingdetails. description\n      END AS product_name_standardize,\n    -- CASE WHEN prod.name IN (\"Pax\", \"Verifone\") THEN \"EDC Android\"\n    --   WHEN prod.name IN (\"Tianyu\", \"MoreFun\") THEN \"EDC Saku\"\n    --   WHEN payment_metadata.paymentamount = 2499000 THEN \"EDC Android - Refurbished\"\n    --   END AS edc_type,\n    -- CASE WHEN metadata.tfcode LIKE 'STF%' THEN \"Android - Big Agent\"\n    --   WHEN edc_plan.name IN (\"EDC_MOREFUN\",\"EDC_TIYANU\",\"Saku\") THEN \"EDC Saku\"\n    --   WHEN edc_plan.name IN (\"Android - New\",\"EDC_PAX\",\"EDC_VERIFONE\",\"EDC_ANDROID_MOREFUN_PREORDER\") THEN \"EDC Android\"\n    --   WHEN edc_plan.name IN (\"EDC_PAX_REFURBISHED\",\"EDC_VERIFONE_REFURBISHED\") THEN \"EDC Android - Refurbished\"\n    --   WHEN edc_plan.name IN (\"EDC_MOREFUN_BUNDLE\") THEN \"EDC Saku - Bundle\" \n    --   WHEN edc_plan.name IN (\"EDC_MOREFUN_INSURANCE\") THEN \"EDC Saku - Insurance Only\"\n    --   WHEN edc_plan.name IN (\"EDC_MOREFUN_BUNDLE_INSURANCE\") THEN \"EDC Saku - with Insurance\"\n    -- END AS edc_type,\n    CASE WHEN metadata.tfcode LIKE 'STF%' THEN \"Android - Big Agent\"\n      WHEN edc_plan.name IN (\"EDC_MOREFUN\",\"EDC_TIYANU\",\"Saku\") THEN \"Saku\"\n      WHEN edc_plan.name IN (\"Android - New\",\"EDC_PAX\",\"EDC_VERIFONE\",\"EDC_ANDROID_MOREFUN_PREORDER\",\"EDC_MOREFUN_ANDROID\") or \n      cart_plans.plan_id = '47afa1a2-d8ea-44ba-bac4-559a8c1fc005' THEN \"Android - New\"\n      WHEN edc_plan.name IN (\"EDC_PAX_REFURBISHED\",\"EDC_VERIFONE_REFURBISHED\") THEN \"Android - Refurbished\"\n      WHEN edc_plan.name IN (\"EDC_MOREFUN_BUNDLE\") THEN \"Saku - Printer Bundle\"\n      WHEN edc_plan.name IN (\"EDC_MOREFUN_BUNDLE_INSURANCE\") THEN \"Saku - Insurance Bundle\"\n      WHEN edc_plan.name IN (\"EDC_MOREFUN_INSURANCE\") THEN \"Saku - Insurance Only\"\n      END AS edc_type,\n    \"EDC New Ops Flow\" AS flag_sheet,\n    CASE WHEN metadata.checks.kycdone IS TRUE and metadata.kycstatus <> 'INITIAL' THEN 1 ELSE 0 END AS kyc_flag,\n    CASE WHEN metadata.checks.kybdone  IS TRUE THEN 1 ELSE 0 END AS kyb_flag,\n    CASE WHEN metadata.checks.bankaccountadded IS TRUE THEN 1 ELSE 0 END AS bank_account_flag,\n      # EDGE CASE\nCASE \n  WHEN TRIM(\n         REPLACE(REPLACE(metadata.orderprogress.waiting_for_additional_doc, '{', ''), '}', '')\n       ) = '2024-11-11T08:25' \n  THEN CAST(\n    DATE(\n      TIMESTAMP_ADD(\n        CAST(\n          CONCAT(\n            TRIM(\n              REPLACE(REPLACE(metadata.orderprogress.waiting_for_additional_doc, '{', ''), '}', '')\n            ),\n            ':00'\n          ) AS TIMESTAMP\n        ),\n        INTERVAL 7 HOUR\n      )\n    ) AS STRING\n  )\n\n  ELSE CAST(\n    DATE(\n      TIMESTAMP_ADD(\n        CAST(\n          TRIM(\n            REPLACE(REPLACE(metadata.orderprogress.waiting_for_additional_doc, '{', ''), '}', '')\n          ) AS TIMESTAMP\n        ),\n        INTERVAL 7 HOUR\n      )\n    ) AS STRING\n  )\nEND AS waiting_for_additional_doc_at,\n\n\n CASE \n  -- When timestamp is missing seconds (format: YYYY-MM-DDTHH:MM)\n  WHEN LENGTH(TRIM(metadata.orderprogress.waiting_for_ops)) = 16 \n    THEN CAST(\n      DATE(\n        TIMESTAMP_ADD(\n          CAST(CONCAT(TRIM(metadata.orderprogress.waiting_for_ops), ':00') AS TIMESTAMP),\n          INTERVAL 7 HOUR\n        )\n      ) AS STRING\n    )\n  -- When timestamp already has seconds (format: YYYY-MM-DDTHH:MM:SS)\n  ELSE CAST(\n    DATE(\n      TIMESTAMP_ADD(\n        CAST(TRIM(metadata.orderprogress.waiting_for_ops) AS TIMESTAMP),\n        INTERVAL 7 HOUR\n      )\n    ) AS STRING\n  )\nEND AS waiting_for_ops_at,\n  CAST(DATE(TIMESTAMP_ADD(CAST(metadata.orderprogress.completed AS TIMESTAMP), INTERVAL 7 HOUR)) AS STRING) AS completed_at,\n   CASE \n    WHEN partnership.sn_list IS NOT NULL THEN \"Partnership\"\n    WHEN metadata.tfcode LIKE 'TF0%' OR metadata.tfcode LIKE 'STF%' OR metadata.tfcode LIKE 'XTF%' THEN 'MS Channel'\n      \n      WHEN metadata.tfcode = \"TIKTOKLIVE\" THEN \"Live Streaming\"\n      WHEN metadata.tfcode IN (\"TIKTOKBW\",\"TITOKBW\") THEN \"Social Media\"\n      WHEN metadata.tfcode = \"BEBASTAMBAHCUAN300\" THEN \"Social Media\"\n      WHEN metadata.tfcode IS NULL THEN 'Organic'\n      WHEN metadata.tfcode LIKE \"JTI%\" THEN \"MS Channel\"\n      WHEN metadata.devicemappingdetails. referral_code = 'SHOPEE' THEN \"Shopee\"\n      WHEN metadata.tfcode NOT LIKE 'TF0%' AND metadata.tfcode NOT IN (\"TITOKBW\",\"TIKTOKBW\",\"BEBASTAMBAHCUAN300\",\"TIKTOKLIVE\") \n      AND codes.channel IS NOT NULL THEN codes.channel \n      ELSE \"Organic\"\n      END AS SubChannel,\n  payment_status,\n  CASE WHEN ots_order_id IS NOT NULL THEN \"OTS\" ELSE \"Non OTS\" END ots_flag,\n    CAST(edc_order.order_id  AS STRING) AS children_orderid,\n    UPPER(edc_order.name) account_name,\n    UPPER(bank_name),\n    bank_account,\n    ROW_NUMBER() OVER(PARTITION BY edc_order.order_id, user_id ORDER BY cart_plans.updated_at DESC) AS rnk_, --avoid duplicate\n    CASE \n      WHEN UPPER(metadata.devicemappingdetails.type) = \"WEB\" THEN \"Website\"\n      WHEN (metadata.devicemappingdetails. type = 'EZA'\n  AND metadata.devicemappingdetails. referral_code = 'SHOPEE') THEN \"Shopee\"\n  ELSE \"Apps\" END \n AS order_platform\n  FROM `ledger-fcc1e.db_accounting.prod_edc_order` edc_order\n  LEFT JOIN `ledger-fcc1e.merchant_success_analytics.tfcode_name` ms_data ON edc_order.metadata.tfcode = ms_data.sales_code\n\n  LEFT JOIN `db_accounting.prod_cart` cart\n  ON edc_order.order_id=cart.order_id \n  LEFT JOIN `db_accounting.prod_cart_plans` cart_plans \n  ON cart.id=cart_plans.cart_id\n  LEFT JOIN `db_accounting.prod_edc_plans` edc_plan \n  ON edc_plan.id=cart_plans.plan_id\n  LEFT JOIN `db_accounting.prod_edc_products` prod \n  ON prod.id=edc_plan.product_id\n  LEFT JOIN `ledger-fcc1e.trb_pymnt_temp.tfcode_otp_not_required` as codes\n  ON metadata.tfcode = codes.tfcode\n  LEFT JOIN ots_visit ON edc_order.transaction_id = ots_visit.ots_order_id\n  LEFT JOIN (SELECT order_id, serial_number FROM `db_accounting.prod_edc_user_details` ) edc_user ON edc_user.order_id = cart.order_id\n  LEFT JOIN `edc_partnership.partnership_ssot` partnership ON edc_user.serial_number = partnership.sn_list\n\n  WHERE\n      DATE(TIMESTAMP_ADD(CAST(\n      REPLACE(\n      REPLACE(payment_metadata.paidat, '{', ''),\n      '}',\n      ''\n       ) AS TIMESTAMP), INTERVAL 7 HOUR)) >= \"2024-08-13\"\n     AND    \n    (payment_status = \"PAID\" or payment_status = 'REFUNDED' or payment_status = \"REFUNDING_FAILED\")\n    AND ((metadata.devicemappingdetails. type = 'EZA'\n    AND metadata.devicemappingdetails. referral_code = 'SHOPEE') or metadata.devicemappingdetails.type is null OR metadata.devicemappingdetails.type !=\"EZA\")\n    AND metadata.clientname IS NULL\n  )\n  WHERE rnk_ = 1\n)\n\n\n## EZA DATA\n, eza_data AS(\n  SELECT  \n    DATE(trx_date) as input_time_data,\n    parent_order_id AS no_order,\n    parent_order_id as no_order_2,\n    CASE WHEN uid_activation IS NULL THEN uid_eza\n      ELSE uid_activation\n      END AS bw_user_id,\n    DATE(trx_date) AS tanggal_order,\n    CASE WHEN sn LIKE \"%V9E%\" THEN \"Verifone\"\n      WHEN sn LIKE \"%1851%\" THEN \"Pax\"\n      END AS nama_produk,\n    1 AS total_barang,\n    \"3300000\" AS harga_produk,\n    \"Completed\"AS order_status,\n    \"Completed\"AS final_action,\n    trx_date as final_action_date,\n    \"\" AS reject_reason,\n    \"Other Channels\" AS channel,\n    \"\" AS mvt_checking,\n    CONCAT(name,\" - EZA\") AS agent_name,\n    \"\" AS tfcode,\n    CASE WHEN sn LIKE \"%V9E%\" THEN \"Verifone\"\n      WHEN sn LIKE \"%1851%\" THEN \"Pax\"\n      END AS product_name_standardize,\n    CASE WHEN sn LIKE \"%V9E%\" THEN \"Android - New\"\n      WHEN sn LIKE \"%1851%\" THEN \"Android - New\"\n      END AS edc_type,\n    \"List EZA with Scheme\" AS flag_sheet,\n    1 AS kyc_flag,\n    1 AS kyb_flag,\n    1 AS bank_account_flag,\n    \"\" AS waiting_for_additional_doc_at,\n    \"\" AS waiting_for_ops_at,\n    \"\" AS completed_at,\n    \"Others\" AS SubChannel,\n    \"PAID\" AS payment_status,\n    \"Non OTS\" AS ots_flag,\n    CAST(child_order_id AS STRING)AS children_orderid,\n    \"\" bankcode,\n    \"\" account_number,\n    \"\" beneficiary_name,\n    \"Old Manual Data\" order_platform\n  -- FROM `ledger-fcc1e.trb_pymnt_temp.list_eza_with_scheme` \n  FROM `ledger-fcc1e.trb_pymnt_temp.list_eza_with_scheme_static` \n  WHERE parent_order_id IS NOT NULL\n)\n\n\n## TIKTOK SHOP DATA\n, tiktokshop_data AS(\n  SELECT \n    DATE(order_date) AS input_time_data,\n    parent_order_id AS no_order,\n    parent_order_id as no_order_2,\n    uid_registration AS bw_user_id,\n    DATE(order_date) AS tanggal_order,\n    product_name AS nama_produk,\n    1 AS total_barang,\n    original_price AS harga_produk,\n    CASE WHEN final_action = \"Accept Order\" THEN \"Completed\" END AS order_status,\n    CASE WHEN final_action = \"Accept Order\" THEN \"Completed\" END AS final_action,\n    action_date AS final_action_date,\n    reject_hold_reason AS reject_reason,\n    \"Other Channels\" AS channel,\n    verification_status AS mvt_checking,\n    \"Tiktok Shop\" AS agent_name,\n    \"Tiktok Shop\" AS tfcode,\n    CASE WHEN product_name LIKE \"%EDC Saku%\" OR product_name LIKE \"%MoreFun%\" THEN \"MoreFun\"\n      WHEN product_name LIKE \"%EDC Android%\" OR product_name LIKE \"%Verifone%\" THEN \"Verifone\"\n      END AS product_name_standardize,\n    CASE WHEN product_name LIKE \"%EDC Saku%\" OR product_name LIKE \"%MoreFun%\" THEN \"Saku\"\n      WHEN product_name LIKE \"%EDC Android%\" OR product_name LIKE \"%Verifone%\" THEN \"Android - New\"\n      END AS edc_type,\n    \"Tiktokshop Order Data\" AS flag_sheet,\n    CASE WHEN verification_status = \"Verified\" THEN 1 ELSE 0 END AS kyc_flag,\n    CASE WHEN verification_status = \"Verified\" THEN 1 ELSE 0 END AS kyb_flag,\n    CASE WHEN verification_status = \"Verified\" THEN 1 ELSE 0 END AS bank_account_flag,\n    \"\" AS waiting_for_additional_doc_at,\n    \"\" AS waiting_for_ops_at,\n    \"\" AS completed_at,\n    \"TikTok Shop\" AS SubChannel,\n    \"PAID\" AS payment_status,\n    \"Non OTS\" AS ots_flag,\n    children_order_id AS children_orderid,\n    \"\" bankcode,\n    \"\" account_number,\n    \"\" beneficiary_name,\n    \"Tiktok Shop\" order_platform\n  FROM `ledger-fcc1e.trb_pymnt_temp.tiktokshop_order_data`\n  WHERE order_date >= \"2024-10-01\" AND original_price != \"0\" AND order_substatus NOT IN (\"Refunded\", \"Canceled\")\n)\n\n\n# RENTAL TO PURCHASE\n, rental_to_purchase AS(\n  SELECT \n    DATE(paid_date) AS input_time_data,\n    origin_order_id AS no_order,\n    latest_invoice_number as no_order_2,\n    bw_user_id,\n    DATE(paid_date) AS tanggal_order,\n    device AS nama_produk,\n    1 AS total_barang,\n    CASE WHEN amount_paid3 IS NOT NULL THEN amount_paid3\n      WHEN amount_paid2 IS NOT NULL THEN amount_paid2\n      WHEN amount_paid1 IS NOT NULL THEN amount_paid1\n      END AS harga_produk,\n    \"Completed\" AS order_status,\n    \"Completed\"AS final_action,\n    \"\" AS final_action_date,\n    \"\" AS reject_reason,\n    \"MSE\" channel,\n    \"\" AS mvt_checking,\n    mse_name AS agent_name,\n    \"\" AS tfcode,\n    CASE WHEN device LIKE \"Pax\" THEN \"Pax\"\n      WHEN device LIKE \"Veristore\" THEN \"Verifone\"\n      END AS product_name_standardize,\n    CASE WHEN device LIKE \"Pax\" THEN \"Android - New\"\n      WHEN device LIKE \"Veristore\" THEN \"Android - New\"\n      END AS edc_type,\n    \"Master Sheet Rental\" AS flag_sheet,\n    1 AS kyc_flag,\n    1 AS kyb_flag,\n    1 AS bank_account_flag,\n    \"\" AS waiting_for_additional_doc_at,\n    \"\" AS waiting_for_ops_at,\n    \"\" AS completed_at,\n    \"MS Channel\" AS SubChannel,\n    \"PAID\" AS payment_status,\n    \"Non OTS\" AS ots_flag,\n    CAST(latest_invoice_number AS STRING) AS children_orderid,\n    \"\" bankcode,\n    \"\" account_number,\n    \"\" beneficiary_name,\n    \"Old Manual Data\" order_platform\n  FROM `ledger-fcc1e.trb_pymnt_temp.master_sheet_rental`\n  WHERE collection_status IN (\"Purchase the Device\",\"Purchase the Device - Auto Ownership\")\n)\n\n\n\n\n, combine_data AS(\n  SELECT * FROM order_data\n  UNION ALL\n  SELECT * FROM verification_data_final\n  UNION ALL\n  SELECT * FROM new_ops_flow_data\n  UNION ALL\n  SELECT * FROM eza_data\n  UNION ALL\n  SELECT * FROM tiktokshop_data\n  UNION ALL\n  SELECT * FROM rental_to_purchase\n)\n\n, mse_name_from_ms_static AS (\n\nSELECT DISTINCT LOWER(mse_name_updated) AS agent_name,\n1 AS flag\nFROM `ledger-fcc1e.merchant_success_analytics.mapping_area_mse`)\n\n\nSELECT \ninput_time_data order_date,\ntanggal_order payment_date,\nno_order order_id,\nno_order_2,\nchildren_orderid,\ncombine_data.bw_user_id,\nnama_produk,\nproduct_name_standardize,\nedc_type,\ntotal_barang,\nharga_produk,\norder_status,\nfinal_action,\nfinal_action_date,\nreject_reason,\nchannel,\nsubchannel,\ntfcode,\ncombine_data.agent_name,\nflag_sheet,\nmvt_checking,\nkyc_flag,\nkyb_flag,\nbank_account_flag,\nmse_name_from_ms_static.flag AS mse_flag,\nots_flag,\nwaiting_for_additional_doc_at,\nwaiting_for_ops_at,\ncompleted_at,\npayment_status,\nbank_account_name,\ncombine_data.bank_name,\nbank_account_number,\norder_platform,\n\n\n\n\n\n  -- \"https://docs.google.com/spreadsheets/d/1BhibNbDor68toaQN5KE73KHxUGwuRknlxeIr-qhkpOc/edit?usp=sharing\" AS gsheet_ssot_documentation,\n  \"https://docs.google.com/document/d/1mjYH4iYlHoAP6AjQWXD_dANndxzSO3rsrfb7c9SY_4o/edit?usp=sharing\" AS gdocs_ssot_documentation,\n\nFROM combine_data\nLEFT JOIN mse_name_from_ms_static ON LOWER(combine_data.agent_name) = mse_name_from_ms_static.agent_name\n-- WHERE NOT REGEXP_CONTAINS(product_name_standardize, '(?i)Insurance Only')\n-- LEFT JOIN `ledger-fcc1e.db_accounting.prod_edc_user_details` user ON combine_data.no_order = user.order_id\n--  WHERE user.order_id IS NOT NULL\n\n"
+    "query": "\n-- Version Control\n-- (2024-09-09) - (Erald) adding clean_data.clean_version AS agent_name, in the order_date CTE for getting MS name clean version\n-- (2024-09-24) - V1.0: (Hasna) adding EZA data\n-- (2024-10-01) - V1.1: (Hasna) adding Tiktok Shop data\n-- (2024-10-04) - V1.2: (Hasna) Exclude tiktok shop data price 0 (sample for marketing), adding tfcode \"STF\" as order form MSE (big merchant)\n-- (2024-10-07) - V1.3: (Erald) Added mse_flag by adding mse_name_from_ms_static CTE\n-- (2024-10-23) - V1.4: (Hasna) Added Rental to Purcahase data\n-- (2025-01-13) - V1.5 : (Hasna) Added rejected and big merchant data\n-- (2025-01-22) - V1.6 : (Erald) added new SKU in nama_produk and edc_type column for 'EDC_MOREFUN_BUNDLE_INSURANCE' and 'EDC_MOREFUN_INSURANCE'\n-- (2025-01-24) - V1.7 : (Erald) changed \"gsheet_ssot_documentation\" to \"gdocs_ssot_documentation\", removed the GSheet and put the document\n-- (2025-02-21)- v1.8: (Hasna) Add column related to OTS\n-- (2025-06-26) - v1.9 : (Amalia) Change logi"
   },
   "transformation_type": {
     "type": "base",
     "transformation": null,
     "source_tables": []
   },
-  "column_count": 0,
-  "columns": []
+  "column_count": 36,
+  "columns": [
+    {
+      "column_name": "user_id",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 1,
+      "description": "User unique identifier. ID used for user tracking.",
+      "business_context": "Required field - always populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "81366356368",
+        "85128070532",
+        "85669650764"
+      ],
+      "possible_values": null,
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "user_id_uuid",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 2,
+      "description": "Unique UUID identifier for the merchant/user. Used for system-level merchant tracking when phone number not available",
+      "business_context": "Core field - rarely empty (>90% populated)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "f0495c2e-5de2-4dfd-a530-8d59e93c7e24",
+        "876b9ace-57be-487b-8044-c54e42ceaba7",
+        "fb632518-f44c-4bf8-9413-a297f7b182cf"
+      ],
+      "possible_values": null,
+      "null_percentage": 0.25
+    },
+    {
+      "column_name": "referee_name",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 3,
+      "description": "Referee person name. Name of referrer in EDC order.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "",
+        "",
+        ""
+      ],
+      "possible_values": [
+        "EXP STORE"
+      ],
+      "null_percentage": 50.32
+    },
+    {
+      "column_name": "postal_code",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 4,
+      "description": "Postal code. Zip code of order location.",
+      "business_context": "Common field - frequently populated (>50%)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "22475",
+        "96414",
+        "91994"
+      ],
+      "possible_values": null,
+      "null_percentage": 37.37
+    },
+    {
+      "column_name": "ecom_user_id",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 5,
+      "description": "Ecommerce platform user identifier. Links order to ecommerce user when applicable",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "",
+        "",
+        ""
+      ],
+      "possible_values": [
+        "Bastian tampubolon",
+        "Deiit fitriani",
+        "Eva Oktania",
+        "Kantinora eva aritonang",
+        "Karya Indah Kusen",
+        "MARYATI",
+        "Munawir sinarfajar ",
+        "Nurhaesih",
+        "Rla_cell",
+        "SITI SUDARMININGSIH",
+        "Sendi Rachmat Darmawan",
+        "Tidak ada",
+        "Tidal ada",
+        "Valentino Roedianto ",
+        "Wandyep",
+        "Wiwit Yulianingsih ",
+        "cantigy",
+        "doniedamara340@gmail.com",
+        "pandiyanto"
+      ],
+      "null_percentage": 50.41
+    },
+    {
+      "column_name": "coordinates",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 6,
+      "description": "Location coordinates. Geographic coordinate pair for EDC order.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "",
+        "",
+        ""
+      ],
+      "possible_values": null,
+      "null_percentage": 50.31
+    },
+    {
+      "column_name": "name",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 7,
+      "description": "Merchant or order contact name. Used for order fulfillment and communication",
+      "business_context": "Common field - frequently populated (>50%)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "Sri Putri Lindawati Siahaan ( UD. ADVENT SIBURIAN)",
+        "NUR ASRI AINUN LOI",
+        "IRWAN"
+      ],
+      "possible_values": null,
+      "null_percentage": 33.91
+    },
+    {
+      "column_name": "bank_name",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 8,
+      "description": "Bank name for merchant settlement account. Used for payment routing and settlement processing",
+      "business_context": "Common field - frequently populated (>50%)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "",
+        "SULUT",
+        "PERMATA"
+      ],
+      "possible_values": null,
+      "null_percentage": 46.96
+    },
+    {
+      "column_name": "_sdc_table_version",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 9,
+      "description": "Singer data connector table schema version. Tracks schema evolution for data quality",
+      "business_context": "Required field - always populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "1750311085342",
+        "1750311085342",
+        "1750311085342"
+      ],
+      "possible_values": [
+        "1750311085342"
+      ],
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "bank_account",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 10,
+      "description": "Bank account number for merchant settlement and payouts. Critical for payment processing",
+      "business_context": "Common field - frequently populated (>50%)",
+      "semantic_source": "sql_definition + value_format",
+      "example_values": [
+        "",
+        "01002060152903",
+        "9937253513"
+      ],
+      "possible_values": null,
+      "null_percentage": 46.96
+    },
+    {
+      "column_name": "external_order_id",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 11,
+      "description": "External order identifier from partner system. Used for order reconciliation with external platforms",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "",
+        "",
+        ""
+      ],
+      "possible_values": [
+        "085102174565",
+        "087820122227",
+        "12145963939",
+        "12153022990",
+        "8593763432",
+        "GriyaMotor",
+        "Munawir sinarfajar ",
+        "Pandiyanto",
+        "Tidak ada",
+        "Tisak ada"
+      ],
+      "null_percentage": 50.44
+    },
+    {
+      "column_name": "order_id",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 12,
+      "description": "Order unique identifier. ID for EDC order tracking.",
+      "business_context": "Required field - always populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "31ca7df4-4648-41c1-bc8e-9bf25c628e16",
+        "25018ef3-5eed-4872-ae1c-ec63157f2af3",
+        "ce414ef5-a3a6-4967-883b-24c3c5633c8a"
+      ],
+      "possible_values": null,
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "updated_at",
+      "data_type": "TIMESTAMP",
+      "is_nullable": "YES",
+      "ordinal_position": 13,
+      "description": "Updated at timestamp. When EDC order was last updated.",
+      "business_context": "Required field - always populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "2026-05-06 03:40:32.456000+00:00",
+        "2026-05-06 04:14:13.627000+00:00",
+        "2025-03-17 04:07:54.967000+00:00"
+      ],
+      "possible_values": null,
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "address",
+      "data_type": "STRUCT<store_address STRUCT<city STRING, ward STRING, address STRING, district STRING, province STRING, postal_code STRING>, delivery_address STRUCT<city STRING, ward STRING, address STRING, district STRING, province STRING, postal_code STRING>, delivery_address_same_as_store_address BOOL>",
+      "is_nullable": "YES",
+      "ordinal_position": 14,
+      "description": "Complete street address for merchant location. Primary address field for shipping, KYC verification, and contact",
+      "business_context": "Common field - frequently populated (>50%)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "{'store_address': {'city': 'Humbang Hasundutan', 'ward': ' Sihonongan', 'address': 'SIHONONGAN, DEPA",
+        "{'store_address': {'city': 'Pohuwato', 'ward': ' Marisa Utara', 'address': 'DUSUN MELATI', 'district",
+        "{'store_address': {'city': 'Luwu', 'ward': ' Lebani', 'address': 'Jln tomakaka samping rumah sakit B"
+      ],
+      "possible_values": null,
+      "null_percentage": 37.51
+    },
+    {
+      "column_name": "status",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 15,
+      "description": "Order lifecycle status (Draft, Unassigned, Active, Completed, Cancelled). Indicates order processing stage",
+      "business_context": "Required field - always populated",
+      "semantic_source": "sql_definition + possible_values",
+      "example_values": [
+        "Unassigned",
+        "Draft",
+        "Cancelled"
+      ],
+      "possible_values": [
+        "Cancelled",
+        "Completed",
+        "Draft",
+        "Rejected",
+        "Unassigned",
+        "Waiting_for_additional_doc",
+        "Waiting_for_ops"
+      ],
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "delivery_address",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 16,
+      "description": "Address where EDC device should be shipped. Primary delivery location for order fulfillment",
+      "business_context": "Common field - frequently populated (>50%)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "SIHONONGAN, DEPAN GEREJA HKI SIHONONGAN, DESA SIHONONGAN ",
+        "DUSUN MELATI",
+        "Jln tomakaka samping rumah sakit Batara guru (Nuara Cell)"
+      ],
+      "possible_values": null,
+      "null_percentage": 37.37
+    },
+    {
+      "column_name": "kyc_tier",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 17,
+      "description": "Merchant KYC verification tier level. Indicates compliance status and verification completeness",
+      "business_context": "Common field - frequently populated (>50%)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "NON_KYC",
+        "SUPREME",
+        "SUPREME"
+      ],
+      "possible_values": [
+        "ADVANCED",
+        "NON_KYC",
+        "SUPREME"
+      ],
+      "null_percentage": 40.97
+    },
+    {
+      "column_name": "purchase_referral",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 18,
+      "description": "Referral source or channel that led to order. Tracks acquisition source for analysis",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "",
+        "",
+        ""
+      ],
+      "possible_values": [
+        "friend_recommendation",
+        "sales_team"
+      ],
+      "null_percentage": 50.32
+    },
+    {
+      "column_name": "metadata",
+      "data_type": "STRUCT<tfcode STRING, devicemappingdetails STRUCT<type STRING, vendor STRING, description STRING, referral_code STRING, serial_number STRING>, cartid STRING, kybstatus STRING, banknamesameasktpname BOOL, clientname STRING, ktpname STRING, checks STRUCT<kybdone BOOL, kycdone BOOL, bankaccountadded BOOL, completionexpiredate ARRAY<STRUCT<value INT64>>>, kycstatus STRING, attributionchannel STRING, tfcodevalidated BOOL, force_updated_note STRING, updatecommand STRUCT<vendor STRING, orderid STRING, newstatus STRING, opsemailid STRING, terminalid STRING, serialnumber STRING, rejectionreason STRING, bukuorigin STRING>, orderprogress STRUCT<draft STRING, waiting_for_ops STRING, unassigned STRING, waiting_for_additional_doc STRING, rejected STRING, cancelled STRING, completed STRING>, useracknowledgement BOOL, kyctier STRING, version STRING, beneficiaryaccountdetails STRUCT<bankcode STRING, accountnumber STRING, beneficiaryname STRING>, orderamountdetails STRUCT<totalpayableamount NUMERIC, totalpayableamount__it INT64, productprice NUMERIC, productprice__it INT64, discounts STRUCT<diskon_code_referral NUMERIC, diskon_code_referral__it INT64, diskon NUMERIC, diskon__it INT64>>, otsflow BOOL, partnershipordercreatedby STRING, progress STRUCT<paid STRING, created STRING, cancelled STRING>, paymentlinkexpiredtime STRING, paymentamount NUMERIC, paymentmethod STRING, paidat STRING, paymentaccountid STRING, paymentlinkgeneratedtime STRING>",
+      "is_nullable": "YES",
+      "ordinal_position": 19,
+      "description": "Metadata field. Additional metadata for order.",
+      "business_context": "Core field - rarely empty (>90% populated)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "{'tfcode': 'MRORUMI', 'devicemappingdetails': {'type': 'BUKUWARUNG', 'vendor': None, 'description': ",
+        "{'tfcode': None, 'devicemappingdetails': {'type': 'BUKUWARUNG', 'vendor': None, 'description': None,",
+        "{'tfcode': None, 'devicemappingdetails': None, 'cartid': None, 'kybstatus': 'MANUALLY_VERIFIED', 'ba"
+      ],
+      "possible_values": null,
+      "null_percentage": 0.34
+    },
+    {
+      "column_name": "beneficiary_name",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 20,
+      "description": "Beneficiary person name. Name of EDC beneficiary.",
+      "business_context": "Common field - frequently populated (>50%)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "",
+        "NUR ASRI AINUN LOI",
+        "IRWAN"
+      ],
+      "possible_values": null,
+      "null_percentage": 46.96
+    },
+    {
+      "column_name": "_sdc_received_at",
+      "data_type": "TIMESTAMP",
+      "is_nullable": "YES",
+      "ordinal_position": 21,
+      "description": "Timestamp when record was received by data pipeline. Tracks data ingestion timing",
+      "business_context": "Required field - always populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "2026-05-06 04:32:11+00:00",
+        "2026-05-06 04:32:11+00:00",
+        "2025-06-19 05:32:01+00:00"
+      ],
+      "possible_values": null,
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "_sdc_sequence",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 22,
+      "description": "Sequence number for change data capture ordering. Ensures proper ordering of incremental changes",
+      "business_context": "Required field - always populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "1778041896754943427",
+        "1778041896765875415",
+        "1750311106919080907"
+      ],
+      "possible_values": null,
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "janus_account_id",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 23,
+      "description": "Unique identifier in the Janus system. System-level merchant account identifier for integration tracking",
+      "business_context": "Common field - frequently populated (>50%)",
+      "semantic_source": "sql_definition + value_format",
+      "example_values": [
+        "6d485d01-0326-42ea-be29-1a399d6b07d9",
+        "ebaa6aaf-5ef8-459a-8c57-51a82ffaa14e",
+        "e69e6e92-5cb4-47cb-8c20-5d319e472a08"
+      ],
+      "possible_values": null,
+      "null_percentage": 40.9
+    },
+    {
+      "column_name": "phone",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 24,
+      "description": "Phone contact number. Phone number for EDC order.",
+      "business_context": "Required field - always populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "81366356368",
+        "85128070532",
+        "85669650764"
+      ],
+      "possible_values": null,
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "transaction_id",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 25,
+      "description": "Transaction identifier related to order. Used for payment reconciliation and transaction tracking",
+      "business_context": "Core field - rarely empty (>90% populated)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "E260506HI9FMYHD6Z",
+        "E260506HI9GOWLDLL",
+        "E260113HESSFQVPK5"
+      ],
+      "possible_values": null,
+      "null_percentage": 1.81
+    },
+    {
+      "column_name": "payment_metadata",
+      "data_type": "STRUCT<progress STRUCT<paid STRING, created STRING, refunding STRING, refunded STRING, refunding_failed STRING, cancelled STRING>, paymentlinkexpiredtime STRING, paymentamount NUMERIC, refundid STRING, paymentmethod STRING, paidat STRING, paymentlink STRING, paymentrefundorderid STRING, paymentaccountid STRING, paymentlinkgeneratedtime STRING, paymentamount__it INT64>",
+      "is_nullable": "YES",
+      "ordinal_position": 26,
+      "description": "Metadata containing payment and settlement details for order. Tracks payment transaction information",
+      "business_context": "Common field - frequently populated (>50%)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "{'progress': {'paid': None, 'created': '2026-05-06T03:40:32.316', 'refunding': None, 'refunded': Non",
+        "{'progress': {'paid': '2026-01-13T02:24:15', 'created': '2026-01-13T02:22:35.114', 'refunding': None",
+        "{'progress': {'paid': '2025-09-15T03:17:24', 'created': '2025-09-15T03:06:37.108', 'refunding': None"
+      ],
+      "possible_values": null,
+      "null_percentage": 49.03
+    },
+    {
+      "column_name": "created_at",
+      "data_type": "TIMESTAMP",
+      "is_nullable": "YES",
+      "ordinal_position": 27,
+      "description": "Timestamp when the record was initially created",
+      "business_context": "Required field - always populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "2026-05-06 03:35:59.087000+00:00",
+        "2026-05-06 04:14:13.627000+00:00",
+        "2024-07-20 14:13:35.227000+00:00"
+      ],
+      "possible_values": null,
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "delivery_metadata",
+      "data_type": "STRUCT<awb STRING, vendor STRING, pickupdate STRING, couriername STRING, serialnumber STRING, expectedshipmenttime STRING, shipperordercreatedtime STRING>",
+      "is_nullable": "YES",
+      "ordinal_position": 28,
+      "description": "Metadata containing delivery details: AWB, courier name, tracking dates, serial number. Used for shipment tracking",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "{'awb': 'ms-onspot', 'vendor': 'MoreFun', 'pickupdate': None, 'couriername': 'ms-onspot', 'serialnum",
+        "{'awb': '0117762501777960', 'vendor': 'MoreFun', 'pickupdate': '16-09-2025', 'couriername': 'JNE', '",
+        "{'awb': 'ms-onspot', 'vendor': 'MoreFun', 'pickupdate': None, 'couriername': 'ms-onspot', 'serialnum"
+      ],
+      "possible_values": null,
+      "null_percentage": 68.73
+    },
+    {
+      "column_name": "subdistrict",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 29,
+      "description": "Subdistrict location. Subdistrict of EDC location.",
+      "business_context": "Common field - frequently populated (>50%)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "Paranginan",
+        "Marisa",
+        "Belopa Utara"
+      ],
+      "possible_values": null,
+      "null_percentage": 37.37
+    },
+    {
+      "column_name": "ward",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 30,
+      "description": "Ward or neighborhood designation for local-level merchant location",
+      "business_context": "Common field - frequently populated (>50%)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        " Sihonongan",
+        " Marisa Utara",
+        " Lebani"
+      ],
+      "possible_values": null,
+      "null_percentage": 37.37
+    },
+    {
+      "column_name": "_sdc_batched_at",
+      "data_type": "TIMESTAMP",
+      "is_nullable": "YES",
+      "ordinal_position": 31,
+      "description": "SDC batched at timestamp. When batch was processed.",
+      "business_context": "Required field - always populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "2026-05-06 04:34:11.331000+00:00",
+        "2026-05-06 04:34:11.658000+00:00",
+        "2025-06-19 05:36:09.167000+00:00"
+      ],
+      "possible_values": null,
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "referee_phone",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 32,
+      "description": "Phone of referrer or partner. Contact information for referral channel management",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "",
+        "",
+        ""
+      ],
+      "possible_values": [
+        "+62 811-5115-857"
+      ],
+      "null_percentage": 50.32
+    },
+    {
+      "column_name": "payment_status",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 33,
+      "description": "Payment completion status for order. Indicates whether merchant has completed payment",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "sql_definition + possible_values",
+      "example_values": [
+        "CREATED",
+        "PAID",
+        "PAID"
+      ],
+      "possible_values": [
+        "CANCELLED",
+        "CREATED",
+        "PAID",
+        "REFUNDED"
+      ],
+      "null_percentage": 51.21
+    },
+    {
+      "column_name": "attachments",
+      "data_type": "STRUCT<npwp STRING, store_side STRING, ktp STRING, store_front STRING, family_card STRING, inventory STRING, selfie STRING, buku_bank STRING, store STRING>",
+      "is_nullable": "YES",
+      "ordinal_position": 34,
+      "description": "Attachments field. Attached files for order.",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "{'npwp': '', 'store_side': '', 'ktp': '', 'store_front': '', 'family_card': '', 'inventory': '', 'se",
+        "{'npwp': '', 'store_side': '', 'ktp': '', 'store_front': '', 'family_card': '', 'inventory': '', 'se",
+        "{'npwp': '', 'store_side': '', 'ktp': '', 'store_front': '', 'family_card': '', 'inventory': '', 'se"
+      ],
+      "possible_values": [
+        "{'npwp': '', 'store_side': '', 'ktp': '', 'store_front': '', 'family_card': '', 'inventory': '', 'selfie': '', 'buku_bank': '', 'store': ''}",
+        "{'npwp': '', 'store_side': '', 'ktp': 'attachments/033c27ab-1429-4a96-9669-b09f3a420b4e/1719029033962_KTP_KTP.jpeg', 'store_front': 'attachments/033c27ab-1429-4a96-9669-b09f3a420b4e/1719029034386_STORE_FRONT_STORE_FRONT.jpeg', 'family_card': '', 'inventory': 'attachments/033c27ab-1429-4a96-9669-b09f3a420b4e/1719029034262_INVENTORY_INVENTORY.jpeg', 'selfie': 'attachments/033c27ab-1429-4a96-9669-b09f3a420b4e/1719029034209_SELFIE_SELFIE.jpeg', 'buku_bank': '', 'store': ''}",
+        "{'npwp': '', 'store_side': '', 'ktp': 'attachments/2778ee7e-5aac-4acf-8927-6f3b98aca9d2/1716362390042_KTP_KTP.jpeg', 'store_front': 'attachments/2778ee7e-5aac-4acf-8927-6f3b98aca9d2/1716362176756_STORE_FRONT_STORE_FRONT.jpeg', 'family_card': '', 'inventory': 'attachments/2778ee7e-5aac-4acf-8927-6f3b98aca9d2/1716362195373_INVENTORY_INVENTORY.jpeg', 'selfie': 'attachments/2778ee7e-5aac-4acf-8927-6f3b98aca9d2/1716362429927_SELFIE_SELFIE.jpeg', 'buku_bank': '', 'store': ''}",
+        "{'npwp': '', 'store_side': '', 'ktp': 'attachments/31583d9f-4f42-4727-a816-8ab3286aa4f5/1715851581440_KTP_KTP.jpeg', 'store_front': 'attachments/31583d9f-4f42-4727-a816-8ab3286aa4f5/1715851620083_STORE_FRONT_STORE_FRONT.png', 'family_card': '', 'inventory': 'attachments/31583d9f-4f42-4727-a816-8ab3286aa4f5/1715851633604_INVENTORY_INVENTORY.jpeg', 'selfie': 'attachments/31583d9f-4f42-4727-a816-8ab3286aa4f5/1715851598256_SELFIE_SELFIE.jpeg', 'buku_bank': '', 'store': ''}",
+        "{'npwp': '', 'store_side': '', 'ktp': 'attachments/3dfdeabe-8333-4cee-ba42-c4c6171f5a49/1718009893179_KTP_KTP.jpeg', 'store_front': 'attachments/3dfdeabe-8333-4cee-ba42-c4c6171f5a49/1718009921830_STORE_FRONT_STORE_FRONT.jpeg', 'family_card': '', 'inventory': 'attachments/3dfdeabe-8333-4cee-ba42-c4c6171f5a49/1718009937319_INVENTORY_INVENTORY.jpeg', 'selfie': 'attachments/3dfdeabe-8333-4cee-ba42-c4c6171f5a49/1718009893992_SELFIE_SELFIE.jpeg', 'buku_bank': '', 'store': ''}",
+        "{'npwp': '', 'store_side': '', 'ktp': 'attachments/839e6559-e3df-4782-8307-8e085575feed/1717043823530_KTP_KTP.jpeg', 'store_front': 'attachments/839e6559-e3df-4782-8307-8e085575feed/1717043879831_STORE_FRONT_STORE_FRONT.jpeg', 'family_card': '', 'inventory': 'attachments/839e6559-e3df-4782-8307-8e085575feed/1717043892698_INVENTORY_INVENTORY.jpeg', 'selfie': 'attachments/839e6559-e3df-4782-8307-8e085575feed/1717043824329_SELFIE_SELFIE.jpeg', 'buku_bank': 'attachments/839e6559-e3df-4782-8307-8e085575feed/1717043853006_BUKU_BANK_BUKU_BANK.jpeg', 'store': ''}",
+        "{'npwp': '', 'store_side': '', 'ktp': 'attachments/9d174261-3fc4-4968-a7af-7419f54c274b/1720414935185_KTP_KTP.jpeg', 'store_front': 'attachments/9d174261-3fc4-4968-a7af-7419f54c274b/1720414974324_STORE_FRONT_STORE_FRONT.jpeg', 'family_card': '', 'inventory': 'attachments/9d174261-3fc4-4968-a7af-7419f54c274b/1720414985297_INVENTORY_INVENTORY.jpeg', 'selfie': 'attachments/9d174261-3fc4-4968-a7af-7419f54c274b/1720414937763_SELFIE_SELFIE.jpeg', 'buku_bank': '', 'store': ''}",
+        "{'npwp': '', 'store_side': '', 'ktp': 'attachments/e1d5e95f-0606-4065-a929-044e9d944f48/1718086101789_KTP_KTP.jpeg', 'store_front': 'attachments/e1d5e95f-0606-4065-a929-044e9d944f48/1718086102386_STORE_FRONT_STORE_FRONT.jpeg', 'family_card': '', 'inventory': 'attachments/e1d5e95f-0606-4065-a929-044e9d944f48/1718086102674_INVENTORY_INVENTORY.jpeg', 'selfie': 'attachments/e1d5e95f-0606-4065-a929-044e9d944f48/1718086102057_SELFIE_SELFIE.jpeg', 'buku_bank': '', 'store': ''}",
+        "{'npwp': '', 'store_side': '', 'ktp': 'attachments/eec2cf2c-22fd-42f0-9c48-4a6948b2f70a/1718212388091_KTP_KTP.jpeg', 'store_front': 'attachments/eec2cf2c-22fd-42f0-9c48-4a6948b2f70a/1718212407581_STORE_FRONT_STORE_FRONT.jpeg', 'family_card': '', 'inventory': 'attachments/eec2cf2c-22fd-42f0-9c48-4a6948b2f70a/1718212405586_INVENTORY_INVENTORY.jpeg', 'selfie': 'attachments/eec2cf2c-22fd-42f0-9c48-4a6948b2f70a/1718212397223_SELFIE_SELFIE.jpeg', 'buku_bank': '', 'store': ''}",
+        "{'npwp': '', 'store_side': '', 'ktp': 'attachments/ff326ea3-b96b-4310-b628-7ef789dee303/1716271587634_KTP_KTP.jpeg', 'store_front': 'attachments/ff326ea3-b96b-4310-b628-7ef789dee303/1716271611787_STORE_FRONT_STORE_FRONT.jpg', 'family_card': '', 'inventory': 'attachments/ff326ea3-b96b-4310-b628-7ef789dee303/1716271622868_INVENTORY_INVENTORY.jpg', 'selfie': 'attachments/ff326ea3-b96b-4310-b628-7ef789dee303/1716271598345_SELFIE_SELFIE.jpg', 'buku_bank': '', 'store': ''}",
+        "{'npwp': '', 'store_side': 'attachments/b1441cd8-3b1c-4259-9e7d-9c4e7b647322/1716883531873_STORE_SIDE_STORE_SIDE.jpeg', 'ktp': 'attachments/b1441cd8-3b1c-4259-9e7d-9c4e7b647322/1716883197352_KTP_KTP.jpeg', 'store_front': 'attachments/b1441cd8-3b1c-4259-9e7d-9c4e7b647322/1716883470359_STORE_FRONT_STORE_FRONT.jpeg', 'family_card': 'attachments/b1441cd8-3b1c-4259-9e7d-9c4e7b647322/1716883768074_FAMILY_CARD_FAMILY_CARD.jpeg', 'inventory': 'attachments/b1441cd8-3b1c-4259-9e7d-9c4e7b647322/1716883504035_INVENTORY_INVENTORY.jpeg', 'selfie': 'attachments/b1441cd8-3b1c-4259-9e7d-9c4e7b647322/1716883197551_SELFIE_SELFIE.jpeg', 'buku_bank': '', 'store': 'attachments/b1441cd8-3b1c-4259-9e7d-9c4e7b647322/1716883566056_STORE_STORE.jpeg'}",
+        "{'npwp': '', 'store_side': 'attachments/f49c3e44-bd39-41d9-b359-f4b89bb97a58/1719200805181_STORE_SIDE_STORE_SIDE.jpeg', 'ktp': 'attachments/f49c3e44-bd39-41d9-b359-f4b89bb97a58/1719201746339_KTP_KTP.jpeg', 'store_front': 'attachments/f49c3e44-bd39-41d9-b359-f4b89bb97a58/1719201746649_STORE_FRONT_STORE_FRONT.jpeg', 'family_card': 'attachments/f49c3e44-bd39-41d9-b359-f4b89bb97a58/1719200751654_FAMILY_CARD_FAMILY_CARD.jpg', 'inventory': 'attachments/f49c3e44-bd39-41d9-b359-f4b89bb97a58/1719201746535_INVENTORY_INVENTORY.jpeg', 'selfie': 'attachments/f49c3e44-bd39-41d9-b359-f4b89bb97a58/1719201746237_SELFIE_SELFIE.jpeg', 'buku_bank': 'attachments/f49c3e44-bd39-41d9-b359-f4b89bb97a58/1719201211575_BUKU_BANK_BUKU_BANK.jpeg', 'store': 'attachments/f49c3e44-bd39-41d9-b359-f4b89bb97a58/1719201154976_STORE_STORE.jpeg'}"
+      ],
+      "null_percentage": 50.58
+    },
+    {
+      "column_name": "business_type",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 35,
+      "description": "Type of business operation (Retail, Food, Services, etc). Used for merchant segmentation and sales targeting",
+      "business_context": "Common field - frequently populated (>50%)",
+      "semantic_source": "sql_definition + possible_values",
+      "example_values": [
+        "Agen Pembayaran",
+        "Agen Pembayaran",
+        "Agen Pembayaran"
+      ],
+      "possible_values": [
+        "Agen Pembayaran",
+        "Jasa (Bengkel, Laundry, Salon, dan lainnya)",
+        "Lainnya",
+        "Makanan Atau Minuman",
+        "Produk Kesehatan/Kecantikan",
+        "Pulsa, Token Listrik, dan Tagihan",
+        "Warung Sembako/Rokok"
+      ],
+      "null_percentage": 47.11
+    },
+    {
+      "column_name": "delivery_status",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 36,
+      "description": "Delivery progress status for EDC device. Tracks physical shipment status of device to merchant",
+      "business_context": "Optional field - sparsely populated",
+      "semantic_source": "sql_definition + possible_values",
+      "example_values": [
+        "NOT_STARTED",
+        "NOT_STARTED",
+        "DELIVERED"
+      ],
+      "possible_values": [
+        "DELIVERED",
+        "IN_DELIVERY",
+        "NOT_STARTED",
+        "RETURNED",
+        "WAITING_FOR_SHIPPER"
+      ],
+      "null_percentage": 58.5
+    }
+  ],
+  "has_semantic_docs": true
 }

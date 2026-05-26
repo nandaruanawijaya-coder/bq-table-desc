@@ -2,20 +2,2272 @@
   "full_table_id": "ledger-fcc1e.merchant_success_analytics.ms_form_hiring_and_active",
   "dataset": "merchant_success_analytics",
   "table_name": "ms_form_hiring_and_active",
-  "discovered_at": "2026-05-26T10:46:19.804353",
-  "metadata": {},
-  "table_type": "UNKNOWN",
-  "is_derived": false,
+  "discovered_at": "2026-05-26T10:51:09.471338",
+  "metadata": {
+    "table_name": "ms_form_hiring_and_active",
+    "table_type": "TABLE",
+    "creation_time": "2026-05-26 03:48:53.783000+00:00",
+    "modified_time": "2026-05-26 03:48:53.784000+00:00",
+    "description": "",
+    "column_count": 170
+  },
+  "table_type": "TABLE",
+  "is_derived": true,
   "creation_query": {
     "creation_time": "2026-05-05 09:05:02.908000+00:00",
     "statement_type": "CREATE_TABLE_AS_SELECT",
-    "query": "-- Version Control\n-- (2025-09-11) - Erald change currently_active_this_day from WHEN DATE(resigned_jkt_date) = day OR DATE(terminated_jkt_date) = day \n-- -------------- to WHEN DATE(resigned_jkt_date) > day OR DATE(terminated_jkt_date) > day\n-- (2025-11-14) - Amalia Change logic to OR to AND in witdraw join \n-- (2025-12-09) - Added is_last_day_of_month and is_last_day_of_week flag\n\nCREATE OR REPLACE TABLE\n  `ledger-fcc1e.merchant_success_analytics.ms_daily_status_log`\nPARTITION BY day\n  AS \n\n\nWITH base_data AS (\n  SELECT\n    candidate_name,\n    phone_number,\n    area_placement,\n    district_coverage,\n    vendor_name,\n    vendor_type,\n    role_type,\n    prospero_email,\n    CASE WHEN LOWER(vendor_name) LIKE \"%permanen%\" THEN 1 ELSE 0 END is_permanent,\n    start_date_ms_active,\n    resigned_jkt_date,\n    terminated_jkt_date,\n    reason_for_resignation_or_termination,\n    reason_type_for_resignation_or_termination,\n    COALESCE(resigned_jkt_date, terminated_jkt_date, CURRENT_DATE()) AS end_date\n  FROM `ledger-fcc1e.merchant_success_analytics.ms_form_hiring_and_active`\n  WHERE \n    -- role_type = \"MERCHANT_SALES_EXECUTIVE\"\n    -- AND \n    (\n      (current_hiring_status LIKE \"%ACTIVE%\" OR start_date_ms_active IS NOT NULL)\n      AND (withdraw_join_first_flag IS NULL\n          -- AND ojt_not_join_first_flag IS NULL\n          AND current_hiring_status NOT LIKE \"%REJEC%\")\n    )\n    -- AND \n    -- UPPER(candidate_name) LIKE \"%AUFA MUI%\"\n\n),\n\nexploded_days AS (\n  SELECT \n    candidate_name,\n    phone_number,\n    area_placement,\n    district_coverage,\n    vendor_name,\n    vendor_type,\n    role_type,\n    prospero_email,\n    is_permanent,\n    start_date_ms_active,\n    resigned_jkt_date,\n    terminated_jkt_date,\n    day,\n    reason_for_resignation_or_termination,\n    reason_type_for_resignation_or_termination,\n  FROM base_data,\n  UNNEST(\n    GENERATE_DATE_ARRAY(\n      DATE(start_date_ms_active),\n      DATE(COALESCE(resigned_jkt_date, terminated_jkt_date, CURRENT_DATE())),\n      INTERVAL 1 DAY\n    )\n  ) AS day\n),\n\nbase AS (\n  SELECT\n    candidate_name,\n    phone_number,\n    area_placement,\n    district_coverage,\n    vendor_type,\n    role_type,\n    prospero_email,\n    vendor_name,\n    is_permanent,\n    day,\n    start_date_ms_active,\n    reason_for_resignation_or_termination,\n    reason_type_for_resignation_or_termination,\n    DATE(start_date_ms_active) AS joined_day,\n    CASE WHEN DATE(start_date_ms_active) = day THEN 1 ELSE 0 END AS is_joined_this_day,\n    DATE(resigned_jkt_date) AS resigned_day,\n    CASE WHEN DATE(resigned_jkt_date) = day THEN 1 ELSE 0 END AS is_resigned_this_day,\n    DATE(terminated_jkt_date) AS terminated_day,\n    CASE WHEN DATE(terminated_jkt_date) = day THEN 1 ELSE 0 END AS is_terminated_this_day,\n\n    -- Active only if NOT resigned or terminated this day\n    CASE \n      WHEN DATE(resigned_jkt_date) = day \n        OR DATE(terminated_jkt_date) = day \n      THEN 1 \n      ELSE 1 \n    END AS currently_active_this_day,\n\n    -- Flag: is this the last day of the month for this MSE?\n    CASE \n      WHEN day = MAX(day) OVER (PARTITION BY DATE_TRUNC(day, MONTH)) \n      THEN TRUE \n      ELSE FALSE \n    END AS is_last_day_of_month,\n        CASE \n      WHEN day = MAX(day) OVER (PARTITION BY DATE_TRUNC(day, WEEK)) \n      THEN TRUE \n      ELSE FALSE \n    END AS is_last_day_of_week,\n\n      CASE\n        WHEN day < DATE(start_date_ms_active) THEN 0\n        WHEN EXTRACT(DAY FROM DATE(start_date_ms_active)) > 20 \n          THEN DATE_DIFF(DATE_TRUNC(day, MONTH), DATE_TRUNC(start_date_ms_active, MONTH), MONTH) - 1\n        ELSE DATE_DIFF(DATE_TRUNC(day, MONTH), DATE_TRUNC(start_date_ms_active, MONTH), MONTH)\n      END AS diff_month,\n      CASE\n  WHEN resigned_jkt_date IS NOT NULL THEN\n    CASE\n      WHEN EXTRACT(DAY FROM DATE(start_date_ms_active)) > 20 \n        THEN DATE_DIFF(DATE_TRUNC(resigned_jkt_date, MONTH), DATE_TRUNC(start_date_ms_active, MONTH), MONTH) - 1\n      ELSE DATE_DIFF(DATE_TRUNC(resigned_jkt_date, MONTH), DATE_TRUNC(start_date_ms_active, MONTH), MONTH)\n    END\n  WHEN terminated_jkt_date IS NOT NULL THEN\n    CASE\n      WHEN EXTRACT(DAY FROM DATE(start_date_ms_active)) > 20 \n        THEN DATE_DIFF(DATE_TRUNC(terminated_jkt_date, MONTH), DATE_TRUNC(start_date_ms_active, MONTH), MONTH) - 1\n      ELSE DATE_DIFF(DATE_TRUNC(terminated_jkt_date, MONTH), DATE_TRUNC(start_date_ms_active, MONTH), MONTH)\n    END\n  ELSE NULL\nEND AS diff_month_resignation_termination\n  FROM exploded_days\n)\n\nSELECT \n  * EXCEPT(diff_month, diff_month_resignation_termination),\n  diff_month,\n  diff_month_resignation_termination,\n  CASE \n    WHEN diff_month <= 0 THEN \"(a) M0 - New, Joined This Month\"\n    WHEN diff_month = 1 THEN \"(b) M1 - Joined Last Month\"\n    WHEN diff_month = 2 THEN \"(c) M2 - Joined 2 Months Ago\"\n    WHEN diff_month > 2 THEN \"(d) >M2 - Joined More Than 2 Months Ago\"\n  END AS mse_join_category,\n   CASE \n    WHEN is_resigned_this_day = 1 OR is_terminated_this_day = 1 THEN\n      CASE \n        WHEN diff_month_resignation_termination <= 0 THEN \"(a) M0 - Resigned/Terminated in Join Month\"\n        WHEN diff_month_resignation_termination = 1 THEN \"(b) M1 - Resigned/Terminated 1 Month After Join\"\n        WHEN diff_month_resignation_termination = 2 THEN \"(c) M2 - Resigned/Terminated 2 Months After Join\"\n        WHEN diff_month_resignation_termination > 2 THEN \"(d) >M2 - Resigned/Terminated >2 Months After Join\"\n      END\n    ELSE \"(e) Still Active - No Resignation/Termination\"\n  END AS mse_resignation_termination_category\nFROM base"
+    "query": "-- Version Control\n-- (2025-09-11) - Erald change currently_active_this_day from WHEN DATE(resigned_jkt_date) = day OR DATE(terminated_jkt_date) = day \n-- -------------- to WHEN DATE(resigned_jkt_date) > day OR DATE(terminated_jkt_date) > day\n-- (2025-11-14) - Amalia Change logic to OR to AND in witdraw join \n-- (2025-12-09) - Added is_last_day_of_month and is_last_day_of_week flag\n\nCREATE OR REPLACE TABLE\n  `ledger-fcc1e.merchant_success_analytics.ms_daily_status_log`\nPARTITION BY day\n  AS \n\n\nWITH base_data AS (\n  SELECT\n    candidate_name,\n    phone_number,\n    area_placement,\n    district_coverage,\n    vendor_name,\n    vendor_type,\n    role_type,\n    prospero_email,\n    CASE WHEN LOWER(vendor_name) LIKE \"%permanen%\" THEN 1 ELSE 0 END is_permanent,\n    start_date_ms_active,\n    resigned_jkt_date,\n    terminated_jkt_date,\n    reason_for_resignation_or_termination,\n    reason_type_for_resignation_or_termination,\n    COALESCE(resigned_jkt_date, terminated_jkt_date, CURRENT_DATE()) AS en"
   },
   "transformation_type": {
-    "type": "base",
-    "transformation": null,
-    "source_tables": []
+    "type": "derived",
+    "transformation": [
+      "case_statement",
+      "date_transformation"
+    ],
+    "source_tables": [
+      "WHEN"
+    ]
   },
-  "column_count": 0,
-  "columns": []
+  "column_count": 170,
+  "columns": [
+    {
+      "column_name": "cv_link",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 1,
+      "description": "URL link to candidate's CV document in Google Drive. Resume reference.",
+      "business_context": "Core field - >90% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "https://drive.google.com/open?id=1smuubiwwu5mmwaicqwtfkscrc04u3kb7",
+        "https://drive.google.com/open?id=1yqwlflx_ohbwdmvu4gs760gvfrzs6qrc",
+        "https://drive.google.com/open?id=1tdg32pu3ur53wnr7ndtquyslonvpdqi_"
+      ],
+      "possible_values": null,
+      "null_percentage": 1.0
+    },
+    {
+      "column_name": "area_placement",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 2,
+      "description": "Geographic region where candidate is assigned/placed. Work location area.",
+      "business_context": "Core field - >90% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "JAVA_3",
+        "JAVA_1",
+        "SUMATERA_3"
+      ],
+      "possible_values": [
+        "BALI_NUSRA",
+        "JAKARTA",
+        "JAVA_1",
+        "JAVA_2",
+        "JAVA_3",
+        "KALIMANTAN",
+        "NOT DEFINED",
+        "SUMATERA_1",
+        "SUMATERA_2",
+        "SUMATERA_3"
+      ],
+      "null_percentage": 2.0
+    },
+    {
+      "column_name": "city_or_regency_placement",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 3,
+      "description": "Specific city or regency for placement. Detailed location.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "district_coverage",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 4,
+      "description": "District area covered by MSE/RSE assignment. Territory coverage.",
+      "business_context": "Required field - always populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "MALANG",
+        "CIREBON",
+        "BANGKA BARAT"
+      ],
+      "possible_values": null,
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "vendor_type",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 5,
+      "description": "Vendor or staffing company type. Vendor type classification for hiring source.",
+      "business_context": "Required field - always populated",
+      "semantic_source": "sql_definition + value_format + business_context + sample_data",
+      "example_values": [
+        "VENDOR",
+        "VENDOR",
+        "VENDOR"
+      ],
+      "possible_values": [
+        "INTERNAL_SOURCES",
+        "VENDOR"
+      ],
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "phone_number",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 6,
+      "description": "Phone number (10-11 digit Indonesian mobile). Primary identifier for merchant or contact lookup.",
+      "business_context": "Required field - always populated",
+      "semantic_source": "sql_definition + value_format + business_context + sample_data",
+      "example_values": [
+        "82233812611",
+        "85294300090",
+        "83845322600"
+      ],
+      "possible_values": null,
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "prospero_email",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 7,
+      "description": "Email address. Contact information for communication.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + value_format + business_context + sample_data",
+      "example_values": [
+        "mse318@bukuwarung.id",
+        "rse16@bukuwarung.id",
+        "mse306@bukuwarung.id"
+      ],
+      "possible_values": [
+        "mse306@bukuwarung.id",
+        "mse317@bukuwarung.id",
+        "mse318@bukuwarung.id",
+        "rse16@bukuwarung.id",
+        "rse22@bukuwarung.id"
+      ],
+      "null_percentage": 95.0
+    },
+    {
+      "column_name": "tfcode",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 8,
+      "description": "Tfcode. Timeforce/HR system code for employee. HR system identifier.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "TF04740",
+        "IRHAMNI966",
+        "TF04725"
+      ],
+      "possible_values": [
+        "HARTIKA901",
+        "IRHAMNI966",
+        "TF04725",
+        "TF04737",
+        "TF04740"
+      ],
+      "null_percentage": 95.0
+    },
+    {
+      "column_name": "candidate_name",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 9,
+      "description": "Full name of job candidate. Candidate name for identification in hiring process.",
+      "business_context": "Required field - always populated",
+      "semantic_source": "sql_definition + value_format + business_context + sample_data",
+      "example_values": [
+        "FELDIANTORO",
+        "YULI RUSNANDAR ",
+        "TRI RAHMAT SAPUTRA"
+      ],
+      "possible_values": null,
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "role_type",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 10,
+      "description": "Job role classification type. Role type defines position being hired.",
+      "business_context": "Required field - always populated",
+      "semantic_source": "sql_definition + value_format + business_context + sample_data",
+      "example_values": [
+        "MERCHANT_SALES_EXECUTIVE",
+        "MERCHANT_SALES_EXECUTIVE",
+        "MERCHANT_SALES_EXECUTIVE"
+      ],
+      "possible_values": [
+        "MERCHANT_SALES_EXECUTIVE",
+        "Not Defined",
+        "RETAIL_SALES_EXECUTIVE"
+      ],
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "name_in_reporting",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 11,
+      "description": "Name used in reporting systems. Reporting identifier.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "current_hiring_status",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 12,
+      "description": "Current stage in MSE/RSE hiring pipeline. Shows where candidate is in process.",
+      "business_context": "Required field - always populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "(21)_BACKUP",
+        "(21)_BACKUP",
+        "(2)_CV_REJECTED"
+      ],
+      "possible_values": null,
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "created_at_jkt_ts",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 13,
+      "description": "Timestamp when record was created in Jakarta timezone. Created at JKT timestamp marks record creation.",
+      "business_context": "Required field - always populated",
+      "semantic_source": "sql_definition + value_format + business_context + sample_data",
+      "example_values": [
+        "2026-05-07T10:22:00.778000",
+        "2026-05-07T11:23:16.669000",
+        "2026-05-07T14:47:22.906000"
+      ],
+      "possible_values": null,
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "created_at_jkt_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 14,
+      "description": "Created Jkt - Timestamp when record was created. Indicates when entity entered the system.",
+      "business_context": "Required field - always populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-05-07",
+        "2026-05-07",
+        "2026-05-07"
+      ],
+      "possible_values": [
+        "2025-06-29",
+        "2025-07-09",
+        "2026-01-16",
+        "2026-05-07"
+      ],
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "external_form_response_id",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 15,
+      "description": "Unique identifier for external form response. Primary key or foreign key for data relationships.",
+      "business_context": "Required field - always populated",
+      "semantic_source": "sql_definition + value_format + business_context + sample_data",
+      "example_values": [
+        "1ce9848b-da03-434c-8f0a-b8873f4d7204",
+        "eea91e7f-0574-47f5-bfd6-596ec96f358f",
+        "044c18c5-ed60-4304-b0fe-f0d829047910"
+      ],
+      "possible_values": null,
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "is_currently_active",
+      "data_type": "BOOL",
+      "is_nullable": "YES",
+      "ordinal_position": 16,
+      "description": "Is currently active. Boolean flag indicating state or condition. Used for status or attribute tracking.",
+      "business_context": "Required field - always populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "false",
+        "false",
+        "false"
+      ],
+      "possible_values": [
+        "false",
+        "true"
+      ],
+      "null_percentage": 0.0
+    },
+    {
+      "column_name": "start_date_ms_active",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 17,
+      "description": "Date when MSE/RSE became active and started work. Employment start date.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-01-29",
+        "2025-07-21",
+        "2025-07-09"
+      ],
+      "possible_values": [
+        "2025-07-09",
+        "2025-07-17",
+        "2025-07-21",
+        "2026-01-29"
+      ],
+      "null_percentage": 94.0
+    },
+    {
+      "column_name": "interview_notes",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 18,
+      "description": "Detailed notes from user/team lead interview. Assessment feedback.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "1. Tidak tau tentang produk kita\n2. ketika di kasih  pertanyaan tidak bisa dijawab.",
+        "pass HR interview, belum user",
+        "- domisili gading serpong, tangerang \n- visit 20 toko sehari memperkenalkan npl\ndi yessindo value 20"
+      ],
+      "possible_values": [
+        "- domisili gading serpong, tangerang \n- visit 20 toko sehari memperkenalkan npl\ndi yessindo value 20 jt/bln 80% achieve target biasa pegang depok bogor kab. tangerang\n- strategi perbanyak visit",
+        "1. Tidak tau tentang produk kita\n2. ketika di kasih  pertanyaan tidak bisa dijawab.",
+        "Adam gunawan\u2705\nCiamis\nPernah jadi sales homecredit cover 15 toko, 13 toko mobile\nPernah jadi sales aqua, target 150 jt perbulan, visit 25 perbulan\nKomuikasi : ok\n\nFeedback user : \nAlasan dia resign dari tempat sebelumnya :\nPulang malam - artaboga, Hari libur masuk, Tidak bisa bersaing bunga 3.5% di home credit sementara di BW juga bunga 3.5 - 4.5%.\nUser merasa candidates tidak akan bertahan lama karena tidak kuat tekanan dari perusahaan sebelumnya",
+        "Becik budi\u2705\nProbolinggo\nPernah jadi sales TO di monde, cover probolinggo all,visit per hari 30, EC 10 dan NOO 2,\nPeenah jadi sales TO di belfoods\nKomunikasi: cukup ok",
+        "Dovi apriyadi \u2705\nLubuk linggau\nPernah jadi sales di bank nobu, target 100 jt, penjualan qris dapet 10-30, kunjungan per hari 50 visit per hari (jakarta)\nKomunikasi: ok\n\nTidak memenuhi penilaian untuk hire, Secara komunikasi masih kurang",
+        "Erik febrianilla \u2705\nSurabaya\nPernah jadi sales BCA handle EDC, kunjungan 10 toko, cover all surabaya, target aktivasi 20 pemasangan\nKomunikasi : cukup ok",
+        "Fariz Eko\u2705\nSurabaya\nPernah jadi sales akuisi, target akuisisi 10 merchant per hari, sidoarjo, gresik, surabaya\nKomunikasi : ok\n\nFeedback : ditanya user apa hal terberat dalam pekerjaan, dia info ditolak merchant (asumsi user, anaknya gampang stress)",
+        "Gilang Chandra Gumilar\u2705\nTasikmalaya\nPernah jadi sales indosat, visit 15 per day, target saldo 15 perbulan, kartu perdana 30 pcs per month, cover ciamis\npernah jadi sales polibeli, target 35 jt perbulan, visit per day 10\nkomunikasi : good\nmotivasi : karena cocok dengan skill dan punya database\n\nUser Interview feedback : pengalamannya ga terlalu lama dan alasan resign nya problematik mungkin karena terlalu kritis",
+        "Hafish Al Fasya - Wonosobo\u2705\nPernah jadi sales di efishery jadi BD, akuisisi merchant 1 per day, akuisi farmer 15 per bulan, 700 jt\nPernah jadi sales medical representatif\nKomunikasi : ok\n\nMengundurkan diri setelah OJT hari pertama",
+        "Hendi Nugraha\u2705\nBandung kiaracondong\nPernah jadi sales payfazz, target akuisi 1 per hari, maintain 15 agen, target 5 M, cover area, cover all bandung kota, cicalengka, kopo, soreang\nKomunikasi: ok\n\nWithdraw karena tidak sanggup dengan jobdesc",
+        "Herry 45 tahun \u2705\nWey kanan\nPernah jadi sales xl, visit 5, cover area wey kanan, target 30 M\nKomunikasi: ok",
+        "Misrani\u2705\nBarito selatan (bentok)\nPernah kerja di 3, cover barito selatan visit per hari 10 toko, target 3 pcs, pulsa 5000, cover area all barito selatan\nKomunikasi : ok\n\nTidak ada info utk kelanjutan OJTnya",
+        "Noval\u2705\nKab agam\nPernah jadi sales pembiayaan, data base, nasabah 8-12, 4 toko, cover area agam dan padang panjang\nKomunikasi: ok",
+        "Roby Gunawan\u2705\nPamekasan\nPernah jadi sales XL, target value 122 jt perbulan inc produk pulsa, paket dan kartu, visit\nKomunikasi: cukup ok\n\nFeedback user (diwakilkan oleh mas Izad, karena mas Eko cuti) :\n- Ex sales XL & alkes Pamekasan. \n- mengaku punya database konter XL di 4 kecamatan. Per kec. 70 konter dan ada konter pareto yg ingin join brilink tadi tidak bisa karena terkendala jarak & syarat administratif\n- Aktif bertanya dan paham garis besar bisnis EDC. \nHasil: bisa dicek saat OJT apakah yg disampaikan bener dan parameter lainnya. ",
+        "Sigit Prikurdinansyah\u2705\nPurwakarta\npernah jadi sales ottopay, cover area karawang, target visit 10-15\npernah jadi sales efishery, cover purwakarta 50 jt, visit 10 hari perhari\nkomunikasi : ok",
+        "Vicky lesmana \u2705 (karawang)\nBekasi\nPernah jadi sales di shopee, visit 20 per hari, target transaksi per toko 30 toko, target 100 jt untuk value, cover area karawang, kab bekasi\nKomunikasi : ok\n\nMenghilang ketika sudah di schedule OJT",
+        "Zulkopli \u2705\nKarawang \nPernah jadi sales sembako, visit 9 toko, 3,2 M, cover all karawang\nKomunikasi : cukup ok\n\nMendapat pekerjaan lain",
+        "pass HR interview, belum user",
+        "pernah di akulaku yang menjual qris, lalu dia pernah ke mamikos juga setahun, lalu pindah ke grab, terakhir kali bekerja di kozi selama 1 tahun, lalu sisanya freelance BCA.\n\nok can try",
+        "pernah jadi sales sharp lalu panasonic dan pindah ke samsung, lalu terakhir di brand TCL product electronic, biasanya standby di toko. \n\npernah jadi sales lapangan saat di purbasari namun hanya 1 bulan karena merasa leadernya kurang oke."
+      ],
+      "null_percentage": 80.0
+    },
+    {
+      "column_name": "notes",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 19,
+      "description": "Assessment notes from credit evaluation team. Contains qualitative observations on borrower and business.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "cv_submitted_first_flag",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 20,
+      "description": "Cv submitted first flag. Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "business_context": "Common field - >50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ],
+      "null_percentage": 15.0
+    },
+    {
+      "column_name": "cv_submitted_jkt_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 21,
+      "description": "Cv submitted jkt date. Date of event or action. Indicates when transaction or process occurred.",
+      "business_context": "Common field - >50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-05-07",
+        "2026-05-07",
+        "2026-05-07"
+      ],
+      "possible_values": [
+        "2025-06-29",
+        "2025-07-09",
+        "2026-01-16",
+        "2026-05-07"
+      ],
+      "null_percentage": 15.0
+    },
+    {
+      "column_name": "cv_submitted_jkt_ts",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 22,
+      "description": "Timestamp when CV was submitted by candidate. CV submission time.",
+      "business_context": "Common field - >50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-05-07T14:47:22.906000",
+        "2026-05-07T14:28:34.001000",
+        "2026-05-07T14:35:50.160000"
+      ],
+      "possible_values": null,
+      "null_percentage": 15.0
+    },
+    {
+      "column_name": "cv_submitted_first_jkt_week",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 23,
+      "description": "Week when CV was first submitted. Submission week identifier.",
+      "business_context": "Common field - >50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-05-04T00:00:00",
+        "2026-05-04T00:00:00",
+        "2026-05-04T00:00:00"
+      ],
+      "possible_values": [
+        "2025-06-23T00:00:00",
+        "2025-07-07T00:00:00",
+        "2026-01-12T00:00:00",
+        "2026-05-04T00:00:00"
+      ],
+      "null_percentage": 15.0
+    },
+    {
+      "column_name": "cv_rejected_first_flag",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 24,
+      "description": "Cv rejected first flag. Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ],
+      "null_percentage": 65.0
+    },
+    {
+      "column_name": "cv_rejected_jkt_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 25,
+      "description": "Cv rejected jkt date. Date of event or action. Indicates when transaction or process occurred.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-05-07",
+        "2026-05-07",
+        "2026-05-07"
+      ],
+      "possible_values": [
+        "2025-06-29",
+        "2025-07-09",
+        "2026-05-07"
+      ],
+      "null_percentage": 65.0
+    },
+    {
+      "column_name": "cv_rejected_jkt_ts",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 26,
+      "description": "Timestamp when CV was rejected in screening. Rejection time.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-05-07T14:47:22.906000",
+        "2026-05-07T14:28:34.001000",
+        "2026-05-07T14:35:50.160000"
+      ],
+      "possible_values": null,
+      "null_percentage": 65.0
+    },
+    {
+      "column_name": "cv_rejected_first_jkt_week",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 27,
+      "description": "Week when CV was first rejected. Rejection week identifier.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-05-04T00:00:00",
+        "2026-05-04T00:00:00",
+        "2026-05-04T00:00:00"
+      ],
+      "possible_values": [
+        "2025-06-23T00:00:00",
+        "2025-07-07T00:00:00",
+        "2026-05-04T00:00:00"
+      ],
+      "null_percentage": 65.0
+    },
+    {
+      "column_name": "ai_interview_first_flag",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 28,
+      "description": "Binary flag (0/1) indicating whether AI interview was conducted. AI interview occurrence.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "ai_interview_jkt_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 29,
+      "description": "Ai interview jkt date. Date of event or action. Indicates when transaction or process occurred.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "ai_interview_jkt_ts",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 30,
+      "description": "Timestamp of AI assessment interview. Interview timestamp.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "ai_interview_jkt_week",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 31,
+      "description": "Week of AI assessment interview. Interview week.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "ai_interview_rejected_first_flag",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 32,
+      "description": "Binary flag (0/1) indicating whether AI interview resulted in rejection. AI interview rejection.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "ai_interview_rejected_jkt_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 33,
+      "description": "Ai interview rejected jkt date. Date of event or action. Indicates when transaction or process occurred.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "ai_interview_rejected_interview_jkt_ts",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 34,
+      "description": "Ai interview rejected interview jkt ts. Timestamp of AI rejection decision. Rejection timestamp.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "ai_interview_rejected_jkt_week",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 35,
+      "description": "Interview Rejected - Week identifier when AI assessment resulted in rejection. Tracks rejection timing.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "ta_interview_scheduled_first_flag",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 36,
+      "description": "Interview Scheduled - Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ],
+      "null_percentage": 54.0
+    },
+    {
+      "column_name": "ta_interview_scheduled_jkt_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 37,
+      "description": "Ta interview scheduled jkt date. Date of event or action. Indicates when transaction or process occurred.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-05-07",
+        "2026-05-07",
+        "2026-05-07"
+      ],
+      "possible_values": [
+        "2025-06-29",
+        "2025-07-09",
+        "2025-07-10",
+        "2025-07-11",
+        "2025-07-14",
+        "2026-01-19",
+        "2026-05-07"
+      ],
+      "null_percentage": 54.0
+    },
+    {
+      "column_name": "ta_interview_scheduled_jkt_ts",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 38,
+      "description": "Timestamp when team lead interview was scheduled. Scheduling time.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-05-07T10:22:00.778000",
+        "2026-05-07T11:23:16.669000",
+        "2026-05-07T11:49:27.961000"
+      ],
+      "possible_values": null,
+      "null_percentage": 54.0
+    },
+    {
+      "column_name": "ta_interview_scheduled_first_jkt_week",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 39,
+      "description": "Week when TL interview was first scheduled. Scheduling week.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-05-04T00:00:00",
+        "2026-05-04T00:00:00",
+        "2026-05-04T00:00:00"
+      ],
+      "possible_values": [
+        "2025-06-23T00:00:00",
+        "2025-07-07T00:00:00",
+        "2025-07-14T00:00:00",
+        "2026-01-19T00:00:00",
+        "2026-05-04T00:00:00"
+      ],
+      "null_percentage": 54.0
+    },
+    {
+      "column_name": "ta_interview_rejected_first_flag",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 40,
+      "description": "Interview Rejected - Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ],
+      "null_percentage": 97.0
+    },
+    {
+      "column_name": "ta_interview_rejected_jkt_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 41,
+      "description": "Ta interview rejected jkt date. Date of event or action. Indicates when transaction or process occurred.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-05-07",
+        "2026-05-07",
+        "2026-05-07"
+      ],
+      "possible_values": [
+        "2026-05-07"
+      ],
+      "null_percentage": 97.0
+    },
+    {
+      "column_name": "ta_interview_rejected_jkt_ts",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 42,
+      "description": "Interview Rejected - Timestamp when rejected by team lead. Rejection time.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-05-07T17:37:38.241000",
+        "2026-05-07T17:37:01.052000",
+        "2026-05-07T17:38:08.999000"
+      ],
+      "possible_values": [
+        "2026-05-07T17:37:01.052000",
+        "2026-05-07T17:37:38.241000",
+        "2026-05-07T17:38:08.999000"
+      ],
+      "null_percentage": 97.0
+    },
+    {
+      "column_name": "ta_interview_rejected_first_jkt_week",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 43,
+      "description": "Ta interview rejected first jkt week. Week of team lead rejection. Rejection week.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-05-04T00:00:00",
+        "2026-05-04T00:00:00",
+        "2026-05-04T00:00:00"
+      ],
+      "possible_values": [
+        "2026-05-04T00:00:00"
+      ],
+      "null_percentage": 97.0
+    },
+    {
+      "column_name": "ta_interview_not_join_first_flag",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 44,
+      "description": "Interview Not - Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ],
+      "null_percentage": 98.0
+    },
+    {
+      "column_name": "ta_interview_not_join_jkt_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 45,
+      "description": "Ta interview not join jkt date. Date of event or action. Indicates when transaction or process occurred.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-05-07",
+        "2026-05-07"
+      ],
+      "possible_values": [
+        "2026-05-07"
+      ],
+      "null_percentage": 98.0
+    },
+    {
+      "column_name": "ta_interview_not_join_jkt_ts",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 46,
+      "description": "Timestamp when candidate failed to join TA interview in Jakarta timezone. TA interview no-show timestamp indicates candidate did not attend scheduled talent acquisition interview.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-05-07T17:38:35.180000",
+        "2026-05-07T17:39:07.079000"
+      ],
+      "possible_values": [
+        "2026-05-07T17:38:35.180000",
+        "2026-05-07T17:39:07.079000"
+      ],
+      "null_percentage": 98.0
+    },
+    {
+      "column_name": "ta_interview_not_join_first_jkt_week",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 47,
+      "description": "Week of first TA interview no-show. TA interview no-show first week marker.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-05-04T00:00:00",
+        "2026-05-04T00:00:00"
+      ],
+      "possible_values": [
+        "2026-05-04T00:00:00"
+      ],
+      "null_percentage": 98.0
+    },
+    {
+      "column_name": "assessment_assigned_first_flag",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 48,
+      "description": "Assessment assigned first flag. Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ],
+      "null_percentage": 60.0
+    },
+    {
+      "column_name": "assessment_assigned_jkt_date",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 49,
+      "description": "Assessment assigned jkt date. Date of event or action. Indicates when transaction or process occurred.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2025-07-09T18:51:34.657000",
+        "2025-07-09T18:50:52.205000",
+        "2025-07-09T15:21:52.741000"
+      ],
+      "possible_values": null,
+      "null_percentage": 60.0
+    },
+    {
+      "column_name": "assessment_assigned_jkt_ts",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 50,
+      "description": "Timestamp when assessment was assigned. Assignment time.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2025-07-09T18:51:34.657000",
+        "2025-07-09T18:50:52.205000",
+        "2025-07-09T15:21:52.741000"
+      ],
+      "possible_values": null,
+      "null_percentage": 60.0
+    },
+    {
+      "column_name": "assessment_assigned_first_jkt_week",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 51,
+      "description": "Week when assessment was first assigned. Assignment week.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2025-07-09T18:51:34.657000",
+        "2025-07-09T18:50:52.205000",
+        "2025-07-09T15:21:52.741000"
+      ],
+      "possible_values": null,
+      "null_percentage": 60.0
+    },
+    {
+      "column_name": "assessment_failed_first_flag",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 52,
+      "description": "Assessment failed first flag. Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ],
+      "null_percentage": 91.0
+    },
+    {
+      "column_name": "assessment_failed_jkt_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 53,
+      "description": "Assessment failed jkt date. Date of event or action. Indicates when transaction or process occurred.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2025-07-10",
+        "2025-07-10",
+        "2025-07-10"
+      ],
+      "possible_values": [
+        "2025-07-10"
+      ],
+      "null_percentage": 91.0
+    },
+    {
+      "column_name": "assessment_failed_jkt_ts",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 54,
+      "description": "Timestamp when assessment was failed. Failure time.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2025-07-10T10:57:30.853000",
+        "2025-07-10T10:45:22.101000",
+        "2025-07-10T10:34:07.576000"
+      ],
+      "possible_values": [
+        "2025-07-10T10:29:06.512000",
+        "2025-07-10T10:34:07.576000",
+        "2025-07-10T10:45:22.101000",
+        "2025-07-10T10:47:50.377000",
+        "2025-07-10T10:53:36.653000",
+        "2025-07-10T10:57:30.853000",
+        "2025-07-10T10:58:05.494000",
+        "2025-07-10T11:02:15.806000",
+        "2025-07-10T11:05:14.110000"
+      ],
+      "null_percentage": 91.0
+    },
+    {
+      "column_name": "assessment_failed_first_jkt_week",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 55,
+      "description": "Week when assessment was failed. Failure week.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2025-07-07T00:00:00",
+        "2025-07-07T00:00:00",
+        "2025-07-07T00:00:00"
+      ],
+      "possible_values": [
+        "2025-07-07T00:00:00"
+      ],
+      "null_percentage": 91.0
+    },
+    {
+      "column_name": "assessment_not_doing_first_flag",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 56,
+      "description": "Binary flag (0/1) indicating whether assessment was not done. Assessment incomplete flag.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "assessment_not_doing_jkt_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 57,
+      "description": "Assessment not doing jkt date. Date of event or action. Indicates when transaction or process occurred.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "assessment_not_doing_jkt_ts",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 58,
+      "description": "Timestamp when assessment was not started. Non-completion time.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "assessment_not_doing_first_jkt_week",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 59,
+      "description": "Week when assessment was not done. Non-completion week.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "assessment_passed_first_flag",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 60,
+      "description": "Assessment passed first flag. Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ],
+      "null_percentage": 72.0
+    },
+    {
+      "column_name": "assessment_passed_jkt_date",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 61,
+      "description": "Assessment passed jkt date. Date of event or action. Indicates when transaction or process occurred.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2025-07-10T10:29:52.472000",
+        "2025-07-10T10:34:52.730000",
+        "2025-07-09T15:22:01.202000"
+      ],
+      "possible_values": null,
+      "null_percentage": 72.0
+    },
+    {
+      "column_name": "assessment_passed_jkt_ts",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 62,
+      "description": "Timestamp when assessment was passed. Pass timestamp.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2025-07-10T10:29:52.472000",
+        "2025-07-10T10:34:52.730000",
+        "2025-07-09T15:22:01.202000"
+      ],
+      "possible_values": null,
+      "null_percentage": 72.0
+    },
+    {
+      "column_name": "assessment_passed_first_jkt_week",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 63,
+      "description": "Week when assessment was passed. Pass week.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2025-07-07T00:00:00",
+        "2025-07-07T00:00:00",
+        "2025-07-07T00:00:00"
+      ],
+      "possible_values": [
+        "2025-07-07T00:00:00"
+      ],
+      "null_percentage": 72.0
+    },
+    {
+      "column_name": "user_interview_scheduled_first_flag",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 64,
+      "description": "User interview scheduled first flag. Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ],
+      "null_percentage": 65.0
+    },
+    {
+      "column_name": "user_interview_scheduled_jkt_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 65,
+      "description": "User interview scheduled jkt date. Date of event or action. Indicates when transaction or process occurred.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-05-07",
+        "2026-05-07",
+        "2026-05-07"
+      ],
+      "possible_values": [
+        "2025-06-30",
+        "2025-07-09",
+        "2025-07-10",
+        "2025-07-11",
+        "2025-07-14",
+        "2025-07-21",
+        "2025-09-29",
+        "2025-10-20",
+        "2026-01-19",
+        "2026-05-07"
+      ],
+      "null_percentage": 65.0
+    },
+    {
+      "column_name": "user_interview_scheduled_jkt_ts",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 66,
+      "description": "Timestamp when user interview was scheduled. Scheduling time.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-05-07T14:01:04.951000",
+        "2026-05-07T17:35:36.088000",
+        "2026-05-07T17:06:36.214000"
+      ],
+      "possible_values": null,
+      "null_percentage": 65.0
+    },
+    {
+      "column_name": "user_interview_scheduled_first_jkt_week",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 67,
+      "description": "Week when user interview was scheduled. Scheduling week.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-05-04T00:00:00",
+        "2026-05-04T00:00:00",
+        "2026-05-04T00:00:00"
+      ],
+      "possible_values": [
+        "2025-06-30T00:00:00",
+        "2025-07-07T00:00:00",
+        "2025-07-14T00:00:00",
+        "2025-07-21T00:00:00",
+        "2025-09-29T00:00:00",
+        "2025-10-20T00:00:00",
+        "2026-01-19T00:00:00",
+        "2026-05-04T00:00:00"
+      ],
+      "null_percentage": 65.0
+    },
+    {
+      "column_name": "user_interview_not_join_first_flag",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 68,
+      "description": "User interview not join first flag. Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ],
+      "null_percentage": 97.0
+    },
+    {
+      "column_name": "user_interview_not_join_jkt_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 69,
+      "description": "User interview not join jkt date. Date of event or action. Indicates when transaction or process occurred.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2025-09-30",
+        "2025-07-22",
+        "2025-07-16"
+      ],
+      "possible_values": [
+        "2025-07-16",
+        "2025-07-22",
+        "2025-09-30"
+      ],
+      "null_percentage": 97.0
+    },
+    {
+      "column_name": "user_interview_not_join_jkt_ts",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 70,
+      "description": "Timestamp when candidate failed to join user/hiring manager interview in Jakarta timezone. User interview no-show timestamp tracks no-shows at interview stage.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2025-09-30T10:24:45.635000",
+        "2025-07-22T16:54:48.151000",
+        "2025-07-16T19:12:59.566000"
+      ],
+      "possible_values": [
+        "2025-07-16T19:12:59.566000",
+        "2025-07-22T16:54:48.151000",
+        "2025-09-30T10:24:45.635000"
+      ],
+      "null_percentage": 97.0
+    },
+    {
+      "column_name": "user_interview_not_join_first_jkt_week",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 71,
+      "description": "Week of user interview no-show. No-show week.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2025-09-29T00:00:00",
+        "2025-07-21T00:00:00",
+        "2025-07-14T00:00:00"
+      ],
+      "possible_values": [
+        "2025-07-14T00:00:00",
+        "2025-07-21T00:00:00",
+        "2025-09-29T00:00:00"
+      ],
+      "null_percentage": 97.0
+    },
+    {
+      "column_name": "user_interview_passed_first_flag",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 72,
+      "description": "User interview passed first flag. Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ],
+      "null_percentage": 74.0
+    },
+    {
+      "column_name": "user_interview_passed_jkt_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 73,
+      "description": "User interview passed jkt date. Date of event or action. Indicates when transaction or process occurred.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-05-07",
+        "2026-05-07",
+        "2026-05-07"
+      ],
+      "possible_values": [
+        "2025-07-07",
+        "2025-07-10",
+        "2025-07-11",
+        "2025-07-15",
+        "2025-07-16",
+        "2026-01-22",
+        "2026-05-07",
+        "2026-05-08",
+        "2026-05-11"
+      ],
+      "null_percentage": 74.0
+    },
+    {
+      "column_name": "user_interview_passed_jkt_ts",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 74,
+      "description": "Timestamp when user interview was passed. Pass time.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-05-07T15:02:29.093000",
+        "2026-05-07T14:59:56.050000",
+        "2026-05-07T14:57:35.706000"
+      ],
+      "possible_values": null,
+      "null_percentage": 74.0
+    },
+    {
+      "column_name": "user_interview_passed_first_jkt_week",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 75,
+      "description": "Week when user interview passed. Pass week.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-05-04T00:00:00",
+        "2026-05-04T00:00:00",
+        "2026-05-04T00:00:00"
+      ],
+      "possible_values": [
+        "2025-07-07T00:00:00",
+        "2025-07-14T00:00:00",
+        "2026-01-19T00:00:00",
+        "2026-05-04T00:00:00",
+        "2026-05-11T00:00:00"
+      ],
+      "null_percentage": 74.0
+    },
+    {
+      "column_name": "user_interview_rejected_first_flag",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 76,
+      "description": "User interview rejected first flag. Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ],
+      "null_percentage": 94.0
+    },
+    {
+      "column_name": "user_interview_rejected_jkt_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 77,
+      "description": "User interview rejected jkt date. Date of event or action. Indicates when transaction or process occurred.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-05-07",
+        "2026-05-08",
+        "2026-05-07"
+      ],
+      "possible_values": [
+        "2025-07-11",
+        "2025-07-14",
+        "2025-07-16",
+        "2026-05-07",
+        "2026-05-08"
+      ],
+      "null_percentage": 94.0
+    },
+    {
+      "column_name": "user_interview_rejected_jkt_ts",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 78,
+      "description": "Timestamp when rejected by user interview. Rejection time.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-05-07T18:09:47.548000",
+        "2026-05-08T14:06:30.754000",
+        "2026-05-07T14:54:14.728000"
+      ],
+      "possible_values": [
+        "2025-07-11T16:57:04.764000",
+        "2025-07-14T15:07:22.572000",
+        "2025-07-16T19:11:42.582000",
+        "2026-05-07T14:54:14.728000",
+        "2026-05-07T18:09:47.548000",
+        "2026-05-08T14:06:30.754000"
+      ],
+      "null_percentage": 94.0
+    },
+    {
+      "column_name": "user_interview_rejected_first_jkt_week",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 79,
+      "description": "Week of user interview rejection. Rejection week.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-05-04T00:00:00",
+        "2026-05-04T00:00:00",
+        "2026-05-04T00:00:00"
+      ],
+      "possible_values": [
+        "2025-07-07T00:00:00",
+        "2025-07-14T00:00:00",
+        "2026-05-04T00:00:00"
+      ],
+      "null_percentage": 94.0
+    },
+    {
+      "column_name": "ojt_scheduled_first_flag",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 80,
+      "description": "Ojt scheduled first flag. Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ],
+      "null_percentage": 77.0
+    },
+    {
+      "column_name": "ojt_scheduled_jkt_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 81,
+      "description": "Ojt scheduled jkt date. Date of event or action. Indicates when transaction or process occurred.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-05-07",
+        "2026-05-11",
+        "2026-05-11"
+      ],
+      "possible_values": [
+        "2025-06-30",
+        "2025-07-07",
+        "2025-07-10",
+        "2025-07-11",
+        "2025-07-15",
+        "2025-07-16",
+        "2026-01-22",
+        "2026-05-07",
+        "2026-05-08",
+        "2026-05-11",
+        "2026-05-12"
+      ],
+      "null_percentage": 73.0
+    },
+    {
+      "column_name": "ojt_scheduled_jkt_ts",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 82,
+      "description": "Timestamp when OJT (on-the-job training) was scheduled. OJT scheduling time.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-05-07T15:02:29.093000",
+        "2026-05-11T10:33:43.954000",
+        "2026-05-11T10:34:06.445000"
+      ],
+      "possible_values": null,
+      "null_percentage": 73.0
+    },
+    {
+      "column_name": "ojt_scheduled_first_jkt_week",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 83,
+      "description": "Week when OJT was scheduled. OJT scheduling week.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-05-04T00:00:00",
+        "2026-05-11T00:00:00",
+        "2026-05-11T00:00:00"
+      ],
+      "possible_values": [
+        "2025-06-30T00:00:00",
+        "2025-07-07T00:00:00",
+        "2025-07-14T00:00:00",
+        "2026-01-19T00:00:00",
+        "2026-05-04T00:00:00",
+        "2026-05-11T00:00:00"
+      ],
+      "null_percentage": 73.0
+    },
+    {
+      "column_name": "ojt_in_progress_first_flag",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 84,
+      "description": "Ojt Progress - Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ],
+      "null_percentage": 87.0
+    },
+    {
+      "column_name": "ojt_in_progress_jkt_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 85,
+      "description": "Ojt Progress - Date of event or action. Indicates when transaction or process occurred.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-05-11",
+        "2026-05-11",
+        "2026-05-11"
+      ],
+      "possible_values": [
+        "2025-07-11",
+        "2025-07-14",
+        "2025-07-15",
+        "2025-07-18",
+        "2025-07-21",
+        "2026-01-23",
+        "2026-05-11"
+      ],
+      "null_percentage": 87.0
+    },
+    {
+      "column_name": "ojt_in_progress_jkt_ts",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 86,
+      "description": "Timestamp when OJT started/was in progress. OJT start time.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-05-11T22:27:34.570000",
+        "2026-05-11T14:15:19.772000",
+        "2026-05-11T14:19:42.189000"
+      ],
+      "possible_values": [
+        "2025-07-11T09:27:32.536000",
+        "2025-07-11T15:14:10.657000",
+        "2025-07-11T16:21:08.454000",
+        "2025-07-14T09:47:36.139000",
+        "2025-07-14T21:27:08.419000",
+        "2025-07-15T11:07:12.669000",
+        "2025-07-15T11:08:47.522000",
+        "2025-07-18T15:50:11.783000",
+        "2025-07-21T11:33:54.231000",
+        "2026-01-23T16:37:49.055000",
+        "2026-05-11T14:15:19.772000",
+        "2026-05-11T14:19:42.189000",
+        "2026-05-11T22:27:34.570000"
+      ],
+      "null_percentage": 87.0
+    },
+    {
+      "column_name": "ojt_in_progress_first_jkt_week",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 87,
+      "description": "Week when OJT was in progress. OJT progress week.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-05-11T00:00:00",
+        "2026-05-11T00:00:00",
+        "2026-05-11T00:00:00"
+      ],
+      "possible_values": [
+        "2025-07-07T00:00:00",
+        "2025-07-14T00:00:00",
+        "2025-07-21T00:00:00",
+        "2026-01-19T00:00:00",
+        "2026-05-11T00:00:00"
+      ],
+      "null_percentage": 87.0
+    },
+    {
+      "column_name": "ojt_not_passed_first_flag",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 88,
+      "description": "Binary flag (0/1) indicating whether OJT was not passed. OJT failure occurrence flag.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "ojt_not_passed_jkt_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 89,
+      "description": "Ojt not passed jkt date. Date of event or action. Indicates when transaction or process occurred.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "ojt_not_passed_jkt_ts",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 90,
+      "description": "Timestamp when OJT was not passed. OJT failure time.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "ojt_not_passed_first_jkt_week",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 91,
+      "description": "Week when OJT was first failed. OJT not passed week indicator.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [],
+      "possible_values": null,
+      "null_percentage": 100.0
+    },
+    {
+      "column_name": "ojt_not_join_first_flag",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 92,
+      "description": "Ojt not join first flag. Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ],
+      "null_percentage": 97.0
+    },
+    {
+      "column_name": "ojt_not_join_jkt_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 93,
+      "description": "Ojt not join jkt date. Date of event or action. Indicates when transaction or process occurred.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2025-07-16",
+        "2025-07-21",
+        "2025-07-07"
+      ],
+      "possible_values": [
+        "2025-07-07",
+        "2025-07-16",
+        "2025-07-21"
+      ],
+      "null_percentage": 97.0
+    },
+    {
+      "column_name": "ojt_not_join_jkt_ts",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 94,
+      "description": "Timestamp when candidate failed to join OJT (On-the-Job Training) in Jakarta timezone. OJT no-show join timestamp marks training attendance failure.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2025-07-16T17:47:27.742000",
+        "2025-07-21T17:22:18.077000",
+        "2025-07-07T15:00:32.148000"
+      ],
+      "possible_values": [
+        "2025-07-07T15:00:32.148000",
+        "2025-07-16T17:47:27.742000",
+        "2025-07-21T17:22:18.077000"
+      ],
+      "null_percentage": 97.0
+    },
+    {
+      "column_name": "ojt_not_join_first_jkt_week",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 95,
+      "description": "Week identifier when candidate no-showed OJT for the first time. Tracks absence.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2025-07-14T00:00:00",
+        "2025-07-21T00:00:00",
+        "2025-07-07T00:00:00"
+      ],
+      "possible_values": [
+        "2025-07-07T00:00:00",
+        "2025-07-14T00:00:00",
+        "2025-07-21T00:00:00"
+      ],
+      "null_percentage": 97.0
+    },
+    {
+      "column_name": "ojt_passed_first_flag",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 96,
+      "description": "Ojt passed first flag. Boolean flag (true/false or 1/0). Indicates presence, eligibility, or status.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ],
+      "null_percentage": 96.0
+    },
+    {
+      "column_name": "ojt_passed_jkt_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 97,
+      "description": "Ojt passed jkt date. Date of event or action. Indicates when transaction or process occurred.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-01-28",
+        "2025-07-25",
+        "2025-07-18"
+      ],
+      "possible_values": [
+        "2025-07-18",
+        "2025-07-25",
+        "2026-01-28"
+      ],
+      "null_percentage": 96.0
+    },
+    {
+      "column_name": "ojt_passed_jkt_ts",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 98,
+      "description": "Timestamp when OJT was passed/completed in Jakarta. OJT passed completion timestamp.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-01-28T10:37:51.255000",
+        "2025-07-25T15:36:36.813000",
+        "2025-07-18T16:23:45.931000"
+      ],
+      "possible_values": [
+        "2025-07-18T15:50:19.165000",
+        "2025-07-18T16:23:45.931000",
+        "2025-07-25T15:36:36.813000",
+        "2026-01-28T10:37:51.255000"
+      ],
+      "null_percentage": 96.0
+    },
+    {
+      "column_name": "ojt_passed_first_jkt_week",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 99,
+      "description": "Week when OJT was passed. OJT completion week.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "2026-01-26T00:00:00",
+        "2025-07-21T00:00:00",
+        "2025-07-14T00:00:00"
+      ],
+      "possible_values": [
+        "2025-07-14T00:00:00",
+        "2025-07-21T00:00:00",
+        "2026-01-26T00:00:00"
+      ],
+      "null_percentage": 96.0
+    },
+    {
+      "column_name": "pkwt_created_first_flag",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 100,
+      "description": "Pkwt Created - Timestamp when record was created. Indicates when entity entered the system.",
+      "business_context": "Optional field - <50% populated",
+      "semantic_source": "sql_definition + business_context",
+      "example_values": [
+        "1",
+        "1",
+        "1"
+      ],
+      "possible_values": [
+        "1"
+      ],
+      "null_percentage": 96.0
+    },
+    {
+      "column_name": "pkwt_created_jkt_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 101
+    },
+    {
+      "column_name": "pkwt_created_jkt_ts",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 102
+    },
+    {
+      "column_name": "pkwt_created_first_jkt_week",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 103
+    },
+    {
+      "column_name": "pkwt_signed_first_flag",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 104
+    },
+    {
+      "column_name": "pkwt_signed_jkt_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 105
+    },
+    {
+      "column_name": "pkwt_signed_jkt_ts",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 106
+    },
+    {
+      "column_name": "pkwt_signed_first_jkt_week",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 107
+    },
+    {
+      "column_name": "backup_first_flag",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 108
+    },
+    {
+      "column_name": "backup_jkt_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 109
+    },
+    {
+      "column_name": "backup_jkt_ts",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 110
+    },
+    {
+      "column_name": "backup_first_jkt_week",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 111
+    },
+    {
+      "column_name": "currently_active_work_first_flag",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 112
+    },
+    {
+      "column_name": "currently_active_work_jkt_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 113
+    },
+    {
+      "column_name": "currently_active_work_jkt_ts",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 114
+    },
+    {
+      "column_name": "currently_active_work_first_jkt_week",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 115
+    },
+    {
+      "column_name": "withdraw_join_first_flag",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 116
+    },
+    {
+      "column_name": "withdraw_join_jkt_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 117
+    },
+    {
+      "column_name": "withdraw_join_jkt_ts",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 118
+    },
+    {
+      "column_name": "withdraw_join_first_jkt_week",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 119
+    },
+    {
+      "column_name": "onhold_first_flag",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 120
+    },
+    {
+      "column_name": "onhold_jkt_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 121
+    },
+    {
+      "column_name": "onhold_jkt_ts",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 122
+    },
+    {
+      "column_name": "onhold_first_jkt_week",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 123
+    },
+    {
+      "column_name": "resigned_first_flag",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 124
+    },
+    {
+      "column_name": "resigned_jkt_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 125
+    },
+    {
+      "column_name": "resigned_jkt_ts",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 126
+    },
+    {
+      "column_name": "resigned_first_jkt_week",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 127
+    },
+    {
+      "column_name": "resigned_move_flag",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 128
+    },
+    {
+      "column_name": "resigned_move_jkt_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 129
+    },
+    {
+      "column_name": "resigned_move_jkt_ts",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 130
+    },
+    {
+      "column_name": "resigned_move_jkt_week",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 131
+    },
+    {
+      "column_name": "terminated_first_flag",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 132
+    },
+    {
+      "column_name": "terminated_jkt_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 133
+    },
+    {
+      "column_name": "terminated_jkt_ts",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 134
+    },
+    {
+      "column_name": "terminated_first_jkt_week",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 135
+    },
+    {
+      "column_name": "pre_ojt_assesment_first_flag",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 136
+    },
+    {
+      "column_name": "pre_ojt_assesment_first_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 137
+    },
+    {
+      "column_name": "pre_ojt_assesment_first_jkt_ts",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 138
+    },
+    {
+      "column_name": "pre_ojt_assesment_first_jkt_week",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 139
+    },
+    {
+      "column_name": "pre_ojt_assesment_not_join_first_flag",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 140
+    },
+    {
+      "column_name": "pre_ojt_assesment_not_join_first_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 141
+    },
+    {
+      "column_name": "pre_ojt_assesment_not_join_first_jkt_ts",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 142
+    },
+    {
+      "column_name": "pre_ojt_assesment_not_join_first_jkt_week",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 143
+    },
+    {
+      "column_name": "pre_ojt_assesment_failed_first_flag",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 144
+    },
+    {
+      "column_name": "pre_ojt_assesment_failed_first_date",
+      "data_type": "DATE",
+      "is_nullable": "YES",
+      "ordinal_position": 145
+    },
+    {
+      "column_name": "pre_ojt_assesment_failed_first_jkt_ts",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 146
+    },
+    {
+      "column_name": "pre_ojt_assesment_failed_first_jkt_week",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 147
+    },
+    {
+      "column_name": "actual_ojt_schedule_jkt_date",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 148
+    },
+    {
+      "column_name": "actual_ojt_schedule_jkt_week",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 149
+    },
+    {
+      "column_name": "actual_pkwt_signed_jkt_date",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 150
+    },
+    {
+      "column_name": "actual_pkwt_signed_jkt_week",
+      "data_type": "DATETIME",
+      "is_nullable": "YES",
+      "ordinal_position": 151
+    },
+    {
+      "column_name": "cv_analysis",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 152
+    },
+    {
+      "column_name": "screening_score",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 153
+    },
+    {
+      "column_name": "screening_reasoning",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 154
+    },
+    {
+      "column_name": "score",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 155
+    },
+    {
+      "column_name": "reason_for_return",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 156
+    },
+    {
+      "column_name": "reason",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 157
+    },
+    {
+      "column_name": "msl",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 158
+    },
+    {
+      "column_name": "ta_assigned",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 159
+    },
+    {
+      "column_name": "notes_pre_ojt",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 160
+    },
+    {
+      "column_name": "reason_for_resignation_or_termination",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 161
+    },
+    {
+      "column_name": "reason_type_for_resignation_or_termination",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 162
+    },
+    {
+      "column_name": "post_hiring_status_promotion",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 163
+    },
+    {
+      "column_name": "candidate_email",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 164
+    },
+    {
+      "column_name": "current_stage",
+      "data_type": "INT64",
+      "is_nullable": "YES",
+      "ordinal_position": 165
+    },
+    {
+      "column_name": "vendor_name",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 166
+    },
+    {
+      "column_name": "cv_source",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 167
+    },
+    {
+      "column_name": "cv_source_old",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 168
+    },
+    {
+      "column_name": "vendor_name_old",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 169
+    },
+    {
+      "column_name": "cv_source_category",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 170
+    }
+  ],
+  "has_semantic_docs": true
 }

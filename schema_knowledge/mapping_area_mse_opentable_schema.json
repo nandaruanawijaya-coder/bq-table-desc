@@ -2,20 +2,221 @@
   "full_table_id": "ledger-fcc1e.datamart_opentable.mapping_area_mse_opentable",
   "dataset": "datamart_opentable",
   "table_name": "mapping_area_mse_opentable",
-  "discovered_at": "2026-05-26T10:46:10.081665",
-  "metadata": {},
-  "table_type": "UNKNOWN",
-  "is_derived": false,
+  "discovered_at": "2026-05-26T10:50:57.733868",
+  "metadata": {
+    "table_name": "mapping_area_mse_opentable",
+    "table_type": "TABLE",
+    "creation_time": "2026-05-26 00:00:12.457000+00:00",
+    "modified_time": "2026-05-26 00:00:12.458000+00:00",
+    "description": "",
+    "column_count": 10
+  },
+  "table_type": "TABLE",
+  "is_derived": true,
   "creation_query": {
     "creation_time": "2026-05-05 00:00:06.541000+00:00",
     "statement_type": "CREATE_TABLE_AS_SELECT",
     "query": "CREATE OR REPLACE TABLE `ledger-fcc1e.datamart_opentable.mapping_area_mse_opentable` AS \nSELECT * FROM `ledger-fcc1e.merchant_success_analytics.mapping_area_mse`"
   },
   "transformation_type": {
-    "type": "base",
+    "type": "derived",
     "transformation": null,
-    "source_tables": []
+    "source_tables": [
+      "LEDGER-FCC1E.MERCHANT_SUCCESS_ANALYTICS.MAPPING_AREA_MSE"
+    ]
   },
-  "column_count": 0,
-  "columns": []
+  "column_count": 10,
+  "columns": [
+    {
+      "column_name": "new_mse_city_sep_24",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 1,
+      "description": "Updated MSE city/area assignment as of September 2024. Shows territory reorganization after restructuring",
+      "business_context": "Core field - rarely empty (>90% populated)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "MSE Demak",
+        "MSE Banjarnegara",
+        "MSE Banjarnegara"
+      ],
+      "possible_values": null,
+      "null_percentage": 0.4
+    },
+    {
+      "column_name": "mse_name_updated",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 2,
+      "description": "MSE (Merchant Service Executive) name updated. Updated MSE name for territory assignment.",
+      "business_context": "Core field - rarely empty (>90% populated)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "Bambang Pujiyono",
+        "Taufik Nugroho",
+        "Taufik Nugroho"
+      ],
+      "possible_values": null,
+      "null_percentage": 1.94
+    },
+    {
+      "column_name": "province",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 3,
+      "description": "State or province level administrative division for merchant location and geographic segmentation",
+      "business_context": "Core field - rarely empty (>90% populated)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "JAWA TENGAH",
+        "JAWA TENGAH",
+        "JAWA TENGAH"
+      ],
+      "possible_values": null,
+      "null_percentage": 0.4
+    },
+    {
+      "column_name": "regency_city",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 4,
+      "description": "Regency or city name for geographic location classification and merchant territory mapping",
+      "business_context": "Core field - rarely empty (>90% populated)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "KABUPATEN DEMAK",
+        "KABUPATEN WONOSOBO",
+        "KABUPATEN PURWOREJO"
+      ],
+      "possible_values": null,
+      "null_percentage": 0.4
+    },
+    {
+      "column_name": "mse_lead",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 5,
+      "description": "Name of MSE Team Lead managing assigned MSE members. Shows organizational hierarchy for territory management",
+      "business_context": "Core field - rarely empty (>90% populated)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "TL-Agus",
+        "Amzar Sapunda",
+        "Amzar Sapunda"
+      ],
+      "possible_values": null,
+      "null_percentage": 0.4
+    },
+    {
+      "column_name": "head_of_area",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 6,
+      "description": "Name of Area Head supervising geographic area and MSE team. Top area management for performance accountability",
+      "business_context": "Core field - rarely empty (>90% populated)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "Endang",
+        "Endang",
+        "Endang"
+      ],
+      "possible_values": [
+        "Eko",
+        "Endang",
+        "Faizal Fahri",
+        "Mirzan",
+        "Sefnat Erich",
+        "Vacant Jakarta",
+        "Vacant Kalimantan",
+        "Vacant Sum 1",
+        "Vacant Sum 2",
+        "Vacant Sum 3"
+      ],
+      "null_percentage": 0.4
+    },
+    {
+      "column_name": "area",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 7,
+      "description": "Geographic area code or region identifier. Area defines sales territory assignment.",
+      "business_context": "Core field - rarely empty (>90% populated)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "Java 2",
+        "Java 2",
+        "Java 2"
+      ],
+      "possible_values": [
+        "Bali Nusra",
+        "Jakarta",
+        "Java 1",
+        "Java 2",
+        "Java 3",
+        "Kalimantan",
+        "Sulawesi",
+        "Sumatera 1",
+        "Sumatera 2",
+        "Sumatera 3"
+      ],
+      "null_percentage": 0.4
+    },
+    {
+      "column_name": "head_of_region",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 8,
+      "description": "Name of Regional Head overseeing entire region. Regional management responsible for regional targets",
+      "business_context": "Core field - rarely empty (>90% populated)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "ZIKO",
+        "ZIKO",
+        "ZIKO"
+      ],
+      "possible_values": [
+        "ROLLY",
+        "TOMMY",
+        "ZIKO"
+      ],
+      "null_percentage": 0.4
+    },
+    {
+      "column_name": "region",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 9,
+      "description": "Broad geographic region (JAVA, SUMATERA, EAST INDO). High-level geographic grouping for organizational hierarchy",
+      "business_context": "Core field - rarely empty (>90% populated)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "JAVA",
+        "JAVA",
+        "JAVA"
+      ],
+      "possible_values": [
+        "EAST INDO",
+        "JAVA",
+        "SUMATERA"
+      ],
+      "null_percentage": 0.4
+    },
+    {
+      "column_name": "mse_join_date",
+      "data_type": "STRING",
+      "is_nullable": "YES",
+      "ordinal_position": 10,
+      "description": "Date when the MSE joined or was assigned to this territory",
+      "business_context": "Common field - frequently populated (>50%)",
+      "semantic_source": "value_format + business_context",
+      "example_values": [
+        "2026-03-02",
+        "1999-12-30",
+        "1999-12-30"
+      ],
+      "possible_values": null,
+      "null_percentage": 42.6
+    }
+  ],
+  "has_semantic_docs": true
 }

@@ -1,10 +1,86 @@
 {
   "tables": {
+    "ledger-fcc1e.trb_pymnts_derived.location_gmaps_static": {
+      "type": "TABLE",
+      "is_derived": false,
+      "depends_on": []
+    },
+    "ledger-fcc1e.datamart_opentable.mapping_area_mse_opentable": {
+      "type": "TABLE",
+      "is_derived": true,
+      "depends_on": [
+        "LEDGER-FCC1E.MERCHANT_SUCCESS_ANALYTICS.MAPPING_AREA_MSE"
+      ]
+    },
+    "ledger-fcc1e.merchant_success_analytics.ms_merchant_profiling_ssot": {
+      "type": "TABLE",
+      "is_derived": false,
+      "depends_on": []
+    },
+    "ledger-fcc1e.db_accounting.prod_edc_order": {
+      "type": "TABLE",
+      "is_derived": false,
+      "depends_on": []
+    },
     "ledger-fcc1e.fs_datamart.mee_weekly_route_plan": {
       "type": "TABLE",
       "is_derived": false,
       "depends_on": []
+    },
+    "ledger-fcc1e.fs_datamart.credit_memo": {
+      "type": "VIEW",
+      "is_derived": true,
+      "depends_on": [
+        "LEDGER-FCC1E.FS_DATAMART.CREDIT_MEMO"
+      ]
+    },
+    "ledger-fcc1e.merchant_success_analytics.ms_form_hiring_and_active": {
+      "type": "TABLE",
+      "is_derived": true,
+      "depends_on": [
+        "WHEN"
+      ]
+    },
+    "ledger-fcc1e.payment_reports.payments_ssot": {
+      "type": "TABLE",
+      "is_derived": true,
+      "depends_on": [
+        "PAYMENT_REPORTS.PAYMENTS_SSOT"
+      ]
+    },
+    "ledger-fcc1e.merchant_success_analytics.retail_ph_visit_ssot": {
+      "type": "TABLE",
+      "is_derived": true,
+      "depends_on": [
+        "LEDGER-FCC1E.DB_RETAIL_BACKEND_PH.EXTERNAL_BUSINESS_MAPPING"
+      ]
     }
   },
-  "dependencies": []
+  "dependencies": [
+    {
+      "from": "LEDGER-FCC1E.MERCHANT_SUCCESS_ANALYTICS.MAPPING_AREA_MSE",
+      "to": "ledger-fcc1e.datamart_opentable.mapping_area_mse_opentable",
+      "type": "data_source"
+    },
+    {
+      "from": "LEDGER-FCC1E.FS_DATAMART.CREDIT_MEMO",
+      "to": "ledger-fcc1e.fs_datamart.credit_memo",
+      "type": "data_source"
+    },
+    {
+      "from": "WHEN",
+      "to": "ledger-fcc1e.merchant_success_analytics.ms_form_hiring_and_active",
+      "type": "data_source"
+    },
+    {
+      "from": "PAYMENT_REPORTS.PAYMENTS_SSOT",
+      "to": "ledger-fcc1e.payment_reports.payments_ssot",
+      "type": "data_source"
+    },
+    {
+      "from": "LEDGER-FCC1E.DB_RETAIL_BACKEND_PH.EXTERNAL_BUSINESS_MAPPING",
+      "to": "ledger-fcc1e.merchant_success_analytics.retail_ph_visit_ssot",
+      "type": "data_source"
+    }
+  ]
 }
